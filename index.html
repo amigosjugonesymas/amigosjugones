@@ -54,17 +54,25 @@
 
     .seccion-intro { padding: 18px; background: #fff5f5; border-left: 5px solid var(--accent); margin-bottom: 25px; border-radius: 12px; font-style: italic; font-size: 14px; }
 
-    /* Estilos Nosotros (Mejorado) */
-    .nosotros-item { margin-bottom: 15px; line-height: 1.6; }
-    .nosotros-titulo { font-size: 1.4rem; font-weight: 700; margin: 25px 0 15px; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 5px; }
-    .nosotros-row { background: #fcfcfc; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #ddd; }
-
-    /* Estilos Geekstories */
-    .geekstory-card { background: #fdfdff; border: 2px dashed #d1d8e0; border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; transition: 0.3s; }
-    .geekstory-card:hover { border-color: var(--purple); background: #f8f8ff; }
-    .geekstory-narrativa { font-size: 1.1rem; line-height: 1.6; color: var(--primary); font-style: italic; margin-bottom: 15px; }
-    .geekstory-reveal-btn { background: var(--purple); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
-    .geekstory-solucion { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-weight: 700; color: #20bf6b; font-size: 1.2rem; text-align: center; }
+    /* Estilos Nosotros */
+    .nosotros-contenedor { display: flex; flex-direction: column; gap: 15px; }
+    .nosotros-titulo { 
+      font-size: 1.4rem; 
+      font-weight: 700; 
+      margin: 25px 0 10px; 
+      color: var(--primary); 
+      line-height: 1.4;
+      border-left: 5px solid var(--accent);
+      padding-left: 15px;
+    }
+    .nosotros-row { 
+      background: #fcfcfc; 
+      padding: 15px; 
+      border-radius: 10px; 
+      border: 1px solid #eee;
+      line-height: 1.6;
+    }
+    .nosotros-row b { color: var(--purple); font-weight: 700; }
 
     /* Tablas y Botones */
     .table-scroll { width: 100%; overflow-x: auto; border: 1px solid #eee; border-radius: 12px; margin-top: 10px; }
@@ -145,11 +153,13 @@
       const list = document.getElementById('links-list');
       if(!data) return;
 
-      let html = data.introduccion ? `<div class="seccion-intro">${data.introduccion}</div>` : "";
+      let html = "";
+      // Si hay introducción general la ponemos arriba
+      if(data.introduccion) {
+        html += `<div class="seccion-intro">${data.introduccion}</div>`;
+      }
 
-      if (name.toLowerCase().includes("geekstories")) {
-        html += renderGeekstories(data);
-      } else if (data.tipo === 'subpestañas') {
+      if (data.tipo === 'subpestañas') {
         html += renderTabsContainer(name, data);
       } else {
         html += renderOthers(data);
@@ -162,22 +172,11 @@
       }
     }
 
-    function renderGeekstories(data) {
-      if(!data.items || data.items.length === 0) return "<p>No hay historias disponibles.</p>";
-      return data.items.map((item) => `
-        <div class="geekstory-card">
-          <div class="geekstory-narrativa">"${item.titulo}"</div>
-          <button class="geekstory-reveal-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">Revelar Solución</button>
-          <div class="geekstory-solucion">🎯 ${item.contenido}</div>
-        </div>
-      `).join('');
-    }
-
     function renderTabsContainer(name, data) {
       let tabs = Object.keys(data.datos);
       let html = `<div class="sub-nav" style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:20px;">`;
       tabs.forEach((t, i) => {
-        html += `<div class="sub-tab ${i===0?'active':''}" style="padding:8px 15px; background:#eee; border-radius:20px; cursor:pointer;" onclick="renderTable(this, '${name}', '${t}')">${t}</div>`;
+        html += `<div class="sub-tab" style="padding:8px 15px; background:#eee; border-radius:20px; cursor:pointer;" onclick="renderTable(this, '${name}', '${t}')">${t}</div>`;
       });
       html += `</div><div id="table-place"></div>`;
       return html;
@@ -185,23 +184,27 @@
 
     function renderOthers(data) {
       if(data.tipo === 'calendar') return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugones%40gmail.com&ctz=America%2FSantiago" style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
+      
       if(data.tipo === 'botones') return `<div class="button-grid">` + data.items.map(b => `<a href="${b.url}" target="_blank" class="custom-button">${b.nombre}</a>`).join('') + `</div>`;
       
       if(data.tipo === 'nosotros_block') {
-        return data.items.map(it => {
+        let htmlRows = '<div class="nosotros-contenedor">';
+        data.items.forEach(it => {
           if (it.esTitulo) {
-            return `<div class="nosotros-titulo">${it.titulo}</div>`;
+            htmlRows += `<div class="nosotros-titulo">${it.titulo}</div>`;
           } else {
-            return `<div class="nosotros-row"><b>${it.titulo}</b>: ${it.contenido}</div>`;
+            htmlRows += `<div class="nosotros-row"><b>${it.titulo}</b>: ${it.contenido}</div>`;
           }
-        }).join('');
+        });
+        htmlRows += '</div>';
+        return htmlRows;
       }
       return "";
     }
 
     window.renderTable = (btn, parentName, subName) => {
+      document.querySelectorAll('.sub-tab').forEach(t => { t.style.background='#eee'; t.style.color='black'; });
       if(btn) {
-        document.querySelectorAll('.sub-tab').forEach(t => { t.style.background='#eee'; t.style.color='black'; });
         btn.style.background = 'var(--purple)'; btn.style.color = 'white';
       }
       const rows = cacheData[parentName].datos[subName];
