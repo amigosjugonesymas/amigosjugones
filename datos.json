@@ -1,0 +1,1803 @@
+{
+  "initial": {
+    "nombre": "Nosotros",
+    "contenido": {
+      "tipo": "nosotros_block",
+      "items": [
+        {
+          "esTitulo": true,
+          "titulo": "¿Quiénes somos?",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Más que un grupo de Whatsapp, somos un ecosistema de entusiastas de la Cultura Pop, el Gaming y los Juegos de Mesa. En Amigos Jugones, la pasión por los juegos de mesa, los videojuegos, el cine y el coleccionismo no es solo un hobby; es el lenguaje con el que construimos comunidad todos los días.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Nacimos con una idea simple: conectar a personas que no solo quieren jugar, sino que buscan pertenecer a un espacio donde su conocimiento y creatividad sean protagonistas.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Nuestros Pilares",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Comunidad en Movimiento: Creemos en la interacción constante. Desde nuestras dinámicas diarias de conocimiento y debate, hasta la creación colectiva de nuestras propias historias en las Crónicas Jugonas.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Espíritu Solidario: Nos mueve el juego, pero nos une el propósito. Participamos activamente en eventos de carácter social. Hemos participado en la Luditon, un evento organizado por Macroludica, demostrando que el juego es una herramienta poderosa que puede unir y ayudar.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Cultura del \"Fair Play\": En nuestro grupo, la competitividad va de la mano con la buena onda. Premiamos la participación de calidad, la energía positiva y el respeto, reconociendo cada semana a nuestros miembros más valiosos. Somos una comunidad muy activa, con dinamicas divertidas que promueven la amistad y la pasión por jugar. ¡Así es que preparate para jugar y divertirte! Te advertimos que aquí dificilmente paramos de hablar por lo que si entras, debes prepararte para actividad constante.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Lo que hacemos",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "En Amigos Jugones, siempre hay un tablero desplegado o un control encendido:",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Dinámicas Digitales: Desafiamos el ingenio de nuestra comunidad con juegos de deducción, trivias de cultura pop, torneos de versus y retos semanales.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Eventos Presenciales: Llevamos la experiencia del grupo a la mesa física. Organizamos jornadas de juegos de mesa (desde fillers rápidos hasta eurogames complejos) donde nuestros embajadores guían a nuevos jugadores. Nos juntamos a veces en juntas flash en la que todos los miembros del grupo pueden participar.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Contenido y Lore: Documentamos nuestra historia. Publicamos nuestras propias crónicas y mantenemos registros de nuestros ganadores, porque en esta comunidad, cada victoria queda para la posteridad.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Nuestra Visión",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Queremos ser el refugio definitivo para todo aquel que se considere un Jugón. Un lugar donde siempre encuentres una partida, un debate interesante o un amigo con quien compartir tu próximo gran descubrimiento geek.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "¡Bienvenidos a la mesa! En nuestra Comunidad tu tienes el siguiente turno.",
+          "contenido": ""
+        }
+      ]
+    }
+  },
+  "remaining": {
+    "orden": [
+      "Calendario",
+      "Actividades",
+      "Participantes",
+      "Divulgadores",
+      "Creadores",
+      "Organizaciones",
+      "Tiendas",
+      "Documentos",
+      "Inscripciones"
+    ],
+    "contenido": {
+      "Calendario": {
+        "tipo": "calendar",
+        "introduccion": "📅 Este es nuestro Calendario Oficial. Consulta nuestro cronograma para estar al tanto de los próximos eventos presenciales, juntas flash y todas nuestras actividades. ¡Reserva la fecha y prepárate para pasarlo genial!"
+      },
+      "Actividades": {
+        "tipo": "subpestañas",
+        "introduccion": "🏆 EL SALÓN DE LA GLORIA. Aquí es donde el conocimiento y la estrategia se convierten en leyenda. Explora los rankings actualizados de nuestras dinámicas diarias y descubre quiénes lideran el podio en el Triviaverso, Geekstories, Versus y más. ¿Tienes lo necesario para ver tu nombre en la cima?",
+        "datos": {
+          "Ganadores Geekstories": [
+            [
+              {
+                "texto": "GANADORES GEEKSTORIES",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "RESPUESTA",
+                "color": "#980000"
+              },
+              {
+                "texto": "GANADOR",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "Memento",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Catan",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Jessy",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "El Silencio de los inocentes",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Lord Carlangas",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Psicosis",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Pulp Fiction",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Leyend of Zelda",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "JugandoJDM / Nacho / Papa Lobo",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Poltergeist ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Chrono Trigger",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Diablo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Age Empire",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Silent Hill",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Yo Robot",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Lord Carlangas",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "El señor de los anillos la comunidad del anillo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Superman 1978",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "JugandoJDM",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "The Watchmen",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "karlita / Cecy / Mauricio Leiva",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "The Witcher 3: Wild Hunt",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Inception",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              }
+            ]
+          ],
+          "Ganadores Triviaverso": [
+            [
+              {
+                "texto": "GANADORES JUEGO DE TRIVIA DE LA SEMANA",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "JUEGO",
+                "color": "#980000"
+              },
+              {
+                "texto": "GANADOR",
+                "color": "#980000"
+              },
+              {
+                "texto": "DIA",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "The island",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "22/12/2025",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Art Society",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "BLACK (nadie adivino)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "23/12/2025",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Coffee Rush",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Arturo Vial",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "24/12/2025",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Dracula vs Van Hellsing",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "BLACK (nadie adivino)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "25/12/2025",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Miercoles criaturas y excluidos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "BLACK (nadie adivino)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "26/012/2025",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Flamecraft",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Arturo Vial",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "27/12/2025",
+                "color": "#ffffff"
+              }
+            ]
+          ],
+          "Ganadores Adivina la Cancion": [
+            [
+              {
+                "texto": "GANADORES DE LA SEMANA",
+                "color": "#3c78d8"
+              },
+              {
+                "texto": "",
+                "color": "#3c78d8"
+              },
+              {
+                "texto": "",
+                "color": "#3c78d8"
+              },
+              {
+                "texto": "",
+                "color": "#3c78d8"
+              }
+            ],
+            [
+              {
+                "texto": "CANCION",
+                "color": "#ffff00"
+              },
+              {
+                "texto": "ARTISTA",
+                "color": "#b4a7d6"
+              },
+              {
+                "texto": "GANADOR",
+                "color": "#ff0000"
+              },
+              {
+                "texto": "FECHA",
+                "color": "#38761d"
+              }
+            ],
+            [
+              {
+                "texto": " La Flor del Viejo Hotel",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Manuel García",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Arturo Vial arquero ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "La Flor del Horror",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Manuel García",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Arturo Vial arquero ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": " Fantasmas",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Miranda",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Karlita ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "La Jardinera",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Violeta Parra ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": " La travesía",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Juan Luis Guerra",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "behind blue eyes",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "limp biskit ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": " La travesía",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Juan Luis Guerra y los 4 40",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Ricardo Ruz ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1 enero",
+                "color": "#ffffff"
+              }
+            ]
+          ],
+          "Ganadores PixelBG": [
+            [
+              {
+                "texto": "GANADORES PIXELBG",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              },
+              {
+                "texto": "",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "JUEGO",
+                "color": "#980000"
+              },
+              {
+                "texto": "GANADOR",
+                "color": "#980000"
+              },
+              {
+                "texto": "RONDA",
+                "color": "#980000"
+              },
+              {
+                "texto": "PUNTOS",
+                "color": "#980000"
+              },
+              {
+                "texto": "MULTIPLICADOR",
+                "color": "#980000"
+              }
+            ],
+            [
+              {
+                "texto": "Splendor",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Estefy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Cosmic Encounter",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "JugandoJDM",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": " x2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Azul",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Jessy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Calico",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Arturo Vial Arqueros",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Faraway ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Karl",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Food chain magnate",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Memoir 44",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Karl",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "x3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "lorenzo il magnifico",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "JugandoJDM",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "x2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Wonderlands War",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Simon",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "x2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Blood on cthe clock tower",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Eduardo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Welcome to",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Hanamikoji",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Walter",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nemesis",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Mauricio Leiva",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Heat",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Orlan3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "iss vangaurd",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Orlan3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "barrage",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Karl",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "arcs",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ]
+          ],
+          "Historias Geekstories": [
+            [
+              {
+                "texto": "GEEKSTORIES",
+                "color": "#0000ff"
+              },
+              {
+                "texto": "",
+                "color": "#0000ff"
+              }
+            ],
+            [
+              {
+                "texto": "RESPUESTA",
+                "color": "#0000ff"
+              },
+              {
+                "texto": "PISTA",
+                "color": "#0000ff"
+              }
+            ],
+            [
+              {
+                "texto": "MARIO KART",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "En un reino de óxido y fantasía, la velocidad es una corona que nadie puede vestir sin temor. El verdadero rival no es el tiempo, sino la ironía del cosmos que castiga al más veloz.\nAllí, la fruta amarilla es una trampa humilde, el hongo es un suspiro robado, y el silbido celeste es el inevitable juicio que desciende sobre el trono.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BLOODBORNE",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Un extranjero con una extraña aflicción arriba desde tierras lejanas a la ciudad donde la promesa de alivio se alza como dogma. Allí, un pacto sellado en tinta y sangre fue celebrado, mas su coste no fue en oro: fue entregar su vida en servidumbre. Sin poder distinguir entre sueños y vigilia, se aventuró a las calles donde solo se escuchan los aullidos y las campanadas de la catedral. Su destino quedó sellado en la urbe donde no existe la paz durante la noche, cazando a sus enemigos hasta que la luna se tiña en sangre, y los sueños eternos se conviertan en pesadillas antes del amanecer.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BEETLEJUICE",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "\"En un santuario donde el tiempo se niega a avanzar, dos almas errantes buscan devolver el equilibrio, llamando a un huésped de sombras y caos que ni la vida ni la muerte se atreven a contener. Entre susurros y engaños, lo inesperado rompe el silencio y redefine el destino encerrado.\"",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "SABOTEUR",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Ahi están ellos caminando entre cientos de caminos subterráneos, son verdaderos laberintos, olvidaron la luz del sol, y como es respirar sintiendo aromas, sus pulmones ahora están llenos de carbon, y su mente paranoica, y es que tienen razón para la locura, entre ellos hay monstruos traidores.  Mientras todos se parten los brazos en los túneles buscando el metal que brilla, otros enloquecieron y rien macabros, pensando que es gracioso llevarlos a todos a morir por otro pedazo de piedra negra, quizás un derrumbe sea la solución, o quitarles sus herramientas para que se rompan las manos sin lograr hacer absolutamente nada, o quizás es mas gracioso robarle  su luz para dejarlos atrás, solos y olvidados y sientan el pánico de las tinieblas ….  Ja ja ajajajajaaja..  chicos chicos.. síganme.. creo que vi algo que brilla .. jajajajaja",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "EL RESPLANDOR",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "En el reino helado de sombras infinitas, una silueta escapó de su guardián roto y se perdió entre muros vivos que susurran secretos. Allí, entre caminos que se desvanecen, la esperanza fue solo un destello efímero en la nevada eternidad.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "SEXTO SENTIDO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Dos almas atrapadas entre la vida y la muerte compartían secretos, pero solo una comprendía su verdadera condición.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "INDIANA JONES",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El héroe cerró los ojos para ganar la batalla, y solo los abrió cuando sus enemigos habían desaparecido.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "PACMAN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El depredador cromático que habita tras barreras inmutables solo detiene su eterno pánico existencial al probar el amargo sabor de la gran verdad blanca. Esos efímeros segundos en que la jerarquía se invierte, el brillo azulado anuncia la venganza pasajera.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "STAR WAR",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "La luz perdida en sangre oscura revela la verdad escondida: la heredera que pensaba salvar el día descubre su sombra ancestral, y solo con un destello de esperanza consigue romper el ciclo final.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JUEGO VIRUS",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Holocauto, peste y muerte, nadie puede sobrevivir a una segunda pandemia mundial, todos pelean, mienten y matan por el preciado antídoto, que es escaso y crees que. nunca llegará, tu mente se pudre y no puedes pensar correctamente, miles de ataques cardiacos se ven en los diarios, tus viseras negras no soportan ni el agua, tus huesos se pudre o rompen como si fuesen ramas.. todo esta perdido… en estos tiempos, los doctores son santos o  malditos",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "MONOPOLY",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Martha, se despierta tarde, con los ojos hinchados de tanto llorar la noche anterior, 2° semana que duerme sola, su pareja esta en la cárcel, y no lo vera libre en varios años más, a no ser de que consiga esa ridícula suma de dinero, ella no tiene ni 2 dólares, ni trabajo, ni familia ni propiedades, no tiene nada.. solo su juventud y belleza,  con eso consiguió un esposo empresario y una vida de lujos, ahora que el no esta, esta sola en una gran habitación de un lujoso hotel en Baltic Avenue, se lo quitaran en menos de un mes, \n\nMientras se ducha y se mira desnuda al espejo piensa.. aun es joven y bella, puede ser una vez mas la coqueta putita, para llamar la atención de otro ricachón, a una sola calle hay un bar lujoso en Mediterranean Avenue, quizás enamore a otro, algún otro cerdo que quiera cojersela todas las noches como trofeo de su vida lujosa de éxito y buenos negocios, malditos burgueses. Pero Martha sabe que no le importa compartir su cuerpo con un viejo de con bastón y gorro elegante..  con tal de vivir su vida de lujos compras y comodidades el resto del dia.  pero vuelve a recordar, que esos cerdos un dia están en la cima, al otro pierden todo.. y si son lo suficientemente ambiciosos… lo dominan todo… \n\nO se van a la puta carcel por idiotas…",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BATMAN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El niño llora, no es un sollozo, esto es con angustia, hay lagrimas y gritos, hay mucha rabia, los gritos se hacen ira, y de la ira hay una promesa….  El niño corre y no deja de correr, ve esa imagen oscura que pasa  como un fantasma, en la noche lo abraza el pánico hasta que lo hace dormir indefenso y traumado.. en sus pesadillas encuentra pensamientos alterados que solo le da mas poder a su rabia, correo sin parar, pasan los años y no deja de correr, el anciano lo mima, lo ayudar a forjar su promesa, la oscuridad lo esconde, y el niño en las sombras sigue llorando hasta hacerse adulto, ahora solo queda la rabia y nada más, y aceptando su trauma, se pone en pie como el nuevo psicopata de un mundo que el tiene el poder de crear, lo amolda como plastiscina a su gusto, desea golpearlo, patearlo, morderlo, saborear la sangre de ese mundo, el gritos y pánico de las personas lo alivia, si enferma ira siente paz, pero la ira no se va, mira el mundo que creo, y decide formar el mundo ideal, para que pueda salir romperlo todas las noches, el anciano lo mira desde lo alto de su torre, sonríe al ver lo que que creo, aquel niño herido, encuentra la paz en las heridas de los demás..",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "FRANKENSTEIN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Le teme al fuego",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JUJUTSU KAISEN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "En la tierra donde las maldiciones se escurren entre los dedos, un rey dormido aguarda por su despertar. Cuando el elegido encuentra su destino con ímpetu voraz, entró en un juego de sacrificio y muerte. Su camino parece solitario, pero nunca estará solo. Se enfrentará a las blasfemias junto al titiritero sombrío y a la jueza de almas corruptas, mientras son guiados en el camino por aquel que por propia voluntad oculta los luceros de la luz.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JINETE SIN CABEZA",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El encuentro final no fue una cuestión de velocidad, sino de gravedad. La verdadera debilidad del terror nocturno no fue el arma del héroe, sino el instante en que su corona, una mueca terrestre y anaranjada, abandonó su pedestal. Solo entonces, el cazador tuvo la certeza para apretar el gatillo de la huida.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "ALIEN EL OCTAVO PASAJERO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Un invitado indeseado irrumpirá en un hogar de miembros disfuncionales y traicioneros. Los miembros intentarán defenserse en vano  ya que el huesped es su mayor amenaza y en sus venas corre la misma muerte. Algunos intentarán huir, otros buscaran enfrentarlo entre las sombras, todo será en vano. Al final solo una le podra hacer frente. Una y su gato.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "HELLRAISER",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Existe un artefacto, no de guerra, sino de arquitectura prohibida, cuya función es un ruego y no un juego. Quien descifra el orden de su agonía, no obtiene un premio, sino una invitación irrefutable a ser reordenado por un coro de cirujanos pálidos, cuyo líder es el guardián de la dualidad perfecta.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "THE BLAIR WITCH PROJECT",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El verdadero juicio fue impuesto por una geometría caprichosa. La condena de los errantes se firmó cuando el instrumento de la razón fue abandonado. El universo se volteó contra ellos, haciendo que cada paso avanzado fuera, en secreto, una espiral que regresaba la ignorancia al punto de la última súplica.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "EL HOYO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "En un santuario vertical, las almas que desean redención buscan perdón de sus pecados pasados. Todos los días ven descender el altar en silencioso ritual, lleno de ofrendas para saciar su necesidad. Quienes habitan en las altiras viven como dioses, mientras que los residentes de las profundidades viven en carne el peor rostro de la humanidad. Pero como la vida, el destino puede cambiar. Solo uno cuya abnegación supere el miedo y las represalias podrá conocer el verdadero significado detrás de todo.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "MEMENTO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Recuerda a ella. \nLo que su amor significaba \nRecuerdala como si fuese tu hada \nLa mente se nubla y los recuerdos se hacen nada\nRecuerda cada vez menos\nNecesita hacer memos \nRecuerda quien es tu amigo \nLas tarjetas se mezclan y el orden es olvido\nVes tu piel marcada buscando alivio \n\nLlega ella y entra y te golpea, al salir formatea la puerta\ncuenta los segundos de su reloj\nCuando quiera tu la amas, o ignoras\nQue adorable juguete te convertiste.\n\nEres el historiador sin pistas, \nEres el libro en blanco\nEres el que lo tiene en la punta de la lengua pero trago saliva \nEres el único que sabe que algo no encaja \nEres el que resolverá el misterio",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "CATAN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "En un archipielgo hay una isla engañosa que da la bienvenida a los aventureros e intrépidos, aún así en sus tierras se libran las batallas más salvajes. Sus montañas protegen a la vez que encierran, sus habitantes conocen tiempos de paz y guerra por igual. Las civilizaciones se desarrollan y caen ante la mano de la traición. Los ladrones saquean y dejan devastación a sus paso. Tierra prometida para los valientes, tierra maldita para los desafortunados. Y su fin, es desaparecer.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "EL SILENCIO DE LOS INOCENTES",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Él, que depravado en su cuarto sombrío, aguardaba, mientras el templo inexpugnable y ambiguo se abría, habiéndose pagado el precio de un trueque sombrío, revelando la verdad que solo podía ser comprada con una confesión de inocencia, que el ser hambriento devoraba en sus tranquilas y quietas ansias.\n\nEn las evidencias no estaba la clave, porque solo en el eco crédulo de un grito ahogado en el recuerdo, desarmó al demonio lóbrego para evitar la caza de la siguiente y última presa.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "PSICOSIS",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Compartían ambos la misma celda, en carne enfundada, con un brillo sombrío. Lavada quedó la sangre, mas la culpa que el cuchillo portaba en el hijo recaía. Tras la máscara se escondía la verdadera asesina, aferrada a la piel se mantenía, porque desde dentro brillaba, acuartelada y con cabeza fría, el alma atormentada de quien lo obsesionaba.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "LEGEND OF ZELDA",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Se despertó en la penumbra, escuchando una voz que no tenia cuerpo. En su mano un metal gelido, en su aliento una melodia. Una roca que se quiebra, se ahoga un reino, mas si el futuro ha de ser salvado, el presente debe ser alejado.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "POLTERGEIST ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El animal enajenado la inocencia se ha robado, usando la luz atrapada desde las tinieblas para cerrar el umbral iluminado, encerrando la luz en la oscuridad más sórdida. El grito vino del silencio, mientras bajo el manto se escondía la vergüenza de quienes mal habían obrado, por haber movido piedra, pero olvidando la madera.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "CRONO TRIGGER",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Un reloj herido suspira en eras ajenas, donde un gesto mínimo inclina siglos enteros. Amigos nacen y mueren en el mismo latido, mientras el mañana se decide con pasos de ayer.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "DIABLO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Caminante, buscas la luz en las cenizas que vas dejando tras de ti; mas son tres joyas en las que el terror aguarda, y la sangre pesa en la hija que el poder desea. La roca antigua que se yergue sobre tierra sagrada palpita desde su base. El infierno se abre ante ti, mas no temes, porque es la libertad concedida la que te produce un terror inconmensurable...",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "AGE EMPIRE",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Te volviste reino: de nada a todo, de poco a mucho, de la oscuridad a la luz tenue. La piedra marcó el comienzo; la madera, el templo. La religión fue tu marco y el estudio, el pretexto de tu conquista. No eres hombre, eres reino; eres el tiempo que avanza en tu pueblo. De la tierra hiciste un imperio y te volviste leyenda, mas tus enemigos acechan desde la sombra, avanzando, devorando tu tierra y destruyéndote, mientras te roban la lealtad de tus hombres y tus sueños de conquista...",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "SILENT HILL",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Cariño, empaca todo, no olvides tu traje de baño, nuestro hotel esta cerca del lago \nPodriamos ir a nadar ahi en las tardes\nHe visto en el catalogo que arriendan votes, me encantaria arrendar uno, y vamos juntos a pescar, no pesco desde que soy un niño, con mi padre solíamos pasarnos tardes enteras, y luego cenábamos nuestros pescados \n\nPapa? Es muy dificil pescar \n\nNo amor, si la carnada es deliciosa, no hay pescado que no quiera ir a comerla\nJajaja\nJajaja\n\nMira la foto del hotel, se ve muy lujoso, tiene un salón de musica, parques, piletas, estatuas\nHa de ser muy antiguo \nWuoooo papá, es hermoso, espero que vallan mas niños de vacaciones para jugar,\nDe seguro si cariño, \n\n\nPapa cuanto falta ? \nYa poco bebe\nLlevamos todo el dia y se esta haciendo de noche, \nTranquila, en esta camioneta llegamos hasta la luna <3  \n\nCUIDADO !!!!! \nPAPAAAAAA \n\nSujetateeee !!!!!!!",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "EL SEÑOR DE LOS ANILLOS Y LA COMUNIDAD DEL ANILLO",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Se escucho un crujido sordo en la lejania. El niño solitario esperaba, mientras el vehiculo se acercaba a su velocidad maxima, la cancion inundaba el aire por todos era conocida, mas casi nunca esperada, dio un salto repentino y sus miradas se encontraron cuando nada todavia importaba.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "SUPERMAN 1978",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Los cables aún chirriaban, el grito ahogado no la dejaba respirar, pero resistía con aplomo porque confiaba; sabía que vendrían por ella, aunque todo podría colapsar de pronto por su propio peso. El hombre miró hacia un lado, porque la caja antes cerrada ahora estaba abierta; la puerta giró sobre sí misma y, unos segundos después, todo se había acabado.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "THE WATCHMEN",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "El reloj aún sonaba en su cabeza, mas su voluntad se mantenía fuerte, porque el golpe violento que lo terminó todo en un segundo, antes de desvanecerse, lo mantenía aferrado a aquel recuerdo. Empezó desde cero con una nueva vida, poco a poco, recordando que aquello que su padre le había enseñado fue lo que realmente lo trajo de vuelta.",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "THE WITCHER 3: WILD HUNT",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "La buscó por todos los lugares que pudo, luchando contra los monstruos que lo atormentaban. Agotado ya, sumergido en la desesperación, la vio al fin, desvanecida, dándola por muerta. El viento sopla entre las rendijas, se escucha una canción fúnebre; parecía que había llegado demasiado tarde para salvarla.",
+                "color": "#ffffff"
+              }
+            ]
+          ],
+          "Ranking Mensajes Sin leer": [
+            [
+              {
+                "texto": "MENSAJES SIN LEER",
+                "color": "#6aa84f"
+              },
+              {
+                "texto": "",
+                "color": "#6aa84f"
+              },
+              {
+                "texto": "",
+                "color": "#6aa84f"
+              }
+            ],
+            [
+              {
+                "texto": "NOMBRE",
+                "color": "#6aa84f"
+              },
+              {
+                "texto": "REGISTRO MENSAJES",
+                "color": "#6aa84f"
+              },
+              {
+                "texto": "MENCION HONROSA",
+                "color": "#6aa84f"
+              }
+            ],
+            [
+              {
+                "texto": "Ricardo Ruz",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3382",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Alexander (5164 mensajes)",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Tomi",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1911",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1264",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karlita",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1163",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Denisse Nekomeeple",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "944",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "813",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Daniel Paillan",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "699",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Jacqueline ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "695",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karl",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "634",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JugandoJDM",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "606",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nico Roman",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "543",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Mauricio Leiva",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "476",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ego",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "434",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "388",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BLACK",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "307",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Roberto Mono",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "296",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ]
+          ]
+        }
+      },
+      "Participantes": {
+        "tipo": "botones",
+        "introduccion": "👥 Estos son los Amigos Jugones que destacamos porque se dedican a expandir la cultura jugona a través de sus proyectos y redes personales. ¡Síguelos y descubre su contenido!",
+        "items": [
+          {
+            "nombre": "UNETE AL GRUPO DE WHATSAPP DE AMIGOS JUGONES",
+            "url": "https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK?mode=ems_copy_t"
+          },
+          {
+            "nombre": "JESS_REDBLACK",
+            "url": "https://www.instagram.com/jess_redblack/"
+          },
+          {
+            "nombre": "LORD RICARDRAGON",
+            "url": "https://www.instagram.com/lord.ricardragon/"
+          }
+        ]
+      },
+      "Divulgadores": {
+        "tipo": "botones",
+        "introduccion": "📢 Los Divulgadores de nuestro grupo. Estos Amigos Jugones dedican su talento a promover la pasión por los juegos de mesa en sus redes y en eventos, llevando la diversión a nuevas mesas y reclutando a los jugones del mañana.",
+        "items": [
+          {
+            "nombre": "TECLAS LUDICAS - Reseñas de Juegos de mesa",
+            "url": "https://www.instagram.com/teclasludicas/"
+          },
+          {
+            "nombre": "Mai & Yere Jugones (Chikis_Jugones)",
+            "url": "https://www.instagram.com/chikis_jugones/"
+          },
+          {
+            "nombre": "Escuela de Rol",
+            "url": "https://www.instagram.com/escueladerol.cl"
+          },
+          {
+            "nombre": "Cicuta Games (Instagram)",
+            "url": "https://www.instagram.com/cicutagames"
+          },
+          {
+            "nombre": "Cicuta Games (Youtube)",
+            "url": "https://www.youtube.com/@CicutaGames-r4m/videos"
+          },
+          {
+            "nombre": "Demalaguero.cl (Instagram)",
+            "url": "https://www.instagram.com/demalaguero.cl"
+          },
+          {
+            "nombre": "Neko meeple (Instagram)",
+            "url": "https://www.instagram.com/neko_meeple/"
+          },
+          {
+            "nombre": "Ludo Manu (Instagram)",
+            "url": "https://www.instagram.com/ludomanucl/"
+          },
+          {
+            "nombre": "Doctor Fillermeeple (Instagram)",
+            "url": "https://www.instagram.com/doctor.fillermeeple/"
+          }
+        ]
+      },
+      "Creadores": {
+        "tipo": "botones",
+        "introduccion": "🛠️ Creadores. En esta sección podrás conocer a los Amigos Jugones que han dado el salto de jugadores a diseñadores, dando vida a sus propias mecánicas y universos originales.",
+        "items": [
+          {
+            "nombre": "SE BUSCA - Juego de Cartas",
+            "url": "https://sebusca-cartas.carrd.co/"
+          },
+          {
+            "nombre": "SE BUSCA - Juego de Cartas (Instagram)",
+            "url": "https://www.instagram.com/sebuscacartas"
+          },
+          {
+            "nombre": "AS DE JOTA - Creador de Juegos de Mesa (Instagram)",
+            "url": "https://www.instagram.com/asdejota/"
+          },
+          {
+            "nombre": "EL JUEGO DE DIOSES (Linktree)",
+            "url": "https://linktr.ee/Eljuegodedioses"
+          },
+          {
+            "nombre": "FUNDACION DADO DE HUESO (Instagram)",
+            "url": "https://www.instagram.com/fundaciondadodehueso/"
+          },
+          {
+            "nombre": "ARTURO Y ESTEFI - Estudio Alpargatas",
+            "url": "https://www.instagram.com/estudioalpargatas"
+          },
+          {
+            "nombre": "PLATAFORMA CHILENA DE JUNTAS",
+            "url": "https://boardmatch.baldomeronapoli.com/"
+          },
+          {
+            "nombre": "ESTUDIO ISAYKA",
+            "url": "https://sites.google.com/view/isayka-estudio/prisma/videojuego?au=0"
+          },
+          {
+            "nombre": "ESPADAS Y PINCELES (Instagram)",
+            "url": "https://www.instagram.com/espadasypinceles"
+          }
+        ]
+      },
+      "Organizaciones": {
+        "tipo": "botones",
+        "introduccion": "🤝 Organizaciones. Conoce nuestras Alianzas estratégicas. Estas son las comunidades y entidades amigas con las que sumamos fuerzas. Participamos en sus grandes eventos como invitados, compartiendo nuestra energía y amor por los juegos de mesa y la diversión.",
+        "items": [
+          {
+            "nombre": "AMIGOS JUGONES (Instagram)",
+            "url": "https://www.instagram.com/amigosjugonesymas/"
+          },
+          {
+            "nombre": "GRIMORIO TALAGANTE (Instagram)",
+            "url": "https://www.instagram.com/grimoriotalagante"
+          },
+          {
+            "nombre": "MACROLUDICA (Instagram)",
+            "url": "https://www.instagram.com/macroludica/"
+          },
+          {
+            "nombre": "MACROLUDICA (Youtube)",
+            "url": "https://www.youtube.com/@MacroludicaTV"
+          },
+          {
+            "nombre": "TARDES JUGONAS (Instagram)",
+            "url": "https://www.instagram.com/tardesjugonas.cl/"
+          }
+        ]
+      },
+      "Tiendas": {
+        "tipo": "botones",
+        "introduccion": "🛒 Tiendas. Conoce las tiendas amigas que confían en nuestra comunidad. Aquí te mostramos dónde conseguir tus próximos juegos mientras apoyamos el crecimiento del mercado local.",
+        "items": [
+          {
+            "nombre": "OVNIPLAY - Tienda de Juegos de Mesa",
+            "url": "https://www.ovniplay.cl"
+          },
+          {
+            "nombre": "OVNIPLAY (Instagram)",
+            "url": "https://www.instagram.com/ovniplay.cl"
+          },
+          {
+            "nombre": "ARTMUNDO impresiones 3D",
+            "url": "https://www.atom.bio/artmundo"
+          }
+        ]
+      },
+      "Documentos": {
+        "tipo": "botones",
+        "introduccion": "📜 Documentos. La biblioteca de la comunidad. Accede a nuestra base de conocimientos: reglamentos de nuestras dinámicas de WhatsApp, guías, y toda la documentación clave que da orden a nuestro caos.",
+        "items": [
+          {
+            "nombre": "🪐 TRIVIAVERSO",
+            "url": "https://docs.google.com/document/d/1iiL-zgJX6stZsC_fVe5I9ETs6d5SktaFQms2fyO46L8/edit?usp=sharing"
+          },
+          {
+            "nombre": "🎮 GEEKSTORIES RENOVADA",
+            "url": "https://docs.google.com/document/d/1iiL-zgJX6stZsC_fVe5I9ETs6d5SktaFQms2fyO46L8/edit?usp=sharing"
+          },
+          {
+            "nombre": "🎲 EL DESAFÍO DE LA SEMANA",
+            "url": "https://docs.google.com/document/d/1JeZLgM2AEbN2HLqqrVmSu2HkNtw8seyB8CtZj7D_d28/edit?usp=sharing"
+          },
+          {
+            "nombre": "🎵 ADIVINA LA CANCIÓN",
+            "url": "https://docs.google.com/document/d/1Z686h0HI4nCuFPbOmbcL5slVtxdjI_CNt3omBPvKeRc/edit?usp=sharing"
+          },
+          {
+            "nombre": "🏆 MIEMBRO VIP DE LA SEMANA",
+            "url": "https://docs.google.com/document/d/12IUr_0UEsIvndt6odWzQVsk_BLOtvKHC8_YnqkWLLgg/edit?usp=sharing"
+          },
+          {
+            "nombre": "🏛️ EL TEMPLO DE LA VERDAD",
+            "url": "https://docs.google.com/document/d/11lK99yd7Uhzui8Iusqatk0MLe6us4zqhd8gcy9qhExQ/edit?usp=sharing"
+          },
+          {
+            "nombre": "👾 PixelBG",
+            "url": "https://docs.google.com/document/d/1aBPW2EKGWwbFeHt9mzw75suDUs2r9jPaSruU3dvUR8k/edit?usp=sharing"
+          },
+          {
+            "nombre": "📜\"RESCATA UN JUEGO\"",
+            "url": "https://docs.google.com/document/d/1JP_4Mq6LEJra9b31pAWMn35mZ1-jwWcWvDx1wFP3jps/edit?usp=sharing"
+          },
+          {
+            "nombre": "⚔️ GEEKVERSUS",
+            "url": "https://docs.google.com/document/d/1Arau2YVamg3ZU9XzfslnWo3uyori3-RzZosBgt-nB34/edit?usp=sharing"
+          },
+          {
+            "nombre": "📖 CRÓNICAS JUGONAS",
+            "url": "https://docs.google.com/document/d/1bm1AIBdSAnOKtO3Rz3irlMbX1k0-n45ZpYUyP16rw-M/edit?usp=sharing"
+          }
+        ]
+      },
+      "Inscripciones": {
+        "tipo": "botones",
+        "introduccion": "📝 Inscripciones. Aquí encontrarás los formularios de registro para nuestras dinámicas y actividades, además de las inscripciones a los grandes eventos de nuestras comunidades aliadas. ¡No te quedes fuera del próximo turno!",
+        "items": []
+      }
+    }
+  }
+}
