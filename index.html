@@ -99,7 +99,7 @@
     /* SUB-NAVEGACIÓN (Pestañas tipo Actividades) */
     .sub-nav { 
       display: flex; 
-      flex-wrap: wrap; /* Esto permite que los botones bajen si no hay espacio */
+      flex-wrap: wrap; /* Corrección: Permite que bajen si no hay espacio */
       gap: 10px; 
       margin-bottom: 20px; 
       padding-bottom: 15px; 
@@ -259,7 +259,6 @@
       let tabs = Object.keys(data.datos);
       let html = `<div class="sub-nav">`;
       tabs.forEach((t, i) => {
-        // Añadimos la clase 'active' al primero por defecto
         const activeClass = (i === 0) ? 'active' : '';
         html += `<div class="sub-tab ${activeClass}" onclick="renderTable(this, '${name}', '${t}')">${t}</div>`;
       });
@@ -268,7 +267,11 @@
     }
 
     function renderOthers(data) {
-      if(data.tipo === 'calendar') return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugones%40gmail.com&ctz=America%2FSantiago" style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
+      if(data.tipo === 'calendar') {
+        // ID corregido según el enlace proporcionado
+        return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugonesymas%40gmail.com&ctz=America%2FSantiago" 
+                style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
+      }
       
       if(data.tipo === 'botones') return `<div class="button-grid">` + data.items.map(b => `<a href="${b.url}" target="_blank" class="custom-button">${b.nombre}</a>`).join('') + `</div>`;
       
@@ -288,12 +291,10 @@
     }
 
     window.renderTable = (btn, parentName, subName) => {
-      // Manejo de clases activas
       document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
       if(btn) {
         btn.classList.add('active');
       } else {
-        // Si se llama automáticamente al cargar la sección
         const firstTab = document.querySelector('.sub-tab');
         if(firstTab) firstTab.classList.add('active');
       }
