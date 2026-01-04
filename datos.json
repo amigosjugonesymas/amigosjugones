@@ -6,22 +6,72 @@
       "items": [
         {
           "esTitulo": true,
-          "titulo": "¿Quiénes somos?\r\n\r\nUn ecosistema de entusiastas de la Cultura Geek, Gaming y Juegos de Mesa. Transformamos el hobby en una comunidad activa que juega, crea y comparte todos los días.",
+          "titulo": "¿Quiénes somos?",
           "contenido": ""
         },
         {
           "esTitulo": true,
-          "titulo": "Nuestros Pilares\r\n\r\n🚀 Acción: Dinámicas diarias y creación colectiva.\r\n🤝 Unión: Apoyo solidario en eventos como Luditón.\r\n⚖️ Respeto: Competitividad sana y premios a la \"buena onda\".\r\n⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!",
+          "titulo": "Un ecosistema de entusiastas de la Cultura Geek, Gaming y Juegos de Mesa. Transformamos el hobby en una comunidad activa que juega, crea y comparte todos los días.",
           "contenido": ""
         },
         {
           "esTitulo": true,
-          "titulo": "¿Qué hacemos?\r\n\r\nDigital: Trivias, retos de deducción y torneos en WhatsApp.\r\nPresencial: Juntas espontáneas y embajadores en eventos nacionales.\r\nLegado: Registramos nuestras crónicas y campeones para la posteridad.",
+          "titulo": "Nuestros Pilares",
           "contenido": ""
         },
         {
           "esTitulo": true,
-          "titulo": "Nuestra Visión\r\n\r\nEl refugio definitivo para el Jugón. Partidas, debates y amigos en un solo lugar.\r\n\r\n¡Tu turno comienza aquí!",
+          "titulo": "🚀 Acción: Dinámicas diarias y creación colectiva.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "🤝 Unión: Apoyo solidario en eventos como Luditón.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "⚖️ Respeto: Competitividad sana y premios a la \"buena onda\".",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "¿Qué hacemos?",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Digital: Trivias, retos de deducción y torneos en WhatsApp.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Presencial: Juntas espontáneas y embajadores en eventos.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Legado: Registramos nuestras crónicas y campeones para la posteridad.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Nuestra Visión",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "El refugio definitivo para el Jugón. Partidas, debates y amigos en un solo lugar.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "¡Tu turno comienza aquí!",
           "contenido": ""
         }
       ]
