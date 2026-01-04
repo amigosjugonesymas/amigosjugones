@@ -4,7 +4,7 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
   <title>Amigos Jugones</title>
   <style>
     :root { 
@@ -62,27 +62,27 @@
     /* SECCIÓN NOSOTROS (MEJORADA) */
     .nosotros-contenedor { display: flex; flex-direction: column; gap: 5px; }
     .nosotros-titulo-principal { 
-      font-size: 1.4rem; 
+      font-size: 1.5rem; 
       font-weight: 800; 
-      margin: 25px 0 10px 0; 
+      margin: 30px 0 10px 0; 
       color: var(--primary); 
-      border-bottom: 3px solid var(--accent); 
       display: inline-block;
       align-self: flex-start;
-      padding-bottom: 4px;
+      border-bottom: none; /* ELIMINADO SUBRAYADO */
     }
 
     /* Línea lateral continua para bloques de contenido */
     .nosotros-bloque-texto-agrupado { 
-      font-size: 15px; 
+      font-size: 17px; /* TEXTO MÁS GRANDE */
+      font-weight: 700; /* TEXTO EN NEGRITA */
       line-height: 1.6; 
       color: var(--text); 
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       padding-left: 15px;
-      border-left: 4px solid var(--accent); 
+      border-left: 5px solid var(--accent); 
       background: transparent;
     }
-    .nosotros-bloque-texto-agrupado p { margin: 0 0 10px 0; }
+    .nosotros-bloque-texto-agrupado p { margin: 0 0 12px 0; }
     .nosotros-bloque-texto-agrupado p:last-child { margin-bottom: 0; }
 
     /* TABLAS Y SUBNAV */
@@ -276,21 +276,18 @@
 
         data.items.forEach((it) => {
            if(it.esTitulo) {
-             // Cierra bloque anterior si existía
              if(bloqueAgrupado !== "") {
                nHtml += `<div class="nosotros-bloque-texto-agrupado">${bloqueAgrupado}</div>`;
                bloqueAgrupado = "";
              }
              nHtml += `<div class="nosotros-titulo-principal">${it.titulo}</div>`;
            } else {
-             // Agrupa contenido y respeta saltos de línea (\n)
              let textoLimpio = it.contenido.replace(/\n/g, '<br>');
-             let prefijo = it.titulo ? `<b>${it.titulo}:</b> ` : "";
+             let prefijo = it.titulo ? `<span>${it.titulo}:</span> ` : "";
              bloqueAgrupado += `<p>${prefijo}${textoLimpio}</p>`;
            }
         });
 
-        // Imprime el último bloque acumulado
         if(bloqueAgrupado !== "") {
           nHtml += `<div class="nosotros-bloque-texto-agrupado">${bloqueAgrupado}</div>`;
         }
