@@ -6,12 +6,37 @@
       "items": [
         {
           "esTitulo": true,
+          "titulo": "¿Quiénes somos?",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "Un ecosistema de entusiastas de la Cultura Geek, Gaming y Juegos de Mesa. Transformamos el hobby en una comunidad activa que juega, crea y comparte todos los días.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
           "titulo": "Nuestros Pilares",
           "contenido": ""
         },
         {
           "esTitulo": true,
-          "titulo": "🚀 Acción: Dinámicas diarias y creación colectiva.\r\n🤝 Unión: Apoyo solidario en eventos como Luditón, organizada por Macroludica.\r\n⚖️ Respeto: Competitividad sana y premios a la \"buena onda\".\r\n⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!",
+          "titulo": "🚀 Acción: Dinámicas diarias y creación colectiva.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "🤝 Unión: Apoyo solidario en eventos como Luditón, organizada por Macroludica.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "⚖️ Respeto: Competitividad sana y premios a la \"buena onda\".",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!",
           "contenido": ""
         },
         {
@@ -21,7 +46,17 @@
         },
         {
           "esTitulo": true,
-          "titulo": "📱 Digital: Trivias, retos de deducción 🧩 y torneos en WhatsApp ⚔️.\r\n🎲 Presencial: Juntas espontáneas 🍕 y embajadores en eventos en los que somos invitados 🏛️.\r\n🏆 Legado: Registramos nuestras crónicas 📖 y campeones para la posteridad 🥇.",
+          "titulo": "📱 Digital: Trivias, retos de deducción 🧩 y torneos en WhatsApp ⚔️.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "🎲 Presencial: Juntas espontáneas 🍕 y embajadores en eventos en los que somos invitados 🏛️.",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "🏆 Legado: Registramos nuestras crónicas 📖 y campeones para la posteridad 🥇.",
           "contenido": ""
         },
         {
