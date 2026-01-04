@@ -59,6 +59,25 @@
     #content-card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); min-height: 400px; }
     .seccion-intro { padding: 18px; background: #fff5f5; border-left: 5px solid var(--accent); margin-bottom: 25px; border-radius: 12px; font-style: italic; font-size: 14px; line-height: 1.5; }
 
+    /* SECCIÓN NOSOTROS (MEJORADA) */
+    .nosotros-contenedor { display: flex; flex-direction: column; gap: 10px; }
+    .nosotros-titulo-principal { 
+      font-size: 1.4rem; 
+      font-weight: 800; 
+      margin: 30px 0 10px 0; 
+      color: var(--primary); 
+      border-bottom: 3px solid var(--accent); 
+      display: inline-block;
+      align-self: flex-start;
+      padding-bottom: 4px;
+    }
+    .nosotros-bloque-texto { 
+      font-size: 15px; 
+      line-height: 1.6; 
+      color: var(--text); 
+      margin-bottom: 10px;
+    }
+
     /* TABLAS Y SUBNAV */
     .sub-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .sub-tab { padding: 10px 18px; background: #f0f0f0; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; }
@@ -76,17 +95,14 @@
     .footer-btn:hover { background: var(--purple); color: white; }
 
     /* CONTACT BAR (IG & WS) */
-    .contact-bar { margin-top: 30px; display: flex; justify-content: center; gap: 20px; padding: 15px; }
-    .social-link { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 14px; padding: 10px 20px; border-radius: 12px; transition: 0.3s; }
-    .link-ig { background: #fff0f5; color: var(--instagram); border: 1px solid var(--instagram); }
+    .contact-bar { margin-top: 30px; display: flex; justify-content: center; gap: 20px; padding: 15px; flex-wrap: wrap; }
+    .social-link { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 14px; padding: 10px 25px; border-radius: 30px; transition: 0.3s; }
+    .link-ig { background: #fff0f5; color: var(--instagram); border: 2px solid var(--instagram); }
     .link-ig:hover { background: var(--instagram); color: white; }
-    .link-ws { background: #e8f9ee; color: var(--whatsapp); border: 1px solid var(--whatsapp); }
+    .link-ws { background: #e8f9ee; color: var(--whatsapp); border: 2px solid var(--whatsapp); }
     .link-ws:hover { background: var(--whatsapp); color: white; }
 
-    /* OTROS */
-    .nosotros-contenedor { display: flex; flex-direction: column; gap: 15px; }
-    .nosotros-titulo { font-size: 1.4rem; font-weight: 700; margin: 25px 0 10px; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px; }
-    .nosotros-row { background: #fcfcfc; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
+    /* GRID BOTONES */
     .button-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
     .custom-button { padding: 18px; border: 1px solid #e0e0e0; border-radius: 12px; text-decoration: none; color: var(--primary); text-align: center; font-weight: 700; background: white; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
     .custom-button:hover { background: var(--primary); color: white; transform: translateY(-3px); }
@@ -247,7 +263,16 @@
       }
       if(data.tipo === 'botones') return `<div class="button-grid">` + data.items.map(b => `<a href="${b.url}" target="_blank" class="custom-button">${b.nombre}</a>`).join('') + `</div>`;
       if(data.tipo === 'nosotros_block') {
-        return '<div class="nosotros-contenedor">' + data.items.map(it => it.esTitulo ? `<div class="nosotros-titulo">${it.titulo}</div>` : `<div class="nosotros-row"><b>${it.titulo}</b>: ${it.contenido}</div>`).join('') + '</div>';
+        let nHtml = '<div class="nosotros-contenedor">';
+        nHtml += data.items.map(it => {
+           if(it.esTitulo) {
+             return `<div class="nosotros-titulo-principal">${it.titulo}</div>`;
+           } else {
+             let prefijo = it.titulo ? `<b>${it.titulo}:</b> ` : "";
+             return `<div class="nosotros-bloque-texto">${prefijo}${it.contenido}</div>`;
+           }
+        }).join('');
+        return nHtml + '</div>';
       }
       return "";
     }
