@@ -293,7 +293,7 @@
           "Ganadores Triviaverso": [
             [
               {
-                "texto": "GANADORES JUEGO DE TRIVIA DE LA SEMANA",
+                "texto": "GANADORES DEL TRIVIAVERSO",
                 "color": "#980000"
               },
               {
@@ -308,98 +308,28 @@
             [
               {
                 "texto": "JUEGO",
-                "color": "#980000"
+                "color": "#6aa84f"
               },
               {
                 "texto": "GANADOR",
-                "color": "#980000"
+                "color": "#1155cc"
               },
               {
                 "texto": "DIA",
-                "color": "#980000"
+                "color": "#a64d79"
               }
             ],
             [
               {
-                "texto": "The island",
+                "texto": "Equinox",
                 "color": "#ffffff"
               },
               {
-                "texto": "Llako",
+                "texto": "Cecy",
                 "color": "#ffffff"
               },
               {
-                "texto": "22/12/2025",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Art Society",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "BLACK (nadie adivino)",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "23/12/2025",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Coffee Rush",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "24/12/2025",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Dracula vs Van Hellsing",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "BLACK (nadie adivino)",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "25/12/2025",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Miercoles criaturas y excluidos",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "BLACK (nadie adivino)",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "26/012/2025",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Flamecraft",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "27/12/2025",
+                "texto": "05/12/2026",
                 "color": "#ffffff"
               }
             ]
