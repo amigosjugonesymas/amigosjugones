@@ -1737,6 +1737,28 @@
                 "color": "#ffffff"
               }
             ]
+          ],
+          "MIEMBRO VIP de la semana": [
+            [
+              {
+                "texto": "MIEMBROS VIP de la semana - puntos",
+                "color": "#ff9900"
+              },
+              {
+                "texto": "",
+                "color": "#ff9900"
+              }
+            ],
+            [
+              {
+                "texto": "USUARIO",
+                "color": "#3c78d8"
+              },
+              {
+                "texto": "PUNTOS",
+                "color": "#9900ff"
+              }
+            ]
           ]
         }
       },
