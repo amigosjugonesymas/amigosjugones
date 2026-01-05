@@ -1759,6 +1759,38 @@
                 "color": "#9900ff"
               }
             ]
+          ],
+          "Desafio de la semana": [
+            [
+              {
+                "texto": "PUNTOS DESAFIO DE LA SEMANA",
+                "color": "#4a86e8"
+              },
+              {
+                "texto": "",
+                "color": "#4a86e8"
+              }
+            ],
+            [
+              {
+                "texto": "USUARIO",
+                "color": "#ff9900"
+              },
+              {
+                "texto": "PUNTOS TOTALES",
+                "color": "#93c47d"
+              }
+            ],
+            [
+              {
+                "texto": "Anto Orellana",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ]
           ]
         }
       },
