@@ -1634,6 +1634,16 @@
                 "texto": "7",
                 "color": "#ffffff"
               }
+            ],
+            [
+              {
+                "texto": "prueba",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
             ]
           ]
         }
