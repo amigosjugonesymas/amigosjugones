@@ -1688,6 +1688,16 @@
                 "texto": "PUNTOS",
                 "color": "#9900ff"
               }
+            ],
+            [
+              {
+                "texto": "Jessy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
+                "color": "#ffffff"
+              }
             ]
           ],
           "Desafio de la semana": [
@@ -1814,6 +1824,26 @@
             [
               {
                 "texto": "Anto (Rulitos)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karl",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JugandoJDM ",
                 "color": "#ffffff"
               },
               {
