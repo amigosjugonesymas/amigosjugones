@@ -1554,6 +1554,20 @@
                 "texto": "",
                 "color": "#ffffff"
               }
+            ],
+            [
+              {
+                "texto": "Anto Orellana",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "144",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
             ]
           ],
           "MIEMBRO VIP de la semana": [
@@ -1685,7 +1699,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "9",
                 "color": "#ffffff"
               }
             ],
@@ -1695,7 +1709,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "9",
                 "color": "#ffffff"
               }
             ],
@@ -1705,7 +1719,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "9",
                 "color": "#ffffff"
               }
             ],
@@ -1799,6 +1813,10 @@
           {
             "nombre": "Doctor Fillermeeple (Instagram)",
             "url": "https://www.instagram.com/doctor.fillermeeple/"
+          },
+          {
+            "nombre": "JugandoJDM (Instagram)",
+            "url": "https://www.instagram.com/jugandojdm?igsh=MTN3eDY4ZnhlYTdvMQ=="
           }
         ]
       },
