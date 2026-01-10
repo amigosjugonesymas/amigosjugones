@@ -1381,7 +1381,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "10",
+                "texto": "11",
                 "color": "#ffffff"
               }
             ],
@@ -1411,7 +1411,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "10",
+                "texto": "12",
                 "color": "#ffffff"
               }
             ],
@@ -1715,7 +1715,12 @@
       "Inscripciones": {
         "tipo": "botones",
         "introduccion": "📝 Inscripciones. Aquí encontrarás los formularios de registro para nuestras dinámicas y actividades, además de las inscripciones a los grandes eventos de nuestras comunidades aliadas. ¡No te quedes fuera del próximo turno!",
-        "items": []
+        "items": [
+          {
+            "nombre": "Tu fecha de cumpleaños",
+            "url": "https://forms.gle/eizA6omFeYR1fNaXA"
+          }
+        ]
       }
     }
   }
