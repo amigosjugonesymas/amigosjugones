@@ -1381,7 +1381,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
@@ -1411,7 +1411,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
@@ -1421,7 +1421,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
@@ -1431,7 +1431,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
@@ -1441,7 +1441,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
@@ -1472,6 +1472,36 @@
               },
               {
                 "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ricardo Ruz",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Angel ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Alexander ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
                 "color": "#ffffff"
               }
             ]
