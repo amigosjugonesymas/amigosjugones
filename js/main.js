@@ -3,15 +3,17 @@ let fullOrder = ["Nosotros"];
 const todasLasSecciones = ["Nosotros", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Inscripciones"];
 
 // Determinar qué sección cargar basado en el nombre del archivo HTML
-const paginaActual = window.location.pathname.split("/").pop().replace(".html", "") || "index";
-const seccionInicial = (paginaActual === "index") ? "Nosotros" : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
+// Esto permite que si entras a /calendario.html, el JS sepa que debe mostrar "Calendario"
+const path = window.location.pathname.split("/").pop();
+const paginaActual = path.replace(".html", "") || "index";
+const seccionInicial = (paginaActual === "index" || paginaActual === "") ? "Nosotros" : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
 
 // --- FUNCIONES DE ANALYTICS ---
 function trackPageView(name) {
     if (typeof gtag === 'function') {
         gtag('event', 'page_view', {
             page_title: name,
-            page_location: window.location.href + '#' + name.toLowerCase()
+            page_location: window.location.href
         });
     }
 }
@@ -44,7 +46,6 @@ function toggleMenu() {
 }
 
 window.onload = () => {
-    // El fetch busca el json con preventivo de caché para GitHub
     fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
@@ -52,7 +53,8 @@ window.onload = () => {
         cacheData = {...cacheData, ...res.remaining.contenido};
         fullOrder = ["Nosotros", ...res.remaining.orden];
         renderMenu(fullOrder);
-        displayData(seccionInicial);
+        // Cargamos la sección inicial basada en la URL actual
+        displayData(seccionInicial, false); 
     })
     .catch(err => console.error("Error cargando JSON:", err));
 };
@@ -66,14 +68,16 @@ function renderMenu(names) {
         item.className = 'menu-item';
         item.innerText = name;
         item.onclick = () => { 
-            displayData(name); 
-            toggleMenu(); 
+            // CAMBIO: Al hacer clic, navegamos físicamente al archivo .html
+            // Pero GitHub ocultará la extensión si el usuario la borra.
+            const url = (name.toLowerCase() === 'nosotros') ? 'index.html' : name.toLowerCase() + '.html';
+            window.location.href = url;
         };
         menuDiv.appendChild(item);
     });
 }
 
-function displayData(name) {
+function displayData(name, shouldPushState = true) {
     window.scrollTo(0, 0);
     const indicator = document.getElementById('current-title-display');
     if(indicator) indicator.innerText = name;
@@ -100,13 +104,13 @@ function displayData(name) {
         list.innerHTML = html + renderOthers(data);
     }
 
-    // Footer dinámico con tracking social
+    // Footer con enlaces físicos para evitar error 404 al recargar
     let footerHtml = `
         <div class="section-footer">
             <div class="footer-label">Navegación Rápida</div>
             <div class="footer-btns">
                 ${todasLasSecciones.filter(s => s !== name).map(s => `
-                    <a href="${s.toLowerCase()}.html" class="footer-btn">${s}</a>
+                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : s.toLowerCase() + '.html'}" class="footer-btn">${s}</a>
                 `).join('')}
             </div>
             <div class="contact-bar">
