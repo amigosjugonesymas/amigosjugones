@@ -533,19 +533,7 @@
           "Ganadores PixelBG": [
             [
               {
-                "texto": "GANADORES PIXELBG",
-                "color": "#980000"
-              },
-              {
-                "texto": "",
-                "color": "#980000"
-              },
-              {
-                "texto": "",
-                "color": "#980000"
-              },
-              {
-                "texto": "",
+                "texto": "PUNTOS TOTALES PIXELBG",
                 "color": "#980000"
               },
               {
@@ -554,398 +542,132 @@
               }
             ],
             [
-              {
-                "texto": "JUEGO",
-                "color": "#980000"
-              },
               {
                 "texto": "GANADOR",
                 "color": "#980000"
               },
               {
-                "texto": "RONDA",
-                "color": "#980000"
-              },
-              {
                 "texto": "PUNTOS",
                 "color": "#980000"
-              },
-              {
-                "texto": "MULTIPLICADOR",
-                "color": "#980000"
               }
             ],
             [
               {
-                "texto": "Splendor",
+                "texto": "karl",
                 "color": "#ffffff"
               },
               {
-                "texto": "Estefy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
+                "texto": "12",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Cosmic Encounter",
+                "texto": "Orland3",
                 "color": "#ffffff"
               },
               {
-                "texto": "JugandoJDM",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": " x2",
+                "texto": "7",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Azul",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Calico",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial Arqueros",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Faraway ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karl",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Food chain magnate",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Papa Lobo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Memoir 44",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karl",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "x3",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "lorenzo il magnifico",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "JugandoJDM",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "x2",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Wonderlands War",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Simon",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
+                "texto": "JugandoJDM ",
                 "color": "#ffffff"
               },
               {
                 "texto": "4",
                 "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Simon ",
+                "color": "#ffffff"
               },
               {
-                "texto": "x2",
+                "texto": "4",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Blood on cthe clock tower",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Eduardo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
+                "texto": "Jessy ",
                 "color": "#ffffff"
               },
               {
                 "texto": "3",
                 "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Welcome to",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Ismael",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
+                "texto": "Estefy",
                 "color": "#ffffff"
               },
               {
                 "texto": "3",
                 "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Papá lobo",
+                "color": "#ffffff"
               },
               {
-                "texto": "",
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Hanamikoji",
+                "texto": "Eduardo ",
                 "color": "#ffffff"
               },
               {
-                "texto": "Walter",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "Nemesis",
-                "color": "#ffffff"
-              },
               {
                 "texto": "Mauricio Leiva",
                 "color": "#ffffff"
               },
               {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
                 "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Heat",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Orlan3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
+                "texto": "Ismael",
                 "color": "#ffffff"
               },
               {
                 "texto": "3",
                 "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "iss vangaurd",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Orlan3",
+                "texto": "Arturo ",
                 "color": "#ffffff"
               },
               {
                 "texto": "2",
                 "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Walter ",
+                "color": "#ffffff"
               },
               {
                 "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "barrage",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karl",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "arcs",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
                 "color": "#ffffff"
               }
             ]
