@@ -6,6 +6,26 @@ const todasLasSecciones = ["Nosotros", "Calendario", "Actividades", "Participant
 const paginaActual = window.location.pathname.split("/").pop().replace(".html", "") || "index";
 const seccionInicial = (paginaActual === "index") ? "Nosotros" : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
 
+// --- FUNCIONES DE ANALYTICS ---
+function trackPageView(name) {
+    if (typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+            page_title: name,
+            page_location: window.location.href + '#' + name.toLowerCase()
+        });
+    }
+}
+
+function trackSocialClick(network) {
+    if (typeof gtag === 'function') {
+        gtag('event', 'social_click', {
+            'event_category': 'Engagement',
+            'event_label': network
+        });
+    }
+}
+
+// --- LÓGICA DE INTERFAZ ---
 function getContrastYIQ(hexcolor){
     if (!hexcolor || hexcolor === "#ffffff" || hexcolor === "transparent") return "black";
     hexcolor = hexcolor.replace("#", "");
@@ -24,8 +44,8 @@ function toggleMenu() {
 }
 
 window.onload = () => {
-    // El fetch busca el json en la misma carpeta raíz
-    fetch('datos.json')
+    // El fetch busca el json con preventivo de caché para GitHub
+    fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
         cacheData[res.initial.nombre] = res.initial.contenido;
@@ -34,7 +54,7 @@ window.onload = () => {
         renderMenu(fullOrder);
         displayData(seccionInicial);
     })
-    .catch(err => console.error("Error cargando JSON. Asegúrate de que datos.json esté en la misma carpeta.", err));
+    .catch(err => console.error("Error cargando JSON:", err));
 };
 
 function renderMenu(names) {
@@ -46,8 +66,6 @@ function renderMenu(names) {
         item.className = 'menu-item';
         item.innerText = name;
         item.onclick = () => { 
-            // En local, navegamos cambiando el contenido. 
-            // En producción, podrías redirigir: window.location.href = name.toLowerCase() + ".html";
             displayData(name); 
             toggleMenu(); 
         };
@@ -60,6 +78,9 @@ function displayData(name) {
     const indicator = document.getElementById('current-title-display');
     if(indicator) indicator.innerText = name;
     
+    // RASTREO DE GOOGLE ANALYTICS
+    trackPageView(name);
+
     const data = cacheData[name];
     const list = document.getElementById('links-list');
     if(!data || !list) return;
@@ -79,7 +100,7 @@ function displayData(name) {
         list.innerHTML = html + renderOthers(data);
     }
 
-    // Footer dinámico
+    // Footer dinámico con tracking social
     let footerHtml = `
         <div class="section-footer">
             <div class="footer-label">Navegación Rápida</div>
@@ -89,8 +110,8 @@ function displayData(name) {
                 `).join('')}
             </div>
             <div class="contact-bar">
-                <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" class="social-link link-ig">📸 Instagram</a>
-                <a href="https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK" target="_blank" class="social-link link-ws">💬 WhatsApp</a>
+                <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" class="social-link link-ig" onclick="trackSocialClick('Instagram')">📸 Instagram</a>
+                <a href="https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK" target="_blank" class="social-link link-ws" onclick="trackSocialClick('WhatsApp')">💬 WhatsApp</a>
             </div>
         </div>
     `;
