@@ -10,7 +10,7 @@
           "contenido": ""
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "Un ecosistema de entusiastas de la Cultura Geek, Gaming y Juegos de Mesa. Transformamos el hobby en una comunidad activa que juega, crea y comparte todos los días."
         },
@@ -20,22 +20,22 @@
           "contenido": ""
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "🚀 Acción: Dinámicas diarias y creación colectiva."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "🤝 Unión: Apoyo solidario en eventos como Luditón, organizada por Macroludica."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "⚖️ Respeto: Competitividad sana y premios a la \"buena onda\"."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!"
         },
@@ -45,17 +45,17 @@
           "contenido": ""
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "📱 Digital: Trivias, retos de deducción 🧩 y torneos en WhatsApp ⚔️."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "🎲 Presencial: Juntas espontáneas 🍕 y embajadores en eventos en los que somos invitados 🏛️."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "🏆 Legado: Registramos nuestras crónicas 📖 y campeones para la posteridad 🥇."
         },
@@ -65,12 +65,12 @@
           "contenido": ""
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "El refugio definitivo para el Jugón. Partidas, debates y amigos en un solo lugar."
         },
         {
-          "esTitulo": false,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "¡Tu turno comienza aquí!"
         }
@@ -106,7 +106,7 @@
               },
               {
                 "texto": "",
-                "color": "#351c75"
+                "color": "#ffffff"
               }
             ],
             [
@@ -298,11 +298,11 @@
               },
               {
                 "texto": "",
-                "color": "#980000"
+                "color": "#ffffff"
               },
               {
                 "texto": "",
-                "color": "#980000"
+                "color": "#ffffff"
               }
             ],
             [
@@ -356,15 +356,15 @@
               },
               {
                 "texto": "",
-                "color": "#3c78d8"
+                "color": "#ffffff"
               },
               {
                 "texto": "",
-                "color": "#3c78d8"
+                "color": "#ffffff"
               },
               {
                 "texto": "",
-                "color": "#3c78d8"
+                "color": "#ffffff"
               }
             ],
             [
@@ -538,7 +538,7 @@
               },
               {
                 "texto": "",
-                "color": "#980000"
+                "color": "#ffffff"
               }
             ],
             [
@@ -680,7 +680,7 @@
               },
               {
                 "texto": "",
-                "color": "#0000ff"
+                "color": "#ffffff"
               }
             ],
             [
@@ -1032,11 +1032,11 @@
               },
               {
                 "texto": "",
-                "color": "#6aa84f"
+                "color": "#ffffff"
               },
               {
                 "texto": "",
-                "color": "#6aa84f"
+                "color": "#ffffff"
               }
             ],
             [
@@ -1328,7 +1328,7 @@
               },
               {
                 "texto": "",
-                "color": "#ff9900"
+                "color": "#ffffff"
               }
             ],
             [
@@ -1360,7 +1360,7 @@
               },
               {
                 "texto": "",
-                "color": "#4a86e8"
+                "color": "#ffffff"
               }
             ],
             [
@@ -1751,5 +1751,67 @@
         ]
       }
     }
+  },
+  "disponibilidad": {
+    "dias": {
+      "LUNES": [
+        {
+          "nick": "BLACK",
+          "horario": "No tengo disponible este dia",
+          "excepcion": ""
+        }
+      ],
+      "MARTES": [
+        {
+          "nick": "BLACK",
+          "horario": "No tengo disponible este dia",
+          "excepcion": ""
+        }
+      ],
+      "MIERCOLES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "JUEVES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "VIERNES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "SABADO": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "DOMINGO": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ]
+    },
+    "fichas": [
+      {
+        "nick": "BLACK",
+        "sectores": "sector centro y sur de santiago",
+        "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
+        "favoritos": "nemesis",
+        "coleccion": "formula 31 minutos"
+      }
+    ]
   }
 }
