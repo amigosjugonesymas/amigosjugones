@@ -1,33 +1,18 @@
-let cacheData = {};
-let fullOrder = ["Nosotros"];
-const todasLasSecciones = ["Nosotros", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Inscripciones"];
+/**
+ * MAIN.JS - AMIGOS JUGONES
+ * Gestión de contenidos, navegación y Radar de Jugones
+ */
 
-// Determinar qué sección cargar basado en el nombre del archivo HTML
-// Esto permite que si entras a /calendario.html, el JS sepa que debe mostrar "Calendario"
+window.cacheData = {};
+let fullOrder = ["Nosotros"];
+const todasLasSecciones = ["Nosotros", "Radar", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Inscripciones"];
+
+// Determinar sección actual por URL
 const path = window.location.pathname.split("/").pop();
 const paginaActual = path.replace(".html", "") || "index";
 const seccionInicial = (paginaActual === "index" || paginaActual === "") ? "Nosotros" : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
 
-// --- FUNCIONES DE ANALYTICS ---
-function trackPageView(name) {
-    if (typeof gtag === 'function') {
-        gtag('event', 'page_view', {
-            page_title: name,
-            page_location: window.location.href
-        });
-    }
-}
-
-function trackSocialClick(network) {
-    if (typeof gtag === 'function') {
-        gtag('event', 'social_click', {
-            'event_category': 'Engagement',
-            'event_label': network
-        });
-    }
-}
-
-// --- LÓGICA DE INTERFAZ ---
+// --- UTILIDADES ---
 function getContrastYIQ(hexcolor){
     if (!hexcolor || hexcolor === "#ffffff" || hexcolor === "transparent") return "black";
     hexcolor = hexcolor.replace("#", "");
@@ -45,20 +30,32 @@ function toggleMenu() {
     document.getElementById('hamburguesa').style.animation = "none";
 }
 
+// --- CARGA INICIAL ---
 window.onload = () => {
     fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
-        cacheData[res.initial.nombre] = res.initial.contenido;
-        cacheData = {...cacheData, ...res.remaining.contenido};
-        fullOrder = ["Nosotros", ...res.remaining.orden];
+        // Guardar datos en caché global
+        window.cacheData = {
+            "Nosotros": res.initial.contenido,
+            ...res.remaining.contenido,
+            "disponibilidad": res.disponibilidad // Datos para el Radar
+        };
+        
+        fullOrder = ["Nosotros", "Radar", ...res.remaining.orden];
         renderMenu(fullOrder);
-        // Cargamos la sección inicial basada en la URL actual
-        displayData(seccionInicial, false); 
+        
+        // Decidir qué renderizar
+        if (paginaActual === "radar") {
+            initRadar();
+        } else {
+            displayData(seccionInicial, false); 
+        }
     })
     .catch(err => console.error("Error cargando JSON:", err));
 };
 
+// --- MENÚ Y NAVEGACIÓN ---
 function renderMenu(names) {
     const menuDiv = document.getElementById('menu-items');
     if(!menuDiv) return;
@@ -68,24 +65,24 @@ function renderMenu(names) {
         item.className = 'menu-item';
         item.innerText = name;
         item.onclick = () => { 
-            // CAMBIO: Al hacer clic, navegamos físicamente al archivo .html
-            // Pero GitHub ocultará la extensión si el usuario la borra.
-            const url = (name.toLowerCase() === 'nosotros') ? 'index.html' : name.toLowerCase() + '.html';
+            let url;
+            const cleanName = name.toLowerCase();
+            if (cleanName === 'nosotros') url = 'index.html';
+            else if (cleanName === 'radar') url = 'radar.html';
+            else url = cleanName + '.html';
             window.location.href = url;
         };
         menuDiv.appendChild(item);
     });
 }
 
+// --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
 function displayData(name, shouldPushState = true) {
     window.scrollTo(0, 0);
     const indicator = document.getElementById('current-title-display');
     if(indicator) indicator.innerText = name;
     
-    // RASTREO DE GOOGLE ANALYTICS
-    trackPageView(name);
-
-    const data = cacheData[name];
+    const data = window.cacheData[name];
     const list = document.getElementById('links-list');
     if(!data || !list) return;
 
@@ -104,30 +101,15 @@ function displayData(name, shouldPushState = true) {
         list.innerHTML = html + renderOthers(data);
     }
 
-    // Footer con enlaces físicos para evitar error 404 al recargar
-    let footerHtml = `
-        <div class="section-footer">
-            <div class="footer-label">Navegación Rápida</div>
-            <div class="footer-btns">
-                ${todasLasSecciones.filter(s => s !== name).map(s => `
-                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : s.toLowerCase() + '.html'}" class="footer-btn">${s}</a>
-                `).join('')}
-            </div>
-            <div class="contact-bar">
-                <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" class="social-link link-ig" onclick="trackSocialClick('Instagram')">📸 Instagram</a>
-                <a href="https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK" target="_blank" class="social-link link-ws" onclick="trackSocialClick('WhatsApp')">💬 WhatsApp</a>
-            </div>
-        </div>
-    `;
-    list.innerHTML += footerHtml;
+    list.innerHTML += renderFooter(name);
 }
 
-window.renderTable = (btn, parentName, subName) => {
+function renderTable(btn, parentName, subName) {
     if(btn) { 
         document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active')); 
         btn.classList.add('active'); 
     }
-    const rows = cacheData[parentName].datos[subName];
+    const rows = window.cacheData[parentName].datos[subName];
     if(!rows || rows.length === 0) return;
 
     let html = `<div class="table-scroll"><table>`;
@@ -179,4 +161,86 @@ function renderOthers(data) {
         return nHtml + '</div>';
     }
     return "";
+}
+
+// --- LÓGICA ESPECÍFICA DEL RADAR DE JUGONES ---
+function initRadar() {
+    const root = document.getElementById('radar-root');
+    if(!root) return;
+
+    root.innerHTML = `
+        <div class="day-selector">
+            ${["LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO","DOMINGO"].map((d, i) => 
+                `<button class="day-btn ${i===0?'active':''}" onclick="renderRadarDay('${d}', this)">${d.substring(0,3)}</button>`
+            ).join('')}
+        </div>
+        <div id="playerList"></div>
+        ${renderFooter("Radar")}
+    `;
+    renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
+}
+
+window.renderRadarDay = (day, btn) => {
+    if(btn) {
+        document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    const list = document.getElementById('playerList');
+    const players = window.cacheData.disponibilidad.dias[day] || [];
+    
+    if(players.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding: 40px; color:#999;">No hay jugones registrados para este día.</div>';
+        return;
+    }
+
+    list.innerHTML = players.map((p, idx) => `
+        <div class="player-card ${p.horario.toLowerCase().includes('no') ? 'not-available' : ''}" onclick="toggleRadarDetail(${idx})">
+            <div>
+                <strong style="font-size:1.1rem; color:var(--primary);">${p.nick}</strong><br>
+                <small style="font-weight:600;"><i class="bi bi-clock"></i> ${p.horario}</small>
+            </div>
+            <i class="bi bi-plus-circle-fill" style="color:var(--accent);"></i>
+        </div>
+        <div id="radar-det-${idx}" class="user-detail"></div>
+    `).join('');
+};
+
+window.toggleRadarDetail = (idx) => {
+    const el = document.getElementById(`radar-det-${idx}`);
+    if(el.style.display === 'block') { el.style.display = 'none'; return; }
+    
+    // Obtener Nick de la tarjeta
+    const nick = document.querySelectorAll('.player-card strong')[idx].innerText;
+    const f = window.cacheData.disponibilidad.fichas.find(ficha => ficha.nick === nick) || {};
+    const d = window.cacheData.disponibilidad.dias[document.querySelector('.day-btn.active').innerText.toUpperCase()] || [];
+    const pData = d.find(p => p.nick === nick) || {};
+
+    el.innerHTML = `
+        <div class="grid-ficha">
+            <div><span class="label-ficha">📍 Sectores</span><span class="val-ficha">${f.sectores || '-'}</span></div>
+            <div><span class="label-ficha">🎲 Estilos</span><span class="val-ficha">${f.categorias || '-'}</span></div>
+            <div style="grid-column: span 2"><span class="label-ficha">🎒 Colección / Puedo llevar</span><span class="val-ficha">${f.coleccion || '-'}</span></div>
+            <div style="grid-column: span 2"><span class="label-ficha">❤️ Favoritos</span><span class="val-ficha">${f.favoritos || '-'}</span></div>
+        </div>
+        ${pData.excepcion ? `<div class="excepcion-box"><strong>Nota del día:</strong> ${pData.excepcion}</div>` : ''}
+    `;
+    el.style.display = 'block';
+};
+
+// --- FOOTER COMÚN ---
+function renderFooter(currentName) {
+    return `
+        <div class="section-footer">
+            <div class="footer-label">Navegación Rápida</div>
+            <div class="footer-btns">
+                ${todasLasSecciones.filter(s => s !== currentName).map(s => `
+                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : s.toLowerCase() + '.html'}" class="footer-btn">${s}</a>
+                `).join('')}
+            </div>
+            <div class="contact-bar">
+                <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" class="social-link link-ig">📸 Instagram</a>
+                <a href="https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK" target="_blank" class="social-link link-ws">💬 WhatsApp</a>
+            </div>
+        </div>
+    `;
 }
