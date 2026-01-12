@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Jugones - Amigos Jugones</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1XDJ24N19"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-B1XDJ24N19');
+    </script>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="menu-icon" id="hamburguesa" onclick="toggleMenu()">☰</div>
+        <div class="nav-brand">
+            <img src="https://lh3.googleusercontent.com/d/1nOyeVJ0UnmVUKHTNkSA9DnkrUgY-IwQ2" class="nav-logo" alt="Logo">
+            <div class="nav-main-title">Amigos Jugones</div>
+        </div>
+        <div id="current-title-display" class="current-section-indicator">Radar de Jugones</div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://lh3.googleusercontent.com/d/1nOyeVJ0UnmVUKHTNkSA9DnkrUgY-IwQ2" class="sidebar-logo-large" alt="Logo">
+            <div class="sidebar-title">Amigos Jugones</div>
+        </div>
+        <div id="menu-items"></div>
+    </div>
+
+    <div class="main-content">
+        <div id="content-card">
+            <div id="radar-root">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
