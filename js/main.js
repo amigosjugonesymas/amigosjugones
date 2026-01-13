@@ -235,6 +235,30 @@ window.toggleRadarDetail = (idx) => {
     el.style.display = 'block';
 };
 
+// --- LÓGICA ESPECÍFICA DEL RADAR DE JUGONES ---
+function initRadar() {
+    const root = document.getElementById('radar-root');
+    if(!root) return;
+
+    // Obtener la intro desde los datos de disponibilidad
+    const dataDisp = window.cacheData["disponibilidad"];
+    const introHtml = (dataDisp && dataDisp.introduccionFichas) 
+        ? `<div class="seccion-intro">${dataDisp.introduccionFichas}</div>` 
+        : "";
+
+    root.innerHTML = `
+        ${introHtml}
+        <div class="day-selector">
+            ${["LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO","DOMINGO"].map((d, i) => 
+                `<button class="day-btn ${i===0?'active':''}" onclick="renderRadarDay('${d}', this)">${d.substring(0,3)}</button>`
+            ).join('')}
+        </div>
+        <div id="playerList"></div>
+        ${renderFooter("Radar")}
+    `;
+    renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
+}
+
 // --- FOOTER COMÚN ---
 function renderFooter(currentName) {
     return `
@@ -252,3 +276,4 @@ function renderFooter(currentName) {
         </div>
     `;
 }
+
