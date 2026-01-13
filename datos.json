@@ -1757,14 +1757,14 @@
       "LUNES": [
         {
           "nick": "BLACK",
-          "horario": "No tengo disponible este dia",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
         }
       ],
       "MARTES": [
         {
           "nick": "BLACK",
-          "horario": "No tengo disponible este dia",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
         }
       ],
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "sector centro y sur de santiago",
+        "sectores": "El centro y sector sur",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "nemesis",
-        "coleccion": "formula 31 minutos"
+        "favoritos": "Me gustan varios tipos de juegos, le doy a todo xD",
+        "coleccion": "No suelo llevar juegos xD"
       }
     ]
   }
