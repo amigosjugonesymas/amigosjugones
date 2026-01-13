@@ -1754,14 +1754,64 @@
   },
   "disponibilidad": {
     "dias": {
-      "LUNES": [],
-      "MARTES": [],
-      "MIERCOLES": [],
-      "JUEVES": [],
-      "VIERNES": [],
-      "SABADO": [],
-      "DOMINGO": []
+      "LUNES": [
+        {
+          "nick": "BLACK",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "no puedo los lunes porque tengo cosas que hacer"
+        }
+      ],
+      "MARTES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "MIERCOLES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "JUEVES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "VIERNES": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "SABADO": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ],
+      "DOMINGO": [
+        {
+          "nick": "BLACK",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        }
+      ]
     },
-    "fichas": []
+    "fichas": [
+      {
+        "nick": "BLACK",
+        "sectores": "Sector sur y el centro de Santiago",
+        "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
+        "favoritos": "Faraway, Harmonies, Flip7, Formula 31 minutos",
+        "coleccion": "No suelo llevar ningun juego a las juntas"
+      }
+    ]
   }
 }
