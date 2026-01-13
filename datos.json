@@ -1764,12 +1764,22 @@
           "nick": "BLACK",
           "horario": "No tengo disponible este dia",
           "excepcion": "Los lunes tengo cosas misteriosas que hacer asi es que no suelo poder juntarme"
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "MARTES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
         }
       ],
@@ -1778,12 +1788,22 @@
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "JUEVES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
         }
       ],
@@ -1792,6 +1812,11 @@
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "SABADO": [
@@ -1799,6 +1824,11 @@
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Trabajo"
         }
       ],
       "DOMINGO": [
@@ -1806,6 +1836,11 @@
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Ricardragon",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Trabajo"
         }
       ]
     },
