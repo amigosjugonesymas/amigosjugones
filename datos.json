@@ -1758,7 +1758,7 @@
         {
           "nick": "BLACK",
           "horario": "No tengo disponible este dia",
-          "excepcion": "no puedo los lunes porque tengo cosas que hacer"
+          "excepcion": "tengo cosas que hacer los lunes"
         }
       ],
       "MARTES": [
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "Sector sur y el centro de Santiago",
+        "sectores": "El centro de Santiago y el sector sur",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "Faraway, Harmonies, Flip7, Formula 31 minutos",
-        "coleccion": "No suelo llevar ningun juego a las juntas"
+        "favoritos": "Faraway, Harmonies, Flip7, Formula 31 minutos, Riverside",
+        "coleccion": "No suelo llevar juegos a las juntas, prefiero probar juegos nuevos cada vez"
       }
     ]
   }
