@@ -1758,7 +1758,7 @@
         {
           "nick": "BLACK",
           "horario": "No tengo disponible este dia",
-          "excepcion": "Los lunes hago cosas misteriosas asi es que no puedo juntarme ese dia generalmente"
+          "excepcion": "Los lunes tengo cosas misteriosas que hacer, asi es que no creo que pueda juntarme este dia"
         }
       ],
       "MARTES": [
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "Sector centro y sur de Santiago",
+        "sectores": "Sector sur y centro de Santiago",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "Harmonies, Faraway",
-        "coleccion": "No suelo llevar juegos a las juntas porque me gusta conocer juegos nuevos xD"
+        "favoritos": "Harmonies, Riverside, Faraway",
+        "coleccion": "No suelo llevar juegos a las juntas, me gusta probar juegos nuevos"
       }
     ]
   }
