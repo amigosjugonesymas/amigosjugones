@@ -1779,6 +1779,11 @@
           "nick": "Restrepo",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "A veces voy a los super lunes"
         }
       ],
       "MARTES": [
@@ -1801,6 +1806,11 @@
           "nick": "Restrepo",
           "horario": "No tengo disponible este dia",
           "excepcion": "Puede que algunos martes si pueda"
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "🦭"
         }
       ],
       "MIERCOLES": [
@@ -1823,6 +1833,11 @@
           "nick": "Restrepo",
           "horario": "No tengo disponible este dia",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "🐿️"
         }
       ],
       "JUEVES": [
@@ -1845,6 +1860,11 @@
           "nick": "Restrepo",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "🐧"
         }
       ],
       "VIERNES": [
@@ -1867,6 +1887,11 @@
           "nick": "Restrepo",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "☃️"
         }
       ],
       "SABADO": [
@@ -1889,6 +1914,11 @@
           "nick": "Restrepo",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "A veces salgo fuera de stgo. 🦆"
         }
       ],
       "DOMINGO": [
@@ -1911,6 +1941,11 @@
           "nick": "Restrepo",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Karlita 🦦",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "A veces viajo fuera de stgo. 🐢"
         }
       ]
     },
