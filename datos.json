@@ -1794,6 +1794,11 @@
           "nick": "llako",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Ahora estoy de vacaciones, pero cuando vuelva a trabajar va a ser después de las 18 hrs."
         }
       ],
       "MARTES": [
@@ -1831,6 +1836,11 @@
           "nick": "llako",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Ahora estoy de vacaciones, pero cuando vuelva a trabajar va a ser después de las 18 hrs."
         }
       ],
       "MIERCOLES": [
@@ -1868,6 +1878,11 @@
           "nick": "llako",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Ahora estoy de vacaciones, pero cuando vuelva a trabajar va a ser después de las 18 hrs."
         }
       ],
       "JUEVES": [
@@ -1905,6 +1920,11 @@
           "nick": "llako",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Ahora estoy de vacaciones, pero cuando vuelva a trabajar va a ser después de las 18 hrs."
         }
       ],
       "VIERNES": [
@@ -1942,6 +1962,11 @@
           "nick": "llako",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "desde las 18:30 pero si es muy lejos sería con quedarse"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "Ahora estoy de vacaciones, pero cuando vuelva a trabajar va a ser después de las 18 hrs."
         }
       ],
       "SABADO": [
@@ -1979,6 +2004,11 @@
           "nick": "llako",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "todo el dia y si es muy lejos, con quedada *a menos que tenga evento ese dia"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -2016,6 +2046,11 @@
           "nick": "llako",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "todo el dia a menos que sea muy lejos, ahi con quedada. *excepto si tengo eventos"
+        },
+        {
+          "nick": "Alevervel",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ]
     },
@@ -2061,6 +2096,13 @@
         "categorias": "Eurogames, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Deducción Social, Prototipos, Otros",
         "favoritos": "Project L, Ciudadelas, Mino dice, etc....",
         "coleccion": "Project L, dobble, timeline"
+      },
+      {
+        "nick": "llako",
+        "sectores": "cafeteria el desafio o mi depa (metro manuel montt)",
+        "categorias": "Eurogames, Fillers, Party Games, Deducción Social, Prototipos, Otros",
+        "favoritos": "splendor, mandala stones, men at work",
+        "coleccion": "muchos (bosk, calico, takenoko, paella park, etc), principalmente abstractos, roles ocultos y algunos protos"
       }
     ],
     "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada. (La página actualiza los datos cada 15 minutos)"
