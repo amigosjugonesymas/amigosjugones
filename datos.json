@@ -1758,7 +1758,7 @@
         {
           "nick": "BLACK",
           "horario": "No tengo disponible este dia",
-          "excepcion": "Los lunes hago cosas misteriosas xD"
+          "excepcion": "Los lunes tengo que hacer cosas misteriosas, asi es que es muy probable que no pueda un lunes"
         }
       ],
       "MARTES": [
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "Santiago Centro y sector sur",
+        "sectores": "Santiago Centro y Sector sur",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "Riverside, Faraway, Sushi go, Formula 31 minutos",
-        "coleccion": "No suelo llevar juegos a las juntas xD"
+        "favoritos": "Riverside, Faraway, Harmonies",
+        "coleccion": "No suelo llevar juegos de mesa a las juntas xD, me gusta explorar nuevos horizontes"
       }
     ]
   }
