@@ -1757,36 +1757,36 @@
       "LUNES": [
         {
           "nick": "BLACK",
-          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": "no me gusta la sopa"
+          "horario": "No tengo disponible este dia",
+          "excepcion": "no puedo porque tengo cosas que hacer"
         }
       ],
       "MARTES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": "a veces me da calor"
+          "excepcion": "salgo despues de clases"
         }
       ],
       "MIERCOLES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
+          "excepcion": "me gusta la playa"
         }
       ],
       "JUEVES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
+          "excepcion": "solo quiero poner algo"
         }
       ],
       "VIERNES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
+          "excepcion": "me gusta el sur, es fresquito"
         }
       ],
       "SABADO": [
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "sector sur y el sector central",
+        "sectores": "sector sur y centro de santiago",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "tocarte",
-        "coleccion": "ninguno no suelo llevar juegos voy a jugar xD"
+        "favoritos": "Harmonies, Faraway",
+        "coleccion": "no suelo llevar ningun juego"
       }
     ]
   }
