@@ -1769,6 +1769,11 @@
           "nick": "Ricardragon",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
         }
       ],
       "MARTES": [
@@ -1781,6 +1786,11 @@
           "nick": "Ricardragon",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Sin Excepciones."
         }
       ],
       "MIERCOLES": [
@@ -1793,6 +1803,11 @@
           "nick": "Ricardragon",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
         }
       ],
       "JUEVES": [
@@ -1805,6 +1820,11 @@
           "nick": "Ricardragon",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
         }
       ],
       "VIERNES": [
@@ -1817,6 +1837,11 @@
           "nick": "Ricardragon",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
         }
       ],
       "SABADO": [
@@ -1829,6 +1854,11 @@
           "nick": "Ricardragon",
           "horario": "No tengo disponible este dia",
           "excepcion": "Trabajo"
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -1841,6 +1871,11 @@
           "nick": "Ricardragon",
           "horario": "No tengo disponible este dia",
           "excepcion": "Trabajo"
+        },
+        {
+          "nick": "Erick Arancibia Valdés",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ]
     },
@@ -1851,6 +1886,13 @@
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
         "favoritos": "Riverside, Faraway, Harmonies",
         "coleccion": "No suelo llevar ningun juego a las juntas xD, me gusta probar juegos nuevos"
+      },
+      {
+        "nick": "Ricardragon",
+        "sectores": "Más menos 1 y media hora de viaje desde quilicura",
+        "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social",
+        "favoritos": "No tengo favoritos",
+        "coleccion": "Varios solo pregunteme"
       }
     ],
     "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada. (La página actualiza los datos cada 15 minutos)"
