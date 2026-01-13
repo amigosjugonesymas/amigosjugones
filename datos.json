@@ -1760,13 +1760,7 @@
       "JUEVES": [],
       "VIERNES": [],
       "SABADO": [],
-      "DOMINGO": [
-        {
-          "nick": "BLACK",
-          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
-        }
-      ]
+      "DOMINGO": []
     },
     "fichas": []
   }
