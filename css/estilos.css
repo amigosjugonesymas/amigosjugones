@@ -184,9 +184,10 @@ th, td { padding: 14px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; 
     }
     
     .day-btn {
-        width: 100%;            /* Ocupa todo el ancho disponible */
+        width: 30%;            /* Ocupa todo el ancho disponible */
         font-size: 14px;        /* Un poco más grande para facilitar el toque con el dedo */
         padding: 15px;
     }
 }
+
 
