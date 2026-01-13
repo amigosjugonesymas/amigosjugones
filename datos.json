@@ -1748,6 +1748,10 @@
           {
             "nombre": "Tu fecha de cumpleaños",
             "url": "https://forms.gle/eizA6omFeYR1fNaXA"
+          },
+          {
+            "nombre": "Tu Disponibilidada para jugar",
+            "url": "https://forms.gle/mmhX4Qx1AP2a4Tci8"
           }
         ]
       }
@@ -1814,6 +1818,6 @@
         "coleccion": "No suelo llevar ningun juego a las juntas xD, me gusta probar juegos nuevos"
       }
     ],
-    "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada."
+    "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada. (La página actualiza los datos cada 15 minutos)"
   }
 }
