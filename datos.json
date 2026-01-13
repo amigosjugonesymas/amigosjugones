@@ -3,6 +3,7 @@
     "nombre": "Nosotros",
     "contenido": {
       "tipo": "nosotros_block",
+      "introduccion": "Titulo",
       "items": [
         {
           "esTitulo": true,
@@ -1812,6 +1813,7 @@
         "favoritos": "Riverside, Faraway, Harmonies",
         "coleccion": "No suelo llevar ningun juego a las juntas xD, me gusta probar juegos nuevos"
       }
-    ]
+    ],
+    "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada."
   }
 }
