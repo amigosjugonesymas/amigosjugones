@@ -176,17 +176,22 @@ th, td { padding: 14px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; 
 .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 60px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* --- RESPONSIVE: CAMBIO A COLUMNA EN MÓVIL --- */
+/* --- RESPONSIVE: ORGANIZACIÓN EN CUADRÍCULA (3 botones por fila) --- */
 @media (max-width: 600px) {
     .day-selector {
-        flex-direction: column; /* Cambia de fila a columna */
-        overflow-x: visible;    /* Ya no necesita scroll horizontal */
+        display: grid; /* Cambiamos Flex por Grid */
+        grid-template-columns: repeat(3, 1fr); /* Crea 3 columnas iguales */
+        gap: 8px; /* Espacio entre botones */
+        overflow-x: visible; 
+        padding: 10px;
     }
     
     .day-btn {
-        width: 30%;            /* Ocupa todo el ancho disponible */
-        font-size: 14px;        /* Un poco más grande para facilitar el toque con el dedo */
-        padding: 15px;
+        width: 100%; /* Ahora el 100% significa el 100% de su celda (que es 1/3 del total) */
+        white-space: normal; /* Permite que el texto respire si es largo */
+        font-size: 11px; /* Ajustamos un poco para que no se desborde */
+        padding: 10px 5px;
+        border-radius: 12px; /* Un radio más pequeño suele verse mejor en cuadrícula */
     }
 }
 
