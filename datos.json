@@ -1774,6 +1774,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "No tengo disponible este dia",
           "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "MARTES": [
@@ -1791,6 +1796,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "No tengo disponible este dia",
           "excepcion": "Sin Excepciones."
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "Puede que algunos martes si pueda"
         }
       ],
       "MIERCOLES": [
@@ -1808,6 +1818,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "No tengo disponible este dia",
           "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "No tengo disponible este dia",
+          "excepcion": ""
         }
       ],
       "JUEVES": [
@@ -1825,6 +1840,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "No tengo disponible este dia",
           "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "VIERNES": [
@@ -1842,6 +1862,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "Aviso con antelación, ya que igual tengo trabajos esporádicos como diseñador independiente."
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "SABADO": [
@@ -1859,6 +1884,11 @@
           "nick": "Erick Arancibia Valdés",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -1875,6 +1905,11 @@
         {
           "nick": "Erick Arancibia Valdés",
           "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
+        },
+        {
+          "nick": "Restrepo",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
         }
       ]
