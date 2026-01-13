@@ -1784,6 +1784,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "A veces voy a los super lunes"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "MARTES": [
@@ -1811,6 +1816,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "🦭"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "MIERCOLES": [
@@ -1838,6 +1848,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "🐿️"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "JUEVES": [
@@ -1865,6 +1880,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "🐧"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "VIERNES": [
@@ -1892,6 +1912,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "☃️"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "SABADO": [
@@ -1919,6 +1944,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "A veces salgo fuera de stgo. 🦆"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -1946,6 +1976,11 @@
           "nick": "Karlita 🦦",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "A veces viajo fuera de stgo. 🐢"
+        },
+        {
+          "nick": "Cecy",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ]
     },
