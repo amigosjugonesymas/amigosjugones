@@ -1804,14 +1804,6 @@
         }
       ]
     },
-    "fichas": [
-      {
-        "nick": "BLACK",
-        "sectores": "sector sur y sector centro de Santiago",
-        "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "Harmonies, Faraway, Flip/, Formula 31 minutos",
-        "coleccion": "No suelo llevar juegos a las juntas"
-      }
-    ]
+    "fichas": []
   }
 }
