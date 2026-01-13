@@ -1758,14 +1758,14 @@
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
+          "excepcion": "no me gusta la sopa"
         }
       ],
       "MARTES": [
         {
           "nick": "BLACK",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
-          "excepcion": ""
+          "excepcion": "a veces me da calor"
         }
       ],
       "MIERCOLES": [
@@ -1807,10 +1807,10 @@
     "fichas": [
       {
         "nick": "BLACK",
-        "sectores": "El centro y sector sur",
+        "sectores": "sector sur y el sector central",
         "categorias": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
-        "favoritos": "Me gustan varios tipos de juegos, le doy a todo xD",
-        "coleccion": "No suelo llevar juegos xD"
+        "favoritos": "tocarte",
+        "coleccion": "ninguno no suelo llevar juegos voy a jugar xD"
       }
     ]
   }
