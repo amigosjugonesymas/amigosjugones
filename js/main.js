@@ -180,6 +180,10 @@ function initRadar() {
     renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
 }
 
+/**
+ * MODIFICACIÓN: Se añade la visualización de excepciones/notas 
+ * directamente en la tarjeta principal (player-card).
+ */
 window.renderRadarDay = (day, btn) => {
     if(btn) {
         document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
@@ -198,6 +202,11 @@ window.renderRadarDay = (day, btn) => {
             <div>
                 <strong style="font-size:1.1rem; color:var(--primary);">${p.nick}</strong><br>
                 <small style="font-weight:600;"><i class="bi bi-clock"></i> ${p.horario}</small>
+                
+                ${p.excepcion ? `
+                    <div style="font-size: 0.85rem; color: #666; font-style: italic; margin-top: 5px; border-top: 1px solid #eee; padding-top: 3px;">
+                        <i class="bi bi-chat-dots-fill" style="font-size: 0.75rem;"></i> ${p.excepcion}
+                    </div>` : ''}
             </div>
             <i class="bi bi-plus-circle-fill" style="color:var(--accent);"></i>
         </div>
@@ -209,7 +218,6 @@ window.toggleRadarDetail = (idx) => {
     const el = document.getElementById(`radar-det-${idx}`);
     if(el.style.display === 'block') { el.style.display = 'none'; return; }
     
-    // Obtener Nick de la tarjeta
     const nick = document.querySelectorAll('.player-card strong')[idx].innerText;
     const f = window.cacheData.disponibilidad.fichas.find(ficha => ficha.nick === nick) || {};
     const d = window.cacheData.disponibilidad.dias[document.querySelector('.day-btn.active').innerText.toUpperCase()] || [];
