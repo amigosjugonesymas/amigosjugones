@@ -1750,7 +1750,7 @@
             "url": "https://forms.gle/eizA6omFeYR1fNaXA"
           },
           {
-            "nombre": "Tu Disponibilidada para jugar",
+            "nombre": "Tu Disponibilidad para jugar",
             "url": "https://forms.gle/mmhX4Qx1AP2a4Tci8"
           }
         ]
@@ -1789,6 +1789,11 @@
           "nick": "Cecy",
           "horario": "Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
         }
       ],
       "MARTES": [
@@ -1821,6 +1826,11 @@
           "nick": "Cecy",
           "horario": "Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
         }
       ],
       "MIERCOLES": [
@@ -1853,6 +1863,11 @@
           "nick": "Cecy",
           "horario": "Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
         }
       ],
       "JUEVES": [
@@ -1885,6 +1900,11 @@
           "nick": "Cecy",
           "horario": "Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "desde las 19:30 pero si es muy lejos sería con quedarse"
         }
       ],
       "VIERNES": [
@@ -1917,6 +1937,11 @@
           "nick": "Cecy",
           "horario": "Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "desde las 18:30 pero si es muy lejos sería con quedarse"
         }
       ],
       "SABADO": [
@@ -1949,6 +1974,11 @@
           "nick": "Cecy",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "todo el dia y si es muy lejos, con quedada *a menos que tenga evento ese dia"
         }
       ],
       "DOMINGO": [
@@ -1981,6 +2011,11 @@
           "nick": "Cecy",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "llako",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": "todo el dia a menos que sea muy lejos, ahi con quedada. *excepto si tengo eventos"
         }
       ]
     },
