@@ -1809,6 +1809,11 @@
           "nick": "Gerson",
           "horario": "No tengo disponible este dia",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "MARTES": [
@@ -1861,6 +1866,11 @@
           "nick": "Gerson",
           "horario": "Tarde (13:00 - 17:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "MIERCOLES": [
@@ -1913,6 +1923,11 @@
           "nick": "Gerson",
           "horario": "Tarde (13:00 - 17:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "JUEVES": [
@@ -1965,6 +1980,11 @@
           "nick": "Gerson",
           "horario": "Tarde (13:00 - 17:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "VIERNES": [
@@ -2017,6 +2037,11 @@
           "nick": "Gerson",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "SABADO": [
@@ -2069,6 +2094,11 @@
           "nick": "Gerson",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ],
       "DOMINGO": [
@@ -2121,6 +2151,11 @@
           "nick": "Gerson",
           "horario": "No tengo disponible este dia",
           "excepcion": ""
+        },
+        {
+          "nick": "angel",
+          "horario": "No tengo disponible este dia",
+          "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
         }
       ]
     },
