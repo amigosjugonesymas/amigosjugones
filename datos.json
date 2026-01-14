@@ -1814,6 +1814,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": "Enero y hasta fines de febrero estoy de vacaciones así que puedo en amplio rango horario"
         }
       ],
       "MARTES": [
@@ -1871,6 +1876,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "MIERCOLES": [
@@ -1928,6 +1938,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "JUEVES": [
@@ -1985,6 +2000,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "VIERNES": [
@@ -2042,6 +2062,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "SABADO": [
@@ -2099,6 +2124,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -2156,6 +2186,11 @@
           "nick": "angel",
           "horario": "No tengo disponible este dia",
           "excepcion": "turno rotativo,depende de la semana puedo mañana/tarde o tarde/noche"
+        },
+        {
+          "nick": "Lorena V.P",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ]
     },
