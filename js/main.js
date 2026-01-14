@@ -77,8 +77,10 @@ function renderMenu(names) {
 }
 
 // --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
+// --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
 function displayData(name, shouldPushState = true) {
     window.scrollTo(0, 0);
+    
     const indicator = document.getElementById('current-title-display');
     if(indicator) indicator.innerText = name;
     
@@ -86,7 +88,11 @@ function displayData(name, shouldPushState = true) {
     const list = document.getElementById('links-list');
     if(!data || !list) return;
 
-    let html = data.introduccion ? `<div class="seccion-intro">${data.introduccion}</div>` : "";
+    // MODIFICACIÓN: Si es "Nosotros", el HTML de intro empieza vacío.
+    // Para las demás secciones, si hay introducción, se renderiza.
+    let html = (name !== "Nosotros" && data.introduccion) 
+               ? `<div class="seccion-intro">${data.introduccion}</div>` 
+               : "";
 
     if (data.tipo === 'subpestañas') {
         let tabs = Object.keys(data.datos);
@@ -276,4 +282,5 @@ function renderFooter(currentName) {
         </div>
     `;
 }
+
 
