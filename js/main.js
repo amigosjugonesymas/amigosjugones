@@ -4,10 +4,21 @@
  */
 
 window.cacheData = {};
-let fullOrder = ["Nosotros"];
 
-// 1. CAMBIO: Se incluye "Radar" y se renombra "Inscripciones" a "Formularios"
-const todasLasSecciones = ["Nosotros", "Radar", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Formularios"];
+// 1. ORDEN Y NOMBRES DEFINITIVOS DEL MENÚ
+const todasLasSecciones = [
+    "Nosotros", 
+    "Calendario", 
+    "Actividades", 
+    "Radar Jugón", 
+    "Participantes", 
+    "Divulgadores", 
+    "Creadores", 
+    "Organizaciones", 
+    "Tiendas", 
+    "Documentos", 
+    "Formularios"
+];
 
 // Determinar sección actual por URL
 const path = window.location.pathname.split("/").pop();
@@ -18,8 +29,9 @@ let seccionInicial = (paginaActual === "index" || paginaActual === "")
     ? "Nosotros" 
     : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
 
-// 2. CAMBIO: Si la página es inscripciones, el título visual debe ser Formularios
+// Mapeo de nombres de archivo a nombres visuales
 if (paginaActual === "inscripciones") seccionInicial = "Formularios";
+if (paginaActual === "radar") seccionInicial = "Radar Jugón";
 
 // --- UTILIDADES ---
 function getContrastYIQ(hexcolor){
@@ -41,21 +53,27 @@ function toggleMenu() {
 
 // --- CARGA INICIAL ---
 window.onload = () => {
+    // Lógica para que el Logo del Sidebar lleve a Inicio
+    const sidebarLogo = document.querySelector('.sidebar-logo-large');
+    if (sidebarLogo) {
+        sidebarLogo.style.cursor = "pointer";
+        sidebarLogo.onclick = () => window.location.href = 'index.html';
+    }
+
     fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
-        // Mapear los datos de "Inscripciones" del JSON al nombre "Formularios" en la caché
+        // Mapear datos a nombres visuales en caché
         window.cacheData = {
             "Nosotros": res.initial.contenido,
             ...res.remaining.contenido,
-            "Formularios": res.remaining.contenido["Inscripciones"], // Vincular datos
+            "Formularios": res.remaining.contenido["Inscripciones"],
+            "Radar Jugón": res.disponibilidad,
             "disponibilidad": res.disponibilidad 
         };
         
-        // 3. CAMBIO: Asegurar que el orden del menú use el nombre nuevo
-        fullOrder = ["Nosotros", "Radar", ...res.remaining.orden.map(n => n === "Inscripciones" ? "Formularios" : n)];
-        
-        renderMenu(fullOrder);
+        // Renderizar menú con el orden exacto de todasLasSecciones
+        renderMenu(todasLasSecciones);
         
         if (paginaActual === "radar") {
             initRadar();
@@ -79,8 +97,8 @@ function renderMenu(names) {
             let url;
             const cleanName = name.toLowerCase();
             if (cleanName === 'nosotros') url = 'index.html';
-            else if (cleanName === 'radar') url = 'radar.html';
-            else if (cleanName === 'formularios') url = 'inscripciones.html'; // Mantiene el archivo original
+            else if (cleanName === 'radar jugón') url = 'radar.html';
+            else if (cleanName === 'formularios') url = 'inscripciones.html';
             else url = cleanName + '.html';
             window.location.href = url;
         };
@@ -99,7 +117,7 @@ function displayData(name, shouldPushState = true) {
     const list = document.getElementById('links-list');
     if(!data || !list) return;
 
-    // Se mantiene la excepción de Nosotros
+    // Excepción para Nosotros: No mostrar encabezado seccion-intro
     let html = (name !== "Nosotros" && data.introduccion) 
                ? `<div class="seccion-intro">${data.introduccion}</div>` 
                : "";
@@ -119,8 +137,6 @@ function displayData(name, shouldPushState = true) {
 
     list.innerHTML += renderFooter(name);
 }
-
-// --- (Las funciones renderTable y renderOthers se mantienen igual) ---
 
 function renderTable(btn, parentName, subName) {
     if(btn) { 
@@ -181,12 +197,12 @@ function renderOthers(data) {
     return "";
 }
 
-// --- LÓGICA DEL RADAR (Igual que antes) ---
+// --- LÓGICA DEL RADAR ---
 function initRadar() {
     const root = document.getElementById('radar-root');
     const indicator = document.getElementById('current-title-display');
     if(!root) return;
-    if(indicator) indicator.innerText = "Radar";
+    if(indicator) indicator.innerText = "Radar Jugón";
 
     const dataDisp = window.cacheData["disponibilidad"];
     const introHtml = (dataDisp && dataDisp.introduccionFichas) 
@@ -201,7 +217,7 @@ function initRadar() {
             ).join('')}
         </div>
         <div id="playerList"></div>
-        ${renderFooter("Radar")}
+        ${renderFooter("Radar Jugón")}
     `;
     renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
 }
@@ -224,11 +240,7 @@ window.renderRadarDay = (day, btn) => {
             <div>
                 <strong style="font-size:1.1rem; color:var(--primary);">${p.nick}</strong><br>
                 <small style="font-weight:600;"><i class="bi bi-clock"></i> ${p.horario}</small>
-                
-                ${p.excepcion ? `
-                    <div style="font-size: 0.85rem; color: #666; font-style: italic; margin-top: 5px; border-top: 1px solid #eee; padding-top: 3px;">
-                        <i class="bi bi-chat-dots-fill" style="font-size: 0.75rem;"></i> ${p.excepcion}
-                    </div>` : ''}
+                ${p.excepcion ? `<div style="font-size: 0.85rem; color: #666; font-style: italic; margin-top: 5px; border-top: 1px solid #eee; padding-top: 3px;"><i class="bi bi-chat-dots-fill"></i> ${p.excepcion}</div>` : ''}
             </div>
             <i class="bi bi-plus-circle-fill" style="color:var(--accent);"></i>
         </div>
@@ -264,7 +276,7 @@ function renderFooter(currentName) {
             <div class="footer-label">Navegación Rápida</div>
             <div class="footer-btns">
                 ${todasLasSecciones.filter(s => s !== currentName).map(s => `
-                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : (s.toLowerCase() === 'formularios' ? 'inscripciones.html' : s.toLowerCase() + '.html')}" class="footer-btn">${s}</a>
+                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : (s === 'Radar Jugón' ? 'radar.html' : (s === 'Formularios' ? 'inscripciones.html' : s.toLowerCase() + '.html'))}" class="footer-btn">${s}</a>
                 `).join('')}
             </div>
             <div class="contact-bar">
