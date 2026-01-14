@@ -5,12 +5,21 @@
 
 window.cacheData = {};
 let fullOrder = ["Nosotros"];
-const todasLasSecciones = ["Nosotros", "Radar", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Inscripciones"];
+
+// 1. CAMBIO: Se incluye "Radar" y se renombra "Inscripciones" a "Formularios"
+const todasLasSecciones = ["Nosotros", "Radar", "Calendario", "Actividades", "Participantes", "Divulgadores", "Creadores", "Organizaciones", "Tiendas", "Documentos", "Formularios"];
 
 // Determinar sección actual por URL
 const path = window.location.pathname.split("/").pop();
 const paginaActual = path.replace(".html", "") || "index";
-const seccionInicial = (paginaActual === "index" || paginaActual === "") ? "Nosotros" : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
+
+// Ajuste para el nombre visual de la sección inicial
+let seccionInicial = (paginaActual === "index" || paginaActual === "") 
+    ? "Nosotros" 
+    : paginaActual.charAt(0).toUpperCase() + paginaActual.slice(1);
+
+// 2. CAMBIO: Si la página es inscripciones, el título visual debe ser Formularios
+if (paginaActual === "inscripciones") seccionInicial = "Formularios";
 
 // --- UTILIDADES ---
 function getContrastYIQ(hexcolor){
@@ -27,7 +36,7 @@ function getContrastYIQ(hexcolor){
 function toggleMenu() { 
     document.getElementById('sidebar').classList.toggle('open'); 
     document.getElementById('overlay').classList.toggle('show'); 
-    document.getElementById('hamburguesa').style.animation = "none";
+    if(document.getElementById('hamburguesa')) document.getElementById('hamburguesa').style.animation = "none";
 }
 
 // --- CARGA INICIAL ---
@@ -35,17 +44,19 @@ window.onload = () => {
     fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
-        // Guardar datos en caché global
+        // Mapear los datos de "Inscripciones" del JSON al nombre "Formularios" en la caché
         window.cacheData = {
             "Nosotros": res.initial.contenido,
             ...res.remaining.contenido,
-            "disponibilidad": res.disponibilidad // Datos para el Radar
+            "Formularios": res.remaining.contenido["Inscripciones"], // Vincular datos
+            "disponibilidad": res.disponibilidad 
         };
         
-        fullOrder = ["Nosotros", "Radar", ...res.remaining.orden];
+        // 3. CAMBIO: Asegurar que el orden del menú use el nombre nuevo
+        fullOrder = ["Nosotros", "Radar", ...res.remaining.orden.map(n => n === "Inscripciones" ? "Formularios" : n)];
+        
         renderMenu(fullOrder);
         
-        // Decidir qué renderizar
         if (paginaActual === "radar") {
             initRadar();
         } else {
@@ -69,6 +80,7 @@ function renderMenu(names) {
             const cleanName = name.toLowerCase();
             if (cleanName === 'nosotros') url = 'index.html';
             else if (cleanName === 'radar') url = 'radar.html';
+            else if (cleanName === 'formularios') url = 'inscripciones.html'; // Mantiene el archivo original
             else url = cleanName + '.html';
             window.location.href = url;
         };
@@ -76,7 +88,6 @@ function renderMenu(names) {
     });
 }
 
-// --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
 // --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
 function displayData(name, shouldPushState = true) {
     window.scrollTo(0, 0);
@@ -88,8 +99,7 @@ function displayData(name, shouldPushState = true) {
     const list = document.getElementById('links-list');
     if(!data || !list) return;
 
-    // MODIFICACIÓN: Si es "Nosotros", el HTML de intro empieza vacío.
-    // Para las demás secciones, si hay introducción, se renderiza.
+    // Se mantiene la excepción de Nosotros
     let html = (name !== "Nosotros" && data.introduccion) 
                ? `<div class="seccion-intro">${data.introduccion}</div>` 
                : "";
@@ -109,6 +119,8 @@ function displayData(name, shouldPushState = true) {
 
     list.innerHTML += renderFooter(name);
 }
+
+// --- (Las funciones renderTable y renderOthers se mantienen igual) ---
 
 function renderTable(btn, parentName, subName) {
     if(btn) { 
@@ -169,12 +181,20 @@ function renderOthers(data) {
     return "";
 }
 
-// --- LÓGICA ESPECÍFICA DEL RADAR DE JUGONES ---
+// --- LÓGICA DEL RADAR (Igual que antes) ---
 function initRadar() {
     const root = document.getElementById('radar-root');
+    const indicator = document.getElementById('current-title-display');
     if(!root) return;
+    if(indicator) indicator.innerText = "Radar";
+
+    const dataDisp = window.cacheData["disponibilidad"];
+    const introHtml = (dataDisp && dataDisp.introduccionFichas) 
+        ? `<div class="seccion-intro">${dataDisp.introduccionFichas}</div>` 
+        : "";
 
     root.innerHTML = `
+        ${introHtml}
         <div class="day-selector">
             ${["LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO","DOMINGO"].map((d, i) => 
                 `<button class="day-btn ${i===0?'active':''}" onclick="renderRadarDay('${d}', this)">${d.substring(0,3)}</button>`
@@ -186,10 +206,6 @@ function initRadar() {
     renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
 }
 
-/**
- * MODIFICACIÓN: Se añade la visualización de excepciones/notas 
- * directamente en la tarjeta principal (player-card).
- */
 window.renderRadarDay = (day, btn) => {
     if(btn) {
         document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
@@ -241,30 +257,6 @@ window.toggleRadarDetail = (idx) => {
     el.style.display = 'block';
 };
 
-// --- LÓGICA ESPECÍFICA DEL RADAR DE JUGONES ---
-function initRadar() {
-    const root = document.getElementById('radar-root');
-    if(!root) return;
-
-    // Obtener la intro desde los datos de disponibilidad
-    const dataDisp = window.cacheData["disponibilidad"];
-    const introHtml = (dataDisp && dataDisp.introduccionFichas) 
-        ? `<div class="seccion-intro">${dataDisp.introduccionFichas}</div>` 
-        : "";
-
-    root.innerHTML = `
-        ${introHtml}
-        <div class="day-selector">
-            ${["LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO","DOMINGO"].map((d, i) => 
-                `<button class="day-btn ${i===0?'active':''}" onclick="renderRadarDay('${d}', this)">${d.substring(0,3)}</button>`
-            ).join('')}
-        </div>
-        <div id="playerList"></div>
-        ${renderFooter("Radar")}
-    `;
-    renderRadarDay('LUNES', document.querySelector('.day-btn.active'));
-}
-
 // --- FOOTER COMÚN ---
 function renderFooter(currentName) {
     return `
@@ -272,7 +264,7 @@ function renderFooter(currentName) {
             <div class="footer-label">Navegación Rápida</div>
             <div class="footer-btns">
                 ${todasLasSecciones.filter(s => s !== currentName).map(s => `
-                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : s.toLowerCase() + '.html'}" class="footer-btn">${s}</a>
+                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : (s.toLowerCase() === 'formularios' ? 'inscripciones.html' : s.toLowerCase() + '.html')}" class="footer-btn">${s}</a>
                 `).join('')}
             </div>
             <div class="contact-bar">
@@ -282,5 +274,3 @@ function renderFooter(currentName) {
         </div>
     `;
 }
-
-
