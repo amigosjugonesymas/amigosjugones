@@ -1804,6 +1804,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "No tan tarde noche, maximo a las 20:30"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "No tengo disponible este dia",
+          "excepcion": ""
         }
       ],
       "MARTES": [
@@ -1851,6 +1856,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "No tan tarde noche, maximo a las 20:30"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "Tarde (13:00 - 17:00)",
+          "excepcion": ""
         }
       ],
       "MIERCOLES": [
@@ -1898,6 +1908,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00)",
           "excepcion": "A veces tardes libres según mi pega"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "Tarde (13:00 - 17:00)",
+          "excepcion": ""
         }
       ],
       "JUEVES": [
@@ -1945,6 +1960,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00)",
           "excepcion": "a veces tardes libres según mi pega"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "Tarde (13:00 - 17:00)",
+          "excepcion": ""
         }
       ],
       "VIERNES": [
@@ -1992,6 +2012,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "no tan tarde, maximo 20:30"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "SABADO": [
@@ -2039,6 +2064,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "A veces trabajo en las mañanas"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "DOMINGO": [
@@ -2086,6 +2116,11 @@
           "nick": "Ps Mauricio Leiva",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00)",
           "excepcion": "no tan tarde, maximo hasta 20:30"
+        },
+        {
+          "nick": "Gerson",
+          "horario": "No tengo disponible este dia",
+          "excepcion": ""
         }
       ]
     },
