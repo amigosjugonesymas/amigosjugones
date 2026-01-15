@@ -53,11 +53,18 @@ function toggleMenu() {
 
 // --- CARGA INICIAL ---
 window.onload = () => {
-    // Lógica para que el Logo del Sidebar lleve a Inicio
+    // A. Logo del Sidebar lleva a Inicio
     const sidebarLogo = document.querySelector('.sidebar-logo-large');
     if (sidebarLogo) {
         sidebarLogo.style.cursor = "pointer";
         sidebarLogo.onclick = () => window.location.href = 'index.html';
+    }
+
+    // B. NUEVO: Logo y Título de la Barra Superior (nav-brand) llevan a Inicio
+    const navBrand = document.querySelector('.nav-brand');
+    if (navBrand) {
+        navBrand.style.cursor = "pointer";
+        navBrand.onclick = () => window.location.href = 'index.html';
     }
 
     fetch('datos.json?v=' + new Date().getTime())
@@ -72,7 +79,6 @@ window.onload = () => {
             "disponibilidad": res.disponibilidad 
         };
         
-        // Renderizar menú con el orden exacto de todasLasSecciones
         renderMenu(todasLasSecciones);
         
         if (paginaActual === "radar") {
@@ -109,7 +115,6 @@ function renderMenu(names) {
 // --- RENDERIZADO DE SECCIONES ESTÁNDAR ---
 function displayData(name, shouldPushState = true) {
     window.scrollTo(0, 0);
-    
     const indicator = document.getElementById('current-title-display');
     if(indicator) indicator.innerText = name;
     
@@ -117,7 +122,6 @@ function displayData(name, shouldPushState = true) {
     const list = document.getElementById('links-list');
     if(!data || !list) return;
 
-    // Excepción para Nosotros: No mostrar encabezado seccion-intro
     let html = (name !== "Nosotros" && data.introduccion) 
                ? `<div class="seccion-intro">${data.introduccion}</div>` 
                : "";
@@ -134,7 +138,6 @@ function displayData(name, shouldPushState = true) {
     } else {
         list.innerHTML = html + renderOthers(data);
     }
-
     list.innerHTML += renderFooter(name);
 }
 
