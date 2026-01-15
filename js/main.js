@@ -60,7 +60,7 @@ window.onload = () => {
         sidebarLogo.onclick = () => window.location.href = 'index.html';
     }
 
-    // B. NUEVO: Logo y Título de la Barra Superior (nav-brand) llevan a Inicio
+    // B. Logo y Título de la Barra Superior (nav-brand) llevan a Inicio
     const navBrand = document.querySelector('.nav-brand');
     if (navBrand) {
         navBrand.style.cursor = "pointer";
@@ -70,7 +70,6 @@ window.onload = () => {
     fetch('datos.json?v=' + new Date().getTime())
     .then(response => response.json())
     .then(res => {
-        // Mapear datos a nombres visuales en caché
         window.cacheData = {
             "Nosotros": res.initial.contenido,
             ...res.remaining.contenido,
@@ -171,7 +170,7 @@ function renderTable(btn, parentName, subName) {
 
 function renderOthers(data) {
     if(data.tipo === 'calendar') {
-        return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugonesymas%40gmail.com&ctz=America%2FSantiago" style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
+        return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugones%40gmail.com&ctz=America%2FSantiago" style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
     }
     if(data.tipo === 'botones') {
         return `<div class="button-grid">` + 
@@ -272,15 +271,27 @@ window.toggleRadarDetail = (idx) => {
     el.style.display = 'block';
 };
 
-// --- FOOTER COMÚN ---
+// --- FOOTER COMÚN CORREGIDO ---
 function renderFooter(currentName) {
+    // Generar los botones del footer filtrando la sección actual
+    const footerButtonsHtml = todasLasSecciones
+        .filter(s => s !== currentName) // No mostrar el botón de la página donde ya estamos
+        .map(s => {
+            let url;
+            if (s === "Nosotros") url = 'index.html';
+            else if (s === "Radar Jugón") url = 'radar.html';
+            else if (s === "Formularios") url = 'inscripciones.html';
+            else url = s.toLowerCase() + '.html';
+            
+            return `<a href="${url}" class="footer-btn">${s}</a>`;
+        })
+        .join('');
+
     return `
         <div class="section-footer">
             <div class="footer-label">Navegación Rápida</div>
             <div class="footer-btns">
-                ${todasLasSecciones.filter(s => s !== currentName).map(s => `
-                    <a href="${s.toLowerCase() === 'nosotros' ? 'index.html' : (s === 'Radar Jugón' ? 'radar.html' : (s === 'Formularios' ? 'inscripciones.html' : s.toLowerCase() + '.html'))}" class="footer-btn">${s}</a>
-                `).join('')}
+                ${footerButtonsHtml}
             </div>
             <div class="contact-bar">
                 <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" class="social-link link-ig">📸 Instagram</a>
