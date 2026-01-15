@@ -1294,6 +1294,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1304,6 +1308,10 @@
               {
                 "texto": "PUNTOS",
                 "color": "#9900ff"
+              },
+              {
+                "texto": "SEMANA",
+                "color": "#38761d"
               }
             ],
             [
@@ -1313,6 +1321,10 @@
               },
               {
                 "texto": "1",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "29 dic al 4 de enero",
                 "color": "#ffffff"
               }
             ]
