@@ -2112,6 +2112,88 @@
                 "color": "#ffffff"
               }
             ]
+          ],
+          "Rescata un Juego": [
+            [
+              {
+                "texto": "RANKING RESCATA UN JUEGO",
+                "color": "#ff0000"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JUEGO",
+                "color": "#6aa84f"
+              },
+              {
+                "texto": "PUNTOS",
+                "color": "#3c78d8"
+              }
+            ],
+            [
+              {
+                "texto": "Arnak",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Formula 31 minutos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Flame craft",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "The island",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "La casa de caramelos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Story cubes",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ]
           ]
         }
       },
