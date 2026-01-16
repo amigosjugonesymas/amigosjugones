@@ -1529,6 +1529,16 @@
                 "texto": "5",
                 "color": "#ffffff"
               }
+            ],
+            [
+              {
+                "texto": "Papá Lobo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
             ]
           ]
         }
