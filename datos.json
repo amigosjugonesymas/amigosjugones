@@ -1519,6 +1519,16 @@
                 "texto": "1",
                 "color": "#ffffff"
               }
+            ],
+            [
+              {
+                "texto": "Anto",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
             ]
           ]
         }
