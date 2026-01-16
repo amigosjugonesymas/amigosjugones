@@ -2406,6 +2406,10 @@
         "introduccion": "📝 Inscripciones. Aquí encontrarás los formularios de registro para nuestras dinámicas y actividades, además de las inscripciones a los grandes eventos de nuestras comunidades aliadas. ¡No te quedes fuera del próximo turno!",
         "items": [
           {
+            "nombre": "Contactanos",
+            "url": "https://forms.gle/C2qemZLJj7Gosj1N9"
+          },
+          {
             "nombre": "Tu fecha de cumpleaños",
             "url": "https://forms.gle/eizA6omFeYR1fNaXA"
           },
