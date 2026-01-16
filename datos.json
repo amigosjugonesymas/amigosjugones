@@ -1346,7 +1346,7 @@
                 "color": "#ff9900"
               },
               {
-                "texto": "PUNTOS TOTALES",
+                "texto": "Puntos diarios",
                 "color": "#93c47d"
               }
             ],
@@ -1356,7 +1356,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1366,7 +1366,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1376,7 +1376,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1386,7 +1386,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "19",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1396,7 +1396,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1406,7 +1406,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1416,7 +1416,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "22",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1426,7 +1426,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "24",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1436,7 +1436,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "19",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1446,7 +1446,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "22",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1456,7 +1456,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "12",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1466,7 +1466,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1476,7 +1476,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1486,7 +1486,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1496,7 +1496,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1506,7 +1506,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "6",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1516,7 +1516,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "1",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1526,7 +1526,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1536,7 +1536,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "",
                 "color": "#ffffff"
               }
             ]
