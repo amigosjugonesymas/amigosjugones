@@ -1352,6 +1352,96 @@
             ],
             [
               {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "11",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karlita",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Jessy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Black",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Anto (Rulitos)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ricardo Ruz",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Arturo Vial ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Estefi ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Anto Orellana",
                 "color": "#ffffff"
               },
@@ -1382,86 +1472,6 @@
             ],
             [
               {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Arturo Vial ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Estefi ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Cecy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "11",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Anto (Rulitos)",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Karl",
                 "color": "#ffffff"
               },
@@ -1482,41 +1492,11 @@
             ],
             [
               {
-                "texto": "Ricardo Ruz",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Angel ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Alexander ",
                 "color": "#ffffff"
               },
               {
                 "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Nuria",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
                 "color": "#ffffff"
               }
             ],
@@ -1537,6 +1517,26 @@
               },
               {
                 "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Angel ",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nuria",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
                 "color": "#ffffff"
               }
             ]
