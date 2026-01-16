@@ -170,7 +170,12 @@ function renderTable(btn, parentName, subName) {
 
 function renderOthers(data) {
     if(data.tipo === 'calendar') {
-        return `<iframe src="https://calendar.google.com/calendar/embed?src=amigosjugones%40gmail.com&ctz=America%2FSantiago" style="border:0; width:100%; height:600px; border-radius:12px;"></iframe>`;
+        // MEJORA: Enlace de inserción correcto para Amigos Jugones y Más
+        const calendarUrl = "https://calendar.google.com/calendar/embed?src=amigosjugonesymas%40gmail.com&ctz=America%2FSantiago&mode=AGENDA";
+        return `
+            <div style="position: relative; overflow: hidden; width: 100%; padding-top: 56.25%; border-radius: 12px; min-height: 500px;">
+                <iframe src="${calendarUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" frameborder="0" scrolling="no"></iframe>
+            </div>`;
     }
     if(data.tipo === 'botones') {
         return `<div class="button-grid">` + 
@@ -273,9 +278,8 @@ window.toggleRadarDetail = (idx) => {
 
 // --- FOOTER COMÚN CORREGIDO ---
 function renderFooter(currentName) {
-    // Generar los botones del footer filtrando la sección actual
     const footerButtonsHtml = todasLasSecciones
-        .filter(s => s !== currentName) // No mostrar el botón de la página donde ya estamos
+        .filter(s => s !== currentName) 
         .map(s => {
             let url;
             if (s === "Nosotros") url = 'index.html';
