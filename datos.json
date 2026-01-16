@@ -1630,6 +1630,488 @@
                 "color": "#ffffff"
               }
             ]
+          ],
+          "Votaciones de los Juegos": [
+            [
+              {
+                "texto": "VOTACIONES DE LOS JUEGOS",
+                "color": "#ff0000"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JUEGO",
+                "color": "#93c47d"
+              },
+              {
+                "texto": "NOTA",
+                "color": "#e06666"
+              }
+            ],
+            [
+              {
+                "texto": "Whispering Woods",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4.2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Faraway",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4.1",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Flip 7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4.1",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Splendor",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Skull King",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Azul",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Yokai Pagoda",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "rebel princess",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Némesis",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Coffee Rush",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Brass Birmingham",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Gloomhaven",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Tichu",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ark Nova",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Dracula Vs Van Helsing",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Saboteur",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Harmonies",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Twilight Struggle",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "eldritch horror",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Aventureros al tren",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Dragones del Mar",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "CDMD",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "mandala stones",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Bitoku",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "7 Wonders",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Art society",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "blood rage",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "mansiones de la locura",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Carcassonne",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "rising sun",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Chakra",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "draftosaurus",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Alebrijes",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Naturalia",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "cards vs gravity",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Sand",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Donde las Papas Queman",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Pandemic",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "trench crusade",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Zombiecide",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.2",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Risk",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3.1",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "salami",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Isla prohibida",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Trama",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Catan",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2.5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Mala Leche",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1.3",
+                "color": "#ffffff"
+              }
+            ]
           ]
         }
       },
