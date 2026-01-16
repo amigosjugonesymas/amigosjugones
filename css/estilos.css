@@ -50,11 +50,43 @@ body {
     animation: pulse-glow 2.5s infinite; 
 }
 
-.nav-brand { display: flex; align-items: center; gap: 10px; }
-.nav-logo { width: 38px; height: 38px; border-radius: 50%; background: white; border: 2px solid var(--white); object-fit: cover; }
-.nav-main-title { font-weight: 700; font-size: 1rem; letter-spacing: -0.5px; white-space: nowrap; }
-.current-section-indicator { margin-left: auto; font-size: 0.75rem; font-weight: 700; color: var(--accent); background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 15px; text-transform: uppercase; }
+.nav-brand { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer; 
+    transition: opacity 0.2s;
+}
+.nav-brand:hover { opacity: 0.8; }
 
+.nav-logo { 
+    width: 38px; 
+    height: 38px; 
+    border-radius: 50%; 
+    background: white; 
+    border: 2px solid var(--white); 
+    object-fit: cover; 
+}
+
+.nav-main-title { 
+    font-weight: 700; 
+    font-size: 1rem; 
+    letter-spacing: -0.5px; 
+    white-space: nowrap; 
+}
+
+.current-section-indicator { 
+    margin-left: auto; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    color: var(--accent); 
+    background: rgba(255,255,255,0.1); 
+    padding: 5px 12px; 
+    border-radius: 15px; 
+    text-transform: uppercase; 
+}
+
+/* SIDEBAR */
 .sidebar { 
     position: fixed; 
     left: -280px; 
@@ -69,8 +101,29 @@ body {
 }
 
 .sidebar.open { left: 0; }
-.sidebar-header { padding: 30px 20px; background: var(--primary); color: white; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 4px solid var(--accent); }
-.sidebar-logo-large { width: 70px; height: 70px; border-radius: 50%; background: white; padding: 3px; }
+
+.sidebar-header { 
+    padding: 30px 20px; 
+    background: var(--primary); 
+    color: white; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+    border-bottom: 4px solid var(--accent); 
+}
+
+.sidebar-logo-large { 
+    width: 70px; 
+    height: 70px; 
+    border-radius: 50%; 
+    background: white; 
+    padding: 3px; 
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.sidebar-logo-large:hover { transform: scale(1.1) rotate(5deg); }
+
 .sidebar-title { font-weight: 700; font-size: 1.1rem; }
 
 .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
@@ -92,9 +145,30 @@ body {
     font-style: italic;
     font-size: 14px;
     line-height: 1.5;
-    /* Añadido para mejorar lectura */
     color: #444;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+/* SECCIÓN CALENDARIO OPTIMIZADA */
+.calendar-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 100%; /* Cuadrado para móvil */
+    border-radius: 12px;
+    background: #eee;
+}
+
+@media (min-width: 768px) {
+    .calendar-container { padding-top: 600px; } /* Altura fija en desktop */
+}
+
+.calendar-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* SECCIÓN NOSOTROS */
@@ -103,7 +177,7 @@ body {
 .nosotros-bloque-texto-agrupado { font-size: 17px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 20px; padding-left: 15px; border-left: 5px solid var(--accent); }
 .nosotros-bloque-texto-agrupado p { margin: 0 0 12px 0; }
 
-/* COMPONENTES DEL RADAR DE JUGONES */
+/* RADAR DE JUGONES */
 .day-selector { 
     display: flex; 
     gap: 10px; 
@@ -126,22 +200,13 @@ body {
     font-size: 12px; 
     color: var(--primary); 
     flex-shrink: 0; 
-    text-align: center; /* Asegura que el texto esté centrado en la columna */
+    text-align: center;
 }
 
 .day-btn.active { 
     background: var(--accent); 
     color: white; 
     box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); 
-}
-
-.nota-rapida-radar {
-    font-size: 0.85rem; 
-    color: #666; 
-    font-style: italic; 
-    margin-top: 4px; 
-    border-top: 1px solid #eee; 
-    padding-top: 2px; 
 }
 
 .player-card { background: white; border: 1px solid var(--gray-light); border-radius: 15px; margin-bottom: 12px; transition: 0.2s; cursor: pointer; border-left: 6px solid var(--whatsapp); padding: 18px; display: flex; justify-content: space-between; align-items: center; }
@@ -166,7 +231,7 @@ table { width: 100%; border-collapse: collapse; min-width: 600px; }
 th, td { padding: 14px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; text-align: left; }
 .table-main-title { font-size: 1.2rem; text-align: center !important; padding: 20px; font-weight: 700; }
 
-/* FOOTER Y BOTONES */
+/* FOOTER */
 .section-footer { margin-top: 50px; padding-top: 30px; border-top: 2px solid #f0f0f0; text-align: center; }
 .footer-label { font-size: 11px; font-weight: 800; color: #b2bec3; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; }
 .footer-btns { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; max-width: 800px; margin: 0 auto; }
@@ -188,24 +253,23 @@ th, td { padding: 14px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; 
 .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 60px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* --- RESPONSIVE: ORGANIZACIÓN EN CUADRÍCULA (3 botones por fila) --- */
+/* RESPONSIVE: ORGANIZACIÓN EN CUADRÍCULA */
 @media (max-width: 600px) {
     .day-selector {
-        display: grid; /* Cambiamos Flex por Grid */
-        grid-template-columns: repeat(3, 1fr); /* Crea 3 columnas iguales */
-        gap: 8px; /* Espacio entre botones */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
         overflow-x: visible; 
         padding: 10px;
     }
     
     .day-btn {
-        width: 100%; /* Ahora el 100% significa el 100% de su celda (que es 1/3 del total) */
-        white-space: normal; /* Permite que el texto respire si es largo */
-        font-size: 11px; /* Ajustamos un poco para que no se desborde */
+        width: 100%;
+        white-space: normal;
+        font-size: 11px;
         padding: 10px 5px;
-        border-radius: 12px; /* Un radio más pequeño suele verse mejor en cuadrícula */
+        border-radius: 12px;
     }
+
+    .grid-ficha { grid-template-columns: 1fr; }
 }
-
-
-
