@@ -53,14 +53,12 @@ function toggleMenu() {
 
 // --- CARGA INICIAL ---
 window.onload = () => {
-    // A. Logo del Sidebar lleva a Inicio
     const sidebarLogo = document.querySelector('.sidebar-logo-large');
     if (sidebarLogo) {
         sidebarLogo.style.cursor = "pointer";
         sidebarLogo.onclick = () => window.location.href = 'index.html';
     }
 
-    // B. Logo y Título de la Barra Superior (nav-brand) llevan a Inicio
     const navBrand = document.querySelector('.nav-brand');
     if (navBrand) {
         navBrand.style.cursor = "pointer";
@@ -170,11 +168,13 @@ function renderTable(btn, parentName, subName) {
 
 function renderOthers(data) {
     if(data.tipo === 'calendar') {
-        // MEJORA: Enlace de inserción correcto para Amigos Jugones y Más
-        const calendarUrl = "https://calendar.google.com/calendar/embed?src=amigosjugonesymas%40gmail.com&ctz=America%2FSantiago&mode=AGENDA";
+        // MEJORA: Solo Amigos Jugones, Vista Mensual, Semana inicia Lunes (wkst=2)
+        const calendarId = "amigosjugonesymas@gmail.com";
+        const calendarUrl = `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(calendarId)}&ctz=America%2FSantiago&mode=MONTH&showTitle=0&showNav=1&showPrint=0&showTabs=0&showCalendars=0&wkst=2`;
+        
         return `
-            <div style="position: relative; overflow: hidden; width: 100%; padding-top: 56.25%; border-radius: 12px; min-height: 500px;">
-                <iframe src="${calendarUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" frameborder="0" scrolling="no"></iframe>
+            <div class="calendar-container">
+                <iframe src="${calendarUrl}" style="border:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
             </div>`;
     }
     if(data.tipo === 'botones') {
