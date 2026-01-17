@@ -1510,7 +1510,37 @@
             ],
             [
               {
-                "texto": "Nuria",
+                "texto": "Cecy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Jessy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Black",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karlita",
                 "color": "#ffffff"
               },
               {
@@ -1520,7 +1550,7 @@
             ],
             [
               {
-                "texto": "Angel ",
+                "texto": "Llako",
                 "color": "#ffffff"
               },
               {
@@ -1530,7 +1560,17 @@
             ],
             [
               {
-                "texto": "Mauricio Palma",
+                "texto": "Ricardo Ruz",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Anto (Rulitos)",
                 "color": "#ffffff"
               },
               {
@@ -1540,7 +1580,7 @@
             ],
             [
               {
-                "texto": "Papá Lobo",
+                "texto": "Arturo Vial ",
                 "color": "#ffffff"
               },
               {
@@ -1550,7 +1590,7 @@
             ],
             [
               {
-                "texto": "Alexander ",
+                "texto": "Estefi ",
                 "color": "#ffffff"
               },
               {
@@ -1610,7 +1650,7 @@
             ],
             [
               {
-                "texto": "Arturo Vial ",
+                "texto": "Alexander ",
                 "color": "#ffffff"
               },
               {
@@ -1620,7 +1660,7 @@
             ],
             [
               {
-                "texto": "Estefi ",
+                "texto": "Mauricio Palma",
                 "color": "#ffffff"
               },
               {
@@ -1630,7 +1670,7 @@
             ],
             [
               {
-                "texto": "Anto (Rulitos)",
+                "texto": "Papá Lobo",
                 "color": "#ffffff"
               },
               {
@@ -1640,17 +1680,7 @@
             ],
             [
               {
-                "texto": "Ricardo Ruz",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Llako",
+                "texto": "Angel ",
                 "color": "#ffffff"
               },
               {
@@ -1660,41 +1690,11 @@
             ],
             [
               {
-                "texto": "Karlita",
+                "texto": "Nuria",
                 "color": "#ffffff"
               },
               {
                 "texto": "0",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Cecy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "8",
                 "color": "#ffffff"
               }
             ]
