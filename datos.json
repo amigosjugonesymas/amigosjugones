@@ -1510,6 +1510,16 @@
             ],
             [
               {
+                "texto": "BLACK",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Cecy",
                 "color": "#ffffff"
               },
@@ -1521,16 +1531,6 @@
             [
               {
                 "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Black",
                 "color": "#ffffff"
               },
               {
@@ -1560,6 +1560,26 @@
             ],
             [
               {
+                "texto": "Arturo / Arturo Vial",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Estefi",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Ricardo Ruz",
                 "color": "#ffffff"
               },
@@ -1580,7 +1600,7 @@
             ],
             [
               {
-                "texto": "Arturo Vial ",
+                "texto": "Ami / Amy",
                 "color": "#ffffff"
               },
               {
@@ -1590,7 +1610,17 @@
             ],
             [
               {
-                "texto": "Estefi ",
+                "texto": "Francisco Teclas Lúdicas",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Erick",
                 "color": "#ffffff"
               },
               {
@@ -1601,16 +1631,6 @@
             [
               {
                 "texto": "Anto Orellana",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Francisco Teclas Ludicas",
                 "color": "#ffffff"
               },
               {
@@ -1640,7 +1660,7 @@
             ],
             [
               {
-                "texto": "JugandoJDM ",
+                "texto": "JugandoJDM",
                 "color": "#ffffff"
               },
               {
@@ -1650,7 +1670,37 @@
             ],
             [
               {
-                "texto": "Alexander ",
+                "texto": "Felipe Quimera Estudio",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "David Meneses",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Alexander",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Álvaro",
                 "color": "#ffffff"
               },
               {
@@ -1680,7 +1730,57 @@
             ],
             [
               {
-                "texto": "Angel ",
+                "texto": "Ignacio",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Felipe Llanos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Angel",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Daniel",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Benja",
                 "color": "#ffffff"
               },
               {
