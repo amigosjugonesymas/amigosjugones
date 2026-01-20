@@ -1496,6 +1496,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1505,6 +1509,10 @@
               },
               {
                 "texto": "PUNTOS DIARIOS",
+                "color": "#93c47d"
+              },
+              {
+                "texto": "PUNTOS TOTALES",
                 "color": "#93c47d"
               }
             ],
@@ -1516,6 +1524,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "102",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1525,6 +1537,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "74",
                 "color": "#ffffff"
               }
             ],
@@ -1536,6 +1552,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "73",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1545,6 +1565,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "37",
                 "color": "#ffffff"
               }
             ],
@@ -1556,6 +1580,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "32",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1565,6 +1593,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "17",
                 "color": "#ffffff"
               }
             ],
@@ -1576,6 +1608,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "14",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1585,6 +1621,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "14",
                 "color": "#ffffff"
               }
             ],
@@ -1596,6 +1636,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "12",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1605,6 +1649,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "11",
                 "color": "#ffffff"
               }
             ],
@@ -1616,6 +1664,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "10",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1625,6 +1677,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "8",
                 "color": "#ffffff"
               }
             ],
@@ -1636,6 +1692,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1645,6 +1705,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
                 "color": "#ffffff"
               }
             ],
@@ -1656,6 +1720,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1665,6 +1733,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
                 "color": "#ffffff"
               }
             ],
@@ -1676,6 +1748,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1685,6 +1761,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
                 "color": "#ffffff"
               }
             ],
@@ -1696,6 +1776,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1705,6 +1789,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
                 "color": "#ffffff"
               }
             ],
@@ -1716,6 +1804,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1725,6 +1817,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
                 "color": "#ffffff"
               }
             ],
@@ -1736,6 +1832,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1745,6 +1845,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
@@ -1756,6 +1860,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1765,6 +1873,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
@@ -1776,6 +1888,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1786,6 +1902,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1795,6 +1915,10 @@
               },
               {
                 "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1",
                 "color": "#ffffff"
               }
             ]
