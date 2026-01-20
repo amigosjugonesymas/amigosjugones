@@ -1492,6 +1492,20 @@
             ],
             [
               {
+                "texto": "Erick Arancibia",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "324",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "BLACK",
                 "color": "#ffffff"
               },
@@ -1525,20 +1539,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Erick Arancibia",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "324",
                 "color": "#ffffff"
               },
               {
