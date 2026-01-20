@@ -1518,43 +1518,15 @@
             ],
             [
               {
-                "texto": "BLACK",
+                "texto": "Llako",
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "6",
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Alvaro",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Cecy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3",
+                "texto": "6",
                 "color": "#ffffff"
               }
             ],
@@ -1588,7 +1560,7 @@
             ],
             [
               {
-                "texto": "Ale",
+                "texto": "Cecy",
                 "color": "#ffffff"
               },
               {
@@ -1602,21 +1574,49 @@
             ],
             [
               {
-                "texto": "Llako",
+                "texto": "BLACK",
                 "color": "#ffffff"
               },
               {
-                "texto": "6",
+                "texto": "3",
                 "color": "#ffffff"
               },
               {
-                "texto": "6",
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Alvaro",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
             [
               {
                 "texto": "Alex",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ale",
                 "color": "#ffffff"
               },
               {
