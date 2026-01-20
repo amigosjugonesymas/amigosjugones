@@ -1515,6 +1515,34 @@
                 "texto": "PUNTOS TOTALES",
                 "color": "#93c47d"
               }
+            ],
+            [
+              {
+                "texto": "BLACK",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Alvaro",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
             ]
           ],
           "Votaciones de los Juegos": [
