@@ -1518,20 +1518,6 @@
             ],
             [
               {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Karlita",
                 "color": "#ffffff"
               },
@@ -1541,6 +1527,20 @@
               },
               {
                 "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "6",
                 "color": "#ffffff"
               }
             ],
