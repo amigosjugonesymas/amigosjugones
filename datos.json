@@ -1636,20 +1636,6 @@
             ],
             [
               {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "8",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "16",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Jessy",
                 "color": "#ffffff"
               },
@@ -1659,6 +1645,20 @@
               },
               {
                 "texto": "17",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "8",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "16",
                 "color": "#ffffff"
               }
             ],
@@ -1687,6 +1687,20 @@
               },
               {
                 "texto": "11",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Papá Lobo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
                 "color": "#ffffff"
               }
             ],
@@ -1757,20 +1771,6 @@
               },
               {
                 "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Papá Lobo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
                 "color": "#ffffff"
               }
             ],
