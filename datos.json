@@ -1692,20 +1692,6 @@
             ],
             [
               {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "23",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Cecy",
                 "color": "#ffffff"
               },
@@ -1720,6 +1706,20 @@
             ],
             [
               {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "23",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "BLACK",
                 "color": "#ffffff"
               },
@@ -1729,6 +1729,34 @@
               },
               {
                 "texto": "21",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "17",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Jacqueline",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
                 "color": "#ffffff"
               }
             ],
@@ -1790,20 +1818,6 @@
             ],
             [
               {
-                "texto": "Ismael",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "17",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Daniel Paillan",
                 "color": "#ffffff"
               },
@@ -1827,20 +1841,6 @@
               },
               {
                 "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jacqueline",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
                 "color": "#ffffff"
               }
             ]
