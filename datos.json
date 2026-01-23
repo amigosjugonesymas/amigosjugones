@@ -1678,20 +1678,6 @@
             ],
             [
               {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "35",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Jessy",
                 "color": "#ffffff"
               },
@@ -1706,7 +1692,7 @@
             ],
             [
               {
-                "texto": "Cecy",
+                "texto": "Karlita",
                 "color": "#ffffff"
               },
               {
@@ -1714,7 +1700,21 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "27",
+                "texto": "35",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BLACK",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "10",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "31",
                 "color": "#ffffff"
               }
             ],
@@ -1734,7 +1734,21 @@
             ],
             [
               {
-                "texto": "BLACK",
+                "texto": "Cecy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "27",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Papá Lobo",
                 "color": "#ffffff"
               },
               {
@@ -1742,7 +1756,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "31",
+                "texto": "19",
                 "color": "#ffffff"
               }
             ],
@@ -1776,15 +1790,29 @@
             ],
             [
               {
-                "texto": "Papá Lobo",
+                "texto": "Daniel Paillan",
                 "color": "#ffffff"
               },
               {
-                "texto": "10",
+                "texto": "7",
                 "color": "#ffffff"
               },
               {
-                "texto": "19",
+                "texto": "12",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
                 "color": "#ffffff"
               }
             ],
@@ -1832,20 +1860,6 @@
             ],
             [
               {
-                "texto": "Daniel Paillan",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Ricardo Ruz",
                 "color": "#ffffff"
               },
@@ -1855,20 +1869,6 @@
               },
               {
                 "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Nacho",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
                 "color": "#ffffff"
               }
             ]
