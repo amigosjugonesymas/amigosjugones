@@ -1626,6 +1626,10 @@
               {
                 "texto": "",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
               }
             ],
             [
@@ -1636,6 +1640,10 @@
               {
                 "texto": "PUNTOS",
                 "color": "#9900ff"
+              },
+              {
+                "texto": "SEMANA",
+                "color": "#38761d"
               }
             ]
           ],
