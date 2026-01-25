@@ -3198,8 +3198,24 @@
     ],
     "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada. (La página actualiza los datos cada 15 minutos)"
   },
-  "rankingVip": {
-    "titulo": "MIEMBROS VIP",
-    "datos": []
+  "rankingInteraccion": {
+    "titulo": "RANKING INTERACCION DE LA SEMANA",
+    "datos": [
+      {
+        "usuario": "Black",
+        "puntos": 5.5,
+        "semana": "1/19/2026"
+      },
+      {
+        "usuario": "Jessy",
+        "puntos": 4,
+        "semana": "1/19/2026"
+      },
+      {
+        "usuario": "Karlita",
+        "puntos": 1,
+        "semana": "1/19/2026"
+      }
+    ]
   }
 }
