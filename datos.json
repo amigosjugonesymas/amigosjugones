@@ -1422,6 +1422,20 @@
             ],
             [
               {
+                "texto": "Cris Ovniplay",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "999",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "JugandoJDM",
                 "color": "#ffffff"
               },
@@ -1609,20 +1623,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Cris Ovniplay",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "999",
                 "color": "#ffffff"
               },
               {
