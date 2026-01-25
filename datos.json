@@ -3202,9 +3202,14 @@
     "titulo": "MIEMBROS VIP de la semana - puntos",
     "datos": [
       {
+        "usuario": "Black",
+        "puntos": 3.5,
+        "semana": "1/19/2026"
+      },
+      {
         "usuario": "Jessy",
-        "puntos": 1,
-        "semana": "29 dic al 4 de enero"
+        "puntos": 3,
+        "semana": "1/19/2026"
       }
     ]
   }
