@@ -1617,78 +1617,6 @@
               }
             ]
           ],
-          "MIEMBRO VIP": [
-            [
-              {
-                "texto": "MIEMBROS VIP de la semana - puntos",
-                "color": "#ff9900"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "USUARIO",
-                "color": "#3c78d8"
-              },
-              {
-                "texto": "PUNTOS",
-                "color": "#9900ff"
-              },
-              {
-                "texto": "SEMANA",
-                "color": "#38761d"
-              }
-            ],
-            [
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5.5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "4",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
-            ]
-          ],
           "Desafio de la semana": [
             [
               {
@@ -3271,23 +3199,7 @@
     "introduccionFichas": "En esta sección podrás ver qué días tienen disponibles para jugar las personas del grupo. Para unirte, solo debes completar el formulario 'Tu disponibilidad' en la sección Inscripciones. Puedes actualizar tus datos en cualquier momento volviendo a completar el formulario. Nota: La administración se reserva el derecho de eliminar perfiles con información inapropiada. (La página actualiza los datos cada 15 minutos)"
   },
   "rankingVip": {
-    "titulo": "MIEMBROS VIP de la semana - puntos",
-    "datos": [
-      {
-        "usuario": "Black",
-        "puntos": 5.5,
-        "semana": "1/19/2026"
-      },
-      {
-        "usuario": "Jessy",
-        "puntos": 4,
-        "semana": "1/19/2026"
-      },
-      {
-        "usuario": "Karlita",
-        "puntos": 1,
-        "semana": "1/19/2026"
-      }
-    ]
+    "titulo": "MIEMBROS VIP",
+    "datos": []
   }
 }
