@@ -1689,48 +1689,6 @@
                 "texto": "FECHA",
                 "color": "#38761d"
               }
-            ],
-            [
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5.5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "4",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1/19/2026",
-                "color": "#ffffff"
-              }
             ]
           ],
           "Desafio de la semana": [
@@ -3316,22 +3274,6 @@
   },
   "rankingInteraccion": {
     "titulo": "RANKING INTERACCION DE LA SEMANA",
-    "datos": [
-      {
-        "usuario": "Black",
-        "puntos": 5.5,
-        "semana": "1/19/2026"
-      },
-      {
-        "usuario": "Jessy",
-        "puntos": 4,
-        "semana": "1/19/2026"
-      },
-      {
-        "usuario": "Karlita",
-        "puntos": 1,
-        "semana": "1/19/2026"
-      }
-    ]
+    "datos": []
   }
 }
