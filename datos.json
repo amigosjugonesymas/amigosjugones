@@ -3203,12 +3203,17 @@
     "datos": [
       {
         "usuario": "Black",
-        "puntos": 3.5,
+        "puntos": 5.5,
         "semana": "1/19/2026"
       },
       {
         "usuario": "Jessy",
-        "puntos": 3,
+        "puntos": 4,
+        "semana": "1/19/2026"
+      },
+      {
+        "usuario": "Karlita",
+        "puntos": 1,
         "semana": "1/19/2026"
       }
     ]
