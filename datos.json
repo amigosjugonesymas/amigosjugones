@@ -1764,20 +1764,6 @@
             ],
             [
               {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "35",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "BLACK",
                 "color": "#ffffff"
               },
@@ -1787,6 +1773,20 @@
               },
               {
                 "texto": "38",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karlita",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "35",
                 "color": "#ffffff"
               }
             ],
@@ -1848,20 +1848,6 @@
             ],
             [
               {
-                "texto": "Jacqueline",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Daniel Paillan",
                 "color": "#ffffff"
               },
@@ -1871,6 +1857,20 @@
               },
               {
                 "texto": "17",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Jacqueline",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
                 "color": "#ffffff"
               }
             ],
