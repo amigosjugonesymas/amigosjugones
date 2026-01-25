@@ -1617,6 +1617,28 @@
               }
             ]
           ],
+          "MIEMBRO VIP de la semana": [
+            [
+              {
+                "texto": "MIEMBRO VIP DE LA SEMANA",
+                "color": "#ff9900"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "USUARIO",
+                "color": "#3c78d8"
+              },
+              {
+                "texto": "PUNTOS",
+                "color": "#9900ff"
+              }
+            ]
+          ],
           "RANKING INTERACCION": [
             [
               {
