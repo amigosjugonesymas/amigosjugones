@@ -1848,20 +1848,6 @@
             ],
             [
               {
-                "texto": "Nacho",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Alvaro",
                 "color": "#ffffff"
               },
@@ -1871,6 +1857,20 @@
               },
               {
                 "texto": "10",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
                 "color": "#ffffff"
               }
             ],
