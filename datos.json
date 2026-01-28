@@ -1736,62 +1736,6 @@
             ],
             [
               {
-                "texto": "Cecy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Miguel Angel",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jessy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "BLACK",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Llako",
                 "color": "#ffffff"
               },
@@ -1965,6 +1909,62 @@
               },
               {
                 "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
                 "color": "#ffffff"
               },
               {
