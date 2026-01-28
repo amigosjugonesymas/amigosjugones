@@ -1380,6 +1380,20 @@
             ],
             [
               {
+                "texto": "JugandoJDM",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "1458",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Papa Lobo",
                 "color": "#ffffff"
               },
@@ -1441,20 +1455,6 @@
               },
               {
                 "texto": "999",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "JugandoJDM",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "1458",
                 "color": "#ffffff"
               },
               {
