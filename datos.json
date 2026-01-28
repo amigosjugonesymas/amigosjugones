@@ -2422,61 +2422,101 @@
             ],
             [
               {
-                "texto": "Arnak",
+                "texto": "1",
                 "color": "#ffffff"
               },
+              {
+                "texto": "Arnak",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Dixit",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Heat",
+                "color": "#ffffff"
+              }
+            ],
+            [
               {
                 "texto": "4",
                 "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Formula 31 minutos",
-                "color": "#ffffff"
               },
-              {
-                "texto": "3.8",
-                "color": "#ffffff"
-              }
-            ],
-            [
               {
                 "texto": "Flame craft",
                 "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "5",
+                "color": "#ffffff"
               },
               {
-                "texto": "3.7",
+                "texto": "Potion Explotion",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "The island",
+                "texto": "6",
                 "color": "#ffffff"
               },
               {
-                "texto": "3.4",
+                "texto": "Formula 31 minutos",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "La casa de caramelos",
+                "texto": "7",
                 "color": "#ffffff"
               },
               {
-                "texto": "3.2",
+                "texto": "Wingspan",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Story cubes",
+                "texto": "8",
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "Concordia",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "White castle",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "10",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Camel Up",
                 "color": "#ffffff"
               }
             ]
