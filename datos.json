@@ -2422,101 +2422,101 @@
             ],
             [
               {
-                "texto": "1",
-                "color": "#ffffff"
-              },
-              {
                 "texto": "Arnak",
                 "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "2",
-                "color": "#ffffff"
               },
-              {
-                "texto": "Dixit",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "3",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Heat",
-                "color": "#ffffff"
-              }
-            ],
-            [
               {
                 "texto": "4",
                 "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Dixit",
+                "color": "#ffffff"
               },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Heat",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              }
+            ],
+            [
               {
                 "texto": "Flame craft",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              },
               {
                 "texto": "Potion Explotion",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.9",
+                "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "6",
-                "color": "#ffffff"
-              },
               {
                 "texto": "Formula 31 minutos",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
               {
                 "texto": "Wingspan",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "8",
-                "color": "#ffffff"
-              },
               {
                 "texto": "Concordia",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.8",
+                "color": "#ffffff"
               }
             ],
             [
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              },
               {
                 "texto": "White castle",
                 "color": "#ffffff"
+              },
+              {
+                "texto": "3.7",
+                "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "10",
+                "texto": "Camel Up",
                 "color": "#ffffff"
               },
               {
-                "texto": "Camel Up",
+                "texto": "3.6",
                 "color": "#ffffff"
               }
             ]
