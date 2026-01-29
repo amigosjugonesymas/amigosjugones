@@ -1736,20 +1736,6 @@
             ],
             [
               {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "32",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Cecy",
                 "color": "#ffffff"
               },
@@ -1778,29 +1764,15 @@
             ],
             [
               {
-                "texto": "Ismael",
+                "texto": "Llako",
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "15",
                 "color": "#ffffff"
               },
               {
-                "texto": "18",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jacqueline / Hola",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
+                "texto": "32",
                 "color": "#ffffff"
               }
             ],
@@ -1815,48 +1787,6 @@
               },
               {
                 "texto": "22",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Catalina Restrepo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Roberto",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
                 "color": "#ffffff"
               }
             ],
@@ -1890,7 +1820,7 @@
             ],
             [
               {
-                "texto": "Nacho",
+                "texto": "Ismael",
                 "color": "#ffffff"
               },
               {
@@ -1898,7 +1828,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
+                "texto": "18",
                 "color": "#ffffff"
               }
             ],
@@ -1918,6 +1848,20 @@
             ],
             [
               {
+                "texto": "Roberto",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Alejandra",
                 "color": "#ffffff"
               },
@@ -1932,7 +1876,35 @@
             ],
             [
               {
-                "texto": "Francisco Teclas Ludicas",
+                "texto": "Jacqueline / Hola",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Karlita",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nacho",
                 "color": "#ffffff"
               },
               {
@@ -1940,7 +1912,21 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "2",
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Catalina Restrepo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
                 "color": "#ffffff"
               }
             ],
@@ -1955,6 +1941,20 @@
               },
               {
                 "texto": "5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Francisco Teclas Ludicas",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
                 "color": "#ffffff"
               }
             ],
