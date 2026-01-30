@@ -1472,6 +1472,20 @@
             ],
             [
               {
+                "texto": "Gerson",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "871",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Cecy",
                 "color": "#ffffff"
               },
@@ -1631,20 +1645,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Gerson",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "871",
                 "color": "#ffffff"
               },
               {
