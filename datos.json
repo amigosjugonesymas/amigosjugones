@@ -6,12 +6,12 @@
       "introduccion": "Titulo",
       "items": [
         {
-          "esTitulo": "",
+          "esTitulo": true,
           "titulo": "🎲 Amigos Jugones: Tu turno para compartir",
           "contenido": ""
         },
         {
-          "esTitulo": true,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "Esencialmente, somos un patio de juegos. Un espacio diseñado para divertirse, encontrar amigos y hacer cosas geniales. Aquí no solo se lanzan dados; se comparte la vida entre jugones."
         },
