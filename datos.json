@@ -4,78 +4,7 @@
     "contenido": {
       "tipo": "nosotros_block",
       "introduccion": "Titulo",
-      "items": [
-        {
-          "esTitulo": true,
-          "titulo": "¿Quiénes somos?",
-          "contenido": ""
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "Un ecosistema de entusiastas de la Cultura Geek, Gaming y Juegos de Mesa. Transformamos el hobby en una comunidad activa que juega, crea y comparte todos los días."
-        },
-        {
-          "esTitulo": true,
-          "titulo": "Nuestros Pilares",
-          "contenido": ""
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "🚀 Acción: Dinámicas diarias y creación colectiva."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "🤝 Unión: Apoyo solidario en eventos como Luditón, organizada por Macroludica."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "⚖️ Respeto: Competitividad sana y premios a la \"buena onda\"."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "⚠️ Aviso: Somos una comunidad ultra activa. ¡Prepárate para el movimiento constante!"
-        },
-        {
-          "esTitulo": true,
-          "titulo": "¿Qué hacemos?",
-          "contenido": ""
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "📱 Digital: Trivias, retos de deducción 🧩 y torneos en WhatsApp ⚔️."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "🎲 Presencial: Juntas espontáneas 🍕 y embajadores en eventos en los que somos invitados 🏛️."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "🏆 Legado: Registramos nuestras crónicas 📖 y campeones para la posteridad 🥇."
-        },
-        {
-          "esTitulo": true,
-          "titulo": "Nuestra Visión",
-          "contenido": ""
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "El refugio definitivo para el Jugón. Partidas, debates y amigos en un solo lugar."
-        },
-        {
-          "esTitulo": "",
-          "titulo": "",
-          "contenido": "¡Tu turno comienza aquí!"
-        }
-      ]
+      "items": []
     }
   },
   "remaining": {
