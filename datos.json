@@ -46,8 +46,13 @@
           "contenido": "A veces la gente se confunde con tantas actividades, pero nuestra esencia es simple: Somos un grupo donde se juega. Por eso, todo lo que verás aquí —desde los eventos hasta el Radar— gira en torno a esa acción. Es un lugar donde todos aportamos de alguna forma a que el grupo sea mejor y más divertido. Somos lo mas parecido a tu propio grupo de amigos pero de Whatsapp."
         },
         {
-          "esTitulo": true,
+          "esTitulo": "",
           "titulo": "👋 ¡Te esperamos!",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "",
           "contenido": "Los que participamos sabemos lo genial que es compartir y jugar. Si buscas donde encajar tus propuestas y tus ganas de jugar, tu lugar es aquí. Solo debes mantener el respeto por las otras personas del grupo y todos te respetaran a ti. ¡Si te interesa jugar y divertirte!"
         }
       ]
