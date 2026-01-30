@@ -36,12 +36,12 @@
           "contenido": "Entre todos hemos construido un entorno de confianza donde lo más importante es que la experiencia de compartir sea tan buena como el juego mismo."
         },
         {
-          "esTitulo": "",
+          "esTitulo": true,
           "titulo": "🕹️ Nuestra Lógica: Jugar es lo Primero",
           "contenido": ""
         },
         {
-          "esTitulo": true,
+          "esTitulo": "",
           "titulo": "",
           "contenido": "A veces la gente se confunde con tantas actividades, pero nuestra esencia es simple: Somos un grupo donde se juega. Por eso, todo lo que verás aquí —desde los eventos hasta el Radar— gira en torno a esa acción. Es un lugar donde todos aportamos de alguna forma a que el grupo sea mejor y más divertido. Somos lo mas parecido a tu propio grupo de amigos pero de Whatsapp."
         },
