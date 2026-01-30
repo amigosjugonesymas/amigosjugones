@@ -16,8 +16,13 @@
           "contenido": "Esencialmente, somos un patio de juegos. Un espacio diseñado para divertirse, encontrar amigos y hacer cosas geniales. Aquí no solo se lanzan dados; se comparte la vida entre jugones."
         },
         {
-          "esTitulo": true,
+          "esTitulo": "",
           "titulo": "✨ ¿Qué nos hace diferentes?",
+          "contenido": ""
+        },
+        {
+          "esTitulo": true,
+          "titulo": "",
           "contenido": "En este grupo converge gente muy diversa y motivada. Jugones competitivos y \"apañadores\" que tienen sus propias vidas, pero que eligen este refugio para desconectar y jugar."
         },
         {
