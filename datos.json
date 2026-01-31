@@ -1744,20 +1744,6 @@
             ],
             [
               {
-                "texto": "Cecy",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "72",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "115",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "BLACK",
                 "color": "#ffffff"
               },
@@ -1772,15 +1758,29 @@
             ],
             [
               {
+                "texto": "Cecy",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "64",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "107",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Jessy",
                 "color": "#ffffff"
               },
               {
-                "texto": "27",
+                "texto": "29",
                 "color": "#ffffff"
               },
               {
-                "texto": "48",
+                "texto": "50",
                 "color": "#ffffff"
               }
             ],
@@ -1790,11 +1790,25 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "12",
+                "texto": "17",
                 "color": "#ffffff"
               },
               {
-                "texto": "44",
+                "texto": "49",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JugandoJDM / Yo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "37",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "39",
                 "color": "#ffffff"
               }
             ],
@@ -1804,11 +1818,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "24",
+                "texto": "26",
                 "color": "#ffffff"
               },
               {
-                "texto": "33",
+                "texto": "35",
                 "color": "#ffffff"
               }
             ],
@@ -1818,11 +1832,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "7",
+                "texto": "12",
                 "color": "#ffffff"
               },
               {
-                "texto": "27",
+                "texto": "32",
                 "color": "#ffffff"
               }
             ],
@@ -1832,11 +1846,39 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "22",
+                "texto": "29",
                 "color": "#ffffff"
               },
               {
-                "texto": "24",
+                "texto": "31",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Roberto / Mono",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "17",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "29",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "CapCris",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "27",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "27",
                 "color": "#ffffff"
               }
             ],
@@ -1846,11 +1888,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "0",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "22",
+                "texto": "24",
                 "color": "#ffffff"
               }
             ],
@@ -1870,29 +1912,15 @@
             ],
             [
               {
-                "texto": "JugandoJDM / Yo",
+                "texto": "Jacqueline / Holi",
                 "color": "#ffffff"
               },
               {
-                "texto": "17",
+                "texto": "12",
                 "color": "#ffffff"
               },
               {
-                "texto": "19",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Roberto",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "19",
+                "texto": "21",
                 "color": "#ffffff"
               }
             ],
@@ -1902,25 +1930,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "0",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "18",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Jacqueline / Hola",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "16",
+                "texto": "20",
                 "color": "#ffffff"
               }
             ],
@@ -1930,25 +1944,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "0",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "15",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Francisco",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "14",
+                "texto": "17",
                 "color": "#ffffff"
               }
             ],
@@ -1968,7 +1968,7 @@
             ],
             [
               {
-                "texto": "Erick",
+                "texto": "Erick Arancibia",
                 "color": "#ffffff"
               },
               {
@@ -2000,11 +2000,67 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "0",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "11",
+                "texto": "13",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Francisco",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nuria / Vasco / Ignacio / Sasami",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Daniel Paillán",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Felipe Llanos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
                 "color": "#ffffff"
               }
             ]
