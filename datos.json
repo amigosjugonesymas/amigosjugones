@@ -2024,7 +2024,7 @@
             ],
             [
               {
-                "texto": "Nuria / Vasco / Ignacio / Sasami",
+                "texto": "",
                 "color": "#ffffff"
               },
               {
@@ -2095,6 +2095,20 @@
             [
               {
                 "texto": "Ignacio",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Sasami",
                 "color": "#ffffff"
               },
               {
