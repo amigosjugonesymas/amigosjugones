@@ -1954,6 +1954,20 @@
             ],
             [
               {
+                "texto": "Alejandra",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "13",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Adrián",
                 "color": "#ffffff"
               },
@@ -1996,20 +2010,6 @@
             ],
             [
               {
-                "texto": "Alejandra",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "13",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
                 "texto": "Francisco",
                 "color": "#ffffff"
               },
@@ -2033,20 +2033,6 @@
               },
               {
                 "texto": "7",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Felipe Llanos",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "4",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "4",
                 "color": "#ffffff"
               }
             ],
@@ -2103,6 +2089,20 @@
               },
               {
                 "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Felipe Llanos",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4",
                 "color": "#ffffff"
               }
             ]
