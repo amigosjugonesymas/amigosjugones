@@ -1688,29 +1688,15 @@
             ],
             [
               {
-                "texto": "BLACK",
+                "texto": "Llako",
                 "color": "#ffffff"
               },
               {
-                "texto": "24",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "33",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "JugandoJDM / Yo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "34",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "34",
+                "texto": "54",
                 "color": "#ffffff"
               }
             ],
@@ -1730,15 +1716,29 @@
             ],
             [
               {
-                "texto": "Llako",
+                "texto": "JugandoJDM / Yo",
                 "color": "#ffffff"
               },
               {
-                "texto": "2",
+                "texto": "38",
                 "color": "#ffffff"
               },
               {
-                "texto": "54",
+                "texto": "38",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "BLACK",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "26",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "35",
                 "color": "#ffffff"
               }
             ],
@@ -1800,7 +1800,7 @@
             ],
             [
               {
-                "texto": "Miguel Angel (Migue)",
+                "texto": "Migue (Miguel A.)",
                 "color": "#ffffff"
               },
               {
