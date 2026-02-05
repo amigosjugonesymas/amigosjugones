@@ -1688,15 +1688,29 @@
             ],
             [
               {
-                "texto": "Llako",
+                "texto": "BLACK",
                 "color": "#ffffff"
               },
               {
-                "texto": "52",
+                "texto": "24",
                 "color": "#ffffff"
               },
               {
-                "texto": "52",
+                "texto": "33",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JugandoJDM / Yo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "34",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "34",
                 "color": "#ffffff"
               }
             ],
@@ -1706,11 +1720,53 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "25",
+                "texto": "18",
                 "color": "#ffffff"
               },
               {
-                "texto": "25",
+                "texto": "43",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Llako",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "54",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Nacho",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "24",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "24",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Daniel Paillán",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "9",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "14",
                 "color": "#ffffff"
               }
             ],
@@ -1720,39 +1776,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "10",
+                "texto": "0",
                 "color": "#ffffff"
               },
               {
                 "texto": "10",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "BLACK",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "9",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Rodolfo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
                 "color": "#ffffff"
               }
             ],
@@ -1762,7 +1790,21 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "2",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Miguel Angel (Migue)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
@@ -1772,11 +1814,11 @@
             ],
             [
               {
-                "texto": "Daniel Paillan",
+                "texto": "Rodolfo",
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "0",
                 "color": "#ffffff"
               },
               {
@@ -1786,15 +1828,15 @@
             ],
             [
               {
-                "texto": "Migue",
+                "texto": "Karlita",
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "2",
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "2",
                 "color": "#ffffff"
               }
             ]
