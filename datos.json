@@ -354,313 +354,25 @@
             ],
             [
               {
-                "texto": "Battle for the sun",
+                "texto": "Dancing queen",
                 "color": "#ffffff"
               },
               {
-                "texto": "Placebo",
+                "texto": "Abba",
                 "color": "#ffffff"
               },
               {
-                "texto": "Arturo Vial ",
+                "texto": "Estefi",
                 "color": "#ffffff"
               },
               {
-                "texto": "12 de Enero ",
+                "texto": "4 de Febrero ",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Welcome to the Black Parade",
-                "color": "#ffffff"
-              },
-              {
-                "texto": " My chemical romance",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Seeman",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Ramnstein ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Roxane",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "The Police",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Mujer contra mujer ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Mecano",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Soñé ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Zoé",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "12 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Complicated",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Avril Lavigne ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": " Barco a Venus",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Ana Torroja",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": " Barco a Venus",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Mecano ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Rodolfo Schmauk",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Rosas",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Oreja de van gogh",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Llako",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "  Turn The Lights Off",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Kato",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "15 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Pavo Real",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "El Puma ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Black",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "16 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Rosa... Rosa",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Sandro ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "16 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Tejedores de Ilusión",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "La Ley ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "16 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "El dinosaurio Anacleto",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "31 minutos ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "17 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": " Alice",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Avril lavigne",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Karlita",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "17 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Dancing in the Dark",
-                "color": "#ffffff"
-              },
-              {
-                "texto": " Bruce Springsteen",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "Arturo Vial ",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "18 de Enero ",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Horas Contigo",
+                "texto": "ahora que la luna explota",
                 "color": "#ffffff"
               },
               {
@@ -668,29 +380,47 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "Arturo Vial ",
+                "texto": "JugandoJdm ",
                 "color": "#ffffff"
               },
               {
-                "texto": "18 de Enero ",
+                "texto": "4 de Febrero ",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Paris",
+                "texto": "Una noche que nunca termina",
                 "color": "#ffffff"
               },
               {
-                "texto": "La Oreja de Van Gogh ",
+                "texto": "Cancamusa ",
                 "color": "#ffffff"
               },
               {
-                "texto": "Arturo Vial  y Karlita",
+                "texto": "Jessy",
                 "color": "#ffffff"
               },
               {
-                "texto": "18 de Enero ",
+                "texto": "4 de Febrero ",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Angel",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Aerosmith",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "JugandoJdm y Estefi",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4 de Febrero ",
                 "color": "#ffffff"
               }
             ]
