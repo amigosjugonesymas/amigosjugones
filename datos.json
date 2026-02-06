@@ -964,11 +964,11 @@
             ],
             [
               {
-                "texto": "Angelina",
+                "texto": "Ricardo Ruz",
                 "color": "#ffffff"
               },
               {
-                "texto": "4400",
+                "texto": "4567",
                 "color": "#ffffff"
               },
               {
@@ -978,11 +978,11 @@
             ],
             [
               {
-                "texto": "Ricardo Ruz",
+                "texto": "Angelina",
                 "color": "#ffffff"
               },
               {
-                "texto": "4567",
+                "texto": "4400",
                 "color": "#ffffff"
               },
               {
@@ -1286,6 +1286,20 @@
             ],
             [
               {
+                "texto": "Francisco TeclasLudicas",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "315",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "BLACK",
                 "color": "#ffffff"
               },
@@ -1319,20 +1333,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Francisco TeclasLudicas",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "315",
                 "color": "#ffffff"
               },
               {
