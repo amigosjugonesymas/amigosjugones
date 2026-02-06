@@ -1436,11 +1436,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "2",
+                "texto": "54",
                 "color": "#ffffff"
               },
               {
-                "texto": "54",
+                "texto": "+3",
                 "color": "#ffffff"
               }
             ],
@@ -1450,11 +1450,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "18",
+                "texto": "43",
                 "color": "#ffffff"
               },
               {
-                "texto": "43",
+                "texto": "+3",
                 "color": "#ffffff"
               }
             ],
@@ -1468,7 +1468,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "38",
+                "texto": "+5",
                 "color": "#ffffff"
               }
             ],
@@ -1478,11 +1478,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "26",
+                "texto": "35",
                 "color": "#ffffff"
               },
               {
-                "texto": "35",
+                "texto": "+5",
                 "color": "#ffffff"
               }
             ],
@@ -1496,7 +1496,21 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "24",
+                "texto": "+8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Miguel Ángel (Migue)",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "+10",
                 "color": "#ffffff"
               }
             ],
@@ -1506,67 +1520,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "9",
-                "color": "#ffffff"
-              },
-              {
                 "texto": "14",
                 "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Rebe",
-                "color": "#ffffff"
               },
               {
                 "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "10",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Vasco",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Migue (Miguel A.)",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Rodolfo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "5",
                 "color": "#ffffff"
               }
             ],
@@ -1580,35 +1538,77 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "2",
+                "texto": "+11",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "",
+                "texto": "Rebe",
                 "color": "#ffffff"
               },
               {
-                "texto": "",
+                "texto": "10",
                 "color": "#ffffff"
               },
               {
-                "texto": "",
+                "texto": "0",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "",
+                "texto": "Roberto Mono",
                 "color": "#ffffff"
               },
               {
-                "texto": "",
+                "texto": "0",
                 "color": "#ffffff"
               },
               {
-                "texto": "",
+                "texto": "+8",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Vasco",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "7",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "+5",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Rodolfo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
                 "color": "#ffffff"
               }
             ],
