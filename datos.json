@@ -1450,11 +1450,11 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "6",
+                "texto": "28",
                 "color": "#ffffff"
               },
               {
-                "texto": "60",
+                "texto": "88",
                 "color": "#ffffff"
               }
             ],
@@ -1464,25 +1464,53 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "37",
                 "color": "#ffffff"
               },
               {
-                "texto": "46",
+                "texto": "83",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "JugandoJDM / Yo",
+                "texto": "Miguel Ángel",
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "61",
                 "color": "#ffffff"
               },
               {
-                "texto": "43",
+                "texto": "76",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ismael",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "68",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "73",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Benjamin Guerrero",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "55",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "63",
                 "color": "#ffffff"
               }
             ],
@@ -1492,11 +1520,25 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
+                "texto": "22",
                 "color": "#ffffff"
               },
               {
-                "texto": "40",
+                "texto": "62",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "JugandoJDM / Yo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "0",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "43",
                 "color": "#ffffff"
               }
             ],
@@ -1506,25 +1548,39 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "3",
+                "texto": "16",
                 "color": "#ffffff"
               },
               {
-                "texto": "27",
+                "texto": "43",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Miguel Angel",
+                "texto": "Francisco (Teclas)",
                 "color": "#ffffff"
               },
               {
-                "texto": "10",
+                "texto": "23",
                 "color": "#ffffff"
               },
               {
-                "texto": "15",
+                "texto": "23",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Ale V / Ale",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "22",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "22",
                 "color": "#ffffff"
               }
             ],
@@ -1548,11 +1604,39 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "11",
+                "texto": "0",
                 "color": "#ffffff"
               },
               {
                 "texto": "13",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Vasco",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "5",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "12",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
+                "texto": "Roberto Mono",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "11",
                 "color": "#ffffff"
               }
             ],
@@ -1572,49 +1656,21 @@
             ],
             [
               {
-                "texto": "Roberto Mono",
+                "texto": "Rodolfo Schmauk",
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "5",
                 "color": "#ffffff"
               },
               {
-                "texto": "8",
+                "texto": "10",
                 "color": "#ffffff"
               }
             ],
             [
               {
-                "texto": "Benjamin Guerrero",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "8",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "8",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Vasco",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "0",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "7",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Ismael",
+                "texto": "Alvaro",
                 "color": "#ffffff"
               },
               {
@@ -1628,71 +1684,15 @@
             ],
             [
               {
-                "texto": "Rodolfo",
+                "texto": "Simon",
                 "color": "#ffffff"
               },
               {
-                "texto": "0",
+                "texto": "3",
                 "color": "#ffffff"
               },
               {
-                "texto": "5",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
+                "texto": "3",
                 "color": "#ffffff"
               }
             ],
