@@ -992,6 +992,20 @@
             ],
             [
               {
+                "texto": "Arturo Vial",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "3180",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Denisse Nekomeeple",
                 "color": "#ffffff"
               },
@@ -1333,20 +1347,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Arturo Vial",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "3180",
                 "color": "#ffffff"
               },
               {
