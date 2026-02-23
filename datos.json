@@ -1130,6 +1130,20 @@
             ],
             [
               {
+                "texto": "Tomi",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "13416",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "Alexander (5164 mensajes)",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Iker",
                 "color": "#ffffff"
               },
@@ -1138,7 +1152,7 @@
                 "color": "#ffffff"
               },
               {
-                "texto": "Alexander (5164 mensajes)",
+                "texto": "",
                 "color": "#ffffff"
               }
             ],
@@ -1186,6 +1200,20 @@
             ],
             [
               {
+                "texto": "Papa Lobo",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "2568",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Felipe Llanos",
                 "color": "#ffffff"
               },
@@ -1205,20 +1233,6 @@
               },
               {
                 "texto": "1983",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Tomi",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "13416",
                 "color": "#ffffff"
               },
               {
@@ -1261,20 +1275,6 @@
               },
               {
                 "texto": "1458",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Papa Lobo",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "2568",
                 "color": "#ffffff"
               },
               {
