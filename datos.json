@@ -1424,6 +1424,20 @@
             ],
             [
               {
+                "texto": "Aurora",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "558",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Nico Roman",
                 "color": "#ffffff"
               },
@@ -1541,20 +1555,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Aurora",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "558",
                 "color": "#ffffff"
               },
               {
