@@ -1186,6 +1186,20 @@
             ],
             [
               {
+                "texto": "Nicolas Acosta",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "4055",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Arturo Vial",
                 "color": "#ffffff"
               },
@@ -1354,6 +1368,20 @@
             ],
             [
               {
+                "texto": "Aurora",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "876",
+                "color": "#ffffff"
+              },
+              {
+                "texto": "",
+                "color": "#ffffff"
+              }
+            ],
+            [
+              {
                 "texto": "Gerson",
                 "color": "#ffffff"
               },
@@ -1415,20 +1443,6 @@
               },
               {
                 "texto": "563",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Aurora",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "876",
                 "color": "#ffffff"
               },
               {
@@ -1555,20 +1569,6 @@
               },
               {
                 "texto": "144",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "",
-                "color": "#ffffff"
-              }
-            ],
-            [
-              {
-                "texto": "Nicolas Acosta",
-                "color": "#ffffff"
-              },
-              {
-                "texto": "4055",
                 "color": "#ffffff"
               },
               {
