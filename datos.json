@@ -2909,14 +2909,14 @@
           "excepcion": "Enero y hasta fines de febrero estoy de vacaciones así que puedo en amplio rango horario"
         },
         {
-          "nick": "Fernando",
-          "horario": "Tarde/Noche (17:00 - 21:00)",
-          "excepcion": ""
-        },
-        {
           "nick": "Victor",
           "horario": "Mañana (09:00 - 13:00), Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": "Lunes 8/6 familiar"
+        },
+        {
+          "nick": "Fernando",
+          "horario": "Tarde/Noche (17:00 - 21:00)",
+          "excepcion": ""
         }
       ],
       "MARTES": [
