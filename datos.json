@@ -3344,6 +3344,11 @@
           "nick": "Fernando",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Victor",
+          "horario": "Tarde (13:00 - 17:00), Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ]
     },
