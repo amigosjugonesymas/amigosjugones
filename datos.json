@@ -3309,6 +3309,11 @@
           "nick": "Lorena V.P",
           "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
           "excepcion": ""
+        },
+        {
+          "nick": "Fernando",
+          "horario": "Tarde/Noche (17:00 - 21:00), Noche (21:00 - 01:00)",
+          "excepcion": ""
         }
       ]
     },
