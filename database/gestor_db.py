@@ -2999,18 +2999,16 @@ def guardar_participante_torneo(data: dict) -> dict:
 
 
 def obtener_jugadores_todos() -> list:
-    """Retorna todos los jugadores con id, nick y bga_username para fuzzy matching."""
+    """Retorna todos los jugadores con nick, telefono, nombre_agenda_admin y bga_username para matching de torneos."""
     try:
         with get_db() as conn:
             cur = conn.cursor()
-            # Intentar con bga_username si existe, sino sin él
-            try:
-                cur.execute("SELECT id, nick, bga_username FROM jugadores WHERE estado = 'Activo' OR estado IS NULL")
-            except Exception:
-                try:
-                    cur.execute("SELECT id, nick, '' as bga_username FROM jugadores")
-                except Exception:
-                    return []
+            cur.execute("""
+                SELECT nick, telefono, nombre_agenda_admin, nombre_perfil_ws, 
+                       COALESCE(bga_username, '') as bga_username, puntos 
+                FROM jugadores 
+                WHERE estado = 'Activo' OR estado IS NULL
+            """)
             rows = cur.fetchall()
             return [dict(r) for r in rows]
     except Exception as e:
@@ -3018,29 +3016,120 @@ def obtener_jugadores_todos() -> list:
         return []
 
 
-def sumar_puntos_jugador(jugador_id: int, puntos: int, razon: str = "") -> dict:
-    """Suma puntos a un jugador por torneo BGA."""
+def vincular_jugador_bga(identificador: str, bga_username: str = None, nuevo_nick: str = None, nombre_agenda: str = None) -> dict:
+    """
+    Asocia o actualiza el bga_username, nick y/o nombre_agenda_admin de un miembro
+    identificado por su teléfono o por su nick actual.
+    """
+    clean_id = str(identificador or "").strip()
+    if not clean_id:
+        return {"ok": False, "error": "identificador_requerido"}
+    
+    digits = normalizar_telefono(clean_id)
     try:
         with get_db() as conn:
-            conn.execute(
-                "UPDATE jugadores SET puntos = COALESCE(puntos, 0) + ? WHERE id = ?",
-                (int(puntos), int(jugador_id))
-            )
-            # Log del movimiento si existe tabla de movimientos
+            cur = conn.cursor()
+            row = None
+            if len(digits) >= 7:
+                suffix = digits[-8:]
+                cur.execute("SELECT * FROM jugadores WHERE telefono LIKE ? OR telefono = ?", (f"%{suffix}", digits))
+                row = cur.fetchone()
+            if not row:
+                cur.execute("SELECT * FROM jugadores WHERE UPPER(nick) = UPPER(?)", (clean_id,))
+                row = cur.fetchone()
+            if not row and digits:
+                cur.execute("SELECT * FROM jugadores WHERE telefono = ?", (digits,))
+                row = cur.fetchone()
+
+            if not row:
+                return {"ok": False, "error": f"Miembro con identificador '{clean_id}' no encontrado en la base de datos."}
+
+            target_nick = row["nick"]
+            updates = []
+            params = []
+
+            if bga_username is not None:
+                updates.append("bga_username = ?")
+                params.append(str(bga_username).strip())
+
+            if nombre_agenda is not None:
+                updates.append("nombre_agenda_admin = ?")
+                params.append(str(nombre_agenda).strip())
+
+            if nuevo_nick is not None and str(nuevo_nick).strip() and str(nuevo_nick).strip() != target_nick:
+                updates.append("nick = ?")
+                params.append(str(nuevo_nick).strip())
+
+            if updates:
+                params.append(target_nick)
+                sql = f"UPDATE jugadores SET {', '.join(updates)} WHERE nick = ?"
+                cur.execute(sql, tuple(params))
+                conn.commit()
+
+            cur.execute("""
+                SELECT nick, telefono, nombre_agenda_admin, nombre_perfil_ws, 
+                       COALESCE(bga_username, '') as bga_username, puntos 
+                FROM jugadores 
+                WHERE nick = ? OR telefono = ?
+            """, (nuevo_nick or target_nick, row["telefono"]))
+            act = cur.fetchone()
+            return {"ok": True, "jugador": dict(act) if act else None}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def sumar_puntos_jugador(nick_o_telefono: str, puntos: int, razon: str = "") -> dict:
+    """Suma puntos a un jugador por nick o teléfono y registra la transacción en historial_transacciones."""
+    clean_id = str(nick_o_telefono or "").strip()
+    digits = normalizar_telefono(clean_id)
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            row = None
+            if len(digits) >= 7:
+                cur.execute("SELECT nick, puntos FROM jugadores WHERE telefono LIKE ? OR telefono = ?", (f"%{digits[-8:]}", digits))
+                row = cur.fetchone()
+            if not row:
+                cur.execute("SELECT nick, puntos FROM jugadores WHERE UPPER(nick) = UPPER(?)", (clean_id,))
+                row = cur.fetchone()
+
+            if not row:
+                return {"ok": False, "error": f"Jugador {nick_o_telefono} no encontrado para asignar puntos"}
+
+            nick = row["nick"]
+            saldo_anterior = int(row["puntos"] or 0)
+            nuevo_saldo = saldo_anterior + int(puntos)
+
+            cur.execute("""
+                UPDATE jugadores 
+                SET puntos = ?, total_ganados = COALESCE(total_ganados, 0) + ?, ultima_actividad = datetime('now')
+                WHERE nick = ?
+            """, (nuevo_saldo, int(puntos), nick))
+
+            # Transacción oficial en historial
             try:
-                conn.execute("""
-                    INSERT INTO movimientos_puntos (jugador_id, puntos, razon, creado_en)
-                    VALUES (?, ?, ?, datetime('now'))
-                """, (int(jugador_id), int(puntos), str(razon)))
+                import datetime as _dt
+                now_iso = _dt.datetime.now().isoformat()
+                cur.execute("""
+                    INSERT INTO historial_transacciones (timestamp, nick, tipo_evento, descripcion, variacion_pts, saldo_resultante)
+                    VALUES (?, ?, 'TORNEO_BGA', ?, ?, ?)
+                """, (now_iso, nick, str(razon), int(puntos), nuevo_saldo))
+            except Exception as e_tx:
+                print(f"⚠️ Error registrando historial tx torneo: {e_tx}")
+
+            conn.commit()
+            try:
+                exportar_ranking_json()
             except Exception:
-                pass  # La tabla puede no existir, no es crítico
-        return {"ok": True, "jugador_id": jugador_id, "puntos_sumados": puntos}
+                pass
+
+        return {"ok": True, "nick": nick, "puntos_sumados": puntos, "nuevo_saldo": nuevo_saldo}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 def obtener_torneos_activos() -> list:
-    """Retorna todos los torneos activos con sus participantes."""
+    """Retorna todos los torneos activos con sus participantes vinculados a miembros del club."""
     _init_torneos_tablas()
     try:
         with get_db() as conn:
@@ -3056,9 +3145,14 @@ def obtener_torneos_activos() -> list:
             torneos = [dict(r) for r in cur.fetchall()]
             for t in torneos:
                 cur.execute("""
-                    SELECT * FROM torneo_participantes
-                    WHERE tournament_id = ?
-                    ORDER BY rank_actual ASC
+                    SELECT p.*, j.telefono, j.nombre_agenda_admin, j.puntos as puntos_actuales
+                    FROM torneo_participantes p
+                    LEFT JOIN jugadores j ON (
+                        (p.nick_aj IS NOT NULL AND UPPER(p.nick_aj) = UPPER(j.nick)) OR 
+                        (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(j.bga_username))
+                    )
+                    WHERE p.tournament_id = ?
+                    ORDER BY p.rank_actual ASC
                 """, (t['tournament_id'],))
                 t['participantes'] = [dict(r) for r in cur.fetchall()]
             return torneos

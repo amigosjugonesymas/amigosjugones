@@ -159,147 +159,14 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
-        # ─── API: TORNEOS BGA — SINCRONIZAR DESDE EXTENSIÓN ─────────────────
-        if parsed.path == '/api/torneos/sincronizar':
+        # ─── API: ADMIN — OBTENER LISTA DE MIEMBROS CON BGA (Panel Admin) ────
+        if parsed.path == '/api/admin/miembros_bga':
             if not self._is_admin(params):
                 self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
                 return
             try:
-                tournament_id = str(params.get('tournamentId', '')).strip()
-                tournament_name = str(params.get('tournamentName', 'Torneo BGA')).strip()
-                game = str(params.get('game', '')).strip()
-                status = str(params.get('status', 'En progreso')).strip()
-                current_round = params.get('currentRound')
-                players = params.get('players', [])
-                url = str(params.get('url', '')).strip()
-                total_players = _safe_int(params.get('totalPlayers', len(players)))
-
-                if not tournament_id:
-                    self._send_json({"ok": False, "error": "tournamentId es requerido"}, 400)
-                    return
-                if not isinstance(players, list):
-                    players = []
-
-                # Guardar/actualizar torneo en DB
-                gestor_db.guardar_torneo({
-                    'tournament_id': tournament_id,
-                    'tournament_name': tournament_name,
-                    'game': game,
-                    'status': status,
-                    'current_round': current_round,
-                    'bga_url': url,
-                    'total_players': total_players
-                })
-
-                # Obtener todos los jugadores AJ para fuzzy matching
-                jugadores_aj = gestor_db.obtener_jugadores_todos()
-
-                def normalize(s):
-                    import unicodedata
-                    s = str(s).lower().strip()
-                    s = ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
-                    return s
-
-                def fuzzy_match(bga_name, jugadores):
-                    bga_norm = normalize(bga_name)
-                    best = None
-                    for j in jugadores:
-                        nick_norm = normalize(j.get('nick', ''))
-                        bga_user_norm = normalize(j.get('bga_username', ''))
-                        # Coincidencia exacta o contenida
-                        if bga_norm == nick_norm or bga_norm == bga_user_norm:
-                            return j
-                        if bga_norm in nick_norm or nick_norm in bga_norm:
-                            best = j
-                        elif bga_user_norm and (bga_norm in bga_user_norm or bga_user_norm in bga_norm):
-                            best = j
-                    return best
-
-                # Escala de puntos por posición
-                def calcular_puntos(rank, total):
-                    if rank == 1:
-                        return 100, "1er lugar"
-                    elif rank == 2:
-                        return 70, "2do lugar"
-                    elif rank == 3:
-                        return 50, "3er lugar"
-                    elif rank <= 6:
-                        return 30, f"{rank}to lugar (top 6)"
-                    elif rank <= (total // 2 + 1):
-                        return 15, f"{rank}to lugar (mitad superior)"
-                    else:
-                        return 5, f"{rank}to lugar (participación)"
-
-                matched_players = 0
-                points_assigned = []
-
-                # Solo asignar puntos si el torneo está terminado (status indica final)
-                is_finished = any(kw in status.lower() for kw in ['finaliz', 'terminad', 'complet', 'finish', 'ended', 'over'])
-
-                for player in players:
-                    bga_name = str(player.get('name', '')).strip()
-                    rank = _safe_int(player.get('rank', 999), 999)
-                    score = str(player.get('score', '')).strip()
-                    eliminated = bool(player.get('eliminated', False))
-                    bga_user_id = str(player.get('bgaUserId', '')).strip()
-
-                    if not bga_name:
-                        continue
-
-                    # Buscar coincidencia en jugadores AJ
-                    matched = fuzzy_match(bga_name, jugadores_aj)
-
-                    # Guardar participante
-                    gestor_db.guardar_participante_torneo({
-                        'tournament_id': tournament_id,
-                        'bga_username': bga_name,
-                        'nick_aj': matched['nick'] if matched else None,
-                        'jugador_id': matched['id'] if matched else None,
-                        'rank_actual': rank,
-                        'score': score,
-                        'eliminado': 1 if eliminated else 0
-                    })
-
-                    if matched:
-                        matched_players += 1
-                        # Asignar puntos solo si torneo terminado
-                        if is_finished and rank < 999:
-                            pts, reason = calcular_puntos(rank, total_players)
-                            gestor_db.sumar_puntos_jugador(matched['id'], pts, f"Torneo BGA: {tournament_name} — {reason}")
-                            points_assigned.append({
-                                'nick': matched['nick'],
-                                'bga_username': bga_name,
-                                'rank': rank,
-                                'points': pts,
-                                'reason': reason
-                            })
-
-                self._send_json({
-                    "ok": True,
-                    "tournament_id": tournament_id,
-                    "tournament_name": tournament_name,
-                    "total_players": total_players,
-                    "matched_players": matched_players,
-                    "points_assigned": points_assigned,
-                    "is_finished": is_finished,
-                    "mensaje": f"Torneo '{tournament_name}' sincronizado. {matched_players} miembros AJ identificados."
-                })
-            except Exception as e:
-                self._send_json({"ok": False, "error": str(e)}, 500)
-            return
-
-        # ─── API: TORNEOS BGA — FINALIZAR Y LIMPIAR DB ──────────────────────
-        if parsed.path == '/api/torneos/finalizar':
-            if not self._is_admin(params):
-                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
-                return
-            try:
-                tournament_id = str(params.get('tournamentId', '')).strip()
-                if not tournament_id:
-                    self._send_json({"ok": False, "error": "tournamentId es requerido"}, 400)
-                    return
-                res = gestor_db.finalizar_torneo(tournament_id)
-                self._send_json(res)
+                miembros = gestor_db.obtener_jugadores_todos()
+                self._send_json({"ok": True, "miembros": miembros, "total": len(miembros)})
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
@@ -707,18 +574,28 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
                 def fuzzy_match(bga_name, jugadores):
                     bga_norm = normalize(bga_name)
-                    best = None
+                    # 1. Prioridad Máxima: coincidencia exacta con bga_username configurado
+                    for j in jugadores:
+                        if j.get('bga_username') and normalize(j['bga_username']) == bga_norm:
+                            return j
+                    # 2. Coincidencia exacta con nick del jugador
+                    for j in jugadores:
+                        if j.get('nick') and normalize(j['nick']) == bga_norm:
+                            return j
+                    # 3. Coincidencia exacta con nombre de agenda admin
+                    for j in jugadores:
+                        if j.get('nombre_agenda_admin') and normalize(j['nombre_agenda_admin']) == bga_norm:
+                            return j
+                    # 4. Coincidencia parcial / substring
                     for j in jugadores:
                         nick_norm = normalize(j.get('nick', ''))
                         bga_user_norm = normalize(j.get('bga_username', ''))
-                        # Coincidencia exacta o contenida
-                        if bga_norm == nick_norm or bga_norm == bga_user_norm:
+                        agenda_norm = normalize(j.get('nombre_agenda_admin', ''))
+                        if bga_norm and ((bga_norm in nick_norm or nick_norm in bga_norm) or
+                                         (bga_user_norm and (bga_norm in bga_user_norm or bga_user_norm in bga_norm)) or
+                                         (agenda_norm and (bga_norm in agenda_norm or agenda_norm in bga_norm))):
                             return j
-                        if bga_norm in nick_norm or nick_norm in bga_norm:
-                            best = j
-                        elif bga_user_norm and (bga_norm in bga_user_norm or bga_user_norm in bga_norm):
-                            best = j
-                    return best
+                    return None
 
                 # Escala de puntos por posición
                 def calcular_puntos(rank, total):
@@ -759,7 +636,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                         'tournament_id': tournament_id,
                         'bga_username': bga_name,
                         'nick_aj': matched['nick'] if matched else None,
-                        'jugador_id': matched['id'] if matched else None,
+                        'jugador_id': None,
                         'rank_actual': rank,
                         'score': score,
                         'eliminado': 1 if eliminated else 0
@@ -770,7 +647,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                         # Asignar puntos solo si torneo terminado
                         if is_finished and rank < 999:
                             pts, reason = calcular_puntos(rank, total_players)
-                            gestor_db.sumar_puntos_jugador(matched['id'], pts, f"Torneo BGA: {tournament_name} — {reason}")
+                            gestor_db.sumar_puntos_jugador(matched['nick'], pts, f"Torneo BGA: {tournament_name} — {reason}")
                             points_assigned.append({
                                 'nick': matched['nick'],
                                 'bga_username': bga_name,
@@ -805,6 +682,32 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     return
                 res = gestor_db.finalizar_torneo(tournament_id)
                 self._send_json(res)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — VINCULAR MIEMBRO CON USUARIO BGA / NICK ───────────
+        if parsed.path == '/api/admin/vincular_bga':
+            if not self._is_admin(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                identificador = str(params.get('telefono', params.get('nick', params.get('identificador', '')))).strip()
+                bga_username = params.get('bga_username')
+                nuevo_nick = params.get('nuevo_nick')
+                nombre_agenda = params.get('nombre_agenda')
+
+                if not identificador:
+                    self._send_json({"ok": False, "error": "telefono_o_nick_requerido"}, 400)
+                    return
+
+                res = gestor_db.vincular_jugador_bga(
+                    identificador=identificador,
+                    bga_username=bga_username,
+                    nuevo_nick=nuevo_nick,
+                    nombre_agenda=nombre_agenda
+                )
+                self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
