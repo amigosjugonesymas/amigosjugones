@@ -20,8 +20,8 @@
   var ORQUESTADOR_URL = 'https://script.google.com/macros/s/AKfycby9ZbAUxHH2V29_wYSB7g78te7_lwWAgdPwPOvSA0PH0Lfe8hA4rsTMgUbRKGxHJToicQ/exec';
   var ADMIN_PANEL_URL = 'https://script.google.com/macros/s/AKfycbw8BmSMYsRsiI4Qq-cmvFiENgCa-2M7plG8mBarmhKeY9QvnfuQshG-CpOm8aEXlyu9tQ/exec';
 
-  // URL del backend Python: en local usa localhost:8877; en producción apunta al contenedor cloud
-  var PROD_API_URL = 'https://api-amigosjugones.onrender.com'; // Sustituir por URL definitiva al desplegar en Render
+  // URL del backend Python: en local usa localhost:8877; en producción apunta a Render Cloud oficial
+  var PROD_API_URL = 'https://amigosjugones.onrender.com';
   var API_BASE_URL = isLocal ? 'http://localhost:8877' : PROD_API_URL;
 
   window.AJ_CONFIG = {
