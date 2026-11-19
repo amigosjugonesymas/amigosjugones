@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Amigos Jugones 🎲 — Críptico del Día 🧠</title>
+    <meta name="description" content="Críptico del Día: Resuelve el acertijo mental diario, escala en el podio por intentos y acumula rachas de +10 PTS cada semana.">
+    <meta name="theme-color" content="#080814">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=19.3">
+    <link rel="stylesheet" href="css/skins.css?v=1.3">
+
+    <style>
+        :root {
+            --bg-amoled: #080814;
+            --card-amoled: rgba(18, 14, 38, 0.75);
+            --border-neon: rgba(124, 58, 237, 0.4);
+            --gold: #fbbf24;
+            --cyan: #38bdf8;
+            --green: #10b981;
+        }
+
+        body.page-criptico {
+            background-color: var(--bg-amoled);
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .criptico-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Top Header Hub */
+        .criptico-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(37, 99, 235, 0.15));
+            border: 1px solid var(--border-neon);
+            border-radius: 16px;
+            padding: 14px 18px;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-title-box h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin: 0;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title-box span {
+            font-size: 0.78rem;
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        .header-stats-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .streak-pill {
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: var(--gold);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Card Principal */
+        .criptico-card {
+            background: var(--card-amoled);
+            border: 1.5px solid var(--border-neon);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clue-badge {
+            align-self: flex-start;
+            background: rgba(124, 58, 237, 0.3);
+            border: 1px solid #7c3aed;
+            color: #c4b5fd;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .clue-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        /* Letras Casillas */
+        .letters-display {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .letter-box {
+            width: 44px;
+            height: 52px;
+            border: 2px solid rgba(148, 163, 184, 0.3);
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .letter-box.filled {
+            border-color: var(--cyan);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        /* Escala de Puntos HUD */
+        .points-hud {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 8px 6px;
+            width: 100%;
+            box-sizing: border-box;
+            align-items: stretch;
+        }
+
+        .hud-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 4px 2px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1.5px solid transparent;
+            color: #64748b;
+            box-sizing: border-box;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .hud-step.active {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--gold);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+        }
+
+        .hud-step .pts {
+            font-size: 0.95rem;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .hud-step .lbl {
+            font-size: 0.65rem;
+            font-weight: 700;
+            white-space: nowrap;
+            line-height: 1.2;
+            margin-top: 2px;
+            letter-spacing: -0.2px;
+        }
+
+        /* Formulario de Entrada */
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            align-items: stretch;
+        }
+
+        .answer-input {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border-neon);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .answer-input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+        }
+
+        .btn-submit {
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.88rem;
+            padding: 0 18px;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.96);
+        }
+
+        /* Intentos Fallidos */
+        .attempts-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .attempt-chip {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* Modal Éxito */
+        .modal-success {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .modal-content-box {
+            background: linear-gradient(145deg, #120e29, #1c1236);
+            border: 2px solid var(--gold);
+            border-radius: 22px;
+            padding: 28px 24px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .btn-share {
+            background: #25d366;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 8px 14px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back-home:hover {
+            color: #ffffff;
+            background: rgba(124, 58, 237, 0.2);
+            border-color: var(--border-neon);
+            transform: translateX(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .criptico-container {
+                padding: 10px 8px;
+            }
+            .criptico-card {
+                padding: 16px 12px;
+            }
+            .letter-box {
+                width: 36px;
+                height: 44px;
+                font-size: 1.15rem;
+            }
+            .clue-text {
+                font-size: 1.05rem;
+            }
+            .btn-submit {
+                padding: 0 14px;
+                font-size: 0.82rem;
+            }
+            .answer-input {
+                padding: 10px 12px;
+                font-size: 0.92rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-criptico">
+
+    <!-- Hub Header Mobile First -->
+    <div class="criptico-container">
+
+        <!-- Barra Superior de Navegación -->
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <a href="index.html" class="btn-back-home" title="Volver a la página principal">
+                <span style="font-size:1.1rem; line-height:1;">←</span> <span>Volver al Inicio</span>
+            </a>
+            <span style="font-size:0.75rem; color:#64748b; font-weight:700; letter-spacing:0.5px;">🎲 AMIGOS JUGONES</span>
+        </div>
+
+        <div class="criptico-header">
+            <div class="header-title-box">
+                <a href="index.html" style="text-decoration:none; color:inherit;">
+                    <h1>🧠 Críptico <span>del Día</span></h1>
+                </a>
+                <span id="label-fecha">Cargando fecha...</span>
+            </div>
+            <div class="header-stats-box">
+                <div class="streak-pill" id="badge-streak" title="Mantén 7 días de racha para ganar +10 PTS extra">
+                    🔥 <span>1d</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Bloqueo por Sesión (Si no está autenticado) -->
+        <div class="criptico-card card-locked-auth glow" id="card-auth-locked" style="display:none; text-align:center; padding:36px 20px; border:1px solid rgba(168, 85, 247, 0.45); background:linear-gradient(145deg, #121028 0%, #0d0d1e 100%);">
+            <div style="font-size:3.5rem; margin-bottom:12px; filter:drop-shadow(0 0 16px rgba(236, 72, 153, 0.45));">🔒</div>
+            <h2 style="color:#ffffff; font-size:1.35rem; font-weight:800; margin-bottom:8px;">Críptico Exclusivo para Miembros</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; max-width:440px; margin:0 auto 20px auto; line-height:1.55;">
+                Para resolver el acertijo del día, acumular puntos de temporada y mantener tu racha de victorias, debes identificarte con tu WhatsApp de la comunidad.
+            </p>
+            <button type="button" onclick="if(window.AuthManager) window.AuthManager.showModal({ reason: 'Identifícate con tus credenciales de miembro para ingresar al Críptico del Día.' })" class="btn-submit" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; width:auto; padding:13px 28px; font-size:0.95rem; font-weight:800; border-radius:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; box-shadow:0 4px 18px rgba(124, 58, 237, 0.35); margin:0 auto;">
+                <span>🔑</span> <span>Identifícate para Jugar</span>
+            </button>
+            <div style="margin-top:18px; font-size:0.75rem; color:#64748b;">
+                Al identificarte una sola vez, tu sesión queda guardada de forma segura en tu navegador.
+            </div>
+        </div>
+
+        <!-- Tarjeta del Reto -->
+        <div class="criptico-card" id="card-main">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="clue-badge" id="badge-longitud">LONGITUD: -- LETRAS</span>
+                <span style="font-size:0.8rem; color:#94a3b8;" id="timer-box">⏱️ 00:00s</span>
+            </div>
+
+            <p class="clue-text" id="pista-texto">Cargando el acertijo de hoy desde el orquestador...</p>
+
+            <!-- Visualizador de Letras -->
+            <div class="letters-display" id="letters-container">
+                <!-- Se generan dinámicamente -->
+            </div>
+
+            <!-- Escala de Puntos según intento actual -->
+            <div class="points-hud" id="points-hud">
+                <div class="hud-step active" id="step-1"><span class="pts">10</span><span class="lbl">1º Int.</span></div>
+                <div class="hud-step" id="step-2"><span class="pts">8</span><span class="lbl">2º Int.</span></div>
+                <div class="hud-step" id="step-3"><span class="pts">6</span><span class="lbl">3º Int.</span></div>
+                <div class="hud-step" id="step-4"><span class="pts">4</span><span class="lbl">4º Int.</span></div>
+                <div class="hud-step" id="step-5"><span class="pts">2</span><span class="lbl">5º+</span></div>
+            </div>
+
+            <!-- Formulario de Intento -->
+            <div class="input-form">
+                <div class="input-group">
+                    <input type="text" id="input-respuesta" class="answer-input" placeholder="Tu respuesta..." autocomplete="off" autocorrect="off" spellcheck="false">
+                    <button type="button" id="btn-adivinar" class="btn-submit">ADIVINAR</button>
+                </div>
+                <div id="feedback-msg" style="font-size:0.85rem; font-weight:700; min-height:18px;"></div>
+            </div>
+
+            <!-- Historial de Intentos Fallidos -->
+            <div id="box-fallos" style="display:none; flex-direction:column; gap:6px;">
+                <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">INTENTOS ANTERIORES:</span>
+                <div class="attempts-list" id="list-fallos"></div>
+            </div>
+
+            <!-- Pista Extra Desplegable -->
+            <div id="box-extra-pista" style="display:none; background:rgba(255,255,255,0.03); border-radius:10px; padding:10px 14px; font-size:0.85rem; color:#cbd5e1; border-left:3px solid var(--cyan);">
+                💡 <strong style="color:var(--cyan);">Pista Extra:</strong> <span id="texto-pista-extra"></span>
+            </div>
+        </div>
+
+        <!-- Enlace Inferior Volver -->
+        <div style="text-align:center; margin-top:4px;">
+            <a href="index.html" class="btn-back-home" style="font-size:0.8rem; padding:6px 16px;">
+                <span>←</span> <span>Volver a la Página Principal</span>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Modal de Victoria / Ya completado -->
+    <div id="modal-victoria" class="modal-success" style="display:none;">
+        <div class="modal-content-box" style="max-width:390px; padding:20px 16px;">
+            <div style="font-size:3rem;">🎉</div>
+            <h2 style="margin:0; font-size:1.5rem; color:#ffffff; font-weight:900;">¡ACIERTO TOTAL!</h2>
+            <p id="victoria-resumen" style="color:#cbd5e1; font-size:0.9rem; margin:0; line-height:1.4;"></p>
+            
+            <!-- Vista Previa de la Tarjeta Gráfica AMOLED -->
+            <div id="preview-tarjeta-box" style="margin:10px 0; text-align:center;">
+                <canvas id="canvas-logro-preview" style="max-width:260px; width:100%; height:auto; border-radius:14px; box-shadow:0 0 20px rgba(124,58,237,0.35); border:1px solid rgba(168,85,247,0.4); display:none;"></canvas>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(245,158,11,0.4); border-radius:12px; padding:10px;">
+                <div style="font-size:0.75rem; color:#94a3b8; font-weight:700;">PUNTOS OBTENIDOS</div>
+                <div style="font-size:1.8rem; font-weight:900; color:var(--gold);" id="victoria-pts">+10 PTS</div>
+                <div style="font-size:0.8rem; color:var(--cyan); font-weight:700;" id="victoria-racha">🔥 Racha: 1 día</div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px; width:100%;">
+                <button type="button" id="btn-descargar-tarjeta" class="btn" style="width:100%; padding:12px; font-weight:800; font-size:0.92rem; border-radius:12px; background:linear-gradient(135deg, #7c3aed, #2563eb); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    📥 Descargar Tarjeta de Logro (PNG)
+                </button>
+                <button type="button" id="btn-compartir-ws" class="btn-share" style="width:100%; margin:0;">
+                    📲 Compartir Imagen en WhatsApp
+                </button>
+            </div>
+
+            <a href="index.html" class="btn btn-ghost" style="padding:8px; font-size:0.85rem; text-decoration:none; color:#94a3b8; margin-top:4px;">
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts Oficiales de Amigos Jugones -->
+    <script src="js/pwa-register.js"></script>
+    <script src="js/i18n.js?v=1.0"></script>
+    <script src="js/config.js?v=1.0"></script>
+    <script src="js/auth.js?v=2.1"></script>
+    <script src="js/logro-card.js?v=1.1"></script>
+    <script>
+        (function() {
+            let intentoActual = 1;
+            let segundos = 0;
+            let timerInterval = null;
+            let palabraLongitud = 5;
+            let rachaJugador = 1;
+            let juegoCompletado = false;
+            let intentosFallidos = [];
+
+            const input = document.getElementById('input-respuesta');
+            const btn = document.getElementById('btn-adivinar');
+            const feedback = document.getElementById('feedback-msg');
+            const lettersBox = document.getElementById('letters-container');
+            const timerBox = document.getElementById('timer-box');
+            const badgeLong = document.getElementById('badge-longitud');
+            let juegoCargado = false;
+
+            function estaAutenticado() {
+                return Boolean(
+                    window.AuthManager && 
+                    typeof window.AuthManager.isAuthenticated === 'function' && 
+                    window.AuthManager.isAuthenticated()
+                );
+            }
+
+            function verificarAccesoYArrancar() {
+                const isAuth = estaAutenticado();
+                const cardMain = document.getElementById('card-main');
+                const cardLocked = document.getElementById('card-auth-locked');
+                const streakBadge = document.getElementById('badge-streak');
+
+                if (!isAuth) {
+                    if (cardMain) cardMain.style.display = 'none';
+                    if (cardLocked) cardLocked.style.display = 'flex';
+                    if (streakBadge) streakBadge.style.display = 'none';
+                    const fechaEl = document.getElementById('label-fecha');
+                    if (fechaEl && (!fechaEl.textContent || fechaEl.textContent.includes('Cargando'))) {
+                        fechaEl.textContent = new Date().toLocaleDateString('es-CL');
+                    }
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                    return false;
+                }
+
+                // Miembro autenticado: mostrar juego
+                if (cardMain) cardMain.style.display = 'flex';
+                if (cardLocked) cardLocked.style.display = 'none';
+                if (streakBadge) streakBadge.style.display = 'inline-flex';
+
+                if (!juegoCargado) {
+                    juegoCargado = true;
+                    cargarCripticoHoy();
+                }
+                return true;
+            }
+
+            // 1. Inicializar y obtener críptico de hoy
+            async function cargarCripticoHoy() {
+                try {
+                    const token = (window.AuthManager && typeof window.AuthManager.getToken === 'function')
+                        ? window.AuthManager.getToken()
+                        : (window.AuthManager && window.AuthManager.session ? (window.AuthManager.session.session_token || "") : "");
+                    const url = `https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec?action=criptico_get_today&session_token=${encodeURIComponent(token)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    if (data.status === 'ok') {
+                        let fStr = data.fecha || "";
+                        if (typeof fStr === 'string' && fStr.includes('T')) {
+                            const p = fStr.slice(0, 10).split('-');
+                            fStr = `${p[2]}/${p[1]}/${p[0]}`;
+                        }
+                        document.getElementById('label-fecha').textContent = fStr || new Date().toLocaleDateString('es-CL');
+                        document.getElementById('pista-texto').textContent = `"${data.pista}"`;
+                        palabraLongitud = data.longitud || 5;
+                        badgeLong.textContent = `LONGITUD: ${palabraLongitud} LETRAS`;
+
+                        renderizarCasillas(palabraLongitud);
+
+                        if (data.pista_extra) {
+                            document.getElementById('box-extra-pista').style.display = 'block';
+                            document.getElementById('texto-pista-extra').textContent = data.pista_extra;
+                        }
+
+                        iniciarCronometro();
+                    } else {
+                        document.getElementById('pista-texto').textContent = data.message || "No hay acertijo disponible hoy.";
+                    }
+                } catch (e) {
+                    console.warn("[Criptico] Error de conexión con el Orquestador:", e);
+                    document.getElementById('label-fecha').textContent = new Date().toLocaleDateString('es-CL');
+                    document.getElementById('pista-texto').innerHTML = 
+                        '<span style="color:#ef4444;font-weight:700;">⚠️ Sin conexión con el oráculo</span><br><span style="font-size:0.85rem;color:var(--text-muted);">Comprueba tu conexión a internet para cargar el acertijo oficial de hoy.</span>';
+                    badgeLong.textContent = 'ESTADO: DESCONECTADO';
+                    lettersBox.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;padding:12px;">El juego requiere conexión activa para registrar tus puntos en la comunidad.</div>';
+                    btn.disabled = true;
+                    input.disabled = true;
+                }
+            }
+
+            function renderizarCasillas(len) {
+                lettersBox.innerHTML = '';
+                for (let i = 0; i < len; i++) {
+                    const box = document.createElement('div');
+                    box.className = 'letter-box';
+                    box.id = `box-letra-${i}`;
+                    lettersBox.appendChild(box);
+                }
+            }
+
+            function iniciarCronometro() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    segundos++;
+                    const m = String(Math.floor(segundos / 60)).padStart(2, '0');
+                    const s = String(segundos % 60).padStart(2, '0');
+                    timerBox.textContent = `⏱️ ${m}:${s}s`;
+                }, 1000);
+            }
+
+            // Actualizar casillas en vivo al escribir
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.trim().toUpperCase();
+                for (let i = 0; i < palabraLongitud; i++) {
+                    const b = document.getElementById(`box-letra-${i}`);
+                    if (!b) continue;
+                    if (val[i]) {
+                        b.textContent = val[i];
+                        b.classList.add('filled');
+                    } else {
+                        b.textContent = '';
+                        b.classList.remove('filled');
+                    }
+                }
+            });
+
+            // Enviar intento
+            btn.addEventListener('click', enviarIntento);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') enviarIntento();
+            });
+
+            async function enviarIntento() {
+                if (juegoCompletado) return;
+                const resp = input.value.trim();
+                if (!resp) return;
+
+                btn.disabled = true;
+                feedback.textContent = 'Comprobando...';
+                feedback.style.color = 'var(--cyan)';
+
+                try {
+                    const token = (window.AuthManager && typeof window.AuthManager.getToken === 'function')
+                        ? window.AuthManager.getToken()
+                        : (window.AuthManager && window.AuthManager.session ? (window.AuthManager.session.session_token || "") : "");
+                    const nick  = window.AuthManager ? (window.AuthManager.getNick() || "") : "";
+                    const url = `https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec?action=criptico_submit&session_token=${encodeURIComponent(token)}&nick=${encodeURIComponent(nick)}&respuesta=${encodeURIComponent(resp)}&intentos=${intentoActual}&tiempo=${segundos}`;
+                    
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    if (data.status === 'ok' && data.acierto) {
+                        // Victoria
+                        clearInterval(timerInterval);
+                        juegoCompletado = true;
+                        mostrarVictoria(data);
+                    } else if (data.error === 'ya_jugado_hoy') {
+                        // Ya jugó hoy — bloquear y mostrar mensaje informativo
+                        clearInterval(timerInterval);
+                        juegoCompletado = true;
+                        feedback.textContent = '✅ Ya resolviste el críptico de hoy. ¡Vuelve mañana!';
+                        feedback.style.color = 'var(--cyan)';
+                        btn.disabled = true;
+                        input.disabled = true;
+                    } else if (data.status === 'ok' && !data.acierto) {
+                        // Fallo
+                        intentosFallidos.push(resp.toUpperCase());
+                        actualizarFallos();
+                        intentoActual++;
+                        actualizarHudPuntos();
+                        feedback.textContent = '❌ Incorrecto. Sigue intentando.';
+                        feedback.style.color = '#ef4444';
+                        input.value = '';
+                        input.focus();
+                    } else {
+                        feedback.textContent = data.message || 'Error al validar.';
+                        feedback.style.color = '#f59e0b';
+                    }
+                } catch (e) {
+                    console.warn("[Criptico] Error de red al validar:", e);
+                    feedback.textContent = '⚠️ Error de red. No pudimos verificar tu respuesta. Comprueba tu conexión y reintenta.';
+                    feedback.style.color = '#ef4444';
+                } finally {
+                    btn.disabled = false;
+                }
+            }
+
+            function actualizarHudPuntos() {
+                for (let i = 1; i <= 5; i++) {
+                    const step = document.getElementById(`step-${i}`);
+                    if (step) step.classList.remove('active');
+                }
+                const activeId = intentoActual >= 5 ? 'step-5' : `step-${intentoActual}`;
+                const el = document.getElementById(activeId);
+                if (el) el.classList.add('active');
+            }
+
+            function actualizarFallos() {
+                const box = document.getElementById('box-fallos');
+                const list = document.getElementById('list-fallos');
+                box.style.display = 'flex';
+                list.innerHTML = intentosFallidos.map(f => `<span class="attempt-chip">${f}</span>`).join('');
+            }
+
+            function mostrarVictoria(data) {
+                const modal = document.getElementById('modal-victoria');
+                const resumen = document.getElementById('victoria-resumen');
+                const ptsEl = document.getElementById('victoria-pts');
+                const rachaEl = document.getElementById('victoria-racha');
+
+                const m = String(Math.floor(segundos / 60)).padStart(2, '0');
+                const s = String(segundos % 60).padStart(2, '0');
+
+                resumen.innerHTML = `¡Completaste el reto en <strong>${data.intentos || intentoActual}º intento</strong> y <strong>${m}:${s}s</strong>! Tus puntos ya fueron acreditados a tu cuenta.`;
+                ptsEl.textContent = `+${data.pts_ganados || 10} PTS`;
+                rachaEl.textContent = `🔥 Racha: ${data.racha_actual || 1} días consecutivos${data.bono_racha > 0 ? " (¡Bono Semanal +10 PTS!)" : ""}`;
+
+                // Generar tarjeta gráfica AMOLED de logro (sin spoilers de respuestas)
+                let canvasLogro = null;
+                const nickActual = window.AuthManager ? (window.AuthManager.getNick() || "Gamer") : "Gamer";
+                const fechaLabel = document.getElementById('label-fecha') ? document.getElementById('label-fecha').textContent : "";
+
+                if (window.LogroCard) {
+                    canvasLogro = window.LogroCard.generarCriptico({
+                        nick: nickActual,
+                        intentos: data.intentos || intentoActual,
+                        segundos: segundos,
+                        pts: data.pts_ganados || 10,
+                        racha: data.racha_actual || 1,
+                        bonoRacha: data.bono_racha || 0,
+                        fecha: fechaLabel
+                    });
+
+                    // Mostrar miniatura en el modal
+                    const previewCanvas = document.getElementById('canvas-logro-preview');
+                    if (previewCanvas && canvasLogro) {
+                        previewCanvas.width = canvasLogro.width;
+                        previewCanvas.height = canvasLogro.height;
+                        const pCtx = previewCanvas.getContext('2d');
+                        pCtx.drawImage(canvasLogro, 0, 0);
+                        previewCanvas.style.display = 'inline-block';
+                    }
+                }
+
+                modal.style.display = 'flex';
+
+                const filename = `amigosjugones_criptico_${nickActual}.png`;
+                const shareText = `🧠 ¡Resolví el Críptico del Día en Amigos Jugones! 🎯 Intentos: ${data.intentos || intentoActual} · ⏱️ ${m}:${s}s · 🔥 Racha: ${data.racha_actual || 1} días (+${data.pts_ganados || 10} PTS) · 👉 Juega tú también en: https://amigosjugonesymas.github.io/criptico.html`;
+
+                // Descargar tarjeta gráfica
+                document.getElementById('btn-descargar-tarjeta').onclick = function() {
+                    if (window.LogroCard && canvasLogro) {
+                        window.LogroCard.descargarCanvas(canvasLogro, filename);
+                    }
+                };
+
+                // Compartir en WhatsApp con imagen adjunta (vía WebShare o descarga + link)
+                document.getElementById('btn-compartir-ws').onclick = function() {
+                    if (window.LogroCard && canvasLogro) {
+                        window.LogroCard.compartirCanvas(canvasLogro, filename, shareText);
+                    } else {
+                        const wsUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                        window.open(wsUrl, '_blank');
+                    }
+                };
+            }
+
+            // Cargar y verificar al iniciar
+            document.addEventListener('DOMContentLoaded', verificarAccesoYArrancar);
+
+            // Reactivar cuando el usuario inicie sesión desde el modal
+            window.addEventListener('aj:auth-changed', verificarAccesoYArrancar);
+            if (window.AuthManager && typeof window.AuthManager.on === 'function') {
+                window.AuthManager.on('auth', verificarAccesoYArrancar);
+            }
+        })();
+    </script>
+</body>
+
+</html>
+

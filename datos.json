@@ -1,0 +1,454 @@
+{
+  "novedad": {
+    "texto": "🥷 BLACK RULEZ!\n📣 segundo anuncio con emoji\n🎉 Comenzamos\n💥 anuncio cuarto\n🤪 quinto anuncio de prueba"
+  },
+  "miembros": {
+    "participantes": {
+      "descripcion": "Estos son los Amigos Jugones que destacamos porque se dedican a expandir la cultura jugona a través de sus proyectos y redes personales. ¡Síguelos y descubre su contenido!",
+      "icono": "🎮",
+      "lista": [
+        {
+          "nombre": "UNETE AL GRUPO DE WHATSAPP DE AMIGOS JUGONES",
+          "url": "https://chat.whatsapp.com/KaZmswdC0Kw5JnTADqojcK?mode=ems_copy_t",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "JESS_REDBLACK",
+          "url": "https://www.instagram.com/jess_redblack/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "LORD RICARDRAGON",
+          "url": "https://www.instagram.com/lord.ricardragon/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ANGEL VILLAROEL",
+          "url": "https://www.instagram.com/angel.vm/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "DANIEL ALEJANDRO",
+          "url": "https://www.instagram.com/shifder/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "KARLITA",
+          "url": "https://www.instagram.com/karlaskittle",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        }
+      ]
+    },
+    "divulgadores": {
+      "descripcion": "Los Divulgadores de nuestro grupo. Estos Amigos Jugones dedican su talento a promover la pasión por los juegos de mesa en sus redes y en eventos, llevando la diversión a nuevas mesas y reclutando a los jugones del mañana.",
+      "icono": "📢",
+      "lista": [
+        {
+          "nombre": "TECLAS LUDICAS - Reseñas de Juegos de mesa",
+          "url": "https://www.instagram.com/teclasludicas/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Mai & Yere Jugones (Chikis_Jugones)",
+          "url": "https://www.instagram.com/chikis_jugones/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Escuela de Rol",
+          "url": "https://www.instagram.com/escueladerol.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Cicuta Games (Instagram)",
+          "url": "https://www.instagram.com/cicutagames",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Cicuta Games (Youtube)",
+          "url": "https://www.youtube.com/@CicutaGames-r4m/videos",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Edgard Mic (instagram)",
+          "url": "https://www.instagram.com/edgard.mic",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Neko meeple (Instagram)",
+          "url": "https://www.instagram.com/neko_meeple/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Ludo Manu (Instagram)",
+          "url": "https://www.instagram.com/ludomanucl/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Doctor Fillermeeple (Instagram)",
+          "url": "https://www.instagram.com/doctor.fillermeeple/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "JugandoJDM (Instagram)",
+          "url": "https://www.instagram.com/jugandojdm?igsh=MTN3eDY4ZnhlYTdvMQ==",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Jugones al Paso (Instagram)",
+          "url": "https://www.instagram.com/jugonesalpaso",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Club Grimorio Talagante (Instagram)",
+          "url": "https://www.instagram.com/grimoriotalagante",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Entre copas y Juegos (Vasco - Instagram)",
+          "url": "https://www.instagram.com/entrecopasyjuegos/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Chika_Ludica (instagram)",
+          "url": "https://www.instagram.com/chika_ludica",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Elfa del Tablero (Instagram)",
+          "url": "https://www.instagram.com/elfadeltablero",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Ale Freirino (instagram)",
+          "url": "https://www.instagram.com/ale_freirino/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "Sociedad de TCG Muertos",
+          "url": "https://www.instagram.com/sociedad.de.tcg.muertos/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "BLACK",
+          "url": "https://www.instagram.com/amigosjugonesymas",
+          "imagen": "https://cdn.imgbin.com/7/1/0/ninja-day-ninja-with-sword-cartoon-illustration-for-ninja-day-EjDHY6x5.jpg"
+        }
+      ]
+    },
+    "creadores": {
+      "descripcion": "Creadores. En esta sección podrás conocer a los Amigos Jugones que han dado el salto de jugadores a diseñadores, dando vida a sus propias mecánicas y universos originales.",
+      "icono": "🎨",
+      "lista": [
+        {
+          "nombre": "SE BUSCA - Juego de Cartas",
+          "url": "https://sebusca-cartas.carrd.co/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "SE BUSCA - Juego de Cartas (Instagram)",
+          "url": "https://www.instagram.com/sebuscacartas",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "AS DE JOTA - Creador de Juegos de Mesa (Instagram)",
+          "url": "https://www.instagram.com/asdejota/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "EL JUEGO DE DIOSES (Linktree)",
+          "url": "https://linktr.ee/Eljuegodedioses",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "FUNDACION DADO DE HUESO (Instagram)",
+          "url": "https://www.instagram.com/fundaciondadodehueso/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ARTURO Y ESTEFI - Estudio Alpargatas",
+          "url": "https://www.instagram.com/estudioalpargatas",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "BOARDMATCH",
+          "url": "https://boardmatch.baldomeronapoli.com/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ESTUDIO ISAYKA",
+          "url": "https://sites.google.com/view/isayka-estudio/prisma/videojuego?au=0",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ESPADAS Y PINCELES (Instagram)",
+          "url": "https://www.instagram.com/espadasypinceles",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "LECTURA DE CHINCOLITO - Audiolibros de cuentos infantiles chilenos (Spotify)",
+          "url": "https://open.spotify.com/show/1CjkaKJRScY4zfQjJqTgKj",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "LECTURA DE CHINCOLITO - Audiolibros de cuentos infantiles chilenos (Instagram)",
+          "url": "https://www.instagram.com/lecturasconchincolito",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ERICK ARANCIBIA - creador KANPUR (Instagram)",
+          "url": "https://www.instagram.com/arvald.erick_quiltro/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ECLECTIC MIND OF KIRON (Instagram)",
+          "url": "https://www.instagram.com/eclecticmindofkiron",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "EUREKA GAMES (Instagram)",
+          "url": "https://www.instagram.com/eurekagames.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        }
+      ]
+    },
+    "organizaciones": {
+      "descripcion": "Organizaciones. Conoce nuestras Alianzas estratégicas. Estas son las comunidades y entidades amigas con las que sumamos fuerzas. Participamos en sus grandes eventos como invitados, compartiendo nuestra energía y amor por los juegos de mesa y la diversión.",
+      "icono": "🏛️",
+      "lista": [
+        {
+          "nombre": "AMIGOS JUGONES (Instagram)",
+          "url": "https://www.instagram.com/amigosjugonesymas/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "GRIMORIO TALAGANTE (Instagram)",
+          "url": "https://www.instagram.com/grimoriotalagante",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "MACROLUDICA (Instagram)",
+          "url": "https://www.instagram.com/macroludica/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "MACROLUDICA (Youtube)",
+          "url": "https://www.youtube.com/@MacroludicaTV",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "TARDES JUGONAS (Instagram)",
+          "url": "https://www.instagram.com/tardesjugonas.cl/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "PERISCOPIO (Pagina web)",
+          "url": "https://periscopio.cl/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "FESTIVAL PERISCOPIO (Instagram)",
+          "url": "https://www.instagram.com/festivalperiscopio/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        }
+      ]
+    },
+    "tiendas": {
+      "descripcion": "Tiendas. Conoce las tiendas amigas que confían en nuestra comunidad. Aquí te mostramos dónde conseguir tus próximos juegos mientras apoyamos el crecimiento del mercado local.",
+      "icono": "🛒",
+      "lista": [
+        {
+          "nombre": "OVNIPLAY - Tienda de Juegos de Mesa",
+          "url": "https://www.ovniplay.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "OVNIPLAY (Instagram)",
+          "url": "https://www.instagram.com/ovniplay.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "ARTMUNDO impresiones 3D",
+          "url": "https://www.atom.bio/artmundo",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "FRACTAL (editorial)",
+          "url": "https://www.fractaljuegos.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "EBANISTA LUDICA (Instagram)",
+          "url": "https://www.instagram.com/ebanista_ludica",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "LA GUARDIA DEL DRAGON (Web)",
+          "url": "https://laguardiadeldragon.cl/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "LA GUARDIA DEL DRAGON (Instagram)",
+          "url": "https://www.instagram.com/laguardiadeldragon/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        }
+      ]
+    },
+    "comunidades": {
+      "descripcion": "Comunidades. Conoce a los grupos y comunidades amigas que enriquecen nuestro panorama jugón en el país.",
+      "icono": "🌍",
+      "lista": [
+        {
+          "nombre": "comunidad 1",
+          "url": "https://www.ovniplay.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 2",
+          "url": "https://www.instagram.com/ovniplay.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 3",
+          "url": "https://www.atom.bio/artmundo",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 4",
+          "url": "https://www.fractaljuegos.cl",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 5",
+          "url": "https://www.instagram.com/ebanista_ludica",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 6",
+          "url": "https://laguardiadeldragon.cl/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "comunidad 7",
+          "url": "https://www.instagram.com/laguardiadeldragon/",
+          "imagen": "https://logo-icons.com/cdn/shop/files/291-logo-1711991296.916.svg?v=1712759714&width=823"
+        },
+        {
+          "nombre": "BLACK",
+          "url": "https://www.google.com/",
+          "imagen": "https://imgs.search.brave.com/EY8fKw-DkCMyiR9dw4dNNeWLvMjplroUUaiKTHmsP6g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9keW5h/bWljLmRlc2lnbi5j/b20vYXNzZXQvbG9n/by81NTkzN2NjMi1l/MDFiLTQwZjUtYTQ3/OS1mYmE2ZDc3NDNh/NmEvbG9nby1zZWFy/Y2gtZ3JpZC0yeD9s/b2dvVGVtcGxhdGVW/ZXJzaW9uPTEmdj02/Mzg4ODA1MTE3MTEy/MzAwMDAmbGF5b3V0/PWF1dG8tMS0x"
+        },
+        {
+          "nombre": "COMUNIDAD DE PRUEBA GENIAL",
+          "url": "google.com",
+          "imagen": "https://imgs.search.brave.com/EY8fKw-DkCMyiR9dw4dNNeWLvMjplroUUaiKTHmsP6g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9keW5h/bWljLmRlc2lnbi5j/b20vYXNzZXQvbG9n/by81NTkzN2NjMi1l/MDFiLTQwZjUtYTQ3/OS1mYmE2ZDc3NDNh/NmEvbG9nby1zZWFy/Y2gtZ3JpZC0yeD9s/b2dvVGVtcGxhdGVW/ZXJzaW9uPTEmdj02/Mzg4ODA1MTE3MTEy/MzAwMDAmbGF5b3V0/PWF1dG8tMS0x"
+        }
+      ]
+    }
+  },
+  "calendario": {
+    "embedUrl": "https://calendar.google.com/calendar/embed?src=amigosjugonesymas%40gmail.com&ctz=America%2FSantiago"
+  },
+  "eventos_destacados": [
+    {
+      "id": "torneo-cartas-oct26",
+      "titulo": "Torneo de Cartas: Batalla Final",
+      "imagen": "imagenes/juego_cartas.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "25/10/2026",
+      "hora": "20:00 hrs",
+      "descripcion": "¡Prepárense para la batalla definitiva! Duelo de cartas en el dohyo central con premios exclusivos y puntos dobles para el ranking de temporada. ¡Inscríbete antes de que se agoten los cupos! #Torneo #Cartas #AmigosJugones #BoardGames",
+      "ubicacion": "Presencial · Santiago",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    },
+    {
+      "id": "quedada-mesa-oct26",
+      "titulo": "Quedada Presencial: Noche de Mesa",
+      "imagen": "imagenes/juego_carreras.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "28/10/2026",
+      "hora": "19:30 hrs",
+      "descripcion": "Noche de juegos de mesa en comunidad. Trae tus títulos favoritos para compartir en la mesa y probar nuevas novedades con el grupo. Pizza y bebidas incluidas para todos los asistentes. #Quedada #JuegosDeMesa #Comunidad #AmigosJugones",
+      "ubicacion": "Sede Central · Amigos Jugones",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    },
+    {
+      "id": "triviaverso-halloween",
+      "titulo": "Triviaverso Especial Halloween",
+      "imagen": "imagenes/sobre top secret.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "31/10/2026",
+      "hora": "22:00 hrs",
+      "descripcion": "Edición especial del Triviaverso con temática de terror, cine clásico y misterio geek. Preguntas de culto y desafíos oscuros. ¡Premio especial al ganador de la noche! #Halloween #Triviaverso #Geek #Terror",
+      "ubicacion": "Online · Discord Oficial",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    },
+    {
+      "id": "geekstories-nov",
+      "titulo": "Geekstories: El Relato del Mes",
+      "imagen": "imagenes/escudo.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "05/11/2026",
+      "hora": "23:59 hrs",
+      "descripcion": "Comparte tu anécdota jugona más legendaria en menos de 300 palabras. Votación abierta por la comunidad con recompensa de +50 PTS en el ranking global. ¡La imaginación es el único límite! #Geekstories #Historias #Rol #Comunidad",
+      "ubicacion": "Comunidad Amigos Jugones",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    }
+  ],
+  "concursos_destacados": [
+    {
+      "id": "concurso-juego-mes-nov26",
+      "titulo": "Gran Sorteo: Juego de Mesa del Mes",
+      "imagen": "imagenes/juego_cartas.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "15/11/2026",
+      "hora": "21:00 hrs",
+      "descripcion": "¡Gana una copia sellada del juego más votado por la comunidad! Para participar: dale like al post oficial, comenta tu juego favorito del año y menciona a 2 amigos con los que jugarías. Puntos dobles en el ranking para los miembros verificados. #Sorteo #JuegosDeMesa #AmigosJugones #BoardGames #Comunidad",
+      "ubicacion": "Instagram Oficial · Amigos Jugones",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    },
+    {
+      "id": "torneo-arcade-champion",
+      "titulo": "Torneo Relámpago: Rey del Arcade",
+      "imagen": "imagenes/juego_carreras.png",
+      "link": "https://www.instagram.com/amigosjugonesymas/",
+      "fecha": "22/11/2026",
+      "hora": "20:00 hrs",
+      "descripcion": "Desafío semanal de puntuación en el Circuito Carrera y Dohyō Ninja. El jugador con mejor récord acumulado obtendrá el trofeo digital exclusivo y +100 PTS directos a su perfil. ¡Demuestra tus reflejos! #Torneo #Arcade #Competitivo #AmigosJugones",
+      "ubicacion": "Suite Oficial · Juegos Jugones",
+      "autor": "amigosjugonesymas",
+      "avatar": "imagenes/LOGO AMIGOS JUGONES.png"
+    }
+  ],
+  "administradores": [
+    {
+      "perfil": "https://imgs.search.brave.com/RDb0g54DEF5AU_hUsdwzxn2pjKxaMTsz6RWY0qTgmNs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvNTAwcC82/MS8xNy9waXhlbC1h/cnQtcHVycGxlLW5p/bmphLXZlY3Rvci01/ODI4NjExNy5qcGc",
+      "rol": "ADMINISTRADOR",
+      "imagen_rol": "https://imgs.search.brave.com/SFeDca-s6mHQ44MyDahCAXf9NZRJcDr-dNcN6zueb3A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/dmVjdG9yLXByZW1p/dW0vY29yb25hLXJ1/YmktZXN0aWxvLXBp/eGVsLWFydF80NzUx/NDctMzMwLmpwZz9z/ZW10PWFpc19zZV9l/bnJpY2hlZCZ3PTc0/MCZxPTgw",
+      "nick": "BLACK",
+      "funcion": "MODO NINJA",
+      "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum malesuada neque vel est scelerisque ullamcorper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi et sapien non velit sollicitudin tempor in faucibus nisl viverra.",
+      "link_ig": "https://www.instagram.com/amigosjugonesymas/"
+    }
+  ],
+  "reglamento_terminos": {
+    "reglamento": [
+      "REGLAS DEL GRUPO",
+      "1. Juega y diviértete.",
+      "2. Trata bien a los demás y no hagas enojar a los admin.",
+      "RECOMENDACIONES",
+      "1. Pon el grupo en silencio."
+    ],
+    "terminos": [
+      "TÉRMINOS",
+      "1. Cada persona es responsable de lo que publica y comparte en el grupo y de lo que termina indexado en la página web bajo su nombre o nick.",
+      "2. Navega en la web bajo tu propio riesgo."
+    ]
+  },
+  "last_update": "2026-05-29T22:50:15.119Z",
+  "mantenimiento": false
+}

@@ -1,0 +1,24 @@
+﻿{
+  "version": "1.0",
+  "ultima_actualizacion": "2026-10-31T23:59:00",
+  "temporadas": [
+    {
+      "clave": "2026-10",
+      "nombre": "Octubre 2026",
+      "activa": false,
+      "archivo": "temporadas/2026-10.json"
+    },
+    {
+      "clave": "2026-09",
+      "nombre": "Septiembre 2026",
+      "activa": false,
+      "archivo": "temporadas/2026-09.json"
+    },
+    {
+      "clave": "2026-08",
+      "nombre": "Agosto 2026",
+      "activa": false,
+      "archivo": "temporadas/2026-08.json"
+    }
+  ]
+}

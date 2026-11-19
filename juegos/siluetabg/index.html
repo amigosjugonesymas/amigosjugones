@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silueta Jugona — Desafíos Visuales de Amigos Jugones</title>
+  <meta name="description" content="Crea tarjetas HD con desafíos visuales y siluetas estilo '¿Quién es este juego?' para compartir en tu grupo de WhatsApp de Amigos Jugones.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge">
+          <span>🎮 COMUNIDAD DE JUEGOS DE MESA Y MÁS</span>
+        </div>
+        <h1 class="app-title">Silueta Jugona <span class="highlight-text">DESAFÍOS VISUALES</span></h1>
+        <p class="app-subtitle">Genera automáticamente tarjetas HD estilo <em>"¿Cuál es este juego?"</em> para compartir en tu grupo de <strong>AMIGOS JUGONES</strong>.</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Instructions Steps Banner -->
+      <section class="steps-banner">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <div class="step-info">
+            <h3>Sube tu Imagen Desafío</h3>
+            <p>Pega con Ctrl+V, arrastra o sube la imagen y define la respuesta correcta.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <div class="step-info">
+            <h3>Genera las Tarjetas HD</h3>
+            <p>Obtén la tarjeta del Desafío y la tarjeta con la Solución revelada.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <div class="step-info">
+            <h3>¡Comparte en el Grupo!</h3>
+            <p>Lanza el reto visual en WhatsApp y revela la solución ganadora.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generator Form Section -->
+      <section class="form-section">
+        <div class="card-glass form-card">
+          <div class="form-header">
+            <h2>🔍 Crear Nuevo Desafío Visual</h2>
+            <p>Completa los campos para generar tus tarjetas de adivinanza visual</p>
+          </div>
+
+          <form id="siluetaForm" class="trivia-form" onsubmit="return false;">
+            <!-- Creator Identification (Required) -->
+            <div class="form-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 18px;">
+              <div>
+                <label for="creatorNameInput" class="form-label">
+                  👤 Tu Nombre / Apodo <span class="label-required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="creatorNameInput" 
+                  class="form-control" 
+                  placeholder="Ej. Carlos / JuanJugon"
+                  maxlength="35"
+                  autocomplete="off"
+                >
+              </div>
+              <div>
+                <label for="creatorIgInput" class="form-label">
+                  📸 Tu Instagram <span class="label-required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="creatorIgInput" 
+                  class="form-control" 
+                  placeholder="Ej. @carlos_jugon"
+                  maxlength="35"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <!-- Challenge Title / Prompt -->
+            <div class="form-group">
+              <label for="challengeTitleInput" class="form-label">
+                ❓ Título o Pregunta del Desafío <span class="label-required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="challengeTitleInput" 
+                class="form-control" 
+                value="¿CUÁL ES ESTE JUEGO?"
+                placeholder="Ej. ¿CUÁL ES ESTE JUEGO? o ¿QUIÉN ES ESTE PERSONAJE?"
+                maxlength="60"
+                required
+              >
+              <div class="quick-title-tags">
+                <span class="quick-tag" onclick="document.getElementById('challengeTitleInput').value = '¿CUÁL ES ESTE JUEGO?';">🎲 ¿CUÁL ES ESTE JUEGO?</span>
+                <span class="quick-tag" onclick="document.getElementById('challengeTitleInput').value = '¿QUIÉN ES ESTE PERSONAJE?';">🥷 ¿QUIÉN ES ESTE PERSONAJE?</span>
+                <span class="quick-tag" onclick="document.getElementById('challengeTitleInput').value = '¿A QUÉ JUEGO PERTENECE?';">🧩 ¿A QUÉ JUEGO PERTENECE?</span>
+              </div>
+            </div>
+
+            <!-- Category / Theme Input (Optional) -->
+            <div class="form-group">
+              <label for="categoryInput" class="form-label">
+                🏷️ Categoría o Pista Temática <span class="label-optional">(Opcional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="categoryInput" 
+                class="form-control" 
+                placeholder="Ej. Eurogame, Cartas, Clásicos, Miniaturas, Videojuego..."
+                maxlength="50"
+              >
+            </div>
+
+            <!-- Main Challenge Image (Required) -->
+            <div class="form-group">
+              <label class="form-label">
+                🖼️ Imagen del Desafío a Adivinar <span class="label-required">*</span>
+              </label>
+              
+              <!-- Drop Zone -->
+              <div id="imageDropZone" class="evidence-drop-zone" tabindex="0">
+                <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden">
+                <div class="drop-zone-content">
+                  <span class="drop-zone-icon">📋</span>
+                  <p class="drop-zone-title"><strong>Presiona Ctrl+V para pegar la imagen copiada</strong></p>
+                  <p class="drop-zone-sub">o haz clic aquí para seleccionar archivo / arrastrar imagen</p>
+                </div>
+              </div>
+
+              <!-- URL Input Fallback -->
+              <div class="url-input-wrap">
+                <span class="url-icon">🔗</span>
+                <input 
+                  type="url" 
+                  id="imageUrlInput" 
+                  class="form-control input-url" 
+                  placeholder="o pega el enlace directo de una imagen (https://...)"
+                >
+              </div>
+
+              <!-- Preview Wrap -->
+              <div id="imagePreviewWrap" class="evidence-preview-wrap hidden">
+                <div class="preview-stage-container">
+                  <img id="imagePreviewImg" src="" alt="Previsualización del Desafío" class="evidence-preview-img">
+                  <div id="silhouetteOverlay" class="silhouette-preview-overlay hidden"></div>
+                </div>
+                <div class="preview-actions">
+                  <span id="imageSourceBadge" class="evidence-source-badge">📋 Imagen Cargada</span>
+                  <button type="button" id="removeImageBtn" class="btn-remove-evidence">❌ Quitar Foto</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Effect Mode Selector for Challenge Card -->
+            <div class="form-group">
+              <label class="form-label">
+                🎭 Modo Visual de la Imagen (Tarjeta Desafío)
+              </label>
+              <div class="effect-options-grid">
+                <label class="effect-option-card active" id="effectOptionNormal">
+                  <input type="radio" name="imageEffect" value="normal" checked style="display:none;">
+                  <span class="effect-icon">🖼️</span>
+                  <div class="effect-details">
+                    <strong>Imagen Normal</strong>
+                    <span>Muestra la foto tal cual (recorte, detalle o arte)</span>
+                  </div>
+                </label>
+                <label class="effect-option-card" id="effectOptionSilhouette">
+                  <input type="radio" name="imageEffect" value="silhouette" style="display:none;">
+                  <span class="effect-icon">👤</span>
+                  <div class="effect-details">
+                    <strong>Silueta Misteriosa</strong>
+                    <span>Convierte la figura en sombra (estilo Pokémon)</span>
+                  </div>
+                </label>
+                <label class="effect-option-card" id="effectOptionBlur">
+                  <input type="radio" name="imageEffect" value="blur" style="display:none;">
+                  <span class="effect-icon">🔮</span>
+                  <div class="effect-details">
+                    <strong>Desenfoque Suave</strong>
+                    <span>Añade misterio desenfocando la imagen</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Panel de Sugerencia para Silueta Misteriosa -->
+              <div id="silhouetteNoticeBox" class="silhouette-notice-box hidden">
+                <div class="notice-header">
+                  <span class="notice-icon">💡</span>
+                  <div>
+                    <strong class="notice-title">Consejo para Silueta estilo Pokémon:</strong>
+                    <p class="notice-subtitle">
+                      Para que la silueta trace el contorno del personaje u objeto (y no un recuadro cuadrado negro), se recomienda subir una imagen en <strong>PNG con fondo transparente</strong>.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Alerta dinámica si se detecta fondo sólido -->
+                <div id="solidBgWarning" class="solid-bg-warning hidden">
+                  ⚠️ <strong>Fondo opaco detectado:</strong> Tu imagen no tiene transparencia. Quedará como un bloque rectangular a menos que le quites el fondo o actives la auto-remoción abajo.
+                </div>
+
+                <div class="notice-tools-row">
+                  <a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer" class="btn-external-tool">
+                    ✂️ Quitar fondo gratis en Remove.bg ↗
+                  </a>
+                  <label class="auto-bg-toggle">
+                    <input type="checkbox" id="autoRemoveBgCheck">
+                    <span class="toggle-label">⚡ Intentar remover fondo blanco/claro automáticamente</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Panel de Control de Desenfoque (Slider + Presets) -->
+              <div id="blurControlBox" class="blur-control-box hidden">
+                <div class="blur-header-row">
+                  <div class="blur-label-group">
+                    <label for="blurRangeInput" class="blur-main-label">🔮 Intensidad del Desenfoque:</label>
+                    <span id="blurValueLabel" class="blur-value-badge">16px — Medio</span>
+                  </div>
+                  <div class="blur-presets-group">
+                    <button type="button" class="btn-blur-preset" data-blur="8">Suave (8px)</button>
+                    <button type="button" class="btn-blur-preset active" data-blur="16">Medio (16px)</button>
+                    <button type="button" class="btn-blur-preset" data-blur="26">Fuerte (26px)</button>
+                    <button type="button" class="btn-blur-preset" data-blur="38">Extremo (38px)</button>
+                  </div>
+                </div>
+                <div class="slider-track-wrap">
+                  <span class="slider-bound-label">Ligero</span>
+                  <input 
+                    type="range" 
+                    id="blurRangeInput" 
+                    min="4" 
+                    max="45" 
+                    value="16" 
+                    step="1" 
+                    class="blur-slider"
+                  >
+                  <span class="slider-bound-label">Muy Oculto</span>
+                </div>
+                <p class="slider-hint">
+                  Desliza o pulsa un botón para ajustar qué tan visible o misteriosa queda la imagen del desafío.
+                </p>
+              </div>
+            </div>
+
+            <!-- Optional Multiple Choice Options -->
+            <div class="options-toggle-group">
+              <button type="button" id="toggleOptionsBtn" class="btn-toggle-options">
+                ➕ Agregar Opciones Múltiples A, B, C, D (Opcional)
+              </button>
+            </div>
+
+            <div id="optionsContainer" class="options-container hidden">
+              <div class="options-grid">
+                <div class="form-group option-group">
+                  <span class="option-badge">A</span>
+                  <input type="text" id="optionAInput" class="form-control" placeholder="Opción A">
+                </div>
+                <div class="form-group option-group">
+                  <span class="option-badge">B</span>
+                  <input type="text" id="optionBInput" class="form-control" placeholder="Opción B">
+                </div>
+                <div class="form-group option-group">
+                  <span class="option-badge">C</span>
+                  <input type="text" id="optionCInput" class="form-control" placeholder="Opción C">
+                </div>
+                <div class="form-group option-group">
+                  <span class="option-badge">D</span>
+                  <input type="text" id="optionDInput" class="form-control" placeholder="Opción D">
+                </div>
+              </div>
+            </div>
+
+            <!-- Answer Input (Required) -->
+            <div class="form-group">
+              <label for="answerInput" class="form-label">
+                ✅ Respuesta Correcta / Nombre Real <span class="label-required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="answerInput" 
+                class="form-control input-answer" 
+                placeholder="Ej. Catan / Scythe / Meeple Rojo / Pikachu"
+                maxlength="100"
+                required
+              >
+            </div>
+
+            <!-- Fact / Explanation (Optional) -->
+            <div class="form-group">
+              <label for="explanationInput" class="form-label">
+                💡 Dato Curioso o Explicación para la Solución <span class="label-optional">(Opcional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="explanationInput" 
+                class="form-control" 
+                placeholder="Ej. Diseñado por Klaus Teuber en 1995. Ha vendido más de 40 millones de copias."
+                maxlength="140"
+              >
+            </div>
+
+            <!-- Format / Aspect Ratio Selector -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>📐 Formato de Imagen</span>
+              </label>
+              <div class="format-options-grid">
+                <label class="format-option-card active" id="cardOptionSquare">
+                  <input type="radio" name="aspectRatio" value="1:1" checked style="display:none;">
+                  <span class="format-icon">🟦</span>
+                  <div class="format-details">
+                    <strong>1:1 Cuadrado</strong>
+                    <span>WhatsApp / Feed (1000x1000)</span>
+                  </div>
+                </label>
+                <label class="format-option-card" id="cardOptionStory">
+                  <input type="radio" name="aspectRatio" value="9:16" style="display:none;">
+                  <span class="format-icon">📱</span>
+                  <div class="format-details">
+                    <strong>9:16 Vertical</strong>
+                    <span>Instagram Stories / Reels (1080x1920)</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" id="generateBtn" class="btn-primary" disabled>
+                💡 Generar Tarjetas de SiluetaBG
+              </button>
+              <button type="button" id="regenerateBtn" class="btn-secondary hidden" disabled>
+                🔄 Volver a Generar
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Loading Spinner -->
+      <div id="loader" class="loader-wrap hidden">
+        <div class="spinner"></div>
+        <p class="loader-text">Renderizando tarjetas PNG de SiluetaBG en HD...</p>
+      </div>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="results-section hidden">
+        <div class="results-header">
+          <div>
+            <h2>🎴 Tarjetas Generadas</h2>
+            <p class="section-subtitle">Descarga las imágenes listas para enviar a tu grupo de WhatsApp o redes.</p>
+          </div>
+          <button id="downloadAllBtn" class="btn-download-all">
+            📥 Descargar Ambas Tarjetas (PNG)
+          </button>
+        </div>
+
+        <div id="cardsGrid" class="cards-grid">
+          <!-- Dynamically inserted result cards -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer glass-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left">
+          <div class="web-qr-card">
+            <img src="assets/amigosjugonesymas_qr.png" alt="QR Amigos Jugones" class="web-qr-img">
+          </div>
+          <div class="web-copy-text">
+            <p>© <span id="currentYear">2026</span> <strong>AMIGOS JUGONES</strong></p>
+          </div>
+        </div>
+        <div class="web-footer-center">
+          <p class="web-ig-title">📸 ¡SÍGUENOS en INSTAGRAM!</p>
+          <p class="web-ig-sub">✨ Juego creado en Silueta Jugona: Desafíos Visuales — ¡Crea los tuyos!</p>
+        </div>
+        <div class="web-footer-right">
+          <span class="web-black-label">Sistema creado por</span>
+          <img src="assets/logo_black.png" alt="BLACK" class="web-black-logo">
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/logoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

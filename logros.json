@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "logros": [
+    {
+      "id": 1,
+      "nick": "ShadowDragon",
+      "titulo": "Autor de NeoTactics (Juego Publicado)",
+      "descripcion": "Diseñó y financió con éxito el juego de mesa NeoTactics, con más de 300 copias producidas y distribuidas a nivel nacional.",
+      "categoria": "diseno",
+      "emoji_categoria": "🎲",
+      "fecha_logro": "2026",
+      "instagram_user": "shadowdragon_games",
+      "instagram_url": "https://instagram.com/amigosjugones",
+      "enlace_referencia": null,
+      "imagen_url": null,
+      "visible": 1,
+      "destacado": 1,
+      "creado_en": "2026-10-26 08:32:54"
+    }
+  ]
+}

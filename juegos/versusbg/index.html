@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Versus Jugón — Desafíos de Versus y ¿Qué Prefieres?</title>
+  <meta name="description" content="Crea tarjetas HD de Versus y ¿Qué Prefieres? (Opción A vs Opción B) para votar y compartir en tu grupo de WhatsApp de Amigos Jugones.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge">
+          <span>🎮 COMUNIDAD DE JUEGOS DE MESA Y MÁS</span>
+        </div>
+        <h1 class="app-title">VERSUS JUGÓN <span class="highlight-text">DESAFÍOS DE VERSUS</span></h1>
+        <p class="app-subtitle">Genera automáticamente tarjetas de <strong>¿Qué Prefieres?</strong> o <strong>Versus (A vs B)</strong> en HD para votar y compartir los resultados en tu grupo de <strong>AMIGOS JUGONES</strong>.</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Instructions Steps Banner -->
+      <section class="steps-banner">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <div class="step-info">
+            <h3>Paso 1: Lanza el Desafío</h3>
+            <p>Define la Opción A y B con fotos. Genera y envía la tarjeta al grupo para que voten.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <div class="step-info">
+            <h3>Paso 2: Votan en WhatsApp</h3>
+            <p>La comunidad responde a tu encuesta eligiendo su opción favorita.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <div class="step-info">
+            <h3>Paso 3: Vuelve y Publica Resultados</h3>
+            <p>Ingresa los votos reales del grupo y genera la tarjeta final con el ganador.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Saved Session Banner -->
+      <div id="savedSessionBanner" class="saved-session-banner hidden">
+        <div class="saved-info">
+          <span class="saved-icon">💾</span>
+          <div>
+            <strong>Versus Guardado Automáticamente</strong>
+            <p id="savedSummaryText">Tienes un dilema guardado anteriormente.</p>
+          </div>
+        </div>
+        <div class="saved-actions">
+          <button type="button" id="loadSavedBtn" class="btn-sm btn-yellow">📂 Cargar Guardado</button>
+          <button type="button" id="clearSavedBtn" class="btn-sm btn-danger">❌ Borrar / Nuevo</button>
+        </div>
+      </div>
+
+      <!-- Workspace: Form + Live Preview Column -->
+      <div class="workspace-row">
+        <!-- Generator Form Section -->
+        <section class="form-section">
+          <div class="card-glass form-card">
+            <!-- Mode Switcher Tabs -->
+            <div class="mode-tabs">
+              <button type="button" id="modeTabChallenge" class="mode-tab active">
+                ⚔️ 1. Crear Desafío (Lanzar Pregunta)
+              </button>
+              <button type="button" id="modeTabResults" class="mode-tab">
+                📊 2. Publicar Resultados (Votos Reales)
+              </button>
+            </div>
+
+            <div class="form-header">
+              <h2 id="formHeaderTitle">⚔️ Crear Nuevo Desafío Versus</h2>
+              <p id="formHeaderSubtitle">Define las opciones A vs B para que tu grupo vote en WhatsApp</p>
+            </div>
+
+            <form id="versusForm" class="versus-form" onsubmit="return false;">
+              <!-- Creator Identification (Required) -->
+              <div class="form-group grid-2col">
+                <div>
+                  <label for="creatorNameInput" class="form-label">
+                    👤 Tu Nombre / Apodo <span class="label-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="creatorNameInput" 
+                    class="form-control" 
+                    placeholder="Ej. Carlos / JugónMaster"
+                    maxlength="35"
+                    autocomplete="off"
+                  >
+                </div>
+                <div>
+                  <label for="creatorIgInput" class="form-label">
+                    📸 Tu Instagram <span class="label-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="creatorIgInput" 
+                    class="form-control" 
+                    placeholder="Ej. @carlos_jugon"
+                    maxlength="35"
+                    autocomplete="off"
+                  >
+                </div>
+              </div>
+
+              <!-- Category / Theme Input (Optional) -->
+              <div class="form-group">
+                <label for="categoryInput" class="form-label">
+                  🏷️ Categoría o Tema <span class="label-optional">(Opcional)</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="categoryInput" 
+                  class="form-control" 
+                  placeholder="Ej. Cine, Comida, Videojuegos, Dilemas, Superhéroes..."
+                  maxlength="50"
+                >
+              </div>
+
+              <!-- Main Dilemma / Question Input -->
+              <div class="form-group">
+                <label for="questionInput" class="form-label">
+                  ❓ Pregunta / Dilema Principal <span class="label-required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="questionInput" 
+                  class="form-control textarea-question" 
+                  placeholder="Ej. ¿Qué prefieres para toda la vida?"
+                  value="¿Qué prefieres?"
+                  maxlength="100"
+                  required
+                >
+              </div>
+
+              <!-- OPTION A BOX -->
+              <div class="option-block option-block-a">
+                <div class="option-block-header">
+                  <span class="option-badge-large badge-a">OPCIÓN A</span>
+                  <span class="option-block-title">Primer Competidor</span>
+                </div>
+                
+                <div class="form-group">
+                  <label for="optionATextInput" class="form-label">
+                    🔴 Nombre / Descripción A <span class="label-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="optionATextInput" 
+                    class="form-control input-option-a" 
+                    placeholder="Ej. Volver al futuro 1"
+                    maxlength="80"
+                    required
+                  >
+                </div>
+
+                <!-- Dropzone Image A -->
+                <div class="form-group">
+                  <label class="form-label">
+                    📷 Imagen / Captura Opción A <span class="label-optional">(Opcional)</span>
+                  </label>
+                  <div id="dropZoneA" class="evidence-drop-zone dropzone-a" tabindex="0">
+                    <input type="file" id="imageInputA" accept="image/*" class="file-input-hidden">
+                    <div class="drop-zone-content">
+                      <span class="drop-zone-icon">📋</span>
+                      <p class="drop-zone-title"><strong>Pegar imagen (Ctrl+V) o haz clic aquí</strong></p>
+                      <p class="drop-zone-sub">para Opción A</p>
+                    </div>
+                  </div>
+                  <input 
+                    type="url" 
+                    id="urlInputA" 
+                    class="form-control input-url margin-top-xs" 
+                    placeholder="o pega enlace URL de imagen A (https://...)"
+                  >
+                  <div id="previewWrapA" class="evidence-preview-wrap hidden margin-top-xs">
+                    <img id="previewImgA" src="" alt="Previsualización A" class="evidence-preview-img">
+                    <button type="button" id="removeImgBtnA" class="btn-remove-evidence">❌ Quitar Foto A</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- VS DIVIDER -->
+              <div class="vs-divider-container">
+                <div class="vs-circle">VS</div>
+              </div>
+
+              <!-- OPTION B BOX -->
+              <div class="option-block option-block-b">
+                <div class="option-block-header">
+                  <span class="option-badge-large badge-b">OPCIÓN B</span>
+                  <span class="option-block-title">Segundo Competidor</span>
+                </div>
+                
+                <div class="form-group">
+                  <label for="optionBTextInput" class="form-label">
+                    🔵 Nombre / Descripción B <span class="label-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="optionBTextInput" 
+                    class="form-control input-option-b" 
+                    placeholder="Ej. Volver al futuro 2"
+                    maxlength="80"
+                    required
+                  >
+                </div>
+
+                <!-- Dropzone Image B -->
+                <div class="form-group">
+                  <label class="form-label">
+                    📷 Imagen / Captura Opción B <span class="label-optional">(Opcional)</span>
+                  </label>
+                  <div id="dropZoneB" class="evidence-drop-zone dropzone-b" tabindex="0">
+                    <input type="file" id="imageInputB" accept="image/*" class="file-input-hidden">
+                    <div class="drop-zone-content">
+                      <span class="drop-zone-icon">📋</span>
+                      <p class="drop-zone-title"><strong>Pegar imagen (Ctrl+V) o haz clic aquí</strong></p>
+                      <p class="drop-zone-sub">para Opción B</p>
+                    </div>
+                  </div>
+                  <input 
+                    type="url" 
+                    id="urlInputB" 
+                    class="form-control input-url margin-top-xs" 
+                    placeholder="o pega enlace URL de imagen B (https://...)"
+                  >
+                  <div id="previewWrapB" class="evidence-preview-wrap hidden margin-top-xs">
+                    <img id="previewImgB" src="" alt="Previsualización B" class="evidence-preview-img">
+                    <button type="button" id="removeImgBtnB" class="btn-remove-evidence">❌ Quitar Foto B</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION: VOTES AND RESULTS INPUT (For Mode 2 / Results) -->
+              <div id="resultsInputSection" class="results-input-block">
+                <div class="results-block-header">
+                  <span class="results-badge-header">📊 RESULTADOS REALES DE LA VOTACIÓN</span>
+                  <p>Ingresa la cantidad de votos obtenidos en tu grupo para calcular los % automáticamente</p>
+                </div>
+
+                <!-- Numeric Votes Inputs -->
+                <div class="form-group grid-2col margin-top-sm">
+                  <div>
+                    <label for="votosAInput" class="form-label color-pink">
+                      🔴 Votos Reales Opción A
+                    </label>
+                    <input 
+                      type="number" 
+                      id="votosAInput" 
+                      class="form-control input-vote-num" 
+                      value="10"
+                      min="0"
+                      max="9999"
+                    >
+                  </div>
+                  <div>
+                    <label for="votosBInput" class="form-label color-cyan">
+                      🔵 Votos Reales Opción B
+                    </label>
+                    <input 
+                      type="number" 
+                      id="votosBInput" 
+                      class="form-control input-vote-num" 
+                      value="10"
+                      min="0"
+                      max="9999"
+                    >
+                  </div>
+                </div>
+
+                <!-- Slider & Live % Calculation -->
+                <div class="form-group">
+                  <div class="vote-summary-pill">
+                    <span id="voteSummaryTotal">🗳️ Total Votos: 20</span>
+                    <span id="voteSummaryPercents">🔴 A: 50% vs 🔵 B: 50%</span>
+                  </div>
+
+                  <div class="slider-vote-wrap margin-top-xs">
+                    <span class="vote-label-a">A: <strong id="voteValA">50%</strong></span>
+                    <input type="range" id="voteSlider" min="0" max="100" value="50" class="vote-slider">
+                    <span class="vote-label-b">B: <strong id="voteValB">50%</strong></span>
+                  </div>
+                </div>
+
+                <!-- Winner Select -->
+                <div class="form-group">
+                  <label for="winnerSelect" class="form-label">
+                    🥇 Marcador / Ganador Destacado
+                  </label>
+                  <select id="winnerSelect" class="form-control">
+                    <option value="auto">🔥 Automático (Según la mayoría de votos)</option>
+                    <option value="a">🔴 Ganadora Opción A</option>
+                    <option value="b">🔵 Ganadora Opción B</option>
+                    <option value="tie">🤝 Empate Técnico</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Note / Context (Optional) -->
+              <div class="form-group margin-top-sm">
+                <label for="noteInput" class="form-label">
+                  📝 Nota / Regla / Contexto <span class="label-optional">(Opcional)</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="noteInput" 
+                  class="form-control" 
+                  placeholder="Ej. ¡Votación oficial del grupo de WhatsApp!"
+                  maxlength="120"
+                >
+              </div>
+
+              <!-- Format / Aspect Ratio Selector -->
+              <div class="form-group">
+                <label class="form-label">
+                  <span>📐 Formato de Imagen</span>
+                </label>
+                <div class="format-options-grid">
+                  <label class="format-option-card active" id="cardOptionSquare">
+                    <input type="radio" name="aspectRatio" value="1:1" checked style="display:none;">
+                    <span class="format-icon">🟦</span>
+                    <div class="format-details">
+                      <strong>1:1 Cuadrado</strong>
+                      <span>WhatsApp / Feed (1000x1000)</span>
+                    </div>
+                  </label>
+                  <label class="format-option-card" id="cardOptionStory">
+                    <input type="radio" name="aspectRatio" value="9:16" style="display:none;">
+                    <span class="format-icon">📱</span>
+                    <div class="format-details">
+                      <strong>9:16 Vertical</strong>
+                      <span>Instagram Stories / Reels (1080x1920)</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button type="button" id="generateChallengeBtn" class="btn-primary">
+                  ⚔️ Generar Tarjeta 1: Desafío (PNG HD)
+                </button>
+                <button type="button" id="generateResultsBtn" class="btn-secondary-cyan hidden">
+                  📊 Generar Tarjeta 2: Resultados (PNG HD)
+                </button>
+                <button type="button" id="resetFormBtn" class="btn-reset">
+                  🧹 Limpiar Todo
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Live Preview Panel Column -->
+        <aside class="preview-panel card-glass">
+          <div class="preview-header">
+            <span class="preview-badge">👁️ VISTA PREVIA EN VIVO</span>
+            <p class="preview-hint-top">Edita los datos y observa la tarjeta en tiempo real</p>
+          </div>
+
+          <!-- Preview Canvas Tabs -->
+          <div class="preview-tabs">
+            <button type="button" id="prevTabChallenge" class="preview-tab active">
+              ⚔️ Tarjeta 1: Desafío
+            </button>
+            <button type="button" id="prevTabResults" class="preview-tab">
+              📊 Tarjeta 2: Resultados
+            </button>
+          </div>
+
+          <!-- Live Canvas Container -->
+          <div class="canvas-preview-wrap">
+            <canvas id="livePreviewCanvas" width="1080" height="1080" class="live-preview-canvas"></canvas>
+          </div>
+
+          <!-- Download Action Bar inside Preview -->
+          <div class="preview-actions-bar">
+            <button id="quickDownloadBtn" type="button" class="btn-download-quick">
+              📥 Descargar Tarjeta de Desafío (PNG HD)
+            </button>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="loader" class="loader-wrap hidden">
+        <div class="spinner"></div>
+        <p class="loader-text">Renderizando tarjetas PNG de Versus en HD...</p>
+      </div>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="results-section hidden">
+        <div class="results-header">
+          <div>
+            <h2>🎴 Tarjetas de Versus Generadas</h2>
+            <p class="section-subtitle">Descarga las imágenes HD listas para enviar a tu grupo de WhatsApp.</p>
+          </div>
+          <button id="downloadAllBtn" class="btn-download-all">
+            📥 Descargar Ambas Tarjetas (PNG HD)
+          </button>
+        </div>
+
+        <div id="cardsGrid" class="cards-grid">
+          <!-- Dynamically inserted result cards -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer glass-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left">
+          <div class="web-qr-card">
+            <img src="assets/amigosjugonesymas_qr.png" alt="QR Amigos Jugones" class="web-qr-img">
+          </div>
+          <div class="web-copy-text">
+            <p>© <span id="currentYear">2026</span> <strong>AMIGOS JUGONES</strong></p>
+          </div>
+        </div>
+        <div class="web-footer-center">
+          <p class="web-ig-title">📸 ¡SÍGUENOS en INSTAGRAM!</p>
+          <p class="web-ig-sub">✨ Juego creado en Versus Jugón: Desafíos de Versus — ¡Crea los tuyos!</p>
+        </div>
+        <div class="web-footer-right">
+          <span class="web-black-label">Sistema creado por</span>
+          <img src="assets/logo_black.png" alt="BLACK" class="web-black-logo">
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/logoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="assets/imageNormalizer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

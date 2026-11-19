@@ -1,0 +1,29 @@
+{
+  "last_update": "2026-10-18T17:39:00.537270",
+  "salon_de_la_fama": {
+    "carrera": [
+      {
+        "semana": "Semana 41 / 2026",
+        "campeon": "Nico (Admin)",
+        "record": "2910 KM"
+      },
+      {
+        "semana": "Semana 40 / 2026",
+        "campeon": "Lord Ricardragon",
+        "record": "2650 KM"
+      }
+    ],
+    "pelea": [
+      {
+        "semana": "Semana 41 / 2026",
+        "campeon": "Jess_Shadow",
+        "record": "36200 PTS"
+      },
+      {
+        "semana": "Semana 40 / 2026",
+        "campeon": "Nico (Sensei)",
+        "record": "33100 PTS"
+      }
+    ]
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "ok": true,
+  "generado": "2026-10-20 22:29:12",
+  "juntas": [
+    {
+      "id": 8,
+      "juego": "catan basico",
+      "fecha": "22/10/2026",
+      "hora": "20:00",
+      "lugar": "metro la cisterna",
+      "comuna_sector": "la cisterna",
+      "cupos_totales": 4,
+      "cupos_disponibles": 3,
+      "organizador_nick": "BLACK",
+      "organizador_whatsapp": "569000000",
+      "descripcion_notas": "sera genial",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-20 22:29:12",
+      "anotados": [
+        {
+          "nick": "BLACK",
+          "whatsapp": "569000000",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-20 22:29:12"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "juego": "Cyclades: Legendary Edition",
+      "fecha": "Viernes 26/06",
+      "hora": "19:00",
+      "lugar": "Macul con Quilín",
+      "comuna_sector": "Macul",
+      "cupos_totales": 4,
+      "cupos_disponibles": 2,
+      "organizador_nick": "Orlando",
+      "organizador_whatsapp": "+56955256283",
+      "descripcion_notas": "Subastas de dioses mitológicos, combate y monstruos en las islas griegas.",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Orlando",
+          "whatsapp": "+56955256283",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Emanuel",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "juego": "Jardines de Té (Alishan Tea Garden)",
+      "fecha": "Martes 30/06",
+      "hora": "18:45",
+      "lugar": "San Francisco 265",
+      "comuna_sector": "Santiago Centro",
+      "cupos_totales": 4,
+      "cupos_disponibles": 1,
+      "organizador_nick": "Paolo",
+      "organizador_whatsapp": "+56977437224",
+      "descripcion_notas": "Gestión de cartas y degustación. Queda solo 1 cupo para completar el cuarteto.",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Paolo",
+          "whatsapp": "+56977437224",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Manu",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Edu",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "juego": "Trickerion: Legends of Illusion",
+      "fecha": "Domingo 05/07",
+      "hora": "16:30",
+      "lugar": "Metro Santa Isabel",
+      "comuna_sector": "Providencia / Stgo Centro",
+      "cupos_totales": 4,
+      "cupos_disponibles": 2,
+      "organizador_nick": "René",
+      "organizador_whatsapp": "+56982830431",
+      "descripcion_notas": "Magia victoriana y colocación de trabajadores euro pesadito. Mesa tranquila con café.",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "René",
+          "whatsapp": "+56982830431",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Nico",
+          "whatsapp": "+56965193087",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "juego": "Iwari + Otro juego corto",
+      "fecha": "Sábado 04/07",
+      "hora": "17:00",
+      "lugar": "Vicente Huidobro 3555",
+      "comuna_sector": "Las Condes",
+      "cupos_totales": 5,
+      "cupos_disponibles": 2,
+      "organizador_nick": "Orlando",
+      "organizador_whatsapp": "+56955256283",
+      "descripcion_notas": "Partida estratégica fluida y luego cerramos con un filler cooperativo.",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Orlando",
+          "whatsapp": "+56955256283",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Polette",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Ruben",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "juego": "SETI: Search for Extraterrestrial Intelligence + Expa",
+      "fecha": "Miércoles 01/07",
+      "hora": "19:00",
+      "lugar": "Quinahue 7116",
+      "comuna_sector": "La Reina / Peñalolén",
+      "cupos_totales": 4,
+      "cupos_disponibles": 2,
+      "organizador_nick": "Marcos",
+      "organizador_whatsapp": "+56946885217",
+      "descripcion_notas": "Exploración espacial y tecnología. Se explican reglas 15 min antes de arrancar. Traer picoteo.",
+      "estado": "Abierta",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Marcos",
+          "whatsapp": "+56946885217",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Guille",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "juego": "Underwater Cities: New Discoveries",
+      "fecha": "Jueves 25/06",
+      "hora": "19:00",
+      "lugar": "La Gloria 120",
+      "comuna_sector": "Las Condes",
+      "cupos_totales": 4,
+      "cupos_disponibles": 0,
+      "organizador_nick": "Felipe",
+      "organizador_whatsapp": "+56982107943",
+      "descripcion_notas": "Construcción subacuática bajo el mar con la expansión de museos y metrópolis.",
+      "estado": "Completada",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Felipe",
+          "whatsapp": "+56982107943",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Jeicky",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Slavka",
+          "whatsapp": "",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Stephanie",
+          "whatsapp": "+56962143120",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "juego": "Proyecto Arrecife (Aquagarden)",
+      "fecha": "Viernes 12/06",
+      "hora": "19:30",
+      "lugar": "Metro Grecia",
+      "comuna_sector": "Ñuñoa",
+      "cupos_totales": 4,
+      "cupos_disponibles": 0,
+      "organizador_nick": "Crisna",
+      "organizador_whatsapp": "+56932598563",
+      "descripcion_notas": "Construcción de corales y ecosistemas marinos. ¡Gran partida completada!",
+      "estado": "Completada",
+      "fecha_creacion": "2026-10-19 21:33:28",
+      "anotados": [
+        {
+          "nick": "Crisna",
+          "whatsapp": "+56932598563",
+          "es_anfitrion": 1,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Marco",
+          "whatsapp": "+56977437224",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Nicolás Gómez",
+          "whatsapp": "+56965193087",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        },
+        {
+          "nick": "Stephanie",
+          "whatsapp": "+56962143120",
+          "es_anfitrion": 0,
+          "fecha_registro": "2026-10-19 21:33:28"
+        }
+      ]
+    }
+  ]
+}

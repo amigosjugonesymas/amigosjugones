@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: amigosjugones-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: ADMIN_SECRET_TOKEN
+        value: AJ_SECRET_ADMIN_TOKEN_2026_XYZ

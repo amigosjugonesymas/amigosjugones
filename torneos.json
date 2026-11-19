@@ -1,0 +1,67 @@
+{
+  "last_update": "2026-10-21T08:35:00.000Z",
+  "activos": [
+    {
+      "id": "torneo-bga-1",
+      "juego": "7 Wonders Architects",
+      "titulo": "Torneo Relámpago 7 Wonders Architects",
+      "modalidad": "Tiempo Real (Turnos de 30s)",
+      "formato": "Suizo · 4 Rondas",
+      "fecha": "2026-10-24",
+      "hora": "21:30",
+      "fecha_display": "Sábado 24/10 · 21:30 hrs",
+      "estado": "inscripciones",
+      "estado_label": "🟡 Inscripciones Abiertas",
+      "cupos_max": 16,
+      "inscritos_count": 9,
+      "bga_url": "https://boardgamearena.com/tournament?id=placeholder_7wonders",
+      "imagen": "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=700&q=80",
+      "organizador": "BLACK",
+      "puntos_premio": "+1 PT participación · Podio: +3 / +2 / +1 PTS"
+    },
+    {
+      "id": "torneo-bga-2",
+      "juego": "Catan",
+      "titulo": "Liga Clasificatoria Catan Amigos Jugones",
+      "modalidad": "Por Turnos (24 hrs por jugada)",
+      "formato": "Mesas de 4 · Eliminación Directa",
+      "fecha": "2026-10-22",
+      "hora": "20:00",
+      "fecha_display": "Jueves 22/10 · 20:00 hrs",
+      "estado": "en_curso",
+      "estado_label": "🟢 En Curso · Semifinales",
+      "cupos_max": 16,
+      "inscritos_count": 16,
+      "bga_url": "https://boardgamearena.com/tournament?id=placeholder_catan",
+      "imagen": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=700&q=80",
+      "organizador": "Paolo",
+      "puntos_premio": "+1 PT participación · Podio: +3 / +2 / +1 PTS + Medalla"
+    }
+  ],
+  "rincon_fama": [
+    {
+      "id": "fama-1",
+      "juego": "Heat: Pedal to the Metal",
+      "torneo_titulo": "Gran Premio Amigos Jugones 2026",
+      "fecha": "12 de Octubre, 2026",
+      "participantes": 18,
+      "oro": { "nick": "BLACK", "avatar": "" },
+      "plata": { "nick": "Orlando", "avatar": "" },
+      "bronce": { "nick": "Polette", "avatar": "" },
+      "descripcion": "Final de infarto con clima lluvioso en Silverstone. Definido por media curva en la última recta.",
+      "imagen": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      "id": "fama-2",
+      "juego": "Terraforming Mars",
+      "torneo_titulo": "Copa Colonización de Marte (BGA)",
+      "fecha": "28 de Septiembre, 2026",
+      "participantes": 12,
+      "oro": { "nick": "Paolo", "avatar": "" },
+      "plata": { "nick": "Emanuel", "avatar": "" },
+      "bronce": { "nick": "Marcos", "avatar": "" },
+      "descripcion": "Dominio de corporación Thorgate con masivo despliegue de energía y oxigenación.",
+      "imagen": "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=700&q=80"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de la Fama 🏆 — Amigos Jugones</title>
+    <meta name="description" content="Histórico de campeones mensuales, medallas acumuladas y récords de la comunidad Amigos Jugones. El olimpo de los mejores jugadores.">
+    <meta name="theme-color" content="#080814">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sala de la Fama 🏆 — Amigos Jugones">
+    <meta property="og:description" content="Histórico de campeones mensuales, medallas acumuladas y récords de la comunidad.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=19.3">
+    <link rel="stylesheet" href="css/skins.css?v=1.3">
+    <link rel="stylesheet" href="css/sala-de-la-fama.css?v=1.4">
+</head>
+
+<body class="page-sala-fama">
+
+    <!-- ═══ LOADING SCREEN ═══ -->
+    <div id="loading-screen">
+        <div id="loading-fama-icon" style="font-size:3rem; animation: famaFloat 2.5s ease-in-out infinite;">🏆</div>
+        <div id="loading-fama-title" class="loading-title">Sala de la Fama</div>
+        <div class="spinner"></div>
+        <div class="loading-sub">Cargando el olimpo de los jugones...</div>
+    </div>
+
+    <!-- ═══ MAINTENANCE SCREEN ═══ -->
+    <div id="maintenance-screen" style="display:none;">
+        <div style="font-size:4rem; margin-bottom:8px;">🔧</div>
+        <div class="loading-title">En Mantenimiento</div>
+        <p style="color:var(--text-dim); max-width:400px; text-align:center;">
+            Estamos mejorando la plataforma. Vuelve pronto, ¡prepárate para la actualización!
+        </p>
+        <div class="badge badge-purple" style="margin-top:16px;">⏳ Volvemos pronto</div>
+    </div>
+
+    <!-- ═══ APP CONTAINER ═══ -->
+    <div id="app-container" class="app-layout" style="display:none;">
+
+        <!-- ── OVERLAY (mobile) ── -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- ── SIDEBAR (Inyectado por components.js) ── -->
+        <aside id="sidebar" class="sidebar"></aside>
+
+        <!-- ── TOPBAR (mobile) (Inyectado por components.js) ── -->
+        <header id="topbar" class="topbar"></header>
+
+        <!-- ── PAGE CONTENT ── -->
+        <main id="page-content" class="main-content">
+            <!-- Renderizado dinámico por sala-de-la-fama.js -->
+        </main>
+
+    </div><!-- /app-container -->
+
+    <!-- ── SCRIPTS ── -->
+    <script src="js/i18n.js?v=1.0"></script>
+    <script src="js/skin-engine.js?v=1.3"></script>
+    <script src="js/analytics.js?v=1.0"></script>
+    <script src="js/config.js?v=1.0"></script>
+    <script src="js/auth.js?v=2.1"></script>
+    <script src="js/components.js?v=12.2"></script>
+    <script src="js/sala-de-la-fama.js?v=1.6"></script>
+    <script src="js/main.js?v=24.3"></script>
+
+    <style>
+        @keyframes famaFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg) scale(1); }
+            50%       { transform: translateY(-10px) rotate(5deg) scale(1.05); }
+        }
+        /* Scroll suave en el contenido principal */
+        #page-content::-webkit-scrollbar { width: 4px; }
+        #page-content::-webkit-scrollbar-track { background: transparent; }
+        #page-content::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.25); border-radius: 4px; }
+    </style>
+
+</body>
+
+</html>

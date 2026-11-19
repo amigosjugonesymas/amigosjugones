@@ -1,0 +1,27 @@
+{
+  "last_update": "2026-11-17T19:25:09",
+  "total_activas": 1,
+  "mercado": {
+    "vender": [
+      {
+        "id": 1,
+        "timestamp": "2026-11-17T19:17:18",
+        "nick": "BLACK",
+        "categoria": "Vender",
+        "titulo": "Catan Edición 25 Aniversario",
+        "estado": "Excelente Estado",
+        "descripcion": "Completo con inserto 3D y cartas enfundadas",
+        "foto": "https://amigosjugones.cl/img/catan.jpg",
+        "precio": "$ 35.000",
+        "contacto": "black_jugon",
+        "exp": "2026-11-24T19:17:18",
+        "disponibles": 1
+      }
+    ],
+    "intercambiar": [],
+    "regalar": [],
+    "buscar": [],
+    "ensenar": [],
+    "servicios": []
+  }
+}

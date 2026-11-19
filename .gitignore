@@ -1,0 +1,38 @@
+# ==============================================================================
+# AMIGOS JUGONES — ARCHIVO .GITIGNORE
+# Protege archivos privados de administración, bases de datos y secretos locales
+# ==============================================================================
+
+# Panel de Administración Privado (Exclusivo de Google Apps Script con acceso "Solo Yo")
+admin_panel/
+admin-skins.html
+test-suite.html
+
+# Bases de datos y archivos SQLite locales (Turso Cloud vive en la nube)
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Scripts auxiliares locales de mantenimiento
+bust_cache.py
+crear_portadas_genericas.py
+inject_skins.py
+__pycache__/
+*.pyc
+
+# Variables de entorno y credenciales (NUNCA SUBIR A GIT)
+.env
+*.env
+*.pem
+*.key
+
+# Documentación interna de desarrollo y bitácoras de sesión
+documentos/
+sesiones/
+temp/
+tmp/
+*.log
+*.bat

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salón de Honor 🎖️ — Amigos Jugones</title>
+    <meta name="description" content="Vitrina de honor de la comunidad Amigos Jugones. Reconocimiento a los logros, proyectos, autorías y méritos de nuestros miembros en el mundo real.">
+    <meta name="theme-color" content="#080814">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Salón de Honor 🎖️ — Amigos Jugones">
+    <meta property="og:description" content="Vitrina de méritos, creaciones y logros externos de los miembros de la comunidad.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=19.3">
+    <link rel="stylesheet" href="css/skins.css?v=1.3">
+</head>
+
+<body class="page-salon-honor">
+
+    <!-- ═══ LOADING SCREEN ═══ -->
+    <div id="loading-screen">
+        <div id="loading-honor-icon" style="font-size:3rem; animation: honorFloat 2.5s ease-in-out infinite;">🎖️</div>
+        <div id="loading-honor-title" class="loading-title">Salón de Honor</div>
+        <div class="spinner"></div>
+        <div class="loading-sub">Cargando la vitrina de talentos y méritos...</div>
+    </div>
+
+    <!-- ═══ MAINTENANCE SCREEN ═══ -->
+    <div id="maintenance-screen" style="display:none;">
+        <div style="font-size:4rem; margin-bottom:8px;">🔧</div>
+        <div class="loading-title">En Mantenimiento</div>
+        <p style="color:var(--text-dim); max-width:400px; text-align:center;">
+            Estamos mejorando la plataforma. Vuelve pronto, ¡prepárate para la actualización!
+        </p>
+        <div class="badge badge-purple" style="margin-top:16px;">⏳ Volvemos pronto</div>
+    </div>
+
+    <!-- ═══ APP CONTAINER ═══ -->
+    <div id="app-container" class="app-layout" style="display:none;">
+
+        <!-- ── OVERLAY (mobile) ── -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- ── SIDEBAR (Inyectado por components.js) ── -->
+        <aside id="sidebar" class="sidebar"></aside>
+
+        <!-- ── TOPBAR (mobile) (Inyectado por components.js) ── -->
+        <header id="topbar" class="topbar"></header>
+
+        <!-- ── PAGE CONTENT ── -->
+        <main id="page-content" class="main-content" style="height: 100vh; overflow-y: auto;">
+            <!-- Renderizado dinámico por salon-de-honor.js -->
+        </main>
+
+    </div><!-- /app-container -->
+
+    <!-- ── SCRIPTS ── -->
+    <script src="js/i18n.js?v=1.0"></script>
+    <script src="js/skin-engine.js?v=1.3"></script>
+    <script src="js/analytics.js?v=1.0"></script>
+    <script src="js/config.js?v=1.0"></script>
+    <script src="js/auth.js?v=2.1"></script>
+    <script src="js/components.js?v=12.2"></script>
+    <script src="js/main.js?v=24.3"></script>
+    <script src="js/salon-de-honor.js?v=1.1"></script>
+
+    <style>
+        @keyframes honorFloat {
+            0%, 100% { transform: translateY(0) rotate(-4deg) scale(1); }
+            50%       { transform: translateY(-8px) rotate(4deg) scale(1.06); }
+        }
+        #page-content::-webkit-scrollbar { width: 5px; }
+        #page-content::-webkit-scrollbar-track { background: transparent; }
+        #page-content::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.25); border-radius: 4px; }
+
+        @media (max-width: 768px) {
+            .honor-controls-bar {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 10px !important;
+            }
+            .honor-tabs-bar {
+                width: 100% !important;
+                flex-direction: column !important;
+                overflow-x: visible !important;
+                gap: 6px !important;
+                padding: 8px !important;
+                box-sizing: border-box !important;
+            }
+            .honor-tab-btn {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 8px !important;
+                padding: 10px 14px !important;
+                border-radius: 10px !important;
+                min-height: 44px !important;
+                font-size: 0.88rem !important;
+                box-sizing: border-box !important;
+                text-align: center !important;
+            }
+            .honor-tab-left {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 8px !important;
+                text-align: center !important;
+            }
+            .honor-tab-count {
+                font-size: 0.75rem !important;
+                padding: 2px 9px !important;
+                border-radius: 12px !important;
+                background: rgba(255, 255, 255, 0.12) !important;
+                font-weight: 700 !important;
+                margin-left: 0 !important;
+            }
+            .honor-search-wrap {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .honor-search-wrap input {
+                min-height: 42px !important;
+                font-size: 0.88rem !important;
+            }
+        }
+    </style>
+
+</body>
+
+</html>

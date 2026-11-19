@@ -1,0 +1,623 @@
+{
+  "generado": "2026-10-19 13:23:57",
+  "encuestas_activas": [
+    {
+      "id": 6,
+      "catalogo_id": 32,
+      "categoria": "anime",
+      "nombre_item": "Fullmetal Alchemist: Brotherhood",
+      "descripcion_item": "Dos hermanos buscan la Piedra Filosofal.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 7,
+      "catalogo_id": 37,
+      "categoria": "comics_manga",
+      "nombre_item": "Berserk",
+      "descripcion_item": "El caballero de la espada enorme en un mundo oscuro.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 1,
+      "catalogo_id": 1,
+      "categoria": "juegos_mesa",
+      "nombre_item": "Catan",
+      "descripcion_item": "El clásico juego de colonización e intercambio de recursos.",
+      "imagen_url": "imagenes/encuestas/catan.jpg",
+      "fecha_inicio": "2026-10-19 12:34:52",
+      "fecha_fin": "2026-10-26 12:34:52",
+      "activa": 1,
+      "total_votos": 1,
+      "promedio_score": 8.0,
+      "ganador_siguiente": null,
+      "votos": [
+        {
+          "nick": "BLACK",
+          "score": 8,
+          "comentario": null,
+          "timestamp": "2026-10-19 13:19:03"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "catalogo_id": 42,
+      "categoria": "libros",
+      "nombre_item": "Dune - Frank Herbert",
+      "descripcion_item": "La política y ecología de un planeta desértico.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 5,
+      "catalogo_id": 27,
+      "categoria": "musica",
+      "nombre_item": "Bohemian Rhapsody - Queen",
+      "descripcion_item": "La ópera rock más icónica de todos los tiempos.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 2,
+      "catalogo_id": 9,
+      "categoria": "peliculas",
+      "nombre_item": "Inception",
+      "descripcion_item": "Un ladrón que roba secretos dentro de los sueños.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 3,
+      "catalogo_id": 15,
+      "categoria": "series",
+      "nombre_item": "Breaking Bad",
+      "descripcion_item": "Un profesor de química se convierte en narco-jefe.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    },
+    {
+      "id": 4,
+      "catalogo_id": 21,
+      "categoria": "videojuegos",
+      "nombre_item": "Elden Ring",
+      "descripcion_item": "RPG de acción en un vasto mundo abierto oscuro.",
+      "imagen_url": null,
+      "fecha_inicio": "2026-10-19 12:34:53",
+      "fecha_fin": "2026-10-26 12:34:53",
+      "activa": 1,
+      "total_votos": 0,
+      "promedio_score": 0.0,
+      "ganador_siguiente": null,
+      "votos": []
+    }
+  ],
+  "rankings": {
+    "juegos_mesa": [
+      {
+        "nombre_item": "Catan",
+        "promedio_score": 8.0,
+        "total_votos": 1,
+        "fecha_fin": "2026-10-26 12:34:52",
+        "descripcion": "El clásico juego de colonización e intercambio de recursos.",
+        "anio": 1995,
+        "imagen_url": "imagenes/encuestas/catan.jpg"
+      }
+    ]
+  },
+  "catalogos": {
+    "anime": [
+      {
+        "id": 32,
+        "categoria": "anime",
+        "nombre": "Fullmetal Alchemist: Brotherhood",
+        "descripcion": "Dos hermanos buscan la Piedra Filosofal.",
+        "imagen_url": null,
+        "anio": 2009,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 33,
+        "categoria": "anime",
+        "nombre": "Attack on Titan",
+        "descripcion": "La humanidad vs titanes devoradores.",
+        "imagen_url": null,
+        "anio": 2013,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 34,
+        "categoria": "anime",
+        "nombre": "Steins;Gate",
+        "descripcion": "Viajes en el tiempo y consecuencias devastadoras.",
+        "imagen_url": null,
+        "anio": 2011,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 35,
+        "categoria": "anime",
+        "nombre": "Hunter x Hunter",
+        "descripcion": "Un niño busca a su padre legendario.",
+        "imagen_url": null,
+        "anio": 2011,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 36,
+        "categoria": "anime",
+        "nombre": "Neon Genesis Evangelion",
+        "descripcion": "Mechas, psicología y apocalipsis.",
+        "imagen_url": null,
+        "anio": 1995,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      }
+    ],
+    "comics_manga": [
+      {
+        "id": 37,
+        "categoria": "comics_manga",
+        "nombre": "Berserk",
+        "descripcion": "El caballero de la espada enorme en un mundo oscuro.",
+        "imagen_url": null,
+        "anio": 1989,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 38,
+        "categoria": "comics_manga",
+        "nombre": "Watchmen",
+        "descripcion": "Superhéroes decadentes en la Guerra Fría.",
+        "imagen_url": null,
+        "anio": 1986,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 39,
+        "categoria": "comics_manga",
+        "nombre": "Saga of the Swamp Thing",
+        "descripcion": "Horror ecológico de Alan Moore.",
+        "imagen_url": null,
+        "anio": 1984,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      },
+      {
+        "id": 40,
+        "categoria": "comics_manga",
+        "nombre": "One Piece",
+        "descripcion": "La búsqueda del tesoro más grande del mundo.",
+        "imagen_url": null,
+        "anio": 1997,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      },
+      {
+        "id": 41,
+        "categoria": "comics_manga",
+        "nombre": "Vinland Saga",
+        "descripcion": "Vikingos, filosofía pacifista y guerra.",
+        "imagen_url": null,
+        "anio": 2005,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      }
+    ],
+    "juegos_mesa": [
+      {
+        "id": 1,
+        "categoria": "juegos_mesa",
+        "nombre": "Catan",
+        "descripcion": "El clásico juego de colonización e intercambio de recursos.",
+        "imagen_url": "imagenes/encuestas/catan.jpg",
+        "anio": 1995,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 2,
+        "categoria": "juegos_mesa",
+        "nombre": "Pandemic",
+        "descripcion": "Cooperativo: salva al mundo de enfermedades letales.",
+        "imagen_url": null,
+        "anio": 2008,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 3,
+        "categoria": "juegos_mesa",
+        "nombre": "Ticket to Ride",
+        "descripcion": "Construye rutas ferroviarias en el mapa.",
+        "imagen_url": null,
+        "anio": 2004,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 4,
+        "categoria": "juegos_mesa",
+        "nombre": "Azul",
+        "descripcion": "Coloca azulejos en patrones estratégicos.",
+        "imagen_url": null,
+        "anio": 2017,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 5,
+        "categoria": "juegos_mesa",
+        "nombre": "Wingspan",
+        "descripcion": "Atrae aves a tu reserva de vida silvestre.",
+        "imagen_url": null,
+        "anio": 2019,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 6,
+        "categoria": "juegos_mesa",
+        "nombre": "Dominion",
+        "descripcion": "Deckbuilder pionero de construcción de mazos.",
+        "imagen_url": null,
+        "anio": 2008,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 7,
+        "categoria": "juegos_mesa",
+        "nombre": "7 Wonders",
+        "descripcion": "Civileiza tu mundo antiguo en 3 eras.",
+        "imagen_url": null,
+        "anio": 2010,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 8,
+        "categoria": "juegos_mesa",
+        "nombre": "Gloomhaven",
+        "descripcion": "RPG de mazmorra cooperativo épico.",
+        "imagen_url": null,
+        "anio": 2017,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      }
+    ],
+    "libros": [
+      {
+        "id": 42,
+        "categoria": "libros",
+        "nombre": "Dune - Frank Herbert",
+        "descripcion": "La política y ecología de un planeta desértico.",
+        "imagen_url": null,
+        "anio": 1965,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      },
+      {
+        "id": 43,
+        "categoria": "libros",
+        "nombre": "Foundation - Isaac Asimov",
+        "descripcion": "Un matemático prevé la caída del Imperio Galáctico.",
+        "imagen_url": null,
+        "anio": 1951,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      },
+      {
+        "id": 44,
+        "categoria": "libros",
+        "nombre": "1984 - George Orwell",
+        "descripcion": "Distopía totalitaria y vigilancia absoluta.",
+        "imagen_url": null,
+        "anio": 1949,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      },
+      {
+        "id": 45,
+        "categoria": "libros",
+        "nombre": "Neuromancer - William Gibson",
+        "descripcion": "El nacimiento del cyberpunk.",
+        "imagen_url": null,
+        "anio": 1984,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      },
+      {
+        "id": 46,
+        "categoria": "libros",
+        "nombre": "The Hitchhiker's Guide to the Galaxy",
+        "descripcion": "El absurdo y la irreverencia del cosmos.",
+        "imagen_url": null,
+        "anio": 1979,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:52"
+      }
+    ],
+    "musica": [
+      {
+        "id": 27,
+        "categoria": "musica",
+        "nombre": "Bohemian Rhapsody - Queen",
+        "descripcion": "La ópera rock más icónica de todos los tiempos.",
+        "imagen_url": null,
+        "anio": 1975,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 28,
+        "categoria": "musica",
+        "nombre": "Thriller - Michael Jackson",
+        "descripcion": "El álbum más vendido de la historia.",
+        "imagen_url": null,
+        "anio": 1982,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 29,
+        "categoria": "musica",
+        "nombre": "Dark Side of the Moon - Pink Floyd",
+        "descripcion": "Psicodelia progresiva atemporal.",
+        "imagen_url": null,
+        "anio": 1973,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 30,
+        "categoria": "musica",
+        "nombre": "Kind of Blue - Miles Davis",
+        "descripcion": "El álbum de jazz más influyente.",
+        "imagen_url": null,
+        "anio": 1959,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 31,
+        "categoria": "musica",
+        "nombre": "OK Computer - Radiohead",
+        "descripcion": "Distopía musical de los 90.",
+        "imagen_url": null,
+        "anio": 1997,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:51"
+      }
+    ],
+    "peliculas": [
+      {
+        "id": 9,
+        "categoria": "peliculas",
+        "nombre": "Inception",
+        "descripcion": "Un ladrón que roba secretos dentro de los sueños.",
+        "imagen_url": null,
+        "anio": 2010,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 10,
+        "categoria": "peliculas",
+        "nombre": "Interstellar",
+        "descripcion": "Viaje a través del espacio-tiempo para salvar la humanidad.",
+        "imagen_url": null,
+        "anio": 2014,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:48"
+      },
+      {
+        "id": 11,
+        "categoria": "peliculas",
+        "nombre": "The Matrix",
+        "descripcion": "Un programador descubre la verdad sobre su realidad.",
+        "imagen_url": null,
+        "anio": 1999,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 12,
+        "categoria": "peliculas",
+        "nombre": "Avengers: Endgame",
+        "descripcion": "La conclusión épica del universo Marvel.",
+        "imagen_url": null,
+        "anio": 2019,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 13,
+        "categoria": "peliculas",
+        "nombre": "Blade Runner 2049",
+        "descripcion": "Un cazarrecompensas descubre un secreto que podría hundir la sociedad.",
+        "imagen_url": null,
+        "anio": 2017,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 14,
+        "categoria": "peliculas",
+        "nombre": "Everything Everywhere All at Once",
+        "descripcion": "Multiverso de posibilidades y lavandería.",
+        "imagen_url": null,
+        "anio": 2022,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      }
+    ],
+    "series": [
+      {
+        "id": 15,
+        "categoria": "series",
+        "nombre": "Breaking Bad",
+        "descripcion": "Un profesor de química se convierte en narco-jefe.",
+        "imagen_url": null,
+        "anio": 2008,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 16,
+        "categoria": "series",
+        "nombre": "Stranger Things",
+        "descripcion": "Niños vs. criaturas del Lado del Revés.",
+        "imagen_url": null,
+        "anio": 2016,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 17,
+        "categoria": "series",
+        "nombre": "The Last of Us",
+        "descripcion": "Supervivencia post-apocalíptica con zombies fúngicos.",
+        "imagen_url": null,
+        "anio": 2023,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 18,
+        "categoria": "series",
+        "nombre": "Severance",
+        "descripcion": "Empleados separan quirúrgicamente sus memorias.",
+        "imagen_url": null,
+        "anio": 2022,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 19,
+        "categoria": "series",
+        "nombre": "Dark",
+        "descripcion": "Bucles temporales en un pueblo alemán.",
+        "imagen_url": null,
+        "anio": 2017,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 20,
+        "categoria": "series",
+        "nombre": "House of the Dragon",
+        "descripcion": "La caída de los Targaryen.",
+        "imagen_url": null,
+        "anio": 2022,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      }
+    ],
+    "videojuegos": [
+      {
+        "id": 21,
+        "categoria": "videojuegos",
+        "nombre": "Elden Ring",
+        "descripcion": "RPG de acción en un vasto mundo abierto oscuro.",
+        "imagen_url": null,
+        "anio": 2022,
+        "estado": "en_votacion",
+        "fecha_agregado": "2026-10-19 12:34:49"
+      },
+      {
+        "id": 22,
+        "categoria": "videojuegos",
+        "nombre": "The Legend of Zelda: TOTK",
+        "descripcion": "Aventura épica en Hyrule con físicas absurdas.",
+        "imagen_url": null,
+        "anio": 2023,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 23,
+        "categoria": "videojuegos",
+        "nombre": "Baldur's Gate 3",
+        "descripcion": "RPG por turnos con libertad casi infinita.",
+        "imagen_url": null,
+        "anio": 2023,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 24,
+        "categoria": "videojuegos",
+        "nombre": "Hollow Knight",
+        "descripcion": "Metroidvania de insectos y lore profundo.",
+        "imagen_url": null,
+        "anio": 2017,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 25,
+        "categoria": "videojuegos",
+        "nombre": "Hades",
+        "descripcion": "Roguelite del inframundo con narrativa increíble.",
+        "imagen_url": null,
+        "anio": 2020,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      },
+      {
+        "id": 26,
+        "categoria": "videojuegos",
+        "nombre": "Celeste",
+        "descripcion": "Plataformero sobre escalar montañas y superar ansiedades.",
+        "imagen_url": null,
+        "anio": 2018,
+        "estado": "pendiente",
+        "fecha_agregado": "2026-10-19 12:34:50"
+      }
+    ]
+  }
+}

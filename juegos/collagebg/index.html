@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CollageBG - Desafios de Imagen Combinada | Amigos Jugones</title>
+  <meta name="description" content="Crea desafios combinando imagenes sobre una foto principal para Amigos Jugones.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge"><span>COMUNIDAD DE JUEGOS DE MESA Y MAS</span></div>
+        <h1 class="app-title">CollageBG <span class="highlight-text">DESAFIOS VISUALES</span></h1>
+        <p class="app-subtitle">Combina imagenes sobre una foto principal y reta a tu grupo de <strong>AMIGOS JUGONES</strong> a que adivinen.</p>
+      </div>
+    </header>
+    <main class="main-content">
+      <section class="steps-banner">
+        <div class="step-card"><span class="step-num">1</span><div class="step-info"><h3>Sube tu Imagen Principal</h3><p>La foto base del desafio.</p></div></div>
+        <div class="step-card"><span class="step-num">2</span><div class="step-info"><h3>Agrega Pistas Visuales</h3><p>Hasta 3 imagenes encima que se mueven y redimensionan.</p></div></div>
+        <div class="step-card"><span class="step-num">3</span><div class="step-info"><h3>Genera y Comparte</h3><p>Tarjeta del reto y tarjeta con respuesta revelada.</p></div></div>
+      </section>
+      <section class="form-section">
+        <div class="card-glass form-card">
+          <div class="form-header">
+            <h2>Crear Nuevo Desafio Combinado</h2>
+            <p>Completa todos los campos para generar las tarjetas del desafio</p>
+          </div>
+          <form id="collageForm" onsubmit="return false;">
+            <div class="form-group" id="creatorFields" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:18px;">
+              <div>
+                <label for="creatorNameInput" class="form-label">Tu Nombre / Apodo <span class="label-required">*</span></label>
+                <input type="text" id="creatorNameInput" class="form-control" placeholder="Ej. Maria / El Monstruo" maxlength="50" autocomplete="off">
+              </div>
+              <div>
+                <label for="creatorIgInput" class="form-label">Tu Instagram <span class="label-required">*</span></label>
+                <input type="text" id="creatorIgInput" class="form-control" placeholder="Ej. @maria_gamer" maxlength="50" autocomplete="off">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Imagen Principal del Desafio <span class="label-required">*</span></label>
+              <div id="mainImageDropZone" class="evidence-drop-zone" tabindex="0" role="button">
+                <span class="drop-zone-icon">🖼️</span>
+                <p class="drop-zone-title">Arrastra una imagen, pega con Ctrl+V o haz clic para subir</p>
+                <p class="drop-zone-sub">JPG, PNG, WebP</p>
+              </div>
+              <input type="file" id="mainImageFileInput" class="file-input-hidden" accept="image/*">
+              <div id="mainImagePreviewWrap" class="evidence-preview-wrap hidden">
+                <div class="preview-stage-container">
+                  <img id="mainImagePreviewImg" class="evidence-preview-img" alt="Vista previa">
+                </div>
+                <div class="preview-actions">
+                  <span id="mainImageSourceBadge" class="evidence-source-badge">Archivo</span>
+                  <button type="button" id="removeMainImageBtn" class="btn-remove-evidence">Quitar imagen</button>
+                </div>
+              </div>
+            </div>
+            <div id="collageEditorSection" class="collage-editor-section hidden">
+              <div class="collage-editor-header">
+                <h3>Editor de Collage</h3>
+                <p class="collage-editor-sub">Mueve y redimensiona cada imagen dentro del area principal.</p>
+              </div>
+              <div class="collage-canvas-wrapper">
+                <div id="collageCanvas" class="collage-canvas">
+                  <img id="collageMainImage" class="collage-main-img" alt="Imagen principal">
+                  <div id="overlaysContainer"></div>
+                  <div id="collageTextOverlay" class="collage-text-overlay hidden"><span id="collageTextContent">TEXTO</span></div>
+                </div>
+              </div>
+              <div class="overlays-panel">
+                <div class="overlays-panel-header">
+                  <h4>Imagenes Superpuestas <span class="label-optional">(hasta 3)</span></h4>
+                  <button type="button" id="addOverlayBtn" class="btn-add-overlay">Agregar imagen</button>
+                </div>
+                <div id="overlaySlotsContainer" class="overlay-slots-container"></div>
+              </div>
+              <div class="text-overlay-panel">
+                <div class="text-overlay-toggle-row">
+                  <label class="toggle-switch-label" for="showTextOverlayCheck">
+                    <input type="checkbox" id="showTextOverlayCheck">
+                    <span class="toggle-switch-track"></span>
+                    <span class="toggle-switch-text">Activar Texto Superpuesto <span class="label-optional">(Opcional)</span></span>
+                  </label>
+                </div>
+                <div id="textOverlayControls" class="text-overlay-controls hidden">
+                  <div class="form-group">
+                    <label for="overlayTextInput" class="form-label">Texto</label>
+                    <input type="text" id="overlayTextInput" class="form-control" placeholder="Ej. LED ZEPPELIN" maxlength="80">
+                  </div>
+                  <div class="text-style-grid">
+                    <div>
+                      <label class="form-label">Color del Texto</label>
+                      <input type="color" id="overlayTextColor" value="#ffffff" class="color-picker-input">
+                    </div>
+                    <div>
+                      <label class="form-label">Tamano <span id="overlayTextSizeLabel" class="value-badge">36px</span></label>
+                      <input type="range" id="overlayTextSize" class="blur-slider" min="14" max="72" value="36">
+                    </div>
+                    <div>
+                      <label class="form-label">Borde / Sombra</label>
+                      <div class="text-border-options">
+                        <label class="mini-radio-label"><input type="radio" name="textBorder" value="none"> Sin borde</label>
+                        <label class="mini-radio-label"><input type="radio" name="textBorder" value="shadow" checked> Sombra oscura</label>
+                        <label class="mini-radio-label"><input type="radio" name="textBorder" value="stroke"> Borde negro</label>
+                        <label class="mini-radio-label"><input type="radio" name="textBorder" value="stroke-white"> Borde blanco</label>
+                      </div>
+                    </div>
+                    <div><p class="slider-hint">Arrastra el texto dentro del collage para reposicionarlo</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:24px;">
+              <label for="challengeTitleInput" class="form-label">Pregunta del Desafio <span class="label-required">*</span></label>
+              <input type="text" id="challengeTitleInput" class="form-control" placeholder="Ej. Que cancion es? / De que banda se trata?" maxlength="120">
+              <div class="quick-title-tags">
+                <button type="button" class="quick-tag" data-target="challengeTitleInput" data-value="Que cancion es?">Que cancion?</button>
+                <button type="button" class="quick-tag" data-target="challengeTitleInput" data-value="De que banda se trata?">Que banda?</button>
+                <button type="button" class="quick-tag" data-target="challengeTitleInput" data-value="Que pelicula es?">Que pelicula?</button>
+                <button type="button" class="quick-tag" data-target="challengeTitleInput" data-value="Que juego de mesa es?">Que juego?</button>
+                <button type="button" class="quick-tag" data-target="challengeTitleInput" data-value="Adivinas quien es?">Quien es?</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="answerInput" class="form-label">Respuesta Correcta <span class="label-required">*</span></label>
+              <input type="text" id="answerInput" class="form-control input-answer" placeholder="Ej. Stairway to Heaven / Led Zeppelin" maxlength="100">
+            </div>
+            <div class="form-group">
+              <label for="categoryInput" class="form-label">Categoria <span class="label-optional">(Opcional)</span></label>
+              <input type="text" id="categoryInput" class="form-control" placeholder="Ej. Musica / Peliculas / Juegos de Mesa" maxlength="50">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Formato de Imagen</label>
+              <div class="format-options-grid">
+                <label class="format-option-card active" id="cardOptionSquare">
+                  <input type="radio" name="aspectRatio" value="1:1" checked style="display:none;">
+                  <span class="format-icon">SQ</span>
+                  <div class="format-details"><strong>1:1 Cuadrado</strong><span>WhatsApp / Feed (1000x1000)</span></div>
+                </label>
+                <label class="format-option-card" id="cardOptionStory">
+                  <input type="radio" name="aspectRatio" value="9:16" style="display:none;">
+                  <span class="format-icon">VT</span>
+                  <div class="format-details"><strong>9:16 Vertical</strong><span>Instagram Stories (1080x1920)</span></div>
+                </label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="generateBtn" class="btn-primary" disabled>Generar Tarjetas de CollageBG</button>
+              <button type="button" id="regenerateBtn" class="btn-secondary hidden" disabled>Volver a Generar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <div id="loader" class="loader-wrap hidden"><div class="spinner"></div><p class="loader-text">Renderizando tarjetas PNG de CollageBG en HD...</p></div>
+      <section id="resultsSection" class="results-section hidden">
+        <div class="results-header">
+          <div><h2>Tarjetas Generadas</h2><p class="section-subtitle">Descarga las imagenes listas para compartir.</p></div>
+          <button id="downloadAllBtn" class="btn-download-all">Descargar Ambas Tarjetas (PNG)</button>
+        </div>
+        <div id="cardsGrid" class="cards-grid"></div>
+      </section>
+    </main>
+    <footer class="app-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left"><div class="web-qr-card"><img src="assets/amigosjugonesymas_qr.png" alt="QR" class="web-qr-img"></div><div class="web-copy-text"><p>2026 AMIGOS JUGONES</p></div></div>
+        <div class="web-footer-center"><p class="web-ig-title">SIGUENOS en INSTAGRAM!</p><p class="web-ig-sub">Juego creado en CollageBG: Desafios de Imagen Combinada</p></div>
+        <div class="web-footer-right"><span class="web-black-label">Sistema creado por</span><img src="assets/logo_black.png" alt="BLACK" class="web-black-logo"></div>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/logoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

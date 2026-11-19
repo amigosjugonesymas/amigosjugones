@@ -1,0 +1,181 @@
+{
+  "como_ganar_puntos": {
+    "titulo": "🎯 ¿Cómo ganar puntos en Amigos Jugones?",
+    "banner": {
+      "iconos": "🎯 📦 🏆",
+      "titulo": "LA GRAN META: 1000 PUNTOS",
+      "descripcion": "El primer jugador en alcanzar <strong style=\"color:#fbbf24;\">1000 PUNTOS</strong> oficiales se lleva un <strong style=\"color:#38bdf8;\">JUEGO DE MESA FÍSICO REAL</strong> directo a su ludoteca."
+    },
+    "como_sumar": [
+      {
+        "num": 1,
+        "icono": "📋",
+        "titulo": "Tarjeta de Misión Grupal",
+        "descripcion": "Cada mañana se activa una tarjeta con 7 desafíos sencillos. Cumples los 7 y ganas los puntos del día.<br>• <strong style=\"color:#34d399;\">⚡ Bono Activador (+3 PTS):</strong> Cualquiera puede sacar la tarjeta de la web y ponerla en el grupo. El primero en hacerlo gana <strong>+3 PTS</strong> enviando su captura de prueba.<br>• <strong style=\"color:#f87171;\">⚠️ Regla de Activación:</strong> Si la tarjeta no está puesta en el grupo, <em>nadie puede sumar puntos ese día</em>.<br><span style=\"color:#f59e0b; font-weight:600;\">¡Importante! Debes cumplir los 7 desafíos para cobrar los puntos de la tarjeta.</span>"
+      },
+      {
+        "num": 2,
+        "icono": "🤫",
+        "titulo": "Tarjeta de Misión Secreta",
+        "descripcion": "Entras a la web y robas tu carta individual del día. Cumples tu reto propio, envías la prueba y sumas puntos (cada miembro tiene retos distintos)."
+      },
+      {
+        "num": 3,
+        "icono": "🗳️",
+        "titulo": "Votar en Encuestas Geek",
+        "badge": "+1 PT",
+        "descripcion": "Entras a la web, votas tu juego, película o personaje favorito en la encuesta semanal y sumas +1 punto al instante."
+      },
+      {
+        "num": 4,
+        "icono": "🏆",
+        "titulo": "Torneos Oficiales en Board Game Arena (BGA)",
+        "descripcion": "• <strong style=\"color:#34d399;\">+1 PUNTO</strong> solo por participar en el torneo.<br>• Podio: 🥇 1º Lugar <strong style=\"color:#fbbf24;\">+3 PTS</strong> | 🥈 2º Lugar <strong style=\"color:#94a3b8;\">+2 PTS</strong> | 🥉 3º Lugar <strong style=\"color:#d97706;\">+1 PT</strong>."
+      },
+      {
+        "num": 5,
+        "icono": "🕹️",
+        "titulo": "Renta Pasiva en el Arcade",
+        "badge": "+1 a +3 PTS diarios",
+        "descripcion": "Si marcas un récord y quedas en el Top 3 de la Carrera o la Pelea Ninja, cobras puntos automáticos todos los días mientras nadie te baje del podio:<br>🥇 1° Lugar: <strong style=\"color:#fbbf24;\">+3 PTS/día</strong> · 🥈 2° Lugar: <strong style=\"color:#94a3b8;\">+2 PTS/día</strong> · 🥉 3° Lugar: <strong style=\"color:#d97706;\">+1 PT/día</strong>."
+      },
+      {
+        "num": 6,
+        "icono": "🧩",
+        "titulo": "Aportar a la Comunidad",
+        "badge": "+1 PT por juego",
+        "descripcion": "Creas dinámicas y desafíos para el grupo usando las plantillas web de Generadores de Desafíos (puedes crear varios durante el día). Si forman parte de una misión, solo te dan los puntos de dicha tarjeta de misión."
+      }
+    ],
+    "resta_puntos": [
+      {
+        "icono": "💥",
+        "titulo": "Contraatacando (Misión de Sabotaje)",
+        "descripcion": "Si vas perdiendo, puedes elegir ejecutar la misión secreta de sabotaje de tu tarjeta personal. Si la cumples sin que te descubran, le descuentas de golpe los puntos que indique la tarjeta a <strong style=\"color:#fff;\">TODOS los que estén por encima de ti en el ranking</strong>."
+      },
+      {
+        "icono": "🏎️",
+        "titulo": "Apostar en el Arcade",
+        "badge": "-10 PTS",
+        "descripcion": "Entrar a competir a la Carrera o a la Pelea cuesta 10 puntos de tu saldo. Es una inversión: arriesgas 10 puntos para intentar conquistar el podio y asegurar tu renta pasiva diaria."
+      }
+    ],
+    "catch_up": {
+      "titulo": "¿Recién llegaste y están muy adelante en el ranking?",
+      "descripcion": "Tranquilo: hay misiones diarias especiales que otorgan puntos extra si cumples los retos pero tu puntaje está lejos de los líderes del ranking global (por ejemplo, otorgando puntos extra fijos o doblando la puntuación a quienes estén bajo cierto umbral). Lo indica la tarjeta de las misiones."
+    },
+    "requisitos": [
+      {
+        "num": 1,
+        "texto": "Debes estar en el grupo de WhatsApp de Amigos Jugones, cumplir los desafíos y ganar puntos."
+      },
+      {
+        "num": 2,
+        "texto": "Debes enviarle a algún administrador capturas de pantalla de tus objetivos cumplidos para que registren tu puntuación."
+      },
+      {
+        "num": 3,
+        "texto": "Hay algunos juegos en la web que te otorgan puntos automáticos, pero debes iniciar sesión para obtenerlos."
+      }
+    ]
+  },
+
+  "como_iniciar": {
+    "titulo": "🔑 Cómo Iniciar Sesión en Amigos Jugones",
+    "banner": {
+      "iconos": "🛡️ 🔑 🎲",
+      "titulo": "Acceso de Miembros",
+      "descripcion": "Sistema de <strong style=\"color:var(--accent-light);\">Autenticación por Única Vez</strong>: tu navegador recuerda tu cuenta de forma segura y permanente sin pedirte contraseñas todos los días."
+    },
+    "pasos": [
+      {
+        "num": 1,
+        "titulo": "Haz clic en el botón de acceso",
+        "descripcion": "En el menú lateral presiona <strong style=\"color:#c084fc;\">🔑 Identifícate (Miembro)</strong> (o automáticamente al intentar votar en encuestas o jugar en el arcade)."
+      },
+      {
+        "num": 2,
+        "titulo": "Ingresa tus 3 datos",
+        "descripcion": "• 📱 <strong style=\"color:var(--text);\">Teléfono:</strong> Tu número de WhatsApp registrado (ej: <code>+569...</code>).<br>• 🎮 <strong style=\"color:var(--text);\">Nick:</strong> Tu apodo en el grupo (ej: <code>BLACK</code>).<br>• 🔑 <strong style=\"color:var(--text);\">Clave Semanal:</strong> La palabra clave vigente compartida en el grupo de WhatsApp."
+      },
+      {
+        "num": 3,
+        "titulo": "Presiona:",
+        "descripcion": "<strong style=\"color:#34d399;\">Verificar y Entrar 🚀</strong>"
+      }
+    ],
+    "beneficios": [
+      {
+        "icono": "🃏",
+        "titulo": "Tarjetas de Misiones (Grupal y Secreta)",
+        "descripcion": "Desbloquear la tarjeta diaria de 7 desafíos del grupo y robar tu carta individual del día (exclusivo para miembros)."
+      },
+      {
+        "icono": "🪙",
+        "titulo": "Saldo Oficial de Puntos",
+        "descripcion": "Visible en tiempo real en tu tarjeta de miembro."
+      },
+      {
+        "icono": "🗳️",
+        "titulo": "Votos en Encuestas Geek",
+        "descripcion": "Suma +1 PT directo a tu cuenta cada semana."
+      },
+      {
+        "icono": "🕹️",
+        "titulo": "Minijuegos Arcade",
+        "descripcion": "Apuesta 10 PTS y asegura tu renta pasiva diaria en el podio."
+      },
+      {
+        "icono": "🏆",
+        "titulo": "Torneos BGA y Formularios",
+        "descripcion": "Acceso inmediato y desbloqueado."
+      },
+      {
+        "icono": "🟢",
+        "titulo": "Presencia en Vivo",
+        "descripcion": "Te muestra en línea con la comunidad."
+      }
+    ]
+  },
+
+  "reglas_grupo": {
+    "titulo": "📋 Reglas y Recomendaciones del Grupo",
+    "banner": {
+      "iconos": "🎲 🤝 😄",
+      "titulo": "Amigos Jugones · Comunidad",
+      "descripcion": "Una comunidad donde los juegos de mesa son el pretexto perfecto para conectar personas increíbles."
+    },
+    "reglas": [
+      {
+        "num": 1,
+        "texto": "La <strong>administración se reserva el derecho de admisión</strong>."
+      }
+    ],
+    "recomendaciones": [
+      {
+        "num": 1,
+        "icono": "📸",
+        "titulo": "Manda fotos al grupo",
+        "texto": "de tus juegos y actividades — ¡nos encanta ver tus colecciones y partidas!"
+      },
+      {
+        "num": 2,
+        "icono": "🔕",
+        "titulo": "Pon el grupo en silencio",
+        "texto": "— somos muy activos y puede ser abrumador si no lo hacés."
+      },
+      {
+        "num": 3,
+        "icono": "😌",
+        "titulo": "Si son muchos mensajes, no te estreses",
+        "texto": "leyéndolos todos — incluso tenemos un <a href=\"ranking.html\" onclick=\"closePopup()\" style=\"color:#4ade80; font-weight:700;\">📱 ranking de eso</a>."
+      },
+      {
+        "num": 4,
+        "icono": "🎉",
+        "titulo": "Diviértete en el grupo sin ofender a los demás",
+        "texto": "— somos un espacio de diversión y respeto mutuo."
+      }
+    ]
+  }
+}

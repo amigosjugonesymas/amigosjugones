@@ -1,0 +1,233 @@
+{
+  "_meta": {
+    "version": "2.0",
+    "descripcion": "Radar Jugón Amigos Jugones (exportado soberano)",
+    "generado_el": "2026-11-18 09:06:19",
+    "total": 13
+  },
+  "jugadores": [
+    {
+      "nick": "Alevervel",
+      "zona": "Maipú o alrededores ",
+      "estilos": "Eurogames, Ameri, Party Games, Juegos de Rol (RPG), Wargames, Cooperativos, Deducción Social, Prototipos",
+      "favoritos": "7 wonders, alquimista, potion explosion, Kurruf, pandemic, love letter, celestia, sanssouci, azul, rebel princess, señor de los anillos duelo por la tierra media; juegos de rol de D&D, Pathfinder, Cthulhu  y el anillo único.",
+      "coleccion": "Celestia, Kurruf, Pandemic + expansión al límite, Maracaibo, Cortez Harry Potter, ¿En serio?, Catan, 7 wonders, Carcassonne, Mal trago, Exploding Kittens, Justo one, Cards vs Gravity, Love letter, Potion explotion + expansión el quinto elemento, D&D comienza la aventura, Señor de los anillos duelo por la tierra media, Alquimistas, Cabritos y Pathfinder adventure card Game.",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "angel",
+      "zona": "Santiago centro ",
+      "estilos": "Eurogames, Fillers, Party Games, Deckbuilders, Cooperativos, Deducción Social",
+      "favoritos": "7 wonder , skull king , pan am , harmonies , terraforming Mars ",
+      "coleccion": "prefiero probar juegos nuevos pero puedo llevar de todo tipo dependiendo el grupo ",
+      "dias_disponibles": [],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "BLACK",
+      "zona": "Sector Sur y Centro de Santiago",
+      "estilos": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
+      "favoritos": "Riverside, Faraway, Harmonies",
+      "coleccion": "No suelo llevar ningun juego a las juntas xD, me gusta probar juegos nuevos",
+      "dias_disponibles": [
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Cecy",
+      "zona": "Cerca del metro ",
+      "estilos": "Eurogames, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Deducción Social, Prototipos, Otros",
+      "favoritos": "Project L, Ciudadelas, Mino dice, etc.... ",
+      "coleccion": "Project L, dobble, timeline",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Erick Arancibia Valdés",
+      "zona": "Ludum Bar, Parques (?), Casas (?), tiendas TCG o de Juegos de Mesa.",
+      "estilos": "Eurogames, Fillers, Juegos de Rol (RPG), Deckbuilders, Cooperativos, Prototipos, Otros",
+      "favoritos": "Terraforming Mars (con Expansiones y sus dos variantes igual), Wingspan, HEAT, Formula D, Tiny Epic Galaxies.",
+      "coleccion": "Kanpur: El Desierto Florido, Terraforming Mars, TM: Expedición Ares, TM: El Juego de Dados, Wingspan, Wingspan Asia, HEAT: Pedal to the Metal, Formula D, Desamparados: Stalingrado, Sagrada, Cat Box, Tiny Epic Galaxies, Paleo Atacama, Ierusalem: Anno Domini, ILAN, Pai Sho, Chakra, Card Jitsu, Plan Ferpecto, Mycelium.",
+      "dias_disponibles": [
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Gandulfox86",
+      "zona": "Sector Oriente",
+      "estilos": "Eurogames, Ameritrash",
+      "favoritos": "Terraforming Mars",
+      "coleccion": "Scythe, Dune",
+      "dias_disponibles": [
+        "LUNES",
+        "SABADO"
+      ],
+      "horario_preferido": "Tarde / Noche (17:00 - 21:00)",
+      "busca_jugadores_para": "Busco gente para campaña",
+      "fecha_actualizacion": "2026-11-18 12:06:19"
+    },
+    {
+      "nick": "Gerson",
+      "zona": "Tiendas de cartas o lugares cercanos a la línea 2",
+      "estilos": "Eurogames, Fillers, Juegos de Rol (RPG), Deckbuilders, Prototipos",
+      "favoritos": " rhino hero, epic spell wars",
+      "coleccion": "Gato y la torre y prototipos en proceso",
+      "dias_disponibles": [
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Karlita 🦦",
+      "zona": "El Desafío, el GAM, el MUT, mi azotea 😂, cerca del centro",
+      "estilos": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
+      "favoritos": "Variado...",
+      "coleccion": "https://boardgamegeek.com/collection/user/Skittzz",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "llako",
+      "zona": "cafeteria el desafio o mi depa (metro manuel montt)",
+      "estilos": "Eurogames, Fillers, Party Games, Deducción Social, Prototipos, Otros",
+      "favoritos": "splendor, mandala stones, men at work",
+      "coleccion": "muchos (bosk, calico, takenoko, paella park, etc), principalmente abstractos, roles ocultos y algunos protos",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Lorena V.P",
+      "zona": "Parques con baño, como Andre Jarlan.\nSantiago centro, y alrededores-Bibliotecas ",
+      "estilos": "Party Games, Cooperativos, Deducción Social",
+      "favoritos": "Bang, La isla, Marvel zombie, Star wars la batalla de Hots,terraformers mars",
+      "coleccion": "Puedo llevar mis favoritos y Celestia",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Ps Mauricio Leiva",
+      "zona": "Tiendas Barrio Italia o lugares tirados para Stgo Centro, Providencia, Ñuñoa, La Reina, La Florida",
+      "estilos": "Eurogames, Fillers, Party Games, Deckbuilders, Cooperativos, Deducción Social, Otros",
+      "favoritos": "Star Wars Borde Exterior/Unlimited (tcg)/Deckbuilding, Stockpile, SmallWorld of Warcraft",
+      "coleccion": "Un montón sjsjsj https://docs.google.com/spreadsheets/d/1UUplJ2UgLkmazf1GvdrBe72neRye1ymO/edit?usp=sharing&ouid=111485654490468032918&rtpof=true&sd=true ahi dejo la lista, todos a disposición ",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Restrepo",
+      "zona": "Ñuñoa, Providencia, Santiago",
+      "estilos": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social, Prototipos, Otros",
+      "favoritos": "Gatos",
+      "coleccion": "Gatos",
+      "dias_disponibles": [
+        "LUNES",
+        "JUEVES",
+        "VIERNES",
+        "SABADO",
+        "DOMINGO"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    },
+    {
+      "nick": "Ricardragon",
+      "zona": "Más menos 1 y media hora de viaje desde quilicura",
+      "estilos": "Eurogames, Ameri, Fillers, Party Games, Juegos de Rol (RPG), Wargames, Deckbuilders, Cooperativos, Deducción Social",
+      "favoritos": "No tengo favoritos",
+      "coleccion": "Varios solo pregunteme",
+      "dias_disponibles": [
+        "LUNES",
+        "MARTES",
+        "MIERCOLES",
+        "JUEVES",
+        "VIERNES"
+      ],
+      "horario_preferido": "Flexible",
+      "busca_jugadores_para": "",
+      "fecha_actualizacion": "2026-11-17 22:28:03"
+    }
+  ]
+}

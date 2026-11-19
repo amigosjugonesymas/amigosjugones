@@ -1,0 +1,33 @@
+﻿{
+  "clave": "2026-10",
+  "nombre": "Octubre 2026",
+  "fecha_inicio": "2026-10-01",
+  "fecha_cierre": "2026-10-31",
+  "cerrada": true,
+  "total_jugadores_activos": 6,
+  "ranking_general": [
+    { "pos": 1, "nick": "Jess_Shadow",  "puntos": 847, "bonus_otorgado": 50, "medallas": ["oro_gral", "mision_perfecta"] },
+    { "pos": 2, "nick": "BLACK",        "puntos": 732, "bonus_otorgado": 30, "medallas": ["plata_gral", "arcade_piloto"] },
+    { "pos": 3, "nick": "Nico_Piloto",  "puntos": 698, "bonus_otorgado": 20, "medallas": ["bronce_gral"] },
+    { "pos": 4, "nick": "Kuro_Dragon",  "puntos": 501, "bonus_otorgado": 0,  "medallas": [] },
+    { "pos": 5, "nick": "Karl",         "puntos": 342, "bonus_otorgado": 0,  "medallas": [] },
+    { "pos": 6, "nick": "Rodrigo_R",    "puntos": 201, "bonus_otorgado": 0,  "medallas": [] }
+  ],
+  "podio_arcade_carrera": [
+    { "pos": 1, "nick": "BLACK",       "km": 409.0, "fecha_record": "2026-10-20", "medalla": "arcade_piloto" },
+    { "pos": 2, "nick": "Nico_Piloto", "km": 242.5, "fecha_record": "2026-10-18", "medalla": null },
+    { "pos": 3, "nick": "Jess_Shadow", "km": 198.0, "fecha_record": "2026-10-15", "medalla": null }
+  ],
+  "podio_arcade_ninja": [
+    { "pos": 1, "nick": "Nico_Piloto", "score": 36000, "cortes": 90, "medalla": "arcade_ninja" },
+    { "pos": 2, "nick": "BLACK",       "score": 34500, "cortes": 82, "medalla": null },
+    { "pos": 3, "nick": "Kuro_Dragon", "score": 28900, "cortes": 68, "medalla": null }
+  ],
+  "medallas_especiales": {
+    "mas_activo":      { "nick": "Jess_Shadow",  "valor": 28, "unidad": "misiones" },
+    "mision_perfecta": { "nick": "Jess_Shadow",  "valor": 92, "unidad": "% completado" },
+    "saboteador":      { "nick": "Kuro_Dragon",  "valor": 5,  "unidad": "sabotajes" },
+    "arcade_ninja":    { "nick": "Nico_Piloto",  "valor": 36000, "unidad": "score" },
+    "arcade_piloto":   { "nick": "BLACK",        "valor": 409.0, "unidad": "km" }
+  }
+}

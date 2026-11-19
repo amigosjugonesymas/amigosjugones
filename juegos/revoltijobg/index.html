@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Revoltijo Jugón - Acertijos Cifrados de Amigos Jugones. Generador de acertijos y criptogramas de palabras para la comunidad.">
+  <title>Revoltijo Jugón — Acertijos Cifrados de Amigos Jugones</title>
+  
+  <!-- Fonts Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge">
+          <span>🔤 COMUNIDAD DE JUEGOS DE MESA Y MÁS</span>
+        </div>
+        <h1 class="app-title">Revoltijo Jugón <span class="highlight-text">ACERTIJOS CIFRADOS</span></h1>
+        <p class="app-subtitle">Genera automáticamente 4 pistas codificadas para tu palabra o frase secreta + la solución para la comunidad de <strong>AMIGOS JUGONES</strong>.</p>
+      </div>
+    </header>
+
+    <!-- Instructions Banner -->
+    <section class="instructions-banner">
+      <div class="step-card">
+        <span class="step-number">1</span>
+        <div class="step-text">
+          <strong>Escribe tu título secreto</strong>
+          <span>Nombre de juego, película, personaje o serie</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-number">2</span>
+        <div class="step-text">
+          <strong>Genera las 5 imágenes</strong>
+          <span>Obtén 4 pistas codificadas (A, B, C, D) + la solución</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-number">3</span>
+        <div class="step-text">
+          <strong>Elige qué pista mostrar</strong>
+          <span>Comparte la pista que quieras cuando quieras</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Card Formulario -->
+      <section class="upload-section glass-panel">
+        
+        <!-- Creator Identification -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="creatorNameInput" class="form-label">
+              <span>👤 Tu Nombre / Apodo</span>
+            </label>
+            <input type="text" id="creatorNameInput" class="form-input" placeholder="Ejemplo: Carlos / JuanJugon" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="creatorIgInput" class="form-label">
+              <span>📸 Tu Instagram</span>
+            </label>
+            <input type="text" id="creatorIgInput" class="form-input" placeholder="Ejemplo: @carlos_jugon" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Input Phrase -->
+        <div class="form-group">
+          <label for="secretTextInput" class="form-label">
+            <span>🔤 Palabra o Frase Secreta</span>
+            <span class="label-hint">(se generarán 4 pistas codificadas + la solución)</span>
+          </label>
+          <input type="text" id="secretTextInput" class="form-input" placeholder="Ejemplo: El Señor de los Anillos" autocomplete="off">
+        </div>
+
+        <!-- Input Category/Theme -->
+        <div class="form-group">
+          <label for="categoryInput" class="form-label">
+            <span>🏷️ Categoría o Pista Opcional</span>
+            <span class="label-hint">(aparecerá en la cabecera de la tarjeta)</span>
+          </label>
+          <input type="text" id="categoryInput" class="form-input" placeholder="Ejemplo: Juego de Mesa / Película / Videojuego" autocomplete="off">
+        </div>
+
+        <!-- Format / Aspect Ratio Selector -->
+        <div class="form-group">
+          <label class="form-label">
+            <span>📐 Formato de Imagen</span>
+            <span class="label-hint">(elige la proporción para tus redes sociales)</span>
+          </label>
+          <div class="format-options-grid">
+            <label class="format-option-card active" id="cardOptionSquare">
+              <input type="radio" name="aspectRatio" value="1:1" checked style="display:none;">
+              <span class="format-icon">🟦</span>
+              <div class="format-details">
+                <strong>1:1 Cuadrado</strong>
+                <span>WhatsApp / Feed (1000x1000)</span>
+              </div>
+            </label>
+            <label class="format-option-card" id="cardOptionStory">
+              <input type="radio" name="aspectRatio" value="9:16" style="display:none;">
+              <span class="format-icon">📱</span>
+              <div class="format-details">
+                <strong>9:16 Vertical</strong>
+                <span>Instagram Stories / Reels (1080x1920)</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="action-buttons-row">
+          <button type="button" id="generateBtn" class="btn-primary" disabled>
+            <span>✨ Generar 5 Imágenes PNG (Revoltijo Codificado)</span>
+          </button>
+          <button type="button" id="regenerateBtn" class="btn-secondary hidden" title="Generar de nuevo otras variaciones de codificación">
+            <span>🔄 Volver a Generar (Nuevas Variaciones)</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- Status / Loader -->
+      <div id="loader" class="loader-container hidden">
+        <div class="pixel-spinner"></div>
+        <p>Aplicando algoritmos de codificación y generando tarjetas PNG...</p>
+      </div>
+
+      <!-- Results Gallery -->
+      <section id="resultsSection" class="results-section hidden">
+        
+        <div class="results-header">
+          <div>
+            <h2 class="section-title">🖼️ Pistas Generadas — Elige cuál compartir</h2>
+            <p class="section-subtitle">Descarga las pistas y comparte con el grupo la que quieras, en el orden que quieras.</p>
+          </div>
+          <button type="button" id="downloadAllBtn" class="btn-success">
+            <span>📥 Descargar las 5 Imágenes</span>
+          </button>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid">
+          <!-- 5 Cards injected by JavaScript -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer glass-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left">
+          <div class="web-qr-card">
+            <img src="assets/amigosjugonesymas_qr.png" alt="QR Amigos Jugones" class="web-qr-img">
+          </div>
+          <div class="web-copy-text">
+            <p>© <span id="currentYear">2026</span> <strong>AMIGOS JUGONES</strong></p>
+          </div>
+        </div>
+        <div class="web-footer-center">
+          <p class="web-ig-title">📸 ¡SÍGUENOS en INSTAGRAM!</p>
+          <p class="web-ig-sub">✨ Juego creado en Revoltijo Jugón: Acertijos Cifrados — ¡Crea los tuyos!</p>
+        </div>
+        <div class="web-footer-right">
+          <span class="web-black-label">Sistema creado por</span>
+          <img src="assets/logo_black.png" alt="BLACK" class="web-black-logo">
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="assets/logoData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

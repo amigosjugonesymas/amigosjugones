@@ -1,0 +1,1476 @@
+/* ═══════════════════════════════════════════════════════
+   AMIGOS JUGONES — SKINS ESTACIONALES v1.0
+   Variables CSS por tema + efectos decorativos.
+   Se carga DESPUÉS de style.css para sobreescribir :root.
+   ═══════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────
+   BANNER ESTACIONAL (común a todos los skins)
+   ─────────────────────────────────────────────────────── */
+
+.skin-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 48px 10px 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  animation: skinBannerIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.skin-banner--hiding {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.skin-banner__icon {
+  font-size: 1.2rem;
+}
+
+.skin-banner__close {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.7;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: opacity 0.2s, background 0.2s;
+}
+.skin-banner__close:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.15);
+}
+
+@keyframes skinBannerIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* ───────────────────────────────────────────────────────
+   🎃 HALLOWEEN
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="halloween"] {
+  --bg:            #070409;
+  --bg2:           #0f0610;
+  --card:          #160b18;
+  --card2:         #1c0e1f;
+  --card-hover:    #221126;
+  --border:        #2a0f30;
+  --border-light:  #3d1545;
+
+  --primary:       #d35400;
+  --primary-light: #e67e22;
+  --primary-glow:  rgba(211, 84, 0, 0.45);
+  --accent:        #6c3483;
+  --accent-light:  #9b59b6;
+  --accent-glow:   rgba(108, 52, 131, 0.4);
+  --cyan:          #00e676;
+  --cyan-glow:     rgba(0, 230, 118, 0.3);
+  --green:         #00e676;
+  --green-glow:    rgba(0, 230, 118, 0.3);
+  --orange:        #ff6f00;
+
+  --text:          #e8d5f0;
+  --text-dim:      #b39dbd;
+  --text-faint:    #6d4f75;
+
+  --shadow-glow:   0 0 28px rgba(211, 84, 0, 0.5);
+}
+
+/* Banner Halloween */
+.skin-banner--halloween {
+  background: linear-gradient(90deg, #1a0808 0%, #2a0f00 40%, #1a0808 100%);
+  border-bottom: 2px solid #d35400;
+  color: #ff8c42;
+  box-shadow: 0 2px 20px rgba(211, 84, 0, 0.5);
+}
+
+/* Telaraña decorativa (esquinas) */
+[data-skin="halloween"] body::before,
+[data-skin="halloween"] body::after {
+  content: '';
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  background-image:
+    radial-gradient(circle at 0% 0%, transparent 30%, rgba(150,50,200,0.08) 70%),
+    repeating-conic-gradient(from 0deg, rgba(108,52,131,0.12) 0deg 10deg, transparent 10deg 20deg);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-skin="halloween"] body::before {
+  top: 64px; left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+[data-skin="halloween"] body::after {
+  top: 64px; right: 0;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* Murciélagos flotantes */
+[data-skin="halloween"] #app-container::before {
+  content: '🦇  🦇    🦇';
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  font-size: 1.2rem;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: batFly 8s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes batFly {
+  0%   { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0.15; }
+  25%  { transform: translateX(-30px) translateY(-15px) rotate(-5deg); opacity: 0.3; }
+  50%  { transform: translateX(15px) translateY(-5px) rotate(3deg); opacity: 0.2; }
+  75%  { transform: translateX(-10px) translateY(10px) rotate(-3deg); opacity: 0.3; }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0.15; }
+}
+
+/* ───────────────────────────────────────────────────────
+   🎄 NAVIDAD
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="navidad"] {
+  --bg:            #04100a;
+  --bg2:           #071a10;
+  --card:          #0a2016;
+  --card2:         #0d2a1c;
+  --card-hover:    #103520;
+  --border:        #1a3a22;
+  --border-light:  #24502e;
+
+  --primary:       #c0392b;
+  --primary-light: #e74c3c;
+  --primary-glow:  rgba(192, 57, 43, 0.45);
+  --accent:        #27ae60;
+  --accent-light:  #2ecc71;
+  --accent-glow:   rgba(39, 174, 96, 0.4);
+  --cyan:          #f1c40f;
+  --cyan-glow:     rgba(241, 196, 15, 0.35);
+  --green:         #27ae60;
+  --green-glow:    rgba(39, 174, 96, 0.3);
+  --orange:        #e67e22;
+
+  --text:          #e8f5e9;
+  --text-dim:      #a5d6a7;
+  --text-faint:    #4a7a55;
+
+  --shadow-glow:   0 0 28px rgba(192, 57, 43, 0.4);
+}
+
+.skin-banner--navidad {
+  background: linear-gradient(90deg, #0a2016 0%, #1a0808 50%, #0a2016 100%);
+  border-bottom: 2px solid #c0392b;
+  color: #f1c40f;
+  box-shadow: 0 2px 20px rgba(192, 57, 43, 0.5);
+}
+
+/* Copos de nieve */
+[data-skin="navidad"] #app-container::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.6) 50%, transparent 50%),
+    radial-gradient(2px 2px at 30% 60%, rgba(255,255,255,0.5) 50%, transparent 50%),
+    radial-gradient(2px 2px at 55% 15%, rgba(255,255,255,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 70% 45%, rgba(255,255,255,0.4) 50%, transparent 50%),
+    radial-gradient(2px 2px at 85% 80%, rgba(255,255,255,0.6) 50%, transparent 50%),
+    radial-gradient(2px 2px at 20% 85%, rgba(255,255,255,0.5) 50%, transparent 50%),
+    radial-gradient(2px 2px at 90% 25%, rgba(255,255,255,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 45% 75%, rgba(255,255,255,0.4) 50%, transparent 50%),
+    radial-gradient(3px 3px at 60% 90%, rgba(255,255,255,0.5) 50%, transparent 50%),
+    radial-gradient(2px 2px at 15% 50%, rgba(255,255,255,0.6) 50%, transparent 50%);
+  background-size: 300px 300px;
+  pointer-events: none;
+  z-index: 0;
+  animation: snowFall 12s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes snowFall {
+  0%   { background-position: 0px -300px; }
+  100% { background-position: 0px 300px; }
+}
+
+/* ───────────────────────────────────────────────────────
+   🎆 AÑO NUEVO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="año_nuevo"] {
+  --bg:            #050510;
+  --bg2:           #08081a;
+  --card:          #0d0d22;
+  --card2:         #10102a;
+  --card-hover:    #141435;
+  --border:        #1a1a40;
+  --border-light:  #25255a;
+
+  --primary:       #f1c40f;
+  --primary-light: #f39c12;
+  --primary-glow:  rgba(241, 196, 15, 0.5);
+  --accent:        #e74c3c;
+  --accent-light:  #ff6b6b;
+  --accent-glow:   rgba(231, 76, 60, 0.35);
+  --cyan:          #3498db;
+  --cyan-glow:     rgba(52, 152, 219, 0.3);
+  --green:         #2ecc71;
+
+  --text:          #fef9e7;
+  --text-dim:      #f9e79f;
+  --text-faint:    #7d6608;
+
+  --shadow-glow:   0 0 30px rgba(241, 196, 15, 0.55);
+}
+
+.skin-banner--año_nuevo {
+  background: linear-gradient(90deg, #0a0a20 0%, #1a1a00 50%, #0a0a20 100%);
+  border-bottom: 2px solid #f1c40f;
+  color: #f1c40f;
+  box-shadow: 0 2px 24px rgba(241, 196, 15, 0.6);
+}
+
+/* Partículas doradas */
+[data-skin="año_nuevo"] #app-container::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(2px 2px at 15% 30%, rgba(241,196,15,0.8) 50%, transparent 50%),
+    radial-gradient(2px 2px at 40% 70%, rgba(241,196,15,0.6) 50%, transparent 50%),
+    radial-gradient(2px 2px at 70% 20%, rgba(241,196,15,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 85% 60%, rgba(231,76,60,0.6) 50%, transparent 50%),
+    radial-gradient(3px 3px at 55% 50%, rgba(241,196,15,0.9) 50%, transparent 50%),
+    radial-gradient(2px 2px at 25% 85%, rgba(231,76,60,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 90% 90%, rgba(241,196,15,0.5) 50%, transparent 50%);
+  background-size: 400px 400px;
+  pointer-events: none;
+  z-index: 0;
+  animation: confettiFall 6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes confettiFall {
+  0%   { background-position: 0px -400px; transform: rotate(0deg); }
+  100% { background-position: 0px 400px; transform: rotate(360deg); }
+}
+
+/* ───────────────────────────────────────────────────────
+   💝 SAN VALENTÍN
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="san_valentin"] {
+  --bg:            #0d0508;
+  --bg2:           #160a0f;
+  --card:          #1f0d14;
+  --card2:         #2a111c;
+  --card-hover:    #331525;
+  --border:        #3d1428;
+  --border-light:  #551a38;
+
+  --primary:       #e91e63;
+  --primary-light: #f06292;
+  --primary-glow:  rgba(233, 30, 99, 0.45);
+  --accent:        #c62828;
+  --accent-light:  #ef5350;
+  --accent-glow:   rgba(198, 40, 40, 0.35);
+  --cyan:          #ff80ab;
+  --cyan-glow:     rgba(255, 128, 171, 0.3);
+
+  --text:          #fce4ec;
+  --text-dim:      #f48fb1;
+  --text-faint:    #880e4f;
+
+  --shadow-glow:   0 0 28px rgba(233, 30, 99, 0.5);
+}
+
+.skin-banner--san_valentin {
+  background: linear-gradient(90deg, #1a0010 0%, #2d0018 50%, #1a0010 100%);
+  border-bottom: 2px solid #e91e63;
+  color: #ff80ab;
+  box-shadow: 0 2px 20px rgba(233, 30, 99, 0.5);
+}
+
+/* Corazones flotantes */
+[data-skin="san_valentin"] #app-container::after {
+  content: '❤️';
+  position: fixed;
+  bottom: 30%;
+  right: 5%;
+  font-size: 1.5rem;
+  opacity: 0.2;
+  pointer-events: none;
+  animation: heartFloat 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes heartFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+  50%       { transform: translateY(-20px) scale(1.1); opacity: 0.35; }
+}
+
+/* ───────────────────────────────────────────────────────
+   🇨🇱 FIESTAS PATRIAS
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="fiestas_patrias"] {
+  --bg:            #08050d;
+  --bg2:           #0d0816;
+  --card:          #130c20;
+  --card2:         #1a1030;
+  --card-hover:    #201440;
+  --border:        #2a1050;
+  --border-light:  #3a1870;
+
+  --primary:       #c0392b;
+  --primary-light: #e74c3c;
+  --primary-glow:  rgba(192, 57, 43, 0.45);
+  --accent:        #1a5276;
+  --accent-light:  #2e86c1;
+  --accent-glow:   rgba(26, 82, 118, 0.4);
+  --cyan:          #f1c40f;
+  --cyan-glow:     rgba(241, 196, 15, 0.35);
+
+  --text:          #eaf3fb;
+  --text-dim:      #aed6f1;
+  --text-faint:    #1a5276;
+
+  --shadow-glow:   0 0 28px rgba(192, 57, 43, 0.45);
+}
+
+.skin-banner--fiestas_patrias {
+  background: linear-gradient(90deg, #0a0505 0%, #0d2030 30%, #0a0505 100%);
+  border-bottom: 2px solid #c0392b;
+  color: #f1c40f;
+  box-shadow: 0 2px 20px rgba(192, 57, 43, 0.5);
+}
+
+/* ───────────────────────────────────────────────────────
+   🏆 ANIVERSARIO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="aniversario"] {
+  --bg:            #06050a;
+  --bg2:           #0a0810;
+  --card:          #100c18;
+  --card2:         #161020;
+  --card-hover:    #1c1428;
+  --border:        #2a1e45;
+  --border-light:  #3a2860;
+
+  --primary:       #d4af37;
+  --primary-light: #f0d060;
+  --primary-glow:  rgba(212, 175, 55, 0.5);
+  --accent:        #9b59b6;
+  --accent-light:  #b07fd1;
+  --accent-glow:   rgba(155, 89, 182, 0.4);
+  --cyan:          #1abc9c;
+  --cyan-glow:     rgba(26, 188, 156, 0.3);
+
+  --text:          #fef9e7;
+  --text-dim:      #f9e79f;
+  --text-faint:    #7d6608;
+
+  --shadow-glow:   0 0 30px rgba(212, 175, 55, 0.55);
+}
+
+.skin-banner--aniversario {
+  background: linear-gradient(90deg, #100a06 0%, #1c1008 50%, #100a06 100%);
+  border-bottom: 2px solid #d4af37;
+  color: #d4af37;
+  box-shadow: 0 2px 24px rgba(212, 175, 55, 0.6);
+}
+
+/* ───────────────────────────────────────────────────────
+   ☀️ VERANO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="verano"] {
+  --bg:            #030d14;
+  --bg2:           #050f1a;
+  --card:          #081525;
+  --card2:         #0a1c30;
+  --card-hover:    #0d2440;
+  --border:        #0f2f55;
+  --border-light:  #144070;
+
+  --primary:       #00acc1;
+  --primary-light: #26c6da;
+  --primary-glow:  rgba(0, 172, 193, 0.45);
+  --accent:        #ff7043;
+  --accent-light:  #ff8a65;
+  --accent-glow:   rgba(255, 112, 67, 0.4);
+  --cyan:          #aeea00;
+  --cyan-glow:     rgba(174, 234, 0, 0.3);
+  --green:         #00e676;
+
+  --text:          #e3f7fa;
+  --text-dim:      #80deea;
+  --text-faint:    #00838f;
+
+  --shadow-glow:   0 0 28px rgba(0, 172, 193, 0.5);
+}
+
+.skin-banner--verano {
+  background: linear-gradient(90deg, #030d14 0%, #051825 50%, #030d14 100%);
+  border-bottom: 2px solid #00acc1;
+  color: #aeea00;
+  box-shadow: 0 2px 20px rgba(0, 172, 193, 0.5);
+}
+
+/* ───────────────────────────────────────────────────────
+   ❄️ INVIERNO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="invierno"] {
+  --bg:            #040810;
+  --bg2:           #060a18;
+  --card:          #090e22;
+  --card2:         #0c1228;
+  --card-hover:    #101630;
+  --border:        #141d40;
+  --border-light:  #1c2860;
+
+  --primary:       #1565c0;
+  --primary-light: #42a5f5;
+  --primary-glow:  rgba(21, 101, 192, 0.45);
+  --accent:        #00bcd4;
+  --accent-light:  #4dd0e1;
+  --accent-glow:   rgba(0, 188, 212, 0.4);
+  --cyan:          #b3e5fc;
+  --cyan-glow:     rgba(179, 229, 252, 0.3);
+
+  --text:          #e3f2fd;
+  --text-dim:      #90caf9;
+  --text-faint:    #1565c0;
+
+  --shadow-glow:   0 0 28px rgba(21, 101, 192, 0.5);
+}
+
+.skin-banner--invierno {
+  background: linear-gradient(90deg, #04080f 0%, #071020 50%, #04080f 100%);
+  border-bottom: 2px solid #42a5f5;
+  color: #b3e5fc;
+  box-shadow: 0 2px 20px rgba(21, 101, 192, 0.5);
+}
+
+/* Copos de invierno (más sutiles que navidad) */
+[data-skin="invierno"] #app-container::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(179,229,252,0.5) 50%, transparent 50%),
+    radial-gradient(2px 2px at 50% 70%, rgba(179,229,252,0.4) 50%, transparent 50%),
+    radial-gradient(2px 2px at 75% 20%, rgba(179,229,252,0.6) 50%, transparent 50%),
+    radial-gradient(2px 2px at 90% 60%, rgba(179,229,252,0.3) 50%, transparent 50%),
+    radial-gradient(2px 2px at 35% 90%, rgba(179,229,252,0.5) 50%, transparent 50%);
+  background-size: 350px 350px;
+  pointer-events: none;
+  z-index: 0;
+  animation: snowFall 18s linear infinite;
+  opacity: 0.45;
+}
+
+/* ───────────────────────────────────────────────────────
+   🐣 PASCUA
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="pascua"] {
+  --bg:            #080d06;
+  --bg2:           #0d1208;
+  --card:          #121a0c;
+  --card2:         #172010;
+  --card-hover:    #1e2a14;
+  --border:        #2a3d1a;
+  --border-light:  #3a5525;
+
+  --primary:       #7b1fa2;
+  --primary-light: #ab47bc;
+  --primary-glow:  rgba(123, 31, 162, 0.45);
+  --accent:        #388e3c;
+  --accent-light:  #66bb6a;
+  --accent-glow:   rgba(56, 142, 60, 0.4);
+  --cyan:          #ffd54f;
+  --cyan-glow:     rgba(255, 213, 79, 0.35);
+
+  --text:          #f3e5f5;
+  --text-dim:      #ce93d8;
+  --text-faint:    #6a1b9a;
+
+  --shadow-glow:   0 0 28px rgba(123, 31, 162, 0.5);
+}
+
+.skin-banner--pascua {
+  background: linear-gradient(90deg, #080d06 0%, #120d18 50%, #080d06 100%);
+  border-bottom: 2px solid #ab47bc;
+  color: #ffd54f;
+  box-shadow: 0 2px 20px rgba(123, 31, 162, 0.5);
+}
+
+/* ───────────────────────────────────────────────────────
+   🕹️ DÍA DEL VIDEOJUEGO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="dia_del_juego"] {
+  --bg:            #000000;
+  --bg2:           #030303;
+  --card:          #080808;
+  --card2:         #0a0a0a;
+  --card-hover:    #0f0f0f;
+  --border:        #003300;
+  --border-light:  #005500;
+
+  --primary:       #00ff41;
+  --primary-light: #33ff66;
+  --primary-glow:  rgba(0, 255, 65, 0.5);
+  --accent:        #ff00ff;
+  --accent-light:  #ff66ff;
+  --accent-glow:   rgba(255, 0, 255, 0.4);
+  --cyan:          #00ffff;
+  --cyan-glow:     rgba(0, 255, 255, 0.35);
+  --green:         #00ff41;
+  --orange:        #ffaa00;
+
+  --text:          #00ff41;
+  --text-dim:      #00cc33;
+  --text-faint:    #006600;
+
+  --shadow-glow:   0 0 30px rgba(0, 255, 65, 0.6);
+}
+
+.skin-banner--dia_del_juego {
+  background: #000000;
+  border-bottom: 2px solid #00ff41;
+  color: #00ff41;
+  box-shadow: 0 2px 24px rgba(0, 255, 65, 0.6);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Efecto scanlines CRT */
+[data-skin="dia_del_juego"] body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+  animation: scanlineShift 10s linear infinite;
+}
+
+@keyframes scanlineShift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+/* Texto parpadeante CRT en headings */
+[data-skin="dia_del_juego"] h1,
+[data-skin="dia_del_juego"] .section-title {
+  animation: crtBlink 4s step-end infinite;
+}
+
+@keyframes crtBlink {
+  0%, 95%, 100% { opacity: 1; }
+  96%           { opacity: 0.6; }
+  97%           { opacity: 1; }
+  98%           { opacity: 0.4; }
+}
+
+/* ───────────────────────────────────────────────────────
+   👫 DÍA DEL AMIGO
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="dia_del_amigo"] {
+  --bg:            #0a0605;
+  --bg2:           #140908;
+  --card:          #1e0d0c;
+  --card2:         #271010;
+  --card-hover:    #321315;
+  --border:        #421820;
+  --border-light:  #5a2030;
+
+  --primary:       #ff6f00;
+  --primary-light: #ffb300;
+  --primary-glow:  rgba(255, 111, 0, 0.5);
+  --accent:        #ad1457;
+  --accent-light:  #e91e63;
+  --accent-glow:   rgba(173, 20, 87, 0.4);
+  --cyan:          #00897b;
+  --cyan-glow:     rgba(0, 137, 123, 0.35);
+
+  --text:          #fff3e0;
+  --text-dim:      #ffcc80;
+  --text-faint:    #e65100;
+
+  --shadow-glow:   0 0 28px rgba(255, 111, 0, 0.5);
+}
+
+.skin-banner--dia_del_amigo {
+  background: linear-gradient(90deg, #0a0605 0%, #1a0a05 50%, #0a0605 100%);
+  border-bottom: 2px solid #ff6f00;
+  color: #ffb300;
+  box-shadow: 0 2px 20px rgba(255, 111, 0, 0.5);
+}
+
+/* ───────────────────────────────────────────────────────
+   ❤️ LUDITÓN — TELETÓN
+   Skin para el evento de juegos de mesa Luditón (Teletón).
+   Inspirado en la identidad oficial: Azul Teletón medianoche,
+   Rojo Corazón vibrante, Blanco limpio y Estrella Dorada.
+   ─────────────────────────────────────────────────────── */
+
+[data-skin="luditon"],
+[data-skin="ludaton"] {
+  --bg:            #060c18;
+  --bg2:           #0a1426;
+  --card:          #0f1c35;
+  --card2:         #152545;
+  --card-hover:    #1b2e54;
+  --border:        #1d355f;
+  --border-light:  #294a85;
+
+  --primary:       #e50027;
+  --primary-light: #ff2a4d;
+  --primary-glow:  rgba(229, 0, 39, 0.45);
+  --accent:        #ffd100;
+  --accent-light:  #ffe24d;
+  --accent-glow:   rgba(255, 209, 0, 0.4);
+  --cyan:          #38bdf8;
+  --cyan-glow:     rgba(56, 189, 248, 0.35);
+  --green:         #22c55e;
+  --green-glow:    rgba(34, 197, 94, 0.3);
+  --orange:        #ff7b00;
+
+  --text:          #ffffff;
+  --text-dim:      #cbd5e1;
+  --text-faint:    #64748b;
+
+  --shadow-glow:   0 0 28px rgba(229, 0, 39, 0.45);
+}
+
+/* Banner Luditón */
+.skin-banner--luditon,
+.skin-banner--ludaton {
+  background: linear-gradient(90deg, #060c18 0%, #9e0721 35%, #e50027 50%, #9e0721 65%, #060c18 100%);
+  border-bottom: 2px solid #ffd100;
+  color: #ffffff;
+  box-shadow: 0 4px 24px rgba(229, 0, 39, 0.5);
+}
+
+/* Corazones y estrellas flotantes (fondo sutil) */
+[data-skin="luditon"] #app-container::before,
+[data-skin="ludaton"] #app-container::before {
+  content: '❤️';
+  position: fixed;
+  bottom: 25%;
+  left: 4%;
+  font-size: 1.4rem;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: luditonHeartLeft 5s ease-in-out infinite;
+  z-index: 1;
+}
+
+[data-skin="luditon"] #app-container::after,
+[data-skin="ludaton"] #app-container::after {
+  content: '⭐';
+  position: fixed;
+  bottom: 40%;
+  right: 4%;
+  font-size: 1.2rem;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: luditonStarRight 7s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes luditonHeartLeft {
+  0%, 100% { transform: translateY(0) scale(1);    opacity: 0.2; }
+  50%       { transform: translateY(-22px) scale(1.15); opacity: 0.4; }
+}
+
+@keyframes luditonStarRight {
+  0%, 100% { transform: translateY(0) rotate(0deg);   opacity: 0.18; }
+  33%       { transform: translateY(-15px) rotate(20deg); opacity: 0.35; }
+  66%       { transform: translateY(-8px)  rotate(-10deg); opacity: 0.25; }
+}
+
+/* Partículas rojo Teletón, estrella dorada y blanco en el fondo */
+[data-skin="luditon"] body::before,
+[data-skin="ludaton"] body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(2px 2px at 12% 20%, rgba(229,0,39,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 35% 65%, rgba(255,209,0,0.65) 50%, transparent 50%),
+    radial-gradient(2px 2px at 60% 15%, rgba(255,255,255,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 78% 50%, rgba(229,0,39,0.65) 50%, transparent 50%),
+    radial-gradient(3px 3px at 50% 82%, rgba(255,209,0,0.7) 50%, transparent 50%),
+    radial-gradient(2px 2px at 22% 88%, rgba(255,255,255,0.6) 50%, transparent 50%),
+    radial-gradient(2px 2px at 88% 28%, rgba(229,0,39,0.6) 50%, transparent 50%);
+  background-size: 380px 380px;
+  pointer-events: none;
+  z-index: 0;
+  animation: luditonSparkle 9s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes luditonSparkle {
+  0%   { background-position: 0px -380px; }
+  100% { background-position: 0px 380px; }
+}
+
+/* Cursor Luditón — corazón */
+[data-skin="luditon"],
+[data-skin="ludaton"],
+[data-skin="luditon"] *,
+[data-skin="ludaton"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%23e31c23' stroke='%23ffd700' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="luditon"] a,
+[data-skin="ludaton"] a,
+[data-skin="luditon"] button,
+[data-skin="ludaton"] button,
+[data-skin="luditon"] [role="button"],
+[data-skin="ludaton"] [role="button"],
+[data-skin="luditon"] input,
+[data-skin="ludaton"] input,
+[data-skin="luditon"] select,
+[data-skin="ludaton"] select,
+[data-skin="luditon"] .nav-item,
+[data-skin="ludaton"] .nav-item,
+[data-skin="luditon"] .card,
+[data-skin="ludaton"] .card,
+[data-skin="luditon"] .clickable,
+[data-skin="ludaton"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 6c-3-5-9-4-9 1 0 5 9 11 9 11s9-6 9-11c0-5-6-6-9-1z' fill='%23e31c23' stroke='%23ffd700' stroke-width='1.5'/%3E%3Ccircle cx='19' cy='8' r='2' fill='%23ffd700' opacity='0.8'/%3E%3C/svg%3E") 14 10, pointer !important;
+}
+
+/* ───────────────────────────────────────────────────────
+   AJUSTES VISUALES ADICIONALES PARA TODOS LOS SKINS
+   (excepto default — que no tiene data-skin attr)
+   ─────────────────────────────────────────────────────── */
+
+/* Ajustar el gradiente de la sidebar según el skin */
+[data-skin] .sidebar {
+  background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
+
+/* Botones primarios con el color del skin */
+[data-skin] .btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  box-shadow: 0 4px 20px var(--primary-glow);
+}
+
+/* Cards con el color del skin */
+[data-skin] .card {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+/* Badges del skin activo */
+[data-skin] .badge-purple {
+  background: rgba(var(--primary-glow), 0.15);
+  color: var(--primary-light);
+  border-color: var(--primary-glow);
+}
+
+/* Loading screen adaptado al skin */
+[data-skin] #loading-screen {
+  background: var(--bg);
+}
+
+/* ───────────────────────────────────────────────────────
+   CURSORES PERSONALIZADOS POR SKIN
+   ─────────────────────────────────────────────────────── */
+
+/* 💝 San Valentín: Flecha con Corazón / Puntero de Amor */
+[data-skin="san_valentin"],
+[data-skin="san_valentin"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%23e91e63' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M16 14c-1.5-2-4-2-4 0 0 2.5 4 5 4 5s4-2.5 4-5c0-2-2.5-2-4 0z' fill='%23ff4081' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="san_valentin"] a,
+[data-skin="san_valentin"] button,
+[data-skin="san_valentin"] [role="button"],
+[data-skin="san_valentin"] input,
+[data-skin="san_valentin"] select,
+[data-skin="san_valentin"] .nav-item,
+[data-skin="san_valentin"] .card,
+[data-skin="san_valentin"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 6c-3-4-8-4-8 0 0 5 8 10 8 10s8-5 8-10c0-4-5-4-8 0z' fill='%23e91e63' stroke='%23ffffff' stroke-width='1.5'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23ffffff'/%3E%3C/svg%3E") 14 10, pointer !important;
+}
+
+/* 🎃 Halloween: Daga de Terror / Fantasma */
+[data-skin="halloween"],
+[data-skin="halloween"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%23d35400' stroke='%2300ff88' stroke-width='1.5' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%239b59b6'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="halloween"] a,
+[data-skin="halloween"] button,
+[data-skin="halloween"] [role="button"],
+[data-skin="halloween"] input,
+[data-skin="halloween"] select,
+[data-skin="halloween"] .nav-item,
+[data-skin="halloween"] .card,
+[data-skin="halloween"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 4c-5 0-9 4-9 9 0 4 2 7 5 8v3l4-2 4 2v-3c3-1 5-4 5-8 0-5-4-9-9-9z' fill='%23ff7518' stroke='%2300ff88' stroke-width='1.5'/%3E%3Ccircle cx='11' cy='12' r='1.5' fill='%23000'/%3E%3Ccircle cx='17' cy='12' r='1.5' fill='%23000'/%3E%3Cpath d='M10 17l2 1 2-1 2 1' stroke='%23000' stroke-width='1.2' fill='none'/%3E%3C/svg%3E") 14 14, pointer !important;
+}
+
+/* 🎄 Navidad: Flecha Roja / Estrella Dorada */
+[data-skin="navidad"],
+[data-skin="navidad"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%23c0392b' stroke='%23f1c40f' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="navidad"] a,
+[data-skin="navidad"] button,
+[data-skin="navidad"] [role="button"],
+[data-skin="navidad"] input,
+[data-skin="navidad"] select,
+[data-skin="navidad"] .nav-item,
+[data-skin="navidad"] .card,
+[data-skin="navidad"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2l3.5 7.5L25 10.5l-6 5.5 1.5 8.5L14 20l-6.5 4.5 1.5-8.5-6-5.5 7.5-1z' fill='%23f1c40f' stroke='%23c0392b' stroke-width='1.2'/%3E%3C/svg%3E") 14 12, pointer !important;
+}
+
+/* 🕹️ Día del Videojuego: Cursor Pixel 8-Bit */
+[data-skin="dia_del_juego"],
+[data-skin="dia_del_juego"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 2h3v15h3v-3h3v-3h3v-3h3V2z' fill='%2300ff41' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") 2 2, auto !important;
+}
+[data-skin="dia_del_juego"] a,
+[data-skin="dia_del_juego"] button,
+[data-skin="dia_del_juego"] [role="button"],
+[data-skin="dia_del_juego"] input,
+[data-skin="dia_del_juego"] select,
+[data-skin="dia_del_juego"] .nav-item,
+[data-skin="dia_del_juego"] .card,
+[data-skin="dia_del_juego"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Crect x='3' y='3' width='20' height='20' rx='4' fill='%23ff00ff' stroke='%2300ffff' stroke-width='2'/%3E%3Cpath d='M13 7v12M7 13h12' stroke='%23fff' stroke-width='3' stroke-linecap='square'/%3E%3C/svg%3E") 13 13, pointer !important;
+}
+
+/* 🎆 Año Nuevo: Chispas Doradas */
+[data-skin="año_nuevo"],
+[data-skin="año_nuevo"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%23f1c40f' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="año_nuevo"] a,
+[data-skin="año_nuevo"] button,
+[data-skin="año_nuevo"] [role="button"],
+[data-skin="año_nuevo"] input,
+[data-skin="año_nuevo"] select,
+[data-skin="año_nuevo"] .nav-item,
+[data-skin="año_nuevo"] .card,
+[data-skin="año_nuevo"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='4' fill='%23f1c40f' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cpath d='M14 2v5M14 21v5M2 14h5M21 14h5M5.5 5.5l3.5 3.5M19 19l3.5 3.5M5.5 22.5l3.5-3.5M19 9l3.5-3.5' stroke='%23f1c40f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, pointer !important;
+}
+
+/* 🇨🇱 Fiestas Patrias: Puntero Huaso Tricolor */
+[data-skin="fiestas_patrias"],
+[data-skin="fiestas_patrias"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%231a5276' stroke='%23c0392b' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="fiestas_patrias"] a,
+[data-skin="fiestas_patrias"] button,
+[data-skin="fiestas_patrias"] [role="button"],
+[data-skin="fiestas_patrias"] input,
+[data-skin="fiestas_patrias"] select,
+[data-skin="fiestas_patrias"] .nav-item,
+[data-skin="fiestas_patrias"] .card,
+[data-skin="fiestas_patrias"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='4' y='6' width='20' height='8' fill='%231a5276'/%3E%3Crect x='4' y='14' width='20' height='8' fill='%23c0392b'/%3E%3Cpolygon points='9,8 10,11 8,9 11,9 9,11' fill='%23ffffff'/%3E%3C/svg%3E") 14 10, pointer !important;
+}
+
+/* 🌊 Verano: Sol Radiante */
+[data-skin="verano"],
+[data-skin="verano"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%2300acc1' stroke='%23ff7043' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="verano"] a,
+[data-skin="verano"] button,
+[data-skin="verano"] [role="button"],
+[data-skin="verano"] input,
+[data-skin="verano"] select,
+[data-skin="verano"] .nav-item,
+[data-skin="verano"] .card,
+[data-skin="verano"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='6' fill='%23f1c40f' stroke='%23ff7043' stroke-width='1.5'/%3E%3Cpath d='M14 3v3M14 22v3M3 14h3M22 14h3M6.2 6.2l2.2 2.2M19.6 19.6l2.2 2.2M6.2 21.8l2.2-2.2M19.6 8.4l2.2-2.2' stroke='%23ff7043' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, pointer !important;
+}
+
+/* ❄️ Invierno: Cristal de Hielo */
+[data-skin="invierno"],
+[data-skin="invierno"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 3l7 18 3.5-7.5L21 10z' fill='%231565c0' stroke='%2300bcd4' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto !important;
+}
+[data-skin="invierno"] a,
+[data-skin="invierno"] button,
+[data-skin="invierno"] [role="button"],
+[data-skin="invierno"] input,
+[data-skin="invierno"] select,
+[data-skin="invierno"] .nav-item,
+[data-skin="invierno"] .card,
+[data-skin="invierno"] .clickable {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2v24M2 14h24M5.5 5.5l17 17M5.5 22.5l17-17' stroke='%23b3e5fc' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='14' r='3' fill='%2300bcd4'/%3E%3C/svg%3E") 14 14, pointer !important;
+}
+
+/* ───────────────────────────────────────────────────────
+   CAPA DE ELEMENTOS FLOTANTES AMBIENTALES
+   ─────────────────────────────────────────────────────── */
+#skin-ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.skin-ambient-item {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+/* Flotación ascendente (corazones, burbujas, píxeles) */
+.skin-ambient--float-up {
+  animation: floatAmbientUp var(--dur, 10s) linear infinite;
+  animation-delay: var(--del, 0s);
+  bottom: -50px;
+  left: var(--left, 50%);
+  font-size: var(--size, 22px);
+  opacity: var(--op, 0.25);
+}
+
+@keyframes floatAmbientUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.65) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--op, 0.25);
+  }
+  85% {
+    opacity: var(--op, 0.25);
+  }
+  100% {
+    transform: translateY(-115vh) translateX(var(--drift, 35px)) scale(1.15) rotate(var(--rot, 25deg));
+    opacity: 0;
+  }
+}
+
+/* Caída descendente (copos de nieve, confetti, chispas) */
+.skin-ambient--float-down {
+  animation: floatAmbientDown var(--dur, 9s) linear infinite;
+  animation-delay: var(--del, 0s);
+  top: -50px;
+  left: var(--left, 50%);
+  font-size: var(--size, 18px);
+  opacity: var(--op, 0.35);
+}
+
+@keyframes floatAmbientDown {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: var(--op, 0.35);
+  }
+  80% {
+    opacity: var(--op, 0.35);
+  }
+  100% {
+    transform: translateY(115vh) translateX(var(--drift, -40px)) rotate(var(--rot, 360deg));
+    opacity: 0;
+  }
+}
+
+/* Diagonal (murciélagos, cometas, volantines) */
+.skin-ambient--float-diagonal {
+  animation: floatAmbientDiagonal var(--dur, 14s) ease-in-out infinite;
+  animation-delay: var(--del, 0s);
+  top: var(--top, 25%);
+  left: -70px;
+  font-size: var(--size, 26px);
+  opacity: var(--op, 0.25);
+}
+
+@keyframes floatAmbientDiagonal {
+  0% {
+    transform: translate(0, 0) scale(0.7) rotate(-15deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--op, 0.25);
+  }
+  85% {
+    opacity: var(--op, 0.25);
+  }
+  100% {
+    transform: translate(115vw, var(--dy, -80px)) scale(1.15) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* ───────────────────────────────────────────────────────
+   PARTÍCULAS AL HACER CLIC (MICRO-BURSTS)
+   ─────────────────────────────────────────────────────── */
+.skin-click-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  font-size: 1.35rem;
+  user-select: none;
+  animation: skinClickParticleAnim 0.75s cubic-bezier(0.1, 0.85, 0.25, 1) forwards;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+
+@keyframes skinClickParticleAnim {
+  0% {
+    transform: translate(0, 0) scale(0.3) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translate(calc(var(--dx) * 0.7), calc(var(--dy) * 0.7)) scale(var(--scale, 1.25)) rotate(calc(var(--rot) * 0.5));
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(calc(var(--scale, 1) * 0.7)) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+/* ───────────────────────────────────────────────────────
+   PERSONALIDAD EN TARJETAS Y TÍTULOS SEGÚN SKIN
+   ─────────────────────────────────────────────────────── */
+[data-skin="san_valentin"] .card:hover,
+[data-skin="san_valentin"] .nav-item:hover {
+  border-color: #ff4081 !important;
+  box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4), 0 0 20px rgba(255, 64, 129, 0.35) !important;
+}
+[data-skin="san_valentin"] .home-title-compact,
+[data-skin="san_valentin"] h1,
+[data-skin="san_valentin"] h2 {
+  text-shadow: 0 0 16px rgba(233, 30, 99, 0.5);
+}
+
+[data-skin="halloween"] .card:hover,
+[data-skin="halloween"] .nav-item:hover {
+  border-color: #d35400 !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 0 24px rgba(211, 84, 0, 0.55) !important;
+}
+[data-skin="halloween"] .home-title-compact,
+[data-skin="halloween"] h1,
+[data-skin="halloween"] h2 {
+  text-shadow: 0 0 18px rgba(211, 84, 0, 0.65), 0 0 30px rgba(108, 52, 131, 0.5);
+}
+
+[data-skin="dia_del_juego"] .card {
+  border: 1.5px solid rgba(0, 255, 65, 0.35) !important;
+}
+[data-skin="dia_del_juego"] .card:hover,
+[data-skin="dia_del_juego"] .nav-item:hover {
+  border-color: #00ff41 !important;
+  box-shadow: 0 0 25px rgba(0, 255, 65, 0.45), inset 0 0 10px rgba(0, 255, 65, 0.15) !important;
+}
+[data-skin="dia_del_juego"] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  z-index: 9990;
+  opacity: 0.6;
+}
+
+[data-skin="navidad"] .card:hover,
+[data-skin="navidad"] .nav-item:hover {
+  border-color: #f1c40f !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(192, 57, 43, 0.45) !important;
+}
+[data-skin="navidad"] .home-title-compact,
+[data-skin="navidad"] h1 {
+  text-shadow: 0 0 18px rgba(241, 196, 15, 0.5);
+}
+
+[data-skin="año_nuevo"] .card:hover,
+[data-skin="año_nuevo"] .nav-item:hover {
+  border-color: #f1c40f !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 28px rgba(241, 196, 15, 0.6) !important;
+}
+
+[data-skin="fiestas_patrias"] .card:hover,
+[data-skin="fiestas_patrias"] .nav-item:hover {
+  border-color: #c0392b !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(26, 82, 118, 0.5) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TESTER DE SKINS ESTACIONALES (LOCAL / DEV)
+   ═══════════════════════════════════════════════════════ */
+
+/* Botón Flotante (FAB) fijo en pantalla */
+.skin-tester-fab {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(20, 15, 35, 0.95), rgba(30, 20, 50, 0.95));
+  border: 1.5px solid var(--primary-light, #a855f7);
+  border-radius: 50px;
+  color: var(--text, #fff);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px var(--primary-glow, rgba(168, 85, 247, 0.4));
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+.skin-tester-fab:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 28px var(--primary-glow, rgba(168, 85, 247, 0.6));
+  border-color: #fff;
+}
+.skin-tester-fab__emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+  animation: skinBounce 2s ease-in-out infinite;
+}
+@keyframes skinBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.skin-tester-fab__badge {
+  background: var(--primary, #7c3aed);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  text-transform: capitalize;
+}
+
+/* Botón en Sidebar */
+.skin-test-sidebar-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.1));
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.skin-test-sidebar-btn:hover {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(236, 72, 153, 0.2));
+  border-color: var(--primary-light, #a855f7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--primary-glow, rgba(124, 58, 237, 0.3));
+}
+
+/* Botón en Topbar */
+.skin-topbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: inherit;
+}
+.skin-topbar-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--primary-light, #a855f7);
+  transform: scale(1.08);
+  box-shadow: 0 0 14px var(--primary-glow, rgba(124, 58, 237, 0.4));
+}
+
+/* Modal Overlay & Card */
+.skin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 16, 0.82);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: skinFadeIn 0.2s ease both;
+}
+@keyframes skinFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.skin-modal-card {
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  background: var(--card, #120e24);
+  border: 1.5px solid var(--primary-light, #a855f7);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px var(--primary-glow, rgba(124, 58, 237, 0.3));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: skinPopIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes skinPopIn {
+  from { transform: scale(0.92) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.skin-modal-header {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+.skin-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text, #fff);
+  font-family: 'Outfit', sans-serif;
+}
+.skin-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-dim, #9ca3af);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+.skin-modal-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.skin-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.skin-status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.skin-status-banner__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+}
+
+/* Grid de tarjetas compactas de skins */
+.skin-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.skin-compact-card {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  background: var(--card2, #181432);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+.skin-compact-card:hover {
+  border-color: var(--primary-light, #a855f7);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.skin-compact-card.is-active {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(124, 58, 237, 0.15));
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+}
+.skin-compact-card.is-active::after {
+  content: '✓ ACTIVO';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #f59e0b;
+  color: #000;
+}
+
+.skin-compact-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.skin-compact-emoji {
+  font-size: 1.4rem;
+}
+.skin-compact-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text, #fff);
+}
+.skin-compact-dates {
+  font-size: 0.72rem;
+  color: var(--text-dim, #9ca3af);
+  margin-bottom: 10px;
+}
+.skin-compact-palette {
+  display: flex;
+  gap: 5px;
+  margin-top: auto;
+}
+.skin-palette-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.skin-modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skin-btn-action {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.skin-btn-save {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+.skin-btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+}
+.skin-btn-revert {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-dim, #9ca3af);
+}
+.skin-btn-revert:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+.skin-btn-admin {
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: var(--primary-light, #a855f7);
+  text-decoration: none;
+}
+.skin-btn-admin:hover {
+  background: rgba(124, 58, 237, 0.3);
+  color: white;
+}
+
+/* Toast de confirmación */
+.skin-live-toast {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  z-index: 10001;
+  background: linear-gradient(135deg, #1a1630, #221c40);
+  border: 1px solid #10b981;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: skinToastIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  pointer-events: none;
+}
+@keyframes skinToastIn {
+  from { transform: translateY(20px) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Puzzle Jugón - Pistas Reveladoras de Amigos Jugones. Generador de Pistas y Fragmentos Aleatorios para Juegos de Adivinanza.">
+  <title>Puzzle Jugón — Pistas Reveladoras de Amigos Jugones</title>
+  
+  <!-- Fonts Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge">
+          <span>🧩 COMUNIDAD DE JUEGOS DE MESA Y MÁS</span>
+        </div>
+        <h1 class="app-title">Puzzle Jugón <span class="highlight-text">PISTAS REVELADORAS</span></h1>
+        <p class="app-subtitle">Genera automáticamente 4 pistas con fragmentos revelados al azar + la imagen original con encabezado y pie de página de Amigos Jugones.</p>
+      </div>
+    </header>
+
+    <!-- Instructions Banner -->
+    <section class="instructions-banner">
+      <div class="step-card">
+        <span class="step-number">1</span>
+        <div class="step-text">
+          <strong>Sube tu imagen</strong>
+          <span>Elige la foto de tu juego, película o serie</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-number">2</span>
+        <div class="step-text">
+          <strong>Descarga las 5 imágenes</strong>
+          <span>Obtén los 4 niveles de pistas + la original</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <span class="step-number">3</span>
+        <div class="step-text">
+          <strong>Súbelas al grupo 1 a 1</strong>
+          <span>Publica desde el Nivel 1 (1 sola parte) hasta que adivinen</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Card Formulario -->
+      <section class="upload-section glass-panel">
+        
+        <!-- Creator Identification -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="creatorNameInput" class="form-label">
+              <span>👤 Tu Nombre / Apodo</span>
+              <span class="label-hint">(Requerido para generar)</span>
+            </label>
+            <input type="text" id="creatorNameInput" class="form-input" placeholder="Ejemplo: Carlos / JuanJugon" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="creatorIgInput" class="form-label">
+              <span>📸 Tu Instagram</span>
+              <span class="label-hint">(Opcional)</span>
+            </label>
+            <input type="text" id="creatorIgInput" class="form-input" placeholder="Ejemplo: @carlos_jugon" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Upload Dropzone -->
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept="image/*" class="file-input">
+          <div class="dropzone-content" id="dropzoneContent">
+            <div class="dropzone-icon">📷</div>
+            <h2 class="dropzone-title">Toca, arrastra o pega (Ctrl+V) tu imagen aquí</h2>
+            <p class="dropzone-hint">Soporta PNG, JPG, WEBP, BMP, etc. y capturas copiadas</p>
+          </div>
+          <div class="file-preview-info hidden" id="filePreviewInfo">
+            <img id="thumbnailPreview" src="" alt="Vista previa de imagen original" class="thumbnail-preview">
+            <div class="file-details">
+              <span id="fileNameDisplay" class="file-name">imagen.png</span>
+              <span id="fileSizeDisplay" class="file-size">0 KB</span>
+            </div>
+            <button type="button" id="removeFileBtn" class="btn-remove" title="Cambiar imagen">✕</button>
+          </div>
+        </div>
+
+        <!-- Name & Category Inputs -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="imageNameInput" class="form-label">
+              <span>🏷️ Nombre de la Imagen</span>
+              <span class="label-hint">(para nombrar archivos)</span>
+            </label>
+            <input type="text" id="imageNameInput" class="form-input" placeholder="Ejemplo: MiJuegoPista" disabled>
+          </div>
+          <div class="form-group">
+            <label for="categoryInput" class="form-label">
+              <span>🏷️ Categoría o Pista Opcional</span>
+              <span class="label-hint">(Aparece en la imagen)</span>
+            </label>
+            <input type="text" id="categoryInput" class="form-input" placeholder="Ejemplo: Juego de Mesa / Película / Serie" autocomplete="off" disabled>
+          </div>
+        </div>
+
+        <!-- Format / Aspect Ratio Selector -->
+        <div class="form-group">
+          <label class="form-label">
+            <span>📐 Formato de Imagen</span>
+            <span class="label-hint">(elige la proporción para tus redes sociales)</span>
+          </label>
+          <div class="format-options-grid">
+            <label class="format-option-card active" id="cardOptionSquare">
+              <input type="radio" name="aspectRatio" value="1:1" checked style="display:none;">
+              <span class="format-icon">🟦</span>
+              <div class="format-details">
+                <strong>1:1 Cuadrado</strong>
+                <span>WhatsApp / Feed (1080×1440 enmarcado)</span>
+              </div>
+            </label>
+            <label class="format-option-card" id="cardOptionStory">
+              <input type="radio" name="aspectRatio" value="9:16" style="display:none;">
+              <span class="format-icon">📱</span>
+              <div class="format-details">
+                <strong>9:16 Vertical</strong>
+                <span>Instagram Stories / Reels (1080×1920)</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="action-buttons-row">
+          <button type="button" id="generateBtn" class="btn-primary" disabled>
+            <span>✨ Generar 5 Imágenes PNG (Pistas Progresivas)</span>
+          </button>
+          <button type="button" id="regenerateBtn" class="btn-secondary hidden" title="Generar de nuevo otras 5 piezas al azar">
+            <span>🔄 Volver a Generar (Nuevas Piezas)</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- Status / Loader -->
+      <div id="loader" class="loader-container hidden">
+        <div class="pixel-spinner"></div>
+        <p>Extrayendo partes al azar y generando pistas progresivas...</p>
+      </div>
+
+      <!-- Results Gallery -->
+      <section id="resultsSection" class="results-section hidden">
+        
+        <div class="results-header">
+          <div>
+            <h2 class="section-title">🖼️ Pistas Generadas</h2>
+            <p class="section-subtitle">Toca cualquier botón para guardar en la galería de tu teléfono o computadora.</p>
+          </div>
+          <div class="header-action-group">
+            <button type="button" id="regenerateHeaderBtn" class="btn-secondary">
+              <span>🔄 Volver a Generar (Nuevas Piezas)</span>
+            </button>
+            <button type="button" id="downloadAllBtn" class="btn-success">
+              <span>📥 Descargar las 5 Imágenes</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid">
+          <!-- 5 Cards injected by JavaScript -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer glass-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left">
+          <div class="web-qr-card">
+            <img src="assets/amigosjugonesymas_qr.png" alt="QR Amigos Jugones" class="web-qr-img">
+          </div>
+          <div class="web-copy-text">
+            <p>© <span id="currentYear">2026</span> <strong>AMIGOS JUGONES</strong></p>
+          </div>
+        </div>
+        <div class="web-footer-center">
+          <p class="web-ig-title">📸 ¡SÍGUENOS en INSTAGRAM!</p>
+          <p class="web-ig-sub">✨ Juego creado en Puzzle Jugón: Pistas Reveladoras — ¡Crea los tuyos!</p>
+        </div>
+        <div class="web-footer-right">
+          <span class="web-black-label">Sistema creado por</span>
+          <img src="assets/logo_black.png" alt="BLACK" class="web-black-logo">
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../shared/imageNormalizer.js"></script>
+  <script src="assets/logoData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

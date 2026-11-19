@@ -1,0 +1,54 @@
+{
+  "last_update": "2026-10-21T05:15:00.000Z",
+  "form_url": "https://forms.gle/placeholder_novedades_ig",
+  "publicaciones": [
+    {
+      "id": "ig-1",
+      "timestamp": "2026-10-20T19:30:00.000Z",
+      "exp": "2026-10-27T19:30:00.000Z",
+      "nick": "BLACK",
+      "ig_user": "black.boardgames",
+      "titulo": "¡Mesa épica de Nemesis Lockdown!",
+      "descripcion": "Sobreviviendo en Marte contra los intrusos. Tensión máxima en la última ronda del fin de semana con la comunidad.",
+      "categoria": "partidas",
+      "foto": "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=700&q=80",
+      "link": "https://www.instagram.com/"
+    },
+    {
+      "id": "ig-2",
+      "timestamp": "2026-10-19T14:15:00.000Z",
+      "exp": "2026-10-26T14:15:00.000Z",
+      "nick": "Paolo",
+      "ig_user": "paolo_meeples",
+      "titulo": "Pintura de miniaturas: Scythe Mechs",
+      "descripcion": "Terminados los mechs de la facción Rusviet con efecto de óxido y desgaste con técnicas en seco y acrílicos.",
+      "categoria": "pintura",
+      "foto": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=700&q=80",
+      "link": "https://www.instagram.com/"
+    },
+    {
+      "id": "ig-3",
+      "timestamp": "2026-10-18T21:00:00.000Z",
+      "exp": "2026-10-25T21:00:00.000Z",
+      "nick": "Polette",
+      "ig_user": "polette_ludica",
+      "titulo": "Reel: 3 Fillers rápidos para llevar en la mochila",
+      "descripcion": "Juegos de menos de 20 minutos ideales para sacar en cualquier junta, parque o café con amigos sin complicarse.",
+      "categoria": "reels",
+      "foto": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80",
+      "link": "https://www.instagram.com/"
+    },
+    {
+      "id": "ig-4",
+      "timestamp": "2026-10-17T11:45:00.000Z",
+      "exp": "2026-10-24T11:45:00.000Z",
+      "nick": "Orlando",
+      "ig_user": "orlando_play",
+      "titulo": "Reseña completa: Arcs de Cole Wehrle",
+      "descripcion": "Análisis táctico de la gestión de trucos y campaña espacial. ¿Cumple las enormes expectativas de Leder Games?",
+      "categoria": "resenas",
+      "foto": "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=700&q=80",
+      "link": "https://www.instagram.com/"
+    }
+  ]
+}

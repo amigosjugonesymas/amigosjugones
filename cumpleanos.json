@@ -1,0 +1,225 @@
+{
+  "cumpleanos": [
+    {
+      "nick": "Cecy",
+      "dia": 8,
+      "mes": 1,
+      "mes_nombre": "Enero"
+    },
+    {
+      "nick": "Camilo",
+      "dia": 28,
+      "mes": 2,
+      "mes_nombre": "Febrero"
+    },
+    {
+      "nick": "Darki",
+      "dia": 4,
+      "mes": 3,
+      "mes_nombre": "Marzo"
+    },
+    {
+      "nick": "Ricardo",
+      "dia": 6,
+      "mes": 3,
+      "mes_nombre": "Marzo"
+    },
+    {
+      "nick": "Denisse neko",
+      "dia": 19,
+      "mes": 3,
+      "mes_nombre": "Marzo"
+    },
+    {
+      "nick": "Teclas ludicas",
+      "dia": 20,
+      "mes": 4,
+      "mes_nombre": "Abril"
+    },
+    {
+      "nick": "Ilako",
+      "dia": 31,
+      "mes": 5,
+      "mes_nombre": "Mayo"
+    },
+    {
+      "nick": "Felipe Llanos",
+      "dia": 20,
+      "mes": 6,
+      "mes_nombre": "Junio"
+    },
+    {
+      "nick": "Estefi",
+      "dia": 21,
+      "mes": 6,
+      "mes_nombre": "Junio"
+    },
+    {
+      "nick": "BLACK",
+      "dia": 28,
+      "mes": 6,
+      "mes_nombre": "Junio"
+    },
+    {
+      "nick": "Gandulfox86",
+      "dia": 28,
+      "mes": 6,
+      "mes_nombre": "Junio"
+    },
+    {
+      "nick": "Álvaro",
+      "dia": 7,
+      "mes": 9,
+      "mes_nombre": "Septiembre"
+    },
+    {
+      "nick": "Arturo Vial Arqueros",
+      "dia": 10,
+      "mes": 9,
+      "mes_nombre": "Septiembre"
+    },
+    {
+      "nick": "angel",
+      "dia": 19,
+      "mes": 10,
+      "mes_nombre": "Octubre"
+    },
+    {
+      "nick": "Gerson",
+      "dia": 27,
+      "mes": 11,
+      "mes_nombre": "Noviembre"
+    },
+    {
+      "nick": "Catalina",
+      "dia": 6,
+      "mes": 12,
+      "mes_nombre": "Diciembre"
+    }
+  ],
+  "total": 16,
+  "mes_actual": 11,
+  "mes_actual_nombre": "Noviembre",
+  "total_mes_actual": 1,
+  "por_mes": {
+    "Enero": [
+      {
+        "nick": "Cecy",
+        "dia": 8,
+        "mes": 1,
+        "mes_nombre": "Enero"
+      }
+    ],
+    "Febrero": [
+      {
+        "nick": "Camilo",
+        "dia": 28,
+        "mes": 2,
+        "mes_nombre": "Febrero"
+      }
+    ],
+    "Marzo": [
+      {
+        "nick": "Darki",
+        "dia": 4,
+        "mes": 3,
+        "mes_nombre": "Marzo"
+      },
+      {
+        "nick": "Ricardo",
+        "dia": 6,
+        "mes": 3,
+        "mes_nombre": "Marzo"
+      },
+      {
+        "nick": "Denisse neko",
+        "dia": 19,
+        "mes": 3,
+        "mes_nombre": "Marzo"
+      }
+    ],
+    "Abril": [
+      {
+        "nick": "Teclas ludicas",
+        "dia": 20,
+        "mes": 4,
+        "mes_nombre": "Abril"
+      }
+    ],
+    "Mayo": [
+      {
+        "nick": "Ilako",
+        "dia": 31,
+        "mes": 5,
+        "mes_nombre": "Mayo"
+      }
+    ],
+    "Junio": [
+      {
+        "nick": "Felipe Llanos",
+        "dia": 20,
+        "mes": 6,
+        "mes_nombre": "Junio"
+      },
+      {
+        "nick": "Estefi",
+        "dia": 21,
+        "mes": 6,
+        "mes_nombre": "Junio"
+      },
+      {
+        "nick": "BLACK",
+        "dia": 28,
+        "mes": 6,
+        "mes_nombre": "Junio"
+      },
+      {
+        "nick": "Gandulfox86",
+        "dia": 28,
+        "mes": 6,
+        "mes_nombre": "Junio"
+      }
+    ],
+    "Julio": [],
+    "Agosto": [],
+    "Septiembre": [
+      {
+        "nick": "Álvaro",
+        "dia": 7,
+        "mes": 9,
+        "mes_nombre": "Septiembre"
+      },
+      {
+        "nick": "Arturo Vial Arqueros",
+        "dia": 10,
+        "mes": 9,
+        "mes_nombre": "Septiembre"
+      }
+    ],
+    "Octubre": [
+      {
+        "nick": "angel",
+        "dia": 19,
+        "mes": 10,
+        "mes_nombre": "Octubre"
+      }
+    ],
+    "Noviembre": [
+      {
+        "nick": "Gerson",
+        "dia": 27,
+        "mes": 11,
+        "mes_nombre": "Noviembre"
+      }
+    ],
+    "Diciembre": [
+      {
+        "nick": "Catalina",
+        "dia": 6,
+        "mes": 12,
+        "mes_nombre": "Diciembre"
+      }
+    ]
+  },
+  "generado": "2026-11-17T18:58:38"
+}

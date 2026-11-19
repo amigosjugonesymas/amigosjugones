@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "premios": [
+    {
+      "id": 1,
+      "temporada": "2026-T1",
+      "titulo": "Premio Mayor de la Temporada",
+      "descripcion_general": "Un juego de mesa de estrategia y negociación para 2-5 jugadores, ideal para las juntas del grupo. El juego exacto se mantendrá como sorpresa para encender la emoción.",
+      "donante": "Amigos Jugones Staff",
+      "descripcion_donante": "Donado con cariño de la comunidad para quien más se esfuerce esta temporada",
+      "meta_puntos": 1000,
+      "tipo_premio": "juego_mesa",
+      "emoji_tipo": "🎲",
+      "imagen_url": null,
+      "activo": 1,
+      "orden": 1
+    }
+  ],
+  "progreso_lider": {
+    "puntos": 152,
+    "meta": 1000,
+    "porcentaje": 15
+  }
+}

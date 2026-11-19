@@ -1,0 +1,183 @@
+{
+  "last_update": "2026-11-18T09:10:47.931771",
+  "semana_activa": "Semana 47 / November 2026",
+  "ranking_principal": [
+    {
+      "nombre": "Jess_Shadow",
+      "puntos": 152
+    },
+    {
+      "nombre": "Nico_Piloto",
+      "puntos": 104
+    },
+    {
+      "nombre": "BLACK",
+      "puntos": 102
+    },
+    {
+      "nombre": "Kuro_Dragon",
+      "puntos": 80
+    },
+    {
+      "nombre": "Ricardo",
+      "puntos": 0
+    },
+    {
+      "nombre": "Erick (Quiltro)",
+      "puntos": 0
+    },
+    {
+      "nombre": "Catalina",
+      "puntos": 0
+    },
+    {
+      "nombre": "Ilako",
+      "puntos": 0
+    },
+    {
+      "nombre": "Mauricio Leiva",
+      "puntos": 0
+    },
+    {
+      "nombre": "Gerson",
+      "puntos": 0
+    },
+    {
+      "nombre": "Rayen",
+      "puntos": 0
+    },
+    {
+      "nombre": "Alejandra Verdejo",
+      "puntos": 0
+    },
+    {
+      "nombre": "Arturo Vial Arqueros",
+      "puntos": 0
+    },
+    {
+      "nombre": "Cecy",
+      "puntos": 0
+    },
+    {
+      "nombre": "Álvaro",
+      "puntos": 0
+    },
+    {
+      "nombre": "Denisse neko",
+      "puntos": 0
+    },
+    {
+      "nombre": "angel",
+      "puntos": 0
+    },
+    {
+      "nombre": "Felipe Llanos",
+      "puntos": 0
+    },
+    {
+      "nombre": "Camilo",
+      "puntos": 0
+    },
+    {
+      "nombre": "Estefi",
+      "puntos": 0
+    },
+    {
+      "nombre": "Teclas ludicas",
+      "puntos": 0
+    },
+    {
+      "nombre": "Gandulfox86",
+      "puntos": 0
+    },
+    {
+      "nombre": "Víctor",
+      "puntos": 0
+    },
+    {
+      "nombre": "Darki",
+      "puntos": 0
+    },
+    {
+      "nombre": "Ricardragon",
+      "puntos": 0
+    },
+    {
+      "nombre": "Erick Arancibia Valdés",
+      "puntos": 0
+    },
+    {
+      "nombre": "Restrepo",
+      "puntos": 0
+    },
+    {
+      "nombre": "Karlita 🦦",
+      "puntos": 0
+    },
+    {
+      "nombre": "llako",
+      "puntos": 0
+    },
+    {
+      "nombre": "Alevervel",
+      "puntos": 0
+    },
+    {
+      "nombre": "Ps Mauricio Leiva",
+      "puntos": 0
+    },
+    {
+      "nombre": "Lorena V.P",
+      "puntos": 0
+    }
+  ],
+  "podio_carrera": [
+    {
+      "pilot": "BLACK",
+      "km": 409.0,
+      "date": "18/11",
+      "car": "🏎️",
+      "rent": "+3 PTS/día"
+    },
+    {
+      "pilot": "Nico_Piloto",
+      "km": 242.5,
+      "date": "18/11",
+      "car": "🚀",
+      "rent": "+2 PTS/día"
+    },
+    {
+      "pilot": "Jess_Shadow",
+      "km": 198.0,
+      "date": "18/11",
+      "car": "⚡",
+      "rent": "+1 PTS/día"
+    }
+  ],
+  "podio_pelea": [
+    {
+      "pilot": "BLACK",
+      "score": 36000,
+      "time": 60,
+      "cuts": 90,
+      "date": "18/11",
+      "rent": "+3 PTS/día"
+    },
+    {
+      "pilot": "Nico_Piloto",
+      "score": 34500,
+      "time": 64,
+      "cuts": 82,
+      "date": "18/11",
+      "rent": "+2 PTS/día"
+    },
+    {
+      "pilot": "Jess_Shadow",
+      "score": 28900,
+      "time": 51,
+      "cuts": 68,
+      "date": "18/11",
+      "rent": "+1 PTS/día"
+    }
+  ]
+}

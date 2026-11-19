@@ -1,0 +1,37 @@
+{
+  "active": "default",
+  "activatedAt": "2026-11-19T07:55:00Z",
+  "activatedBy": "admin",
+  "availableSkins": [
+    "default",
+    "halloween",
+    "navidad",
+    "año_nuevo",
+    "san_valentin",
+    "fiestas_patrias",
+    "aniversario",
+    "verano",
+    "invierno",
+    "pascua",
+    "dia_del_juego",
+    "dia_del_amigo",
+    "luditon",
+    "ludaton"
+  ],
+  "skinMeta": {
+    "default":          { "emoji": "🎲", "label": "Arcade Clásico",        "banner": "" },
+    "halloween":        { "emoji": "🎃", "label": "Halloween",              "banner": "¡Trick or Roll! 🕷️" },
+    "navidad":          { "emoji": "🎄", "label": "Navidad",                "banner": "¡Feliz Navidad, Amigos Jugones! 🎅" },
+    "año_nuevo":        { "emoji": "🎆", "label": "Año Nuevo",              "banner": "¡Feliz Año Nuevo! 🥂" },
+    "san_valentin":     { "emoji": "💝", "label": "San Valentín",           "banner": "¡Por el amor al juego! 💕" },
+    "fiestas_patrias":  { "emoji": "⭐", "label": "Fiestas Patrias 🇨🇱",   "banner": "¡Viva Chile, Jugadores! 🇨🇱" },
+    "aniversario":      { "emoji": "🏆", "label": "Aniversario",            "banner": "¡Aniversario de Amigos Jugones! 🎉" },
+    "verano":           { "emoji": "🌊", "label": "Verano",                 "banner": "¡A jugar este verano! 🌞" },
+    "invierno":         { "emoji": "❄️", "label": "Invierno",               "banner": "¡Juegos de invierno! ⛄" },
+    "pascua":           { "emoji": "🐣", "label": "Pascua",                 "banner": "¡Felices Pascuas, Amigos! 🌸" },
+    "dia_del_juego":    { "emoji": "🕹️", "label": "Día del Videojuego",    "banner": "¡Happy World Gaming Day! 🎮" },
+    "dia_del_amigo":    { "emoji": "👫", "label": "Día del Amigo",          "banner": "¡Por la amistad y los dados! 🎲" },
+    "luditon":          { "emoji": "❤️", "label": "Luditón — Teletón",      "banner": "¡Jugamos con todo el corazón! ❤️🎲" },
+    "ludaton":          { "emoji": "❤️", "label": "Luditón — Teletón",      "banner": "¡Jugamos con todo el corazón! ❤️🎲" }
+  }
+}

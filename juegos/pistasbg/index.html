@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pistas Jugonas — Generador de Desafíos de Pistas de Amigos Jugones</title>
+  <meta name="description" content="Crea tarjetas HD de Desafíos de Pistas y Soluciones para compartir en tu grupo de Amigos Jugones.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Amigos Jugones Logo" class="brand-logo">
+      </div>
+      <div class="header-text">
+        <div class="community-badge">
+          <span>🎮 COMUNIDAD DE JUEGOS DE MESA Y MÁS</span>
+        </div>
+        <h1 class="app-title">Pistas Jugonas <span class="highlight-text">DESCIFREN LAS PISTAS</span></h1>
+        <p class="app-subtitle">Genera automáticamente tarjetas HD de Desafíos y Respuestas para compartir en tu grupo de <strong>AMIGOS JUGONES</strong>.</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Steps Banner -->
+      <section class="steps-banner">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <div class="step-info">
+            <h3>Agrega tus pistas</h3>
+            <p>Empieza con 1 pista y agrega hasta 5. Texto libre o emojis.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <div class="step-info">
+            <h3>Vista previa en vivo</h3>
+            <p>Las tarjetas se arman automáticamente a la derecha mientras escribes.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <div class="step-info">
+            <h3>¡Descarga y Comparte!</h3>
+            <p>Descarga las tarjetas PNG y compártelas en tu grupo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two-Column Workspace -->
+      <div class="workspace-row">
+
+        <!-- LEFT: Form -->
+        <section class="form-section">
+          <div class="card-glass form-card">
+            <div class="form-header">
+              <h2>🧩 Crear Nuevo Desafío de Pistas</h2>
+              <p>Agrega entre 1 y 5 pistas. Texto libre o emojis.</p>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="mode-tabs">
+              <button type="button" id="tabModeMulti" class="mode-tab active">
+                <span class="tab-icon">🔢</span>
+                <div class="tab-text">
+                  <strong>Modo Multi-Juego</strong>
+                  <small>Cada pista → su propio juego</small>
+                </div>
+              </button>
+              <button type="button" id="tabModeSingle" class="mode-tab">
+                <span class="tab-icon">🎯</span>
+                <div class="tab-text">
+                  <strong>Modo Juego Único</strong>
+                  <small>Todas las pistas → 1 juego</small>
+                </div>
+              </button>
+            </div>
+
+            <form id="pistasForm" class="pistas-form" onsubmit="return false;">
+
+              <!-- Creator -->
+              <div class="form-group-grid3">
+                <div>
+                  <label for="creatorNameInput" class="form-label">
+                    👤 Tu Nombre / Apodo <span class="label-required">*</span>
+                  </label>
+                  <input type="text" id="creatorNameInput" class="form-control"
+                    placeholder="Ej. Carlos / JuanJugon" maxlength="35" autocomplete="off">
+                </div>
+                <div>
+                  <label for="creatorIgInput" class="form-label">
+                    📸 Tu Instagram <span class="label-required">*</span>
+                  </label>
+                  <input type="text" id="creatorIgInput" class="form-control"
+                    placeholder="Ej. @carlos_jugon" maxlength="35" autocomplete="off">
+                </div>
+                <div>
+                  <label for="categoryInput" class="form-label">
+                    🏷️ Categoría <span class="label-optional">(Opcional)</span>
+                  </label>
+                  <input type="text" id="categoryInput" class="form-control"
+                    placeholder="Ej. Juego de Mesa" maxlength="35" autocomplete="off">
+                </div>
+              </div>
+
+              <!-- Ratio -->
+              <div class="form-group">
+                <label class="form-label">📐 Formato de Tarjeta</label>
+                <div class="ratio-selector">
+                  <label class="ratio-option active" id="ratioSquareLabel">
+                    <input type="radio" name="aspectRatio" value="1:1" checked>
+                    <span class="radio-custom"></span>
+                    <div class="ratio-info">
+                      <strong>1:1 Cuadrado (1080 × 1080)</strong>
+                      <small>Ideal para Instagram Feed y Posts</small>
+                    </div>
+                  </label>
+                  <label class="ratio-option" id="ratioVerticalLabel">
+                    <input type="radio" name="aspectRatio" value="9:16">
+                    <span class="radio-custom"></span>
+                    <div class="ratio-info">
+                      <strong>9:16 Vertical (1080 × 1920)</strong>
+                      <small>Ideal para Stories, Reels y WhatsApp Status</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <hr class="form-divider">
+
+              <!-- Dynamic Clue Slots -->
+              <div class="slots-header">
+                <div class="section-title-box" style="margin:0;">
+                  <h3 id="slotsTitle">🔍 Pistas del Desafío <small>(Acepta Texto o Emojis)</small></h3>
+                </div>
+                <span class="slots-counter" id="slotsCounter">1 / 5</span>
+              </div>
+
+              <div id="clueSlotsList">
+                <!-- Dynamically rendered slots -->
+              </div>
+
+              <!-- Add Clue Button -->
+              <button type="button" id="addClueBtn" class="btn-add-clue">
+                ➕ Agregar otra pista
+              </button>
+
+              <!-- Single mode answer (shown only in single mode) -->
+              <div id="singleAnswerContainer" class="hidden">
+                <hr class="form-divider">
+                <div class="section-title-box">
+                  <h3>🏆 Solución Única <small>(El juego que responde todas las pistas)</small></h3>
+                </div>
+                <div class="form-group-grid3">
+                  <div>
+                    <label for="singleAnsInput" class="form-label">🎯 Nombre del Juego</label>
+                    <input type="text" id="singleAnsInput" class="form-control"
+                      placeholder="Ej. Catan" autocomplete="off">
+                  </div>
+                  <div>
+                    <label for="singleCatInput" class="form-label">🏷️ Categoría <span class="label-optional">(Opcional)</span></label>
+                    <input type="text" id="singleCatInput" class="form-control"
+                      placeholder="Ej. Estrategia & Comercio" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="form-actions-main">
+                <button type="button" id="generateBtn" class="btn btn-primary btn-generate-main">
+                  ✨ Generar y Descargar Tarjetas HD
+                </button>
+                <button type="button" id="regenerateBtn" class="btn btn-secondary hidden">
+                  🔄 Volver a Generar
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </section>
+
+        <!-- RIGHT: Live Preview -->
+        <aside class="preview-panel card-glass" id="previewPanel">
+          <div class="preview-panel-header">
+            <span class="preview-badge">👁️ Vista Previa en Vivo</span>
+            <p class="preview-hint-top">Se actualiza mientras escribes</p>
+          </div>
+          <div class="preview-tabs">
+            <button type="button" class="preview-tab active" id="prevTabClues">🔍 Pistas</button>
+            <button type="button" class="preview-tab" id="prevTabAnswers">✅ Solución</button>
+          </div>
+          <div class="preview-canvas-wrap" id="previewCanvasWrap">
+            <canvas id="livePreviewCanvas" class="live-preview-canvas"></canvas>
+          </div>
+          <div class="preview-actions-bar">
+            <button type="button" id="downloadAllBtn" class="btn-download-all">
+              📥 Descargar Ambas Tarjetas
+            </button>
+          </div>
+          <div id="loader" class="loader-container hidden">
+            <div class="spinner"></div>
+            <p class="loader-text">Generando tarjetas HD...</p>
+          </div>
+        </aside>
+
+      </div><!-- end .workspace-row -->
+
+      <!-- Results Gallery -->
+      <section id="resultsSection" class="results-section hidden">
+        <div class="results-header">
+          <div>
+            <h2 class="section-title">🖼️ Tarjetas Generadas</h2>
+            <p class="section-subtitle">Haz clic en el botón de cualquier tarjeta para guardarla en tu dispositivo.</p>
+          </div>
+        </div>
+        <div id="cardsGrid" class="cards-grid"></div>
+      </section>
+
+      <!-- Offscreen canvases -->
+      <canvas id="cluesCanvas" style="display:none;"></canvas>
+      <canvas id="answersCanvas" style="display:none;"></canvas>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer glass-footer">
+      <div class="web-footer-content">
+        <div class="web-footer-left">
+          <div class="web-qr-card">
+            <img src="assets/amigosjugonesymas_qr.png" alt="QR Amigos Jugones" class="web-qr-img">
+          </div>
+          <div class="web-copy-text">
+            <p>© <span id="currentYear">2026</span> <strong>AMIGOS JUGONES</strong></p>
+          </div>
+        </div>
+        <div class="web-footer-center">
+          <p class="web-ig-title">📸 ¡SÍGUENOS en INSTAGRAM!</p>
+          <p class="web-ig-sub">✨ Desafío creado en Pistas Jugonas — ¡Crea los tuyos!</p>
+        </div>
+        <div class="web-footer-right">
+          <span class="web-black-label">Sistema creado por</span>
+          <img src="assets/logo_black.png" alt="BLACK" class="web-black-logo">
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="assets/logoData.js"></script>
+  <script src="assets/qrData.js"></script>
+  <script src="assets/blackLogoData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

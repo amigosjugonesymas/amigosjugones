@@ -1,0 +1,534 @@
+/* ============================================================
+   SALA DE LA FAMA — Amigos Jugones
+   Diseño dark glassmorphism · Mobile-First · Arcade Premium
+   ============================================================ */
+
+/* ── Variables de Medallas ────────────────────────────────── */
+:root {
+  --medal-gold:    #ffd700;
+  --medal-silver:  #c0c0c0;
+  --medal-bronze:  #cd7f32;
+  --medal-arcade:  #ef4444;
+  --medal-ninja:   #22d3ee;
+  --medal-active:  #facc15;
+  --medal-perfect: #f8fafc;
+  --medal-shadow:  #a855f7;
+  --medal-bga:     #22c55e;
+}
+
+/* ── Animaciones ──────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes medalPop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%       { transform: translateY(-6px) rotate(3deg); }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(255,215,0,0.3); }
+  50%       { box-shadow: 0 0 28px rgba(255,215,0,0.7); }
+}
+
+/* ── Header de la Sección ────────────────────────────────── */
+.fama-header {
+  text-align: center;
+  padding: 20px 16px 12px;
+  animation: fadeInUp 0.5s ease both;
+}
+.fama-header-crown {
+  font-size: 2.8rem;
+  display: block;
+  animation: crownFloat 3s ease-in-out infinite;
+  margin-bottom: 6px;
+}
+.fama-header h1 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--medal-gold) 0%, #fff8c0 40%, var(--medal-gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  margin: 0 0 4px;
+}
+.fama-header p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+}
+
+/* ── Contenedor y Navegación de Temporadas ───────────────── */
+.temporadas-nav-wrapper {
+  max-width: 980px;
+  width: 100%;
+  margin: 8px auto 26px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 15;
+}
+
+.temporadas-anios {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.anio-pill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim, #94a3b8);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.anio-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.anio-pill.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(236, 72, 153, 0.25));
+  border-color: rgba(168, 85, 247, 0.7);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
+}
+
+.temporadas-nav {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 8px 12px 14px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  min-height: 56px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.3) transparent;
+}
+.temporadas-nav::-webkit-scrollbar {
+  height: 5px;
+}
+.temporadas-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.temporadas-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 6px;
+}
+
+.temporada-pill {
+  flex-shrink: 0;
+  padding: 10px 22px;
+  min-height: 44px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.temporada-pill .pill-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.temporada-pill:hover {
+  border-color: rgba(255, 215, 0, 0.6);
+  color: #fff;
+  background: rgba(255, 215, 0, 0.14);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 215, 0, 0.25);
+}
+.temporada-pill.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(245, 158, 11, 0.22));
+  border-color: var(--medal-gold, #ffd700);
+  color: var(--medal-gold, #ffd700);
+  box-shadow: 0 0 22px rgba(255, 215, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ── Tarjeta de Temporada (Integrada con Skins del sistema) ─ */
+.temporada-card {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto 30px auto;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--card, #111128);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.temporada-card-header {
+  padding: 18px 20px 14px;
+  background: var(--card2, #161633);
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.temporada-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text, #fff);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.temporada-card-meta {
+  font-size: 0.75rem;
+  color: var(--text-dim, rgba(255,255,255,0.5));
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.temporada-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Sección interna de la tarjeta ───────────────────────── */
+.fama-seccion {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.fama-seccion:last-child { border-bottom: none; }
+
+.fama-seccion-titulo {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim, rgba(255,255,255,0.5));
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Filas del Ranking General ───────────────────────────── */
+.ranking-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm, 10px);
+  background: var(--card2, rgba(255,255,255,0.03));
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  transition: all 0.2s ease;
+  animation: fadeInUp 0.4s ease both;
+}
+.ranking-row:hover {
+  background: var(--card-hover, rgba(255,255,255,0.06));
+  transform: translateX(3px);
+}
+
+.ranking-row.pos-1 {
+  background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04));
+  border-color: rgba(255,215,0,0.35);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.ranking-row.pos-2 {
+  background: linear-gradient(90deg, rgba(192,192,192,0.1), rgba(192,192,192,0.03));
+  border-color: rgba(192,192,192,0.25);
+}
+.ranking-row.pos-3 {
+  background: linear-gradient(90deg, rgba(205,127,50,0.1), rgba(205,127,50,0.03));
+  border-color: rgba(205,127,50,0.25);
+}
+
+.pos-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.pos-badge.p1 { background: rgba(255,215,0,0.2); color: var(--medal-gold); }
+.pos-badge.p2 { background: rgba(192,192,192,0.15); color: var(--medal-silver); }
+.pos-badge.p3 { background: rgba(205,127,50,0.15); color: var(--medal-bronze); }
+.pos-badge.pn { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); font-size: 0.75rem; }
+
+.ranking-nick {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ranking-puntos {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  white-space: nowrap;
+}
+.ranking-bonus {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: #4ade80;
+  white-space: nowrap;
+}
+.ranking-medallas-mini {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.ranking-medallas-mini span { font-size: 0.85rem; }
+
+/* ── Podio Arcade ────────────────────────────────────────── */
+.arcade-podio {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.arcade-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.arcade-pos {
+  font-size: 1rem;
+  width: 26px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.arcade-nick {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary, #f8fafc);
+}
+.arcade-valor {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+}
+.arcade-crown {
+  font-size: 0.9rem;
+}
+
+/* ── Medallas Especiales ─────────────────────────────────── */
+.medallas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (min-width: 480px) {
+  .medallas-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.medalla-especial-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  padding: 12px 8px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  animation: medalPop 0.4s ease both;
+}
+.medalla-especial-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.15);
+}
+.medalla-especial-emoji { font-size: 1.6rem; }
+.medalla-especial-nombre {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.medalla-especial-nick {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary, #f8fafc);
+}
+.medalla-especial-valor {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Mochila de Logros (perfil del jugador) ──────────────── */
+.mochila-logros {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 16px;
+  animation: fadeInUp 0.4s ease both;
+}
+.mochila-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-primary, #f8fafc);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mochila-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.mochila-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(255,215,0,0.07);
+  border: 1px solid rgba(255,215,0,0.18);
+  border-radius: 12px;
+  padding: 10px 6px 8px;
+  cursor: default;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: medalPop 0.4s ease both;
+  min-width: 0;
+}
+.mochila-item:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 16px rgba(255,215,0,0.2);
+}
+.mochila-item .medal-emoji   { font-size: 1.5rem; }
+.mochila-item .medal-name    { font-size: 0.65rem !important; font-weight: 700; color: var(--text, #fff); text-align: center; max-width: 100%; line-height: 1.2; word-break: break-word; }
+.mochila-item .medal-season  { font-size: 0.58rem !important; color: rgba(255,255,255,0.4); text-align: center; line-height: 1.2; }
+.mochila-empty {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  padding: 12px 0 4px;
+  margin: 0;
+}
+
+/* ── Estado vacío / carga ────────────────────────────────── */
+.fama-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255,255,255,0.25);
+  font-size: 0.88rem;
+}
+.fama-empty-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+
+/* ── Responsive Desktop ──────────────────────────────────── */
+@media (min-width: 769px) {
+  .fama-dos-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .fama-dos-col .fama-seccion:first-child {
+    border-right: 1px solid rgba(255,255,255,0.05);
+    border-bottom: none;
+  }
+  .medallas-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+
+/* ── Protección del layout de desktop para la Sala de la Fama ──────────── */
+/* Evita que los media queries globales rompan el flex-column con scroll interno */
+@media (min-width: 769px) {
+  .page-sala-fama .main-content {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 16px 20px 0 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* El viewport scrolleable interno debe funcionar como un flex item que crece */
+  .page-sala-fama .fama-scroll-viewport {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* El footer-desktop no debe verse afectado por el overflow:hidden del padre
+     porque es un hijo directo del flex-column (no está dentro del scroll viewport) */
+  .page-sala-fama .footer-desktop {
+    flex-shrink: 0;
+  }
+}
+
+/* ── En móvil: scroll natural del documento (igual que el resto del sitio) ── */
+@media (max-width: 768px) {
+  .page-sala-fama .main-content {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    display: block !important;
+  }
+  .page-sala-fama .fama-scroll-viewport {
+    overflow-y: visible !important;
+    height: auto !important;
+    flex: none !important;
+  }
+}
+
