@@ -8,6 +8,10 @@ admin_panel/
 admin-skins.html
 test-suite.html
 
+# Scripts internos de Google Apps Script (se ejecutan en Google, no en GitHub)
+ORQUESTADOR_APPS_SCRIPT.js
+SETUP_*.js
+
 # Bases de datos y archivos SQLite locales (Turso Cloud vive en la nube)
 *.db
 *.sqlite
@@ -20,6 +24,8 @@ database/*.sqlite3
 bust_cache.py
 crear_portadas_genericas.py
 inject_skins.py
+exportar_cumpleanos.py
+script_clean_json.py
 __pycache__/
 *.pyc
 
