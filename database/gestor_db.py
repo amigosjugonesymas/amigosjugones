@@ -2882,6 +2882,214 @@ def obtener_estado_seguridad(phone: str) -> dict | None:
         }
 
 
+
+
+# =============================================================================
+# 🏆 TORNEOS BGA — FUNCIONES DE GESTIÓN
+# Sistema de sincronización de torneos de Board Game Arena con Amigos Jugones
+# =============================================================================
+
+def _init_torneos_tablas():
+    """Crea las tablas de torneos si no existen."""
+    sql_torneos = """
+    CREATE TABLE IF NOT EXISTS torneos_bga (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tournament_id TEXT NOT NULL UNIQUE,
+        tournament_name TEXT,
+        game TEXT,
+        status TEXT,
+        current_round INTEGER,
+        bga_url TEXT,
+        total_players INTEGER DEFAULT 0,
+        activo INTEGER DEFAULT 1,
+        creado_en TEXT DEFAULT (datetime('now')),
+        actualizado_en TEXT DEFAULT (datetime('now'))
+    );
+    """
+    sql_participantes = """
+    CREATE TABLE IF NOT EXISTS torneo_participantes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tournament_id TEXT NOT NULL,
+        bga_username TEXT NOT NULL,
+        nick_aj TEXT,
+        jugador_id INTEGER,
+        rank_actual INTEGER,
+        score TEXT,
+        eliminado INTEGER DEFAULT 0,
+        puntos_asignados INTEGER DEFAULT 0,
+        actualizado_en TEXT DEFAULT (datetime('now')),
+        UNIQUE(tournament_id, bga_username)
+    );
+    """
+    try:
+        with get_db() as conn:
+            conn.execute(sql_torneos)
+            conn.execute(sql_participantes)
+    except Exception as e:
+        print(f"⚠️ [Torneos] Error creando tablas: {e}")
+
+# Inicializar tablas al importar el módulo
+try:
+    _init_torneos_tablas()
+except Exception:
+    pass
+
+
+def guardar_torneo(data: dict) -> dict:
+    """Inserta o actualiza un torneo BGA en la base de datos."""
+    _init_torneos_tablas()
+    tid = str(data.get('tournament_id', '')).strip()
+    if not tid:
+        return {"ok": False, "error": "tournament_id requerido"}
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                INSERT INTO torneos_bga (tournament_id, tournament_name, game, status, current_round, bga_url, total_players, activo, actualizado_en)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 1, datetime('now'))
+                ON CONFLICT(tournament_id) DO UPDATE SET
+                    tournament_name = excluded.tournament_name,
+                    game = excluded.game,
+                    status = excluded.status,
+                    current_round = excluded.current_round,
+                    bga_url = excluded.bga_url,
+                    total_players = excluded.total_players,
+                    actualizado_en = datetime('now')
+            """, (
+                tid,
+                str(data.get('tournament_name', 'Torneo BGA')),
+                str(data.get('game', '')),
+                str(data.get('status', 'En progreso')),
+                data.get('current_round'),
+                str(data.get('bga_url', '')),
+                int(data.get('total_players', 0))
+            ))
+        return {"ok": True, "tournament_id": tid}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def guardar_participante_torneo(data: dict) -> dict:
+    """Inserta o actualiza un participante de torneo BGA."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                INSERT INTO torneo_participantes
+                    (tournament_id, bga_username, nick_aj, jugador_id, rank_actual, score, eliminado, actualizado_en)
+                VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                ON CONFLICT(tournament_id, bga_username) DO UPDATE SET
+                    nick_aj = excluded.nick_aj,
+                    jugador_id = excluded.jugador_id,
+                    rank_actual = excluded.rank_actual,
+                    score = excluded.score,
+                    eliminado = excluded.eliminado,
+                    actualizado_en = datetime('now')
+            """, (
+                str(data.get('tournament_id', '')),
+                str(data.get('bga_username', '')),
+                data.get('nick_aj'),
+                data.get('jugador_id'),
+                data.get('rank_actual'),
+                str(data.get('score', '')),
+                int(data.get('eliminado', 0))
+            ))
+        return {"ok": True}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def obtener_jugadores_todos() -> list:
+    """Retorna todos los jugadores con id, nick y bga_username para fuzzy matching."""
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            # Intentar con bga_username si existe, sino sin él
+            try:
+                cur.execute("SELECT id, nick, bga_username FROM jugadores WHERE estado = 'Activo' OR estado IS NULL")
+            except Exception:
+                try:
+                    cur.execute("SELECT id, nick, '' as bga_username FROM jugadores")
+                except Exception:
+                    return []
+            rows = cur.fetchall()
+            return [dict(r) for r in rows]
+    except Exception as e:
+        print(f"⚠️ [Torneos] Error obteniendo jugadores: {e}")
+        return []
+
+
+def sumar_puntos_jugador(jugador_id: int, puntos: int, razon: str = "") -> dict:
+    """Suma puntos a un jugador por torneo BGA."""
+    try:
+        with get_db() as conn:
+            conn.execute(
+                "UPDATE jugadores SET puntos = COALESCE(puntos, 0) + ? WHERE id = ?",
+                (int(puntos), int(jugador_id))
+            )
+            # Log del movimiento si existe tabla de movimientos
+            try:
+                conn.execute("""
+                    INSERT INTO movimientos_puntos (jugador_id, puntos, razon, creado_en)
+                    VALUES (?, ?, ?, datetime('now'))
+                """, (int(jugador_id), int(puntos), str(razon)))
+            except Exception:
+                pass  # La tabla puede no existir, no es crítico
+        return {"ok": True, "jugador_id": jugador_id, "puntos_sumados": puntos}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def obtener_torneos_activos() -> list:
+    """Retorna todos los torneos activos con sus participantes."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT t.*, COUNT(p.id) as participantes_guardados
+                FROM torneos_bga t
+                LEFT JOIN torneo_participantes p ON t.tournament_id = p.tournament_id
+                WHERE t.activo = 1
+                GROUP BY t.id
+                ORDER BY t.actualizado_en DESC
+            """)
+            torneos = [dict(r) for r in cur.fetchall()]
+            for t in torneos:
+                cur.execute("""
+                    SELECT * FROM torneo_participantes
+                    WHERE tournament_id = ?
+                    ORDER BY rank_actual ASC
+                """, (t['tournament_id'],))
+                t['participantes'] = [dict(r) for r in cur.fetchall()]
+            return torneos
+    except Exception as e:
+        print(f"⚠️ [Torneos] Error obteniendo torneos activos: {e}")
+        return []
+
+
+def finalizar_torneo(tournament_id: str) -> dict:
+    """Marca el torneo como finalizado y limpia los datos transitorios."""
+    _init_torneos_tablas()
+    tid = str(tournament_id).strip()
+    try:
+        with get_db() as conn:
+            # Marcar como inactivo (mantiene histórico del torneo)
+            conn.execute("""
+                UPDATE torneos_bga SET activo = 0, status = 'Finalizado', actualizado_en = datetime('now')
+                WHERE tournament_id = ?
+            """, (tid,))
+            # Limpiar participantes transitorios (datos de sesión, no históricos)
+            conn.execute("DELETE FROM torneo_participantes WHERE tournament_id = ?", (tid,))
+        return {
+            "ok": True,
+            "tournament_id": tid,
+            "mensaje": f"Torneo {tid} finalizado y datos transitorios limpiados."
+        }
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+# =============================================================================
 # =============================================================================
 if __name__ == "__main__":
     if len(sys.argv) > 1:
