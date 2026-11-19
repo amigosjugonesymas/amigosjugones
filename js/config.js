@@ -56,6 +56,29 @@
     }
   };
 
+  // Interceptor global para enrutar automáticamente todas las llamadas /api/* 
+  // hacia el backend en producción (Render Cloud) de forma transparente.
+  if (typeof window.fetch === 'function') {
+    var _rawFetch = window.fetch;
+    window.fetch = function (input, init) {
+      if (typeof input === 'string') {
+        if (input.startsWith('/api/') || input === '/api') {
+          input = API_BASE_URL + input;
+        } else if (input.startsWith('api/')) {
+          input = API_BASE_URL + '/' + input;
+        }
+      } else if (input && typeof input.url === 'string') {
+        try {
+          var parsed = new URL(input.url, window.location.href);
+          if (parsed.pathname.startsWith('/api/') && !isLocal) {
+            input = new Request(API_BASE_URL + parsed.pathname + parsed.search, input);
+          }
+        } catch (e) {}
+      }
+      return _rawFetch.call(this, input, init);
+    };
+  }
+
   // Log de diagnóstico en consola
   if (isLocal) {
     console.log('⚡ [AJ_CONFIG] Modo DESARROLLO LOCAL activo (' + API_BASE_URL + ')');

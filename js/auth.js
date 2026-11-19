@@ -213,9 +213,12 @@
       }
 
       const deviceId = this.getDeviceId();
+      const loginUrl = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function') 
+        ? window.AJ_CONFIG.apiUrl('/api/auth/login') 
+        : AUTH_CONFIG.apiUrl('/api/auth/login');
 
       try {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(loginUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
