@@ -54,7 +54,7 @@
         "icono": "💥",
         "titulo": "Contraatacando (Caparazón Azul / Sabotaje)",
         "badge": "-10 a -20 PTS",
-        "descripcion": "Si vas perdiendo, puedes elegir ejecutar la misión de sabotaje de tu tarjeta personal en WhatsApp. Si la cumples sin que te descubran, le descuentas de golpe el valor del día (-10 a -20 PTS) a <strong style=\"color:#fff;\">TODOS los que estén estrictamente por encima de ti en el ranking</strong>. Los ataques de varios miembros se acumulan en cascada, castigando con mayor fuerza acumulada a los líderes de la cima."
+        "descripcion": "Si vas perdiendo, puedes elegir ejecutar la misión de sabotaje de tu tarjeta personal en WhatsApp. Si la cumples sin que te descubran, le descuentas de golpe el valor del día (-10 a -20 PTS) a <strong style=\"color:#fff;\">TODOS los que estén estrictamente por encima de ti en el ranking</strong>. Los ataques de varios miembros se acumulan en cascada, castigando a los puestos superiores.<br>• <strong style=\"color:#fbbf24;\">🛡️ Regla de Blindaje Diario (Tope de Daño):</strong> Ningún jugador puede perder más de <strong>-25 PTS en un solo día</strong> por ataques combinados de Caparazón Azul. Una vez alcanzado ese tope, el jugador queda inmune por el resto del día frente a nuevos sabotajes."
       },
       {
         "icono": "🏎️",
@@ -64,8 +64,8 @@
       }
     ],
     "catch_up": {
-      "titulo": "¿Recién llegaste y están muy adelante en el ranking?",
-      "descripcion": "Tranquilo: hay misiones diarias especiales que otorgan puntos extra si cumples los retos pero tu puntaje está lejos de los líderes del ranking global (por ejemplo, otorgando puntos extra fijos o doblando la puntuación a quienes estén bajo cierto umbral). Lo indica la tarjeta de las misiones."
+      "titulo": "⚡ Mecánica Catch-Up (Doble Puntaje para Rezagados)",
+      "descripcion": "Si estás lejos de la cima o te incorporas a la competencia, ¡no te preocupes! Habrán pruebas y misiones especiales con <strong style=\"color:#34d399;\">multiplicador x2 (Doble Puntaje)</strong> para quienes tengan menos de cierto umbral de puntos o estén rezagados en el ranking mensual, permitiéndote recortar distancias rápidamente y volver a pelear los puestos de podio."
     },
     "requisitos": [
       {

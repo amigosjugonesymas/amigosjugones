@@ -492,8 +492,10 @@ def asignar_puntos(nick, puntos, tipo_evento="RETO_MACROJUEGO", descripcion="", 
 def ejecutar_contraataque(nick_atacante, puntos_restar=5, descripcion="Misión Contraataque (Caparazón Azul)", autor="Admin"):
     """
     Mecánica Macrojuego: Descuenta puntos a TODOS los jugadores que estén por encima del atacante.
+    Regla de Blindaje Diario (Damage Cap): Ningún jugador puede perder más de 25 PTS en un solo día por sabotajes.
     """
     now = datetime.datetime.now().isoformat()
+    fecha_hoy = now[:10]
     puntos_restar = abs(int(puntos_restar))
     afectados = []
 
@@ -514,8 +516,25 @@ def ejecutar_contraataque(nick_atacante, puntos_restar=5, descripcion="Misión C
         for s in superiores:
             victima = s["nick"]
             saldo_previo = s["puntos"]
-            nuevo_saldo = max(0, saldo_previo - puntos_restar)
-            nuevo_gastados = s["total_gastados"] + puntos_restar
+
+            # 🛡️ Regla de Blindaje Diario (Damage Cap: Máximo -25 PTS diarios por sabotajes)
+            cursor.execute("""
+                SELECT COALESCE(SUM(ABS(variacion_pts)), 0) as total_danio_hoy
+                FROM historial_transacciones
+                WHERE LOWER(nick) = LOWER(?)
+                  AND tipo_evento = 'SABOTAJE_CONTRAATAQUE'
+                  AND date(timestamp) = date(?)
+            """, (victima, fecha_hoy))
+            row_danio = cursor.fetchone()
+            danio_previo_hoy = row_danio["total_danio_hoy"] if row_danio else 0
+
+            if danio_previo_hoy >= 25:
+                # El jugador está blindado contra más sabotajes hoy
+                continue
+
+            descuento_real = min(puntos_restar, 25 - danio_previo_hoy)
+            nuevo_saldo = max(0, saldo_previo - descuento_real)
+            nuevo_gastados = s["total_gastados"] + descuento_real
 
             cursor.execute("""
                 UPDATE jugadores
@@ -527,13 +546,13 @@ def ejecutar_contraataque(nick_atacante, puntos_restar=5, descripcion="Misión C
             cursor.execute("""
                 INSERT INTO historial_transacciones (timestamp, nick, tipo_evento, descripcion, variacion_pts, saldo_resultante)
                 VALUES (?, ?, ?, ?, ?, ?)
-            """, (now, victima, "SABOTAJE_CONTRAATAQUE", desc_log, -puntos_restar, nuevo_saldo))
+            """, (now, victima, "SABOTAJE_CONTRAATAQUE", desc_log, -descuento_real, nuevo_saldo))
 
-            afectados.append({"nick": victima, "saldo_previo": saldo_previo, "nuevo_saldo": nuevo_saldo})
+            afectados.append({"nick": victima, "saldo_previo": saldo_previo, "nuevo_saldo": nuevo_saldo, "descuento": descuento_real})
 
         conn.commit()
 
-    print(f"💥 [Contraataque] {nick_atacante} impactó a {len(afectados)} líderes (-{puntos_restar} PTS c/u).")
+    print(f"💥 [Contraataque] {nick_atacante} impactó a {len(afectados)} líderes (con Damage Cap máx 25 PTS).")
     exportar_ranking_json()
     return {"ok": True, "atacante": nick_atacante, "impactados": len(afectados), "detalles": afectados}
 
