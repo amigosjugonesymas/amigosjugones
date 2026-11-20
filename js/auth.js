@@ -1489,32 +1489,35 @@
           }
         }
 
-        // Formulario de entrega grupal
+        // Formulario de entrega grupal (Todo o Nada: 7 desafíos comunitarios)
         const desafiosHtml = desafios.map(d => `
-          <label style="display:flex; align-items:flex-start; gap:10px; background:#111827; border:1px solid #1f2937; border-radius:10px; padding:10px 12px; cursor:pointer; font-size:0.85rem; transition:border-color 0.15s ease;">
-            <input type="checkbox" class="aj-mis-check" value="${d.num}" checked style="width:18px; height:18px; accent-color:#10b981; margin-top:2px; flex-shrink:0;">
+          <div style="display:flex; align-items:flex-start; gap:10px; background:#111827; border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:10px 12px; font-size:0.85rem;">
+            <div style="width:22px; height:22px; border-radius:6px; background:rgba(16,185,129,0.15); color:#34d399; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.75rem; flex-shrink:0; margin-top:1px;">${d.num}</div>
             <div style="flex:1;">
-              <strong style="color:#fff; text-transform:uppercase; font-size:0.8rem;">${d.num}. ${d.title}</strong>
+              <strong style="color:#fff; text-transform:uppercase; font-size:0.8rem;">${d.title}</strong>
               <div style="color:#94a3b8; font-size:0.73rem; margin-top:2px; line-height:1.35;">${d.desc}</div>
             </div>
-          </label>
+          </div>
         `).join('');
 
         contentDiv.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:0.73rem; color:#94a3b8; font-weight:700; text-transform:uppercase;">Retos cumplidos hoy (+7 PTS):</span>
-            <button type="button" onclick="document.querySelectorAll('.aj-mis-check').forEach(c=>c.checked=true)" style="background:none; border:none; color:#34d399; font-size:0.7rem; font-weight:700; cursor:pointer; text-decoration:underline;">Marcar los 7</button>
+          <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:12px; padding:10px 12px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.3rem;">⚖️</span>
+            <div>
+              <div style="font-size:0.75rem; color:#34d399; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Regla de Oro: Todo o Nada (+7 PTS)</div>
+              <div style="font-size:0.7rem; color:#cbd5e1; margin-top:1px;">Debes haber participado en los 7 retos en WhatsApp. Adjunta tus capturas completas.</div>
+            </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:12px;">
+          <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;">
             ${desafiosHtml}
           </div>
 
           <!-- Multi-upload con compresión WebP cliente -->
           <div style="background:#0b1120; border:1px dashed rgba(16,185,129,0.4); border-radius:12px; padding:12px; text-align:center; margin-bottom:12px;">
             <div style="font-size:1.2rem; margin-bottom:4px;">📎</div>
-            <div style="font-size:0.82rem; color:#fff; font-weight:700; margin-bottom:2px;">Adjuntar Pruebas (Capturas)</div>
-            <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:8px;">Se comprimen en tu móvil y se purgan al ser aprobadas.</div>
+            <div style="font-size:0.82rem; color:#fff; font-weight:700; margin-bottom:2px;">Adjuntar Pruebas (Capturas de WhatsApp)</div>
+            <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:8px;">Selecciona las capturas de los 7 retos. Se comprimen en tu móvil y se purgan al ser aprobadas.</div>
             <input type="file" id="aj-mis-file-input" multiple accept="image/*" style="display:none;" onchange="AuthManager._handleArchivosMision(this)">
             <button type="button" onclick="document.getElementById('aj-mis-file-input').click()" style="background:rgba(16,185,129,0.18); border:1px solid rgba(16,185,129,0.5); color:#34d399; font-weight:800; border-radius:8px; padding:8px 14px; font-size:0.78rem; cursor:pointer;">
               📸 Seleccionar Fotos de tu Galería
@@ -1526,7 +1529,7 @@
           <div id="aj-mis-ok" style="display:none; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#6ee7b7; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; margin-bottom:10px; text-align:center;"></div>
 
           <button id="aj-mis-btn-submit" onclick="AuthManager._guardarEntregaMision('${nick}', '${fechaHoy}')" style="width:100%; min-height:48px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:800; border:none; border-radius:10px; font-size:0.9rem; cursor:pointer; letter-spacing:0.3px; box-shadow:0 4px 16px rgba(16,185,129,0.35); transition:transform 0.15s ease;">
-            📤 Enviar Pruebas para Revisión
+            🚀 Enviar los 7 Retos Cumplidos (+7 PTS)
           </button>
         `;
       } catch (e) {
@@ -1563,131 +1566,197 @@
       }
     }
 
-    // ── Carga dinámica de la Misión Secreta desde el Orquestador ──────────
+    // ── Carga dinámica de la Misión Secreta (Doble Vía: Positiva y Negativa) ──
     async _cargarMisionSecreta(nick) {
       const secLoading = document.getElementById('aj-sec-loading');
       const secContent = document.getElementById('aj-sec-content');
       if (!secContent) return;
 
+      const nickHoy = new Date().toISOString().slice(0, 10);
+
       try {
-        // Pedir misiones al Orquestador (AJ_MISIONES_Y_FEED)
         const orqUrl = window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL
           ? window.AJ_CONFIG.ORQUESTADOR_URL
           : (document.querySelector('meta[name="orquestador-url"]') ? document.querySelector('meta[name="orquestador-url"]').content : '');
 
-        if (!orqUrl) {
-          if (secLoading) secLoading.style.display = 'none';
-          secContent.style.display = 'block';
-          secContent.innerHTML = this._renderMisionSecretaFallback(nick);
-          return;
+        let data = null;
+        if (orqUrl) {
+          try {
+            const res = await fetch(`${orqUrl}?action=misiones_get`, { mode: 'cors' });
+            data = await res.json();
+          } catch (errOrq) {
+            console.warn('[Misiones] Fallo al consultar orquestador:', errOrq);
+          }
         }
 
-        const res = await fetch(`${orqUrl}?action=misiones_get`, { mode: 'cors' });
-        const data = await res.json();
+        // Consultar estado de entregas ya realizadas hoy (tipo=todas)
+        let entregasHoy = {};
+        try {
+          const apiBase = AUTH_CONFIG.apiUrl('');
+          const urlEstado = apiBase
+            ? `${apiBase}/api/misiones/estado?nick=${encodeURIComponent(nick)}&fecha=${nickHoy}&tipo=todas`
+            : `/api/misiones/estado?nick=${encodeURIComponent(nick)}&fecha=${nickHoy}&tipo=todas`;
+          const resEst = await fetch(urlEstado);
+          const dataEst = await resEst.json();
+          if (dataEst && dataEst.entregas) {
+            entregasHoy = dataEst.entregas;
+          }
+        } catch (errEst) {
+          console.warn('[Misiones] Fallo al consultar entregas del día:', errEst);
+        }
+
         if (secLoading) secLoading.style.display = 'none';
         secContent.style.display = 'block';
 
         const positivas = (data && Array.isArray(data.positivas)) ? data.positivas : [];
         const ataque    = (data && Array.isArray(data.ataque))    ? data.ataque    : [];
-        const todas     = [...positivas, ...ataque];
 
-        if (todas.length === 0) {
-          secContent.innerHTML = this._renderMisionSecretaFallback(nick);
-          return;
+        // Fallbacks oficiales del Macrojuego si no hay respuesta de Sheets
+        const fallbackPos = {
+          id: 'MIS-POS-DEF',
+          titulo: '✨ Explorador Geek',
+          desc: 'Comparte en el chat una reseña o foto de un juego de mesa de tu colección que casi nadie conozca.',
+          pts: '10'
+        };
+        const fallbackAtq = {
+          id: 'MIS-ATQ-DEF',
+          titulo: '🧩 Código Enigma (Sabotaje)',
+          desc: 'Publica un acertijo visual o meme editado sobre un juego de mesa. Si tarda más de 1 hora en resolverse, es exitoso.',
+          pts: '10'
+        };
+
+        const nickVal = nick.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+        const misionPos = (positivas.length > 0) ? positivas[nickVal % positivas.length] : fallbackPos;
+        const misionAtq = (ataque.length > 0)    ? ataque[(nickVal + 3) % ataque.length] : fallbackAtq;
+
+        const ptsPos = parseInt(String(misionPos.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
+        const ptsAtq = parseInt(String(misionAtq.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
+
+        // Entregas existentes hoy
+        const entPos = entregasHoy['secreta_positiva'] || entregasHoy['secreta'];
+        const entAtq = entregasHoy['secreta_ataque'];
+
+        // Render Tarjeta 1: Vía Positiva
+        let htmlPosBody = '';
+        if (entPos) {
+          const esAprob = entPos.estado === 'aprobado';
+          htmlPosBody = `
+            <div style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); border-radius:10px; padding:12px; text-align:center;">
+              <div style="font-size:1.5rem; margin-bottom:4px;">${esAprob ? '🎉' : '⏳'}</div>
+              <div style="color:#6ee7b7; font-weight:800; font-size:0.85rem;">${esAprob ? '¡Reto Positivo Aprobado!' : 'Prueba en Revisión'}</div>
+              <div style="color:#cbd5e1; font-size:0.75rem; margin-top:2px;">
+                ${esAprob ? `Recibiste +${entPos.puntos_otorgados || ptsPos} PTS a tu saldo personal.` : 'Tu captura está en la bandeja del Administrador.'}
+              </div>
+            </div>
+          `;
+        } else {
+          htmlPosBody = `
+            <!-- Upload Vía Positiva -->
+            <div style="background:#0b1120; border:1px dashed rgba(16,185,129,0.4); border-radius:10px; padding:10px; text-align:center; margin-bottom:10px;">
+              <div style="font-size:0.75rem; color:#cbd5e1; font-weight:700; margin-bottom:6px;">📸 Captura de evidencia del reto:</div>
+              <input type="file" id="aj-sec-pos-file-input" accept="image/*" style="display:none;" onchange="AuthManager._handleArchivosMisionSecretaTipo(this, 'positiva')">
+              <button type="button" onclick="document.getElementById('aj-sec-pos-file-input').click()" style="background:rgba(16,185,129,0.18); border:1px solid rgba(16,185,129,0.5); color:#6ee7b7; font-weight:800; border-radius:8px; padding:6px 12px; font-size:0.75rem; cursor:pointer;">
+                📷 Seleccionar Foto de Galería
+              </button>
+              <div id="aj-sec-pos-preview" style="margin-top:6px;"></div>
+            </div>
+
+            <div id="aj-sec-pos-error" style="display:none; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; padding:6px 10px; border-radius:8px; font-size:0.74rem; font-weight:600; margin-bottom:8px; text-align:center;"></div>
+            <div id="aj-sec-pos-ok"    style="display:none; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#6ee7b7; padding:6px 10px; border-radius:8px; font-size:0.76rem; font-weight:700; margin-bottom:8px; text-align:center;"></div>
+
+            <button id="aj-sec-pos-btn"
+              onclick="AuthManager._guardarEntregaMisionSecretaTipo('${nick}', '${nickHoy}', '${misionPos.id || 'MIS-POS'}', ${ptsPos}, 'positiva')"
+              style="width:100%; min-height:42px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-weight:800; border:none; border-radius:8px; font-size:0.84rem; cursor:pointer; letter-spacing:0.2px; box-shadow:0 3px 12px rgba(16,185,129,0.3);">
+              ✨ Enviar Prueba Positiva (+${ptsPos} PTS)
+            </button>
+          `;
         }
 
-        // Asignación determinista: índice basado en el nick del usuario (misma misión toda la semana)
-        const nickVal = nick.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-        const mision  = todas[nickVal % todas.length];
-        const nickHoy = new Date().toISOString().slice(0, 10);
-
-        // Detectar si la misión es de Ataque / Caparazón Azul o si es Positiva
-        const esAtaque = (mision.tipo && mision.tipo.toLowerCase() !== 'positiva') ||
-                         String(mision.pts || '').includes('-') ||
-                         String(mision.pts || '').toLowerCase().includes('arriba') ||
-                         String(mision.titulo || '').toLowerCase().includes('ataque') ||
-                         String(mision.titulo || '').toLowerCase().includes('sabotaje');
-
-        let recompensaHtml = '';
-        let badgeHtml = '';
-        let submitBtnText = '';
-        let submitBtnGrad = '';
-        let cardBg = '';
-        let cardBorder = '';
-        let ptsParam = '';
-
-        if (esAtaque) {
-          cardBg = 'background:rgba(239,68,68,0.08);';
-          cardBorder = 'border:1px solid rgba(239,68,68,0.4);';
-          badgeHtml = '<span style="margin-left:auto; font-size:0.68rem; background:rgba(239,68,68,0.25); color:#fca5a5; border:1px solid rgba(239,68,68,0.4); border-radius:20px; padding:3px 10px; font-weight:800; white-space:nowrap;">🐢 Caparazón Azul (Ataque)</span>';
-          
-          const rawNum = parseInt(String(mision.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
-          ptsParam = `-${rawNum}`;
-          
-          recompensaHtml = `
-            <div style="font-size:0.75rem; color:#fca5a5; font-weight:700;">Efecto Cascada (Sabotaje):</div>
-            <div style="font-size:0.85rem; font-weight:800; color:#ef4444; text-align:right;">💣 -${rawNum} PTS a todos los de arriba en el ranking</div>
+        // Render Tarjeta 2: Vía Negativa / Caparazón Azul
+        let htmlAtqBody = '';
+        if (entAtq) {
+          const esAprob = entAtq.estado === 'aprobado';
+          htmlAtqBody = `
+            <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:12px; text-align:center;">
+              <div style="font-size:1.5rem; margin-bottom:4px;">${esAprob ? '💥' : '⏳'}</div>
+              <div style="color:#fca5a5; font-weight:800; font-size:0.85rem;">${esAprob ? '¡Caparazón Azul Detonado!' : 'Sabotaje en Revisión'}</div>
+              <div style="color:#cbd5e1; font-size:0.75rem; margin-top:2px;">
+                ${esAprob ? `El ataque en cascada se aplicó a todos los rivales superiores en la tabla.` : 'El Admin está auditando la prueba de tu ataque.'}
+              </div>
+            </div>
           `;
-          submitBtnText = '🐢 Disparar Caparazón Azul (Enviar Prueba)';
-          submitBtnGrad = 'background:linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); box-shadow:0 4px 16px rgba(239,68,68,0.4);';
         } else {
-          cardBg = 'background:rgba(139,92,246,0.10);';
-          cardBorder = 'border:1px solid rgba(139,92,246,0.4);';
-          badgeHtml = '<span style="margin-left:auto; font-size:0.68rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.4); border-radius:20px; padding:3px 10px; font-weight:800; white-space:nowrap;">✨ Recompensa Personal</span>';
-          
-          const ptsVal = parseInt(String(mision.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
-          ptsParam = `${ptsVal}`;
-          
-          recompensaHtml = `
-            <div style="font-size:0.75rem; color:#94a3b8; font-weight:700;">Recompensa:</div>
-            <div style="font-size:0.9rem; font-weight:800; color:#10b981;">+${ptsVal} PTS a tu cuenta</div>
+          htmlAtqBody = `
+            <!-- Upload Vía Negativa -->
+            <div style="background:#0b1120; border:1px dashed rgba(239,68,68,0.4); border-radius:10px; padding:10px; text-align:center; margin-bottom:10px;">
+              <div style="font-size:0.75rem; color:#cbd5e1; font-weight:700; margin-bottom:6px;">📸 Captura de evidencia del sabotaje:</div>
+              <input type="file" id="aj-sec-atq-file-input" accept="image/*" style="display:none;" onchange="AuthManager._handleArchivosMisionSecretaTipo(this, 'ataque')">
+              <button type="button" onclick="document.getElementById('aj-sec-atq-file-input').click()" style="background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.5); color:#fca5a5; font-weight:800; border-radius:8px; padding:6px 12px; font-size:0.75rem; cursor:pointer;">
+                📷 Seleccionar Foto de Galería
+              </button>
+              <div id="aj-sec-atq-preview" style="margin-top:6px;"></div>
+            </div>
+
+            <div id="aj-sec-atq-error" style="display:none; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; padding:6px 10px; border-radius:8px; font-size:0.74rem; font-weight:600; margin-bottom:8px; text-align:center;"></div>
+            <div id="aj-sec-atq-ok"    style="display:none; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; padding:6px 10px; border-radius:8px; font-size:0.76rem; font-weight:700; margin-bottom:8px; text-align:center;"></div>
+
+            <button id="aj-sec-atq-btn"
+              onclick="AuthManager._guardarEntregaMisionSecretaTipo('${nick}', '${nickHoy}', '${misionAtq.id || 'MIS-ATQ'}', ${ptsAtq}, 'ataque')"
+              style="width:100%; min-height:42px; background:linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color:#fff; font-weight:800; border:none; border-radius:8px; font-size:0.84rem; cursor:pointer; letter-spacing:0.2px; box-shadow:0 3px 12px rgba(220,38,38,0.35);">
+              🐢 Disparar Caparazón Azul (-${ptsAtq} PTS Cascada)
+            </button>
           `;
-          submitBtnText = '🤫 Enviar Prueba de Misión Secreta';
-          submitBtnGrad = 'background:linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow:0 4px 16px rgba(139,92,246,0.35);';
         }
 
         secContent.innerHTML = `
-          <div style="${cardBg} ${cardBorder} border-radius:14px; padding:16px; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-              <span style="font-size:1.6rem;">${esAtaque ? '🐢' : '🤫'}</span>
+          <!-- Banner Explicativo de la Doble Vía -->
+          <div style="background:rgba(139,92,246,0.10); border:1px solid rgba(139,92,246,0.35); border-radius:12px; padding:10px 12px; margin-bottom:14px; text-align:center;">
+            <div style="font-size:0.78rem; color:#c4b5fd; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">🎭 Tu Doble Vía Estratégica del Día</div>
+            <div style="font-size:0.72rem; color:#cbd5e1; margin-top:2px; line-height:1.35;">
+              Puedes enviar <strong>solo la positiva</strong>, <strong>solo la negativa</strong>, <strong>ambas</strong> o <strong>ninguna</strong>. Cada una opera de forma 100% independiente.
+            </div>
+          </div>
+
+          <!-- TARJETA 1: VÍA POSITIVA -->
+          <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.35); border-radius:14px; padding:14px; margin-bottom:14px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.4rem;">✨</span>
               <div>
-                <div style="font-size:0.68rem; color:${esAtaque ? '#fca5a5' : '#a78bfa'}; font-weight:800; text-transform:uppercase; letter-spacing:1px;">Tu Misión Secreta Personal</div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:2px;">Solo tú la ves · Asignada esta semana</div>
+                <div style="font-size:0.68rem; color:#34d399; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Vía Positiva · Desafío Personal</div>
+                <div style="font-size:0.65rem; color:#64748b;">Suma puntos directos a tu saldo</div>
               </div>
-              ${badgeHtml}
+              <span style="margin-left:auto; font-size:0.7rem; background:rgba(16,185,129,0.2); color:#6ee7b7; border:1px solid rgba(16,185,129,0.4); border-radius:20px; padding:2px 8px; font-weight:800; white-space:nowrap;">
+                +${ptsPos} PTS
+              </span>
             </div>
 
-            <div style="font-size:1rem; color:#fff; font-weight:800; margin-bottom:6px; line-height:1.3;">${mision.titulo}</div>
-            <div style="font-size:0.78rem; color:#cbd5e1; line-height:1.4; margin-bottom:12px;">${mision.desc || ''}</div>
+            <div style="font-size:0.95rem; color:#fff; font-weight:800; margin-bottom:4px;">${misionPos.titulo}</div>
+            <div style="font-size:0.76rem; color:#cbd5e1; line-height:1.4; margin-bottom:10px;">${misionPos.desc || ''}</div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 12px; gap:8px;">
-              ${recompensaHtml}
+            ${htmlPosBody}
+          </div>
+
+          <!-- TARJETA 2: VÍA NEGATIVA / CAPARAZÓN AZUL -->
+          <div style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.35); border-radius:14px; padding:14px; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.4rem;">🐢</span>
+              <div>
+                <div style="font-size:0.68rem; color:#f87171; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Vía Negativa · El Caparazón Azul</div>
+                <div style="font-size:0.65rem; color:#64748b;">Sabotaje encubierto en WhatsApp</div>
+              </div>
+              <span style="margin-left:auto; font-size:0.7rem; background:rgba(239,68,68,0.2); color:#fca5a5; border:1px solid rgba(239,68,68,0.4); border-radius:20px; padding:2px 8px; font-weight:800; white-space:nowrap;">
+                💣 -${ptsAtq} PTS Cascada
+              </span>
             </div>
+
+            <div style="font-size:0.95rem; color:#fff; font-weight:800; margin-bottom:4px;">${misionAtq.titulo}</div>
+            <div style="font-size:0.76rem; color:#cbd5e1; line-height:1.4; margin-bottom:10px;">${misionAtq.desc || ''}</div>
+
+            ${htmlAtqBody}
           </div>
-
-          <!-- Upload de prueba única para Misión Secreta -->
-          <div style="background:#0b1120; border:1px dashed ${esAtaque ? 'rgba(239,68,68,0.4)' : 'rgba(139,92,246,0.4)'}; border-radius:12px; padding:12px; text-align:center; margin-bottom:12px;">
-            <div style="font-size:1.2rem; margin-bottom:4px;">📸</div>
-            <div style="font-size:0.82rem; color:#fff; font-weight:700; margin-bottom:2px;">Prueba de tu Misión Secreta</div>
-            <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:8px;">1 captura que demuestre que la completaste.</div>
-            <input type="file" id="aj-sec-file-input" accept="image/*" style="display:none;" onchange="AuthManager._handleArchivosMisionSecreta(this)">
-            <button type="button" onclick="document.getElementById('aj-sec-file-input').click()" style="background:${esAtaque ? 'rgba(239,68,68,0.18)' : 'rgba(139,92,246,0.18)'}; border:1px solid ${esAtaque ? 'rgba(239,68,68,0.5)' : 'rgba(139,92,246,0.5)'}; color:${esAtaque ? '#fca5a5' : '#a78bfa'}; font-weight:800; border-radius:8px; padding:8px 14px; font-size:0.78rem; cursor:pointer;">
-              📷 Seleccionar Captura
-            </button>
-            <div id="aj-sec-preview" style="margin-top:8px;"></div>
-          </div>
-
-          <div id="aj-sec-error" style="display:none; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; padding:8px 12px; border-radius:8px; font-size:0.76rem; font-weight:600; margin-bottom:10px; text-align:center;"></div>
-          <div id="aj-sec-ok"    style="display:none; background:${esAtaque ? 'rgba(239,68,68,0.15)' : 'rgba(139,92,246,0.15)'}; border:1px solid ${esAtaque ? 'rgba(239,68,68,0.4)' : 'rgba(139,92,246,0.4)'}; color:${esAtaque ? '#fca5a5' : '#c4b5fd'}; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; margin-bottom:10px; text-align:center;"></div>
-
-          <button id="aj-sec-btn-submit"
-            onclick="AuthManager._guardarEntregaMisionSecreta('${nick}', '${nickHoy}', '${mision.id || 'SEC-?'}', '${ptsParam}', ${esAtaque})"
-            style="width:100%; min-height:48px; ${submitBtnGrad} color:#fff; font-weight:800; border:none; border-radius:10px; font-size:0.9rem; cursor:pointer; letter-spacing:0.3px; transition:transform 0.15s ease;">
-            ${submitBtnText}
-          </button>
         `;
       } catch (e) {
-        console.warn('[MisionSecreta] No se pudo cargar desde Orquestador:', e);
+        console.warn('[MisionSecreta] Error cargando misiones:', e);
         if (secLoading) secLoading.style.display = 'none';
         if (secContent) {
           secContent.style.display = 'block';
@@ -1708,25 +1777,35 @@
       `;
     }
 
-    // ── Manejo de archivo para Misión Secreta (1 foto) ────────────────────
-    _secImagenBase64 = null;
+    // ── Manejo de archivos para Misión Secreta (Independiente por vía) ─────
+    _secPosImagenBase64 = null;
+    _secAtqImagenBase64 = null;
 
-    async _handleArchivosMisionSecreta(input) {
+    async _handleArchivosMisionSecretaTipo(input, tipo) {
       const file = (input.files || [])[0];
       if (!file) return;
-      this._secImagenBase64 = null;
-      const preview = document.getElementById('aj-sec-preview');
+      const isPos = (tipo === 'positiva');
+      if (isPos) this._secPosImagenBase64 = null;
+      else this._secAtqImagenBase64 = null;
+
+      const previewId = isPos ? 'aj-sec-pos-preview' : 'aj-sec-atq-preview';
+      const preview = document.getElementById(previewId);
       if (preview) preview.innerHTML = '<span style="font-size:0.73rem; color:#94a3b8;">Comprimiendo... ⏳</span>';
 
       try {
         const b64 = await this._comprimirImagenCliente(file, 1000, 1000, 0.72);
-        this._secImagenBase64 = { base64: b64, nombre: file.name };
+        if (isPos) {
+          this._secPosImagenBase64 = { base64: b64, nombre: file.name };
+        } else {
+          this._secAtqImagenBase64 = { base64: b64, nombre: file.name };
+        }
         if (preview) {
+          const borderColor = isPos ? '#10b981' : '#ef4444';
           preview.innerHTML = `
-            <div style="display:inline-block; position:relative; width:60px; height:60px; border-radius:8px; overflow:hidden; border:2px solid #7c3aed; background:#000;">
+            <div style="display:inline-block; position:relative; width:56px; height:56px; border-radius:8px; overflow:hidden; border:2px solid ${borderColor}; background:#000;">
               <img src="${b64}" style="width:100%; height:100%; object-fit:cover;">
             </div>
-            <div style="font-size:0.72rem; color:#a78bfa; font-weight:700; margin-top:4px;">✅ Foto lista</div>
+            <div style="font-size:0.72rem; color:${borderColor}; font-weight:700; margin-top:3px;">✅ Captura lista</div>
           `;
         }
       } catch (e) {
@@ -1734,18 +1813,28 @@
       }
     }
 
-    // ── Guardar entrega de Misión Secreta ─────────────────────────────────
-    async _guardarEntregaMisionSecreta(nick, fecha, misionId, pts, esAtaque = false) {
-      const errDiv = document.getElementById('aj-sec-error');
-      const okDiv  = document.getElementById('aj-sec-ok');
-      const btn    = document.getElementById('aj-sec-btn-submit');
-      const labelOriginal = esAtaque ? '🐢 Disparar Caparazón Azul (Enviar Prueba)' : '🤫 Enviar Prueba de Misión Secreta';
+    // Compatibilidad retroactiva
+    async _handleArchivosMisionSecreta(input) {
+      return this._handleArchivosMisionSecretaTipo(input, 'ataque');
+    }
+
+    // ── Guardar entrega de Misión Secreta (Por Vía Independiente) ───────────
+    async _guardarEntregaMisionSecretaTipo(nick, fecha, misionId, pts, tipo) {
+      const isPos = (tipo === 'positiva');
+      const errDiv = document.getElementById(isPos ? 'aj-sec-pos-error' : 'aj-sec-atq-error');
+      const okDiv  = document.getElementById(isPos ? 'aj-sec-pos-ok' : 'aj-sec-atq-ok');
+      const btn    = document.getElementById(isPos ? 'aj-sec-pos-btn' : 'aj-sec-atq-btn');
+      const imgObj = isPos ? this._secPosImagenBase64 : this._secAtqImagenBase64;
+      const labelOriginal = isPos ? `✨ Enviar Prueba Positiva (+${pts} PTS)` : `🐢 Disparar Caparazón Azul (-${pts} PTS Cascada)`;
 
       if (errDiv) errDiv.style.display = 'none';
       if (okDiv)  okDiv.style.display  = 'none';
 
-      if (!this._secImagenBase64) {
-        if (errDiv) { errDiv.textContent = 'Adjunta una captura de tu misión secreta antes de enviar.'; errDiv.style.display = 'block'; }
+      if (!imgObj) {
+        if (errDiv) {
+          errDiv.textContent = 'Adjunta una captura de prueba antes de enviar.';
+          errDiv.style.display = 'block';
+        }
         return;
       }
 
@@ -1756,10 +1845,14 @@
         const upRes = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nick, fecha, imagenes: [this._secImagenBase64] })
+          body: JSON.stringify({ nick, fecha, imagenes: [imgObj] })
         });
         const upData = await upRes.json();
         if (!upData || !upData.ok) throw new Error(upData?.error || 'Error subiendo la prueba');
+
+        const tipoEnvio = isPos ? 'secreta_positiva' : 'secreta_ataque';
+        const ptsNum = parseInt(pts, 10) || 10;
+        const ptsEsperados = isPos ? ptsNum : -ptsNum;
 
         const entRes = await fetch(AUTH_CONFIG.apiUrl('/api/misiones/entregar'), {
           method: 'POST',
@@ -1767,36 +1860,44 @@
           body: JSON.stringify({
             nick,
             fecha,
-            tipo: 'secreta',
+            tipo: tipoEnvio,
             desafios: [misionId],
             pruebas: upData.urls || [],
             mision_id: misionId,
-            pts_esperados: parseInt(pts, 10) || (esAtaque ? -10 : 10)
+            pts_esperados: ptsEsperados
           })
         });
         const entData = await entRes.json();
 
         if (entData && entData.ok) {
           if (okDiv) {
-            okDiv.textContent = esAtaque
-              ? '🐢 ¡Prueba de Caparazón Azul enviada! Al ser aprobada por el Admin, detonará el impacto en cascada a los superiores en el ranking.'
-              : '✅ ¡Prueba enviada! El Admin la revisará pronto.';
+            okDiv.textContent = isPos
+              ? '✅ ¡Prueba de Reto Positivo enviada! El Admin la revisará para acreditar tus puntos.'
+              : '🐢 ¡Prueba de Caparazón Azul enviada! Al ser aprobada por el Admin, detonará el impacto en cascada sobre los rivales superiores.';
             okDiv.style.display = 'block';
           }
-          if (btn) btn.textContent = '✅ Enviado';
-          this._secImagenBase64 = null;
-          setTimeout(() => {
-            const m = document.getElementById('aj-misiones-modal');
-            if (m) m.remove();
-          }, 2000);
+          if (btn) {
+            btn.textContent = '✅ Enviada para Revisión';
+            btn.style.opacity = '0.7';
+          }
+          if (isPos) this._secPosImagenBase64 = null;
+          else this._secAtqImagenBase64 = null;
         } else {
-          if (errDiv) { errDiv.textContent = entData.mensaje || entData.error || 'No se pudo registrar la entrega.'; errDiv.style.display = 'block'; }
+          if (errDiv) {
+            errDiv.textContent = entData.mensaje || entData.error || 'No se pudo registrar la entrega.';
+            errDiv.style.display = 'block';
+          }
           if (btn) { btn.disabled = false; btn.textContent = labelOriginal; }
         }
       } catch (e) {
         if (errDiv) { errDiv.textContent = 'Error: ' + (e.message || 'Error de red.'); errDiv.style.display = 'block'; }
         if (btn) { btn.disabled = false; btn.textContent = labelOriginal; }
       }
+    }
+
+    // Compatibilidad retroactiva
+    async _guardarEntregaMisionSecreta(nick, fecha, misionId, pts, esAtaque = false) {
+      return this._guardarEntregaMisionSecretaTipo(nick, fecha, misionId, pts, esAtaque ? 'ataque' : 'positiva');
     }
 
     // Almacena en memoria las imágenes base64 comprimidas antes de enviar
@@ -1874,8 +1975,7 @@
     }
 
     async _guardarEntregaMision(nick, fechaHoy) {
-      const checkedBoxes = Array.from(document.querySelectorAll('.aj-mis-check:checked'));
-      const desafios = checkedBoxes.map(c => parseInt(c.value, 10));
+      const desafios = [1, 2, 3, 4, 5, 6, 7];
       const errDiv = document.getElementById('aj-mis-error');
       const okDiv = document.getElementById('aj-mis-ok');
       const btn = document.getElementById('aj-mis-btn-submit');
@@ -1883,17 +1983,9 @@
       if (errDiv) errDiv.style.display = 'none';
       if (okDiv) okDiv.style.display = 'none';
 
-      if (desafios.length === 0) {
-        if (errDiv) {
-          errDiv.textContent = 'Selecciona al menos un desafío completado.';
-          errDiv.style.display = 'block';
-        }
-        return;
-      }
-
       if (this._misionImagenesBase64.length === 0) {
         if (errDiv) {
-          errDiv.textContent = 'Por favor adjunta al menos una foto de prueba de tus desafíos.';
+          errDiv.textContent = 'Por favor adjunta al menos una foto de prueba de tus desafíos comunitarios.';
           errDiv.style.display = 'block';
         }
         return;

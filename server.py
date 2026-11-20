@@ -407,7 +407,10 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": "nick_requerido"}, 400)
                 return
             try:
-                res = gestor_db.obtener_entrega_mision(nick, fecha, tipo)
+                if tipo == 'todas':
+                    res = gestor_db.obtener_entregas_misiones_dia(nick, fecha)
+                else:
+                    res = gestor_db.obtener_entrega_mision(nick, fecha, tipo)
                 self._send_json(res)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)

@@ -1904,6 +1904,30 @@ def obtener_entrega_mision(nick: str, fecha_mision: str, tipo_mision: str = "gru
             }
         }
 
+def obtener_entregas_misiones_dia(nick: str, fecha_mision: str) -> dict:
+    """Retorna todas las entregas de misiones de un jugador en una fecha dada indexadas por tipo_mision."""
+    with get_db() as conn:
+        rows = conn.execute("""
+            SELECT * FROM misiones_entregas 
+            WHERE LOWER(nick) = LOWER(?) AND fecha_mision = ?
+        """, (nick, fecha_mision)).fetchall()
+        
+        entregas = {}
+        for r in rows:
+            entregas[r["tipo_mision"]] = {
+                "id": r["id"],
+                "nick": r["nick"],
+                "fecha_mision": r["fecha_mision"],
+                "tipo_mision": r["tipo_mision"],
+                "estado": r["estado"],
+                "puntos_otorgados": r["puntos_otorgados"],
+                "comentario_admin": r["comentario_admin"],
+                "admin_revisor": r["admin_revisor"],
+                "fecha_envio": r["fecha_envio"],
+                "fecha_revision": r["fecha_revision"]
+            }
+        return {"ok": True, "entregas": entregas}
+
 def listar_misiones_pendientes(fecha_mision: str | None = None) -> list:
     """Lista las entregas de misiones en estado 'pendiente' para la bandeja de moderación del admin."""
     with get_db() as conn:
