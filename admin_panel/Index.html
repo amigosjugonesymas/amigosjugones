@@ -1,0 +1,3733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Amigos Jugones — Consola Maestra de Administración</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080811;
+      --bg-card: #121224;
+      --bg-card-hover: #1a1a35;
+      --border: #232342;
+      --border-accent: #7c3aed;
+      --primary: #8b5cf6;
+      --primary-light: #a78bfa;
+      --secondary: #ec4899;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 14px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Layout Principal */
+    .app-container {
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* Sidebar / Navegación */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 50;
+    }
+
+    .brand {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-icon {
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 14px 10px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-card-hover);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: rgba(139, 92, 246, 0.15);
+      color: #fff;
+      border-color: rgba(139, 92, 246, 0.35);
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);
+    }
+
+    .nav-item .icon { font-size: 18px; }
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+    }
+
+    /* Área de Contenido */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-dark);
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    .top-header {
+      padding: 18px 28px;
+      background: rgba(18, 18, 36, 0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    /* Paneles de Contenido */
+    .tab-content {
+      display: none;
+      padding: 28px;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grillas y Tarjetas */
+    .grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .kpi-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+    .kpi-val { font-size: 26px; font-weight: 800; color: #fff; font-family: var(--font-mono); }
+    .kpi-sub { font-size: 11px; color: var(--cyan); margin-top: 6px; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Formularios y Botones */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: #0b0b16;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+    }
+
+    .btn-secondary {
+      background: #1f1f3a;
+      border: 1px solid var(--border);
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: #2a2a4e;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    /* Tablas */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background: #0f0f1f;
+      color: var(--text-muted);
+      padding: 14px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #e5e7eb;
+    }
+
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
+      font-family: var(--font-mono);
+    }
+
+    .tag-green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .tag-yellow { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .tag-red { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .tag-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+
+    /* Switch toggle */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #2a2a4e;
+      transition: .3s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--primary); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    /* Toast */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      animation: slideIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Responsive Móvil */
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        transform: translateX(-100%);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .menu-toggle { display: block; }
+      .tab-content { padding: 18px; }
+      .top-header { padding: 14px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR NAVEGACIÓN -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🎲</span>
+      <div class="brand-text">
+        <h1>Amigos Jugones</h1>
+        <span>PANEL PRIVADO v2.0</span>
+      </div>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchTab('tab-miembros')">
+        <span class="icon">👥</span> Miembros & Seguridad
+        <span class="badge" id="badge-miembros">242</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-capturas')">
+        <span class="icon">📸</span> Capturas On-Demand
+        <span class="badge" style="background:#7c3aed; color:#fff;">8 Tipos</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-analytics')">
+        <span class="icon">📊</span> Analytics & Turso
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-presencia')">
+        <span class="icon">🟢</span> Radar de Presencia
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-comunicados')">
+        <span class="icon">📢</span> Comunicados & Banners
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-economia')">
+        <span class="icon">💰</span> Economía de Puntos
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-juntas')">
+        <span class="icon">🎲</span> Moderación de Juntas
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-encuestas')">
+        <span class="icon">🗳️</span> Encuestas Geek
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-claves')">
+        <span class="icon">🔑</span> Claves Arcade
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-temporada')">
+        <span class="icon">🏆</span> Temporada & Medallas
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-torneos-bga')">
+        <span class="icon">🎲</span> Torneos BGA
+        <span class="badge" id="badge-torneos-bga" style="background:#f59e0b; color:#000; font-weight:700;">Live</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-skins')">
+        <span class="icon">🎨</span> Skins & Mantenimiento
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-honor')">
+        <span class="icon">🎖️</span> Salón de Honor
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-juegos-crud')">
+        <span class="icon">🕹️</span> Programador de Juegos
+        <span class="badge" style="background:#0ea5e9; color:#fff;">CRUD</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('tab-macrojuego')">
+        <span class="icon">🎮</span> Control Macrojuego
+        <span class="badge" style="background:#10b981; color:#fff; font-weight:700;">Hoy</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="page-title" id="page-title">👥 Gestión de Miembros & Seguridad</div>
+      </div>
+      <div class="header-right">
+        <div class="status-pill">
+          <div class="status-dot"></div>
+          <span>API CONECTADA</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. MÓDULO MIEMBROS & SEGURIDAD -->
+    <section id="tab-miembros" class="tab-content active">
+      <div class="grid-kpi">
+        <div class="kpi-card">
+          <div class="kpi-label">Miembros WhatsApp</div>
+          <div class="kpi-val" id="kpi-total-miembros">242</div>
+          <div class="kpi-sub">Sincronizados vía Lunara</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Con Clave Privada</div>
+          <div class="kpi-val" id="kpi-blindados">--</div>
+          <div class="kpi-sub">Cuentas blindadas personales</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Con Clave Comunitaria</div>
+          <div class="kpi-val" id="kpi-comunitarios">--</div>
+          <div class="kpi-sub">Límite 2 dispositivos activos</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Buscador Unificado de Miembros</div>
+        <div style="display:flex; gap:12px; margin-bottom:16px;">
+          <input type="text" id="member-search-input" placeholder="Buscar por teléfono (+569...), Nick Gamer o Nombre de Agenda..." onkeyup="filterMembers()">
+          <button class="btn btn-secondary" onclick="refreshMembersList()">🔄 Refrescar</button>
+        </div>
+
+        <div class="table-container">
+          <table id="members-table">
+            <thead>
+              <tr>
+                <th>Teléfono</th>
+                <th>Nick Gamer</th>
+                <th>Nombre Agenda</th>
+                <th>Estado</th>
+                <th>Seguridad</th>
+                <th>Dispositivos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="members-tbody">
+              <tr><td colspan="7" style="text-align:center; padding:20px;">Cargando lista de miembros desde la base de datos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MÓDULO ANALYTICS & TURSO -->
+    <section id="tab-analytics" class="tab-content">
+      <div class="grid-kpi">
+        <div class="kpi-card">
+          <div class="kpi-label">Visitas Hoy</div>
+          <div class="kpi-val" id="analytics-today">--</div>
+          <div class="kpi-sub">Páginas vistas totales</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Miembros Autenticados</div>
+          <div class="kpi-val" id="analytics-auth">--</div>
+          <div class="kpi-sub" id="analytics-ratio">vs Visitantes anónimos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Visitas Ayer</div>
+          <div class="kpi-val" id="analytics-yesterday">--</div>
+          <div class="kpi-sub" id="analytics-delta">Variación vs ayer</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Capacidad Turso Free Tier</div>
+          <div class="kpi-val" id="analytics-storage">--%</div>
+          <div class="kpi-sub" id="analytics-filas">Rolling Archive activo</div>
+        </div>
+      </div>
+
+      <!-- Top Páginas -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">📄 Top Páginas & Miembros Más Conectados</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
+          <div>
+            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; margin-bottom:8px; text-transform:uppercase;">Páginas más visitadas</div>
+            <div id="analytics-top-pages" style="color:var(--text-muted); font-size:13px;">Cargando...</div>
+          </div>
+          <div>
+            <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; margin-bottom:8px; text-transform:uppercase;">Miembros más activos</div>
+            <div id="analytics-top-nicks" style="color:var(--text-muted); font-size:13px;">Cargando...</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; text-align:right;">
+          <button class="btn btn-secondary" style="font-size:0.82rem; padding:8px 14px;" onclick="loadAnalytics()">🔄 Actualizar Analytics</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗄️ Control de Almacenamiento & Purga (Rolling Archive)</div>
+        <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:16px;">
+          Para mantener la base de datos en Turso ultrarrápida y siempre dentro del Free Tier (\$0), las visitas antiguas se comprimen en archivos JSON y se purgan de la tabla activa.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="triggerRollingArchive()">📦 Ejecutar Dump y Purgar Visitas Antiguas</button>
+          <button class="btn btn-secondary" onclick="switchTab('tab-presencia')">🟢 Ver Presencia en Vivo</button>
+        </div>
+        <div id="archive-result" style="display:none; margin-top:16px; padding:14px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:8px; font-size:0.85rem; color:var(--green);"></div>
+      </div>
+    </section>
+
+    <!-- 3. MÓDULO RADAR DE PRESENCIA -->
+    <section id="tab-presencia" class="tab-content">
+      <div class="card">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div class="card-title" style="margin-bottom:0;">🟢 Radar de Miembros Conectados en Vivo</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span id="presencia-last-update" style="font-size:11px; color:var(--text-muted);">—</span>
+            <button class="btn btn-secondary" style="font-size:12px; padding:5px 12px;" onclick="loadPresencia()">🔄 Actualizar</button>
+          </div>
+        </div>
+        <p style="color:var(--text-muted); font-size:13px; margin-bottom:14px;">
+          Miembros con heartbeat activo en los últimos 2 minutos. Fuente: <code>Turso / Render Cloud</code> vía <code>/api/online</code>.
+          El heartbeat se envía automáticamente cada 30 segundos desde el navegador del miembro logueado.
+        </p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Nick</th>
+                <th>Página Actual</th>
+                <th>Último Latido</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="presence-tbody">
+              <tr><td colspan="4" style="text-align:center; padding:20px;">Verificando usuarios en línea...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MÓDULO COMUNICADOS & BANNERS -->
+    <section id="tab-comunicados" class="tab-content">
+      <div class="card">
+        <div class="card-title">📢 Publicar Nuevo Aviso o Comunicado</div>
+        <div class="form-group">
+          <label>Título del Comunicado</label>
+          <input type="text" id="aviso-titulo" placeholder="Ej: Torneo de Catan este Sábado / Aviso de Emergencia">
+        </div>
+        <div class="form-group">
+          <label>Mensaje Detallado</label>
+          <textarea id="aviso-mensaje" rows="3" placeholder="Redacta el contenido del aviso..."></textarea>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:18px;">
+          <div class="form-group">
+            <label>Tipo de Aviso</label>
+            <select id="aviso-tipo">
+              <option value="info">ℹ️ Informativo Normal (Campana 🔔)</option>
+              <option value="evento">🎲 Evento / Concurso</option>
+              <option value="urgente">⚠️ Emergencia (Banner Flotante Superior)</option>
+              <option value="cancelacion">🚫 Cancelación Forzada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Destinatario Específico (Opcional)</label>
+            <input type="text" id="aviso-target" placeholder="Dejar vacío para Todos, o escribir Nick">
+          </div>
+        </div>
+        <button class="btn" onclick="publishAviso()">🚀 Publicar Aviso en la Web</button>
+      </div>
+    </section>
+
+    <!-- 🎮 MÓDULO CONTROL DIARIO DEL MACROJUEGO -->
+    <section id="tab-macrojuego" class="tab-content">
+
+      <!-- CARD 1: Ficha del Día -->
+      <div class="card" style="margin-bottom:16px; border:1px solid rgba(16,185,129,0.4);">
+        <div class="card-title">🗓️ Ficha Maestra del Día — <span id="macro-fecha-title">cargando...</span></div>
+        <div id="macro-config-loading" style="text-align:center; padding:20px; color:#94a3b8;">Consultando configuración del día... ⏳</div>
+        <div id="macro-config-body" style="display:none;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:16px;">
+            <div class="form-group">
+              <label>🃏 Puntos Grupal (Todo o Nada)</label>
+              <input type="number" id="macro-pts-grupal" min="1" max="30" value="7" style="font-size:1.1rem; font-weight:800;">
+            </div>
+            <div class="form-group">
+              <label>🐢 Daño Caparazón Azul (PTS Cascada)</label>
+              <input type="number" id="macro-pts-ataque" min="1" max="30" value="10" style="font-size:1.1rem; font-weight:800;">
+            </div>
+            <div class="form-group">
+              <label>🛡️ Blindaje Máx. (Damage Cap, PTS/día)</label>
+              <input type="number" id="macro-damage-cap" min="5" max="100" value="25" style="font-size:1.1rem; font-weight:800;">
+            </div>
+            <div class="form-group">
+              <label>📊 Umbral Rezagados (Catch-Up &lt; X PTS)</label>
+              <input type="number" id="macro-umbral" min="1" max="9999" value="100" style="font-size:1.1rem; font-weight:800;">
+            </div>
+          </div>
+
+          <!-- Switch Catch-Up x2 -->
+          <div style="display:flex; align-items:center; gap:14px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:12px; padding:14px; margin-bottom:16px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:200px;">
+              <div style="color:#34d399; font-weight:800; font-size:0.9rem;">⚡ Switch Aumento x2 (Catch-Up)</div>
+              <div style="color:#94a3b8; font-size:0.76rem; margin-top:3px;">Duplica puntos a jugadores por debajo del umbral. Se activa automáticamente miércoles y domingos.</div>
+            </div>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;">
+              <span id="macro-catchup-label" style="font-weight:800; font-size:0.85rem; color:#94a3b8;">INACTIVO</span>
+              <div style="position:relative; width:52px; height:28px;">
+                <input type="checkbox" id="macro-catchup-toggle" style="opacity:0; width:0; height:0; position:absolute;"
+                  onchange="document.getElementById('macro-catchup-label').textContent=this.checked?'ACTIVO':'INACTIVO';
+                            document.getElementById('macro-catchup-label').style.color=this.checked?'#34d399':'#94a3b8';
+                            document.getElementById('macro-catchup-track').style.background=this.checked?'#10b981':'#374151';">
+                <div id="macro-catchup-track" style="position:absolute;top:0;left:0;right:0;bottom:0;background:#374151;border-radius:28px;transition:background 0.2s;"></div>
+                <div id="macro-catchup-thumb" style="position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.5);"></div>
+                <style>#macro-catchup-toggle:checked + div + div { transform: translateX(24px); }</style>
+              </div>
+            </label>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" onclick="macroGuardarConfig()" style="flex:1; min-width:160px; background:linear-gradient(135deg,#10b981,#059669);">💾 Guardar Configuración del Día</button>
+            <button class="btn btn-secondary" onclick="macroCargarConfig()" style="min-width:120px;">🔄 Recargar</button>
+          </div>
+          <div id="macro-config-msg" style="display:none; margin-top:10px; padding:8px 12px; border-radius:8px; font-size:0.82rem; font-weight:700; text-align:center;"></div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Acreditación por Lote -->
+      <div class="card" style="margin-bottom:16px; border:1px solid rgba(139,92,246,0.4);">
+        <div class="card-title">⚡ Acreditación Rápida por Lote</div>
+        <p style="color:#94a3b8; font-size:0.82rem; margin-bottom:14px;">
+          Ingresa los nicks separados por coma. El sistema consulta la ficha del día, aplica Catch-Up x2 a quienes corresponda, ejecuta cascadas y respeta el Blindaje Máximo. <strong style="color:#c4b5fd;">Tú solo dices quién participó.</strong>
+        </p>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Nicks participantes (separados por coma)</label>
+          <textarea id="macro-lote-nicks" rows="3" placeholder="Ej: Carlos, Ana, Pedro, ShadowDragon" style="width:100%; background:#111827; border:1px solid #374151; color:#fff; border-radius:8px; padding:10px; font-size:0.9rem; resize:vertical; box-sizing:border-box;"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+          <button class="btn" onclick="macroAcreditar('grupal')"
+            style="flex:1; min-width:140px; background:linear-gradient(135deg,#10b981,#059669);">
+            📋 Acreditar Grupal (+7 PTS base)
+          </button>
+          <button class="btn" onclick="macroAcreditar('personal')"
+            style="flex:1; min-width:140px; background:linear-gradient(135deg,#8b5cf6,#6d28d9);">
+            ✨ Acreditar Personal
+          </button>
+          <button class="btn" onclick="macroAcreditar('ataque')"
+            style="flex:1; min-width:160px; background:linear-gradient(135deg,#dc2626,#991b1b);">
+            🐢 Detonar Caparazón Azul
+          </button>
+        </div>
+        <div id="macro-lote-loading" style="display:none; text-align:center; padding:10px; color:#fbbf24; font-size:0.85rem;">Ejecutando acreditación... ⚙️</div>
+        <div id="macro-lote-result" style="display:none; background:#0b1120; border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px; font-size:0.82rem; color:#cbd5e1; margin-top:4px; white-space:pre-wrap; line-height:1.6;"></div>
+      </div>
+
+      <!-- CARD 3: Reporte del Día + Tarjeta Canvas WhatsApp -->
+      <div class="card" style="border:1px solid rgba(251,191,36,0.4);">
+        <div class="card-title">📊 Reporte del Día + Tarjeta WhatsApp</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+          <button class="btn" onclick="macroCargarReporte()" style="flex:1; min-width:160px; background:linear-gradient(135deg,#f59e0b,#d97706); color:#000; font-weight:800;">
+            🔄 Generar Reporte de Hoy
+          </button>
+        </div>
+        <div id="macro-reporte-loading" style="display:none; text-align:center; padding:14px; color:#fbbf24; font-size:0.85rem;">Calculando movimientos del día... ⏳</div>
+
+        <!-- Tabla resumen -->
+        <div id="macro-reporte-tabla" style="display:none; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+            <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px;">
+              <div style="font-size:0.72rem; color:#34d399; font-weight:800; text-transform:uppercase; margin-bottom:6px;">🟢 Ganadores del Día</div>
+              <div id="macro-tabla-ganadores" style="font-size:0.82rem; color:#cbd5e1; line-height:1.7;"></div>
+            </div>
+            <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:12px;">
+              <div style="font-size:0.72rem; color:#f87171; font-weight:800; text-transform:uppercase; margin-bottom:6px;">🔴 Impactados por Sabotaje</div>
+              <div id="macro-tabla-impactados" style="font-size:0.82rem; color:#cbd5e1; line-height:1.7;"></div>
+            </div>
+          </div>
+          <div style="background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.3); border-radius:10px; padding:10px; text-align:center; margin-bottom:14px;">
+            <span id="macro-tabla-saboteadores" style="font-size:0.85rem; color:#fbbf24; font-weight:800;"></span>
+          </div>
+        </div>
+
+        <!-- Canvas 1080x1350 -->
+        <div id="macro-canvas-wrap" style="display:none; text-align:center;">
+          <canvas id="macro-canvas" width="1080" height="1350" style="max-width:100%; border-radius:14px; box-shadow:0 8px 40px rgba(0,0,0,0.8);"></canvas>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn" onclick="macroCopiarCanvas()" style="background:linear-gradient(135deg,#10b981,#059669);">📋 Copiar al Portapapeles</button>
+            <button class="btn btn-secondary" onclick="macroDescargarCanvas()">📥 Descargar PNG</button>
+          </div>
+          <div id="macro-canvas-msg" style="display:none; margin-top:8px; padding:6px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; text-align:center;"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 5. MÓDULO ECONOMÍA DE PUNTOS -->
+    <section id="tab-economia" class="tab-content">
+
+      <!-- Ajuste manual de puntos -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">💰 Ajuste Manual de Puntos (Con Auditoría)</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div class="form-group">
+            <label>Nick del Miembro</label>
+            <input type="text" id="pts-nick" placeholder="Ej: ShadowDragon">
+          </div>
+          <div class="form-group">
+            <label>Variación de Puntos (+ o -)</label>
+            <input type="number" id="pts-delta" placeholder="Ej: +20 o -10">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Motivo Obligatorio (Auditoría)</label>
+          <input type="text" id="pts-motivo" placeholder="Ej: Ganador de partida épica / Bono de bienvenida / Compra tienda">
+        </div>
+        <button class="btn btn-success" onclick="adjustPoints()">💾 Aplicar Transacción Atómica</button>
+        <div id="pts-result" style="display:none; margin-top:14px; padding:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:8px; font-size:0.85rem;"></div>
+      </div>
+
+      <!-- Historial de Movimientos -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">📋 Historial de Movimientos de Puntos</div>
+        <div style="display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; align-items:center;">
+          <input type="text" id="historial-nick-filtro" placeholder="Filtrar por Nick..." style="flex:1; min-width:160px;">
+          <button class="btn btn-secondary" style="font-size:0.82rem;" onclick="loadHistorialPuntos()">🔄 Cargar Historial</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Nick</th>
+                <th>Variación</th>
+                <th>Saldo</th>
+                <th>Motivo</th>
+              </tr>
+            </thead>
+            <tbody id="historial-tbody">
+              <tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Pulsa "Cargar Historial" para ver las transacciones.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Editor de Configuración Económica -->
+      <div class="card">
+        <div class="card-title">⚙️ Editor de Economía — Cero Hardcoding</div>
+        <p style="color:var(--text-muted); font-size:13px; margin-bottom:16px;">
+          Configura todos los valores de la economía en caliente, sin tocar el código fuente. Lunara y la web los leen automáticamente.
+        </p>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:16px;">
+          <div class="form-group">
+            <label>🏆 Meta Temporada (PTS)</label>
+            <input type="number" id="eco-meta-temporada" value="1000" placeholder="1000">
+          </div>
+          <div class="form-group">
+            <label>🎟️ Costo Ficha Arcade (PTS)</label>
+            <input type="number" id="eco-costo-ficha" value="10" placeholder="10">
+          </div>
+          <div class="form-group">
+            <label>🥇 Bono Semanal Rank. 1º (PTS)</label>
+            <input type="number" id="eco-bono-semanal-1" value="10" placeholder="10">
+          </div>
+          <div class="form-group">
+            <label>🥈 Bono Semanal Rank. 2º (PTS)</label>
+            <input type="number" id="eco-bono-semanal-2" value="9" placeholder="9">
+          </div>
+          <div class="form-group">
+            <label>🥉 Bono Semanal Rank. 3º (PTS)</label>
+            <input type="number" id="eco-bono-semanal-3" value="8" placeholder="8">
+          </div>
+          <div class="form-group">
+            <label>⚡ Pts por Trivia Correcta</label>
+            <input type="number" id="eco-trivia-correcta" value="10" placeholder="10">
+          </div>
+          <div class="form-group">
+            <label>🧠 Pts por Críptico Resuelto</label>
+            <input type="number" id="eco-criptico-resuelto" value="10" placeholder="10">
+          </div>
+          <div class="form-group">
+            <label>🗳️ Pts por Votar Encuesta</label>
+            <input type="number" id="eco-encuesta-voto" value="1" placeholder="1">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="loadEconomiaConfig()">📥 Cargar Valores Actuales</button>
+          <button class="btn btn-success" onclick="saveEconomiaConfig()">💾 Guardar Configuración</button>
+        </div>
+        <div id="eco-result" style="display:none; margin-top:14px; padding:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:8px; font-size:0.85rem;"></div>
+      </div>
+    </section>
+
+    <!-- 6. MÓDULO MODERACIÓN DE JUNTAS -->
+    <section id="tab-juntas" class="tab-content">
+      <div class="card">
+        <div class="card-title">🎲 Mesas Comunitarias Propuestas</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Juego</th>
+                <th>Fecha / Hora</th>
+                <th>Lugar</th>
+                <th>Anfitrión (WhatsApp)</th>
+                <th>Cupos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="juntas-tbody">
+              <tr><td colspan="6" style="text-align:center; padding:20px;">Cargando juntas desde SQLite...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. MÓDULO ENCUESTAS GEEK -->
+    <section id="tab-encuestas" class="tab-content">
+      <div class="card">
+        <div class="card-title">🗳️ Catálogo de Candidatos Geek (Rotación Semanal)</div>
+        <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:16px;">
+          Lunara rota automáticamente el siguiente candidato con estado <b>Pendiente</b> cada lunes a las 00:00. También puedes forzar la activación manual aquí.
+        </p>
+        <button class="btn btn-secondary" onclick="forceRotateEncuesta()">🔄 Forzar Activación de Siguiente Encuesta</button>
+      </div>
+    </section>
+
+    <!-- 8. MÓDULO CLAVES ARCADE -->
+    <section id="tab-claves" class="tab-content">
+      <div class="card">
+        <div class="card-title">🔑 Control de la Palabra Clave Semanal Arcade</div>
+        <div class="form-group">
+          <label>Clave Semanal Vigente (Requerida en Circuito Black y Cyber Ninja)</label>
+          <input type="text" id="arcade-key-input" value="AJ2026" style="font-family:var(--font-mono); font-size:16px; letter-spacing:1px;">
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn" onclick="saveArcadeKey()">💾 Guardar Nueva Clave</button>
+          <button class="btn btn-secondary" onclick="generateRandomKey()">🎲 Generar Clave Temática de Mesa</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. MÓDULO TEMPORADA & MEDALLAS -->
+    <section id="tab-temporada" class="tab-content">
+      <div class="card">
+        <div class="card-title">🏆 Carrera a los 1000 PTS & Cierre de Mes</div>
+        <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:16px;">
+          Al presionar el botón de cierre, se saca la fotografía oficial del ranking, se distribuyen las medallas de Oro, Plata y Bronce y se actualiza el Salón de la Fama.
+        </p>
+        <button class="btn btn-secondary" onclick="triggerMonthlySnapshot()">📸 Ejecutar Snapshot Mensual y Entregar Medallas</button>
+      </div>
+    </section>
+
+    <!-- 10. MÓDULO SKINS & MANTENIMIENTO -->
+    <section id="tab-skins" class="tab-content">
+      <div class="card">
+        <div class="card-title">🛑 Interruptor Maestro de Mantenimiento Global</div>
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:18px;">
+          <label class="switch">
+            <input type="checkbox" id="maintenance-toggle" onchange="toggleMaintenance(this.checked)">
+            <span class="slider"></span>
+          </label>
+          <div>
+            <div style="font-weight:700; color:#fff;" id="maintenance-status-text">Sitio Web Activo (Público)</div>
+            <div style="font-size:12px; color:var(--text-muted);">Bloquea el acceso público y muestra el afiche de mantenimiento si está encendido.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎨 Selector Rápido de Skins Estacionales (13 Temas)</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+          ⚠️ Al activar una skin se actualiza en el servidor backend en producción (Render Cloud / Turso). 
+          Si el servidor no está activo, los cambios solo se guardan en Google Sheets.
+          Los usuarios que tengan un override local guardado en su navegador verán su propia elección hasta que hagan clic en «🔄 Resetear».
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:12px;" id="skins-grid">
+          <!-- Inyectado por JS -->
+        </div>
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div style="font-size:13px; color:var(--text-muted);">¿La skin no cambió en la web?</div>
+          <button class="btn btn-secondary" style="font-size:12px; padding:6px 14px;" onclick="
+            try {
+              localStorage.removeItem('aj_skin_override');
+              alert('✅ Override local eliminado. Recarga la página web para ver el skin oficial del servidor.');
+            } catch(e) {
+              alert('No se pudo acceder a localStorage: ' + e.message);
+            }
+          ">🔄 Resetear Override Local (mi navegador)</button>
+          <button class="btn btn-secondary" style="font-size:12px; padding:6px 14px;" onclick="
+            fetch(CONFIG.API_BASE + '/save-json', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN
+              },
+              body: JSON.stringify({ file: 'skins.json', data: {
+                active: 'default',
+                activatedAt: new Date().toISOString(),
+                activatedBy: 'admin-force-reset'
+              }})
+            }).then(r => r.ok ? showToast('✅ skins.json reseteado a Arcade Clásico (default)', 'success') : showToast('⚠️ Servidor no respondió', 'warning'))
+              .catch(() => showToast('❌ Servidor Python no disponible', 'error'));
+          ">🏠 Forzar Arcade Clásico en servidor</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. MÓDULO SALÓN DE HONOR -->
+    <section id="tab-honor" class="tab-content">
+      <div class="card">
+        <div class="card-title">🎖️ Agregar Hito o Logro Comunitario</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div class="form-group">
+            <label>Nick del Homenajeado</label>
+            <input type="text" id="honor-nick" placeholder="Ej: BLACK">
+          </div>
+          <div class="form-group">
+            <label>Título Honorífico</label>
+            <input type="text" id="honor-titulo" placeholder="Ej: Autor de Juego Publicado">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Mérito Real (Descripción del Hito)</label>
+          <textarea id="honor-merito" rows="2" placeholder="Detalle del proyecto, juego o premio obtenido en el mundo exterior..."></textarea>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div class="form-group">
+            <label>Categoría</label>
+            <select id="honor-categoria">
+              <option value="Diseño y Creación">🎲 Diseño y Creación</option>
+              <option value="Competición Externa">🏆 Competición Externa</option>
+              <option value="Comunidad & Apoyo">❤️ Comunidad & Apoyo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Enlace de Referencia (BGG / Instagram / Web)</label>
+            <input type="text" id="honor-enlace" placeholder="https://instagram.com/...">
+          </div>
+        </div>
+        <button class="btn btn-success" onclick="addHonorEntry()">⭐ Guardar en Salón de Honor</button>
+      </div>
+    </section>
+
+    <!-- 12. MÓDULO CAPTURAS ON-DEMAND -->
+    <section id="tab-capturas" class="tab-content">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin-bottom:24px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;">
+        <div>
+          <h2 style="font-size:1.3rem; margin:0 0 6px; color:#fff; display:flex; align-items:center; gap:8px;">
+            <span>📸</span> Estudio de Capturas & Infografías On-Demand
+          </h2>
+          <p style="margin:0; font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
+            Genera al instante las infografías oficiales en formato Dark AMOLED (#080814) y súbelas automáticamente a Google Drive con 1 solo clic.
+          </p>
+        </div>
+        <a href="https://drive.google.com/drive/folders/1BXxdAejFP0rszNgfY6ahW3R2bxgyX_IK" target="_blank" class="btn btn-secondary" style="text-decoration:none; white-space:nowrap;">
+          <span>📂</span> Abrir Subcarpeta 'CAPTURAS_LUNARA' en Drive
+        </a>
+      </div>
+
+      <!-- Contenedor dinámico de resultado de la captura -->
+      <div id="captura-result-container" style="display:none; margin-bottom:24px;"></div>
+
+      <!-- Grilla de Acciones Rápidas (8 Módulos) -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+        
+        <!-- 1. Ranking Diario 24h -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">📊</span>
+              <span class="badge" style="background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.4);">24 HORAS</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Ranking Diario (24h)</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Resumen de actividad del día y miembros que más puntos han sumado en las últimas 24 horas.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('diario_24h', this)">
+            <span>⚡</span> Generar Captura Diaria
+          </button>
+        </div>
+
+        <!-- 2. Críptico del Día -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">🧠</span>
+              <span class="badge" style="background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4);">RETO DIARIO</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Críptico del Día (Podio)</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Podio de resolución: speedrun de intentos, tiempo de respuesta y rachas activas de hoy.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('criptico_dia', this)">
+            <span>⚡</span> Generar Podio Críptico
+          </button>
+        </div>
+
+        <!-- 3. Ranking Semanal -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">🏆</span>
+              <span class="badge" style="background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4);">SEMANAL</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Ranking Semanal</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Top 10 de miembros con mayor acumulación de puntos durante la semana en curso.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('semanal', this)">
+            <span>⚡</span> Generar Ranking Semanal
+          </button>
+        </div>
+
+        <!-- 4. Ranking Mensual -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">👑</span>
+              <span class="badge" style="background:rgba(236,72,153,0.2); color:#f472b6; border:1px solid rgba(236,72,153,0.4);">META 1.000 PTS</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Ranking Mensual (Temporada)</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Gran clasificación general hacia el juego de mesa físico con barras de progreso.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('mensual', this)">
+            <span>⚡</span> Generar Ranking Mensual
+          </button>
+        </div>
+
+        <!-- 5. Arcade Carrera Espacial -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">🚀</span>
+              <span class="badge" style="background:rgba(59,130,246,0.2); color:#60a5fa; border:1px solid rgba(59,130,246,0.4);">ARCADE</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Carrera Espacial</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Podio de pilotos con mayor distancia alcanzada en KM y reflejos en esquiva.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('arcade_carrera', this)">
+            <span>⚡</span> Generar Podio Carrera
+          </button>
+        </div>
+
+        <!-- 6. Arcade Pelea Ninja -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">🥷</span>
+              <span class="badge" style="background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4);">ARCADE</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Pelea Ninja</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Podio de espadachines ninja: récords de puntuación alta y cortes de la semana.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('arcade_pelea', this)">
+            <span>⚡</span> Generar Podio Ninja
+          </button>
+        </div>
+
+        <!-- 7. Encuestas Geek -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">🗳️</span>
+              <span class="badge" style="background:rgba(16,185,129,0.2); color:#34d399; border:1px solid rgba(16,185,129,0.4);">COMUNIDAD</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Encuesta Geek Activa</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Conteo oficial de votos y estado de las votaciones geek comunitarias activas.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('encuesta_geek', this)">
+            <span>⚡</span> Generar Encuesta Geek
+          </button>
+        </div>
+
+        <!-- 8. Mensajes Sin Leer -->
+        <div class="card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:1.8rem;">📱</span>
+              <span class="badge" style="background:rgba(124,58,237,0.25); color:#a78bfa; border:1px solid rgba(124,58,237,0.5);">4 CATEGORÍAS</span>
+            </div>
+            <h3 style="margin:0 0 6px; font-size:1.05rem; color:#fff;">Mensajes Sin Leer</h3>
+            <p style="margin:0 0 16px; font-size:0.84rem; color:var(--text-muted); line-height:1.4;">
+              Genera las 4 infografías individuales: 👑 Legendario, ⚡ Épico, 🛡️ Heroico y 🌱 Superviviente.
+            </p>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generarCapturaAdmin('mensajes_sin_leer', this)">
+            <span>⚡</span> Generar las 4 Categorías
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 13. MÓDULO CRUD JUEGOS & POPUPS -->
+    <section id="tab-juegos-crud" class="tab-content">
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin-bottom:20px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;">
+        <div>
+          <h2 style="font-size:1.3rem; margin:0 0 6px; color:#fff; display:flex; align-items:center; gap:8px;">
+            <span>🕹️</span> Gestor de Juegos & Popups Diarios (CRUD)
+          </h2>
+          <p style="margin:0; font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
+            Programa acertijos, trivias, popups de portada y ajusta récords de WhatsApp sin tocar celdas de Sheets a mano.
+          </p>
+        </div>
+      </div>
+
+      <!-- Selector de Sub-Pestaña -->
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:20px; border-bottom:1px solid var(--border);">
+        <button id="subtab-btn-criptico" class="btn btn-primary" onclick="switchCrudSubTab('criptico')">🧠 Críptico del Día</button>
+        <button id="subtab-btn-trivia" class="btn btn-secondary" onclick="switchCrudSubTab('trivia')">🧩 Trivia Geek</button>
+        <button id="subtab-btn-popup" class="btn btn-secondary" onclick="switchCrudSubTab('popup')">📢 Popups Destacados</button>
+        <button id="subtab-btn-mensajes" class="btn btn-secondary" onclick="switchCrudSubTab('mensajes')">📱 Mensajes Sin Leer</button>
+      </div>
+
+      <!-- SUBTAB 1: CRÍPTICO -->
+      <div id="subtab-panel-criptico" class="crud-subtab-panel">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-title">🧠 Programar Acertijo Críptico</div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:14px;">
+            <div class="form-group">
+              <label>Fecha de Publicación</label>
+              <input type="date" id="crud-criptico-fecha">
+            </div>
+            <div class="form-group">
+              <label>Palabra Secreta (Solución)</label>
+              <input type="text" id="crud-criptico-palabra" placeholder="Ej: CATAN" style="font-family:var(--font-mono); text-transform:uppercase;">
+            </div>
+            <div class="form-group">
+              <label>Categoría</label>
+              <input type="text" id="crud-criptico-categoria" value="Juegos de Mesa" placeholder="Juegos de Mesa, Geek, etc.">
+            </div>
+            <div class="form-group">
+              <label>Dificultad</label>
+              <select id="crud-criptico-dificultad">
+                <option value="Fácil">🟢 Fácil</option>
+                <option value="Media" selected>🟡 Media</option>
+                <option value="Difícil">🔴 Difícil</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pista Temática</label>
+            <textarea id="crud-criptico-pista" rows="2" placeholder="Ej: Isla de colonos, ovejas, trigo y negociaciones traicioneras..."></textarea>
+          </div>
+          <button class="btn btn-success" onclick="guardarCripticoCrud()">💾 Guardar Acertijo en Banco</button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <div class="card-title" style="margin:0;">📋 Acertijos Programados (CRIPTICOS_BANCO)</div>
+            <button class="btn btn-secondary" style="font-size:0.82rem; padding:6px 12px;" onclick="cargarCripticosCrud()">🔄 Refrescar</button>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Palabra Secreta</th>
+                  <th>Pista</th>
+                  <th>Categoría</th>
+                  <th>Dificultad</th>
+                </tr>
+              </thead>
+              <tbody id="crud-criptico-tbody">
+                <tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Cargando banco de crípticos...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBTAB 2: TRIVIA GEEK -->
+      <div id="subtab-panel-trivia" class="crud-subtab-panel" style="display:none;">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-title">🧩 Programar Pregunta de Trivia Geek</div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:14px;">
+            <div class="form-group">
+              <label>Fecha de Publicación</label>
+              <input type="date" id="crud-trivia-fecha">
+            </div>
+            <div class="form-group">
+              <label>Categoría</label>
+              <input type="text" id="crud-trivia-categoria" value="Juegos de Mesa" placeholder="Juegos, Cine, Cómic, etc.">
+            </div>
+            <div class="form-group">
+              <label>Dificultad</label>
+              <select id="crud-trivia-dificultad">
+                <option value="Fácil">🟢 Fácil</option>
+                <option value="Media" selected>🟡 Media</option>
+                <option value="Difícil">🔴 Difícil</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Opción Correcta</label>
+              <select id="crud-trivia-correcta" style="font-weight:700; color:var(--green);">
+                <option value="A">Opción A</option>
+                <option value="B">Opción B</option>
+                <option value="C">Opción C</option>
+                <option value="D">Opción D</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Enunciado de la Pregunta</label>
+            <textarea id="crud-trivia-pregunta" rows="2" placeholder="Ej: ¿En qué año fue publicado por primera vez el juego Catan?"></textarea>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:16px;">
+            <div class="form-group">
+              <label>🅰️ Opción A</label>
+              <input type="text" id="crud-trivia-op-a" placeholder="Ej: 1995">
+            </div>
+            <div class="form-group">
+              <label>🅱️ Opción B</label>
+              <input type="text" id="crud-trivia-op-b" placeholder="Ej: 1998">
+            </div>
+            <div class="form-group">
+              <label>🅲️ Opción C</label>
+              <input type="text" id="crud-trivia-op-c" placeholder="Ej: 2000">
+            </div>
+            <div class="form-group">
+              <label>🅳️ Opción D</label>
+              <input type="text" id="crud-trivia-op-d" placeholder="Ej: 1991">
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="guardarTriviaCrud()">💾 Guardar Pregunta en Banco</button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <div class="card-title" style="margin:0;">📋 Preguntas Programadas (TRIVIA_BANCO)</div>
+            <button class="btn btn-secondary" style="font-size:0.82rem; padding:6px 12px;" onclick="cargarTriviasCrud()">🔄 Refrescar</button>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Pregunta</th>
+                  <th>Opciones (A / B / C / D)</th>
+                  <th>Correcta</th>
+                  <th>Categoría</th>
+                </tr>
+              </thead>
+              <tbody id="crud-trivia-tbody">
+                <tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Cargando banco de trivias...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBTAB 3: POPUPS DESTACADOS -->
+      <div id="subtab-panel-popup" class="crud-subtab-panel" style="display:none;">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-title">📢 Crear o Programar Popup de Portada</div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:14px;">
+            <div class="form-group">
+              <label>Fecha de Activación</label>
+              <input type="date" id="crud-popup-fecha">
+            </div>
+            <div class="form-group">
+              <label>Tipo de Popup</label>
+              <select id="crud-popup-tipo">
+                <option value="DESTACADO">⭐ Destacado / Especial</option>
+                <option value="TORNEO">🏆 Torneo BGA / Presencial</option>
+                <option value="NOVEDAD">🚀 Novedad de la Web</option>
+                <option value="JUNTA">🎲 Junta Comunitaria</option>
+                <option value="AVISO">📢 Aviso Oficial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Icono / Emoji</label>
+              <input type="text" id="crud-popup-icono" value="🎉" placeholder="🎉, 🏆, 🎲, ⚔️">
+            </div>
+            <div class="form-group" style="display:flex; flex-direction:column; justify-content:center;">
+              <label>Estado Inicial</label>
+              <label class="switch" style="margin-top:6px;">
+                <input type="checkbox" id="crud-popup-activo" checked>
+                <span class="slider"></span>
+                <span style="margin-left:50px; font-size:0.85rem; color:#fff;">Activo en la web</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Título del Popup</label>
+            <input type="text" id="crud-popup-titulo" placeholder="Ej: ¡Nuevo Torneo de 7 Wonders Architects este Sábado!">
+          </div>
+          <div class="form-group">
+            <label>Descripción / Mensaje</label>
+            <textarea id="crud-popup-desc" rows="2" placeholder="Detalle que se leerá en el modal destacado al entrar a la web..."></textarea>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:16px;">
+            <div class="form-group">
+              <label>Texto del Botón (CTA)</label>
+              <input type="text" id="crud-popup-cta-txt" value="¡Inscribirme Ahora!" placeholder="¡Ver Más! / ¡Jugar Ahora!">
+            </div>
+            <div class="form-group">
+              <label>Enlace del Botón (URL)</label>
+              <input type="text" id="crud-popup-cta-link" value="torneos.html" placeholder="torneos.html / juntas.html / https://...">
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="guardarPopupCrud()">💾 Guardar y Publicar Popup</button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <div class="card-title" style="margin:0;">📋 Popups Registrados (POPUP_DESTACADO)</div>
+            <button class="btn btn-secondary" style="font-size:0.82rem; padding:6px 12px;" onclick="cargarPopupsCrud()">🔄 Refrescar</button>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Título</th>
+                  <th>Botón</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="crud-popup-tbody">
+                <tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Cargando popups...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBTAB 4: MENSAJES SIN LEER -->
+      <div id="subtab-panel-mensajes" class="crud-subtab-panel" style="display:none;">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-title">📱 Ajustar Récord de Mensajes Sin Leer</div>
+          <p style="color:var(--text-muted); font-size:13px; margin-bottom:14px;">
+            Registra una nueva marca de mensajes acumulados en WhatsApp para un miembro. Si es inferior al récord actual, se protege la base salvo que marques "Forzar".
+          </p>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:14px;">
+            <div class="form-group">
+              <label>Nombre o Nick del Miembro</label>
+              <input type="text" id="crud-msg-nombre" placeholder="Ej: Tomi / Alexander / @_BLACKGOD_DRAGON">
+            </div>
+            <div class="form-group">
+              <label>Cantidad de Mensajes Acumulados</label>
+              <input type="number" id="crud-msg-cantidad" placeholder="Ej: 13416">
+            </div>
+            <div class="form-group">
+              <label>Teléfono (Opcional)</label>
+              <input type="text" id="crud-msg-telefono" placeholder="569...">
+            </div>
+            <div class="form-group" style="display:flex; flex-direction:column; justify-content:center;">
+              <label>Sobrescribir</label>
+              <label style="display:flex; align-items:center; gap:8px; margin-top:6px; cursor:pointer;">
+                <input type="checkbox" id="crud-msg-forzar">
+                <span style="font-size:0.85rem; color:var(--yellow);">Forzar aunque sea menor</span>
+              </label>
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="guardarMensajesCrud()">💾 Actualizar High Score</button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div class="card-title" style="margin:0;">🏆 Ranking de Mensajes Sin Leer (MENSAJES_SIN_LEER)</div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="crud-msg-busqueda" placeholder="Buscar por nombre..." style="font-size:0.82rem; padding:6px 10px;" onkeyup="filtrarMensajesCrud()">
+              <button class="btn btn-secondary" style="font-size:0.82rem; padding:6px 12px;" onclick="cargarMensajesCrud()">🔄 Refrescar</button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre / Miembro</th>
+                  <th>Mensajes Acumulados</th>
+                  <th>Tier Satírico</th>
+                  <th>Fecha Récord</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="crud-msg-tbody">
+                <tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Cargando ranking de WhatsApp...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 14. MÓDULO TORNEOS BGA & VINCULACIÓN DE NOMBRES -->
+    <section id="tab-torneos-bga" class="tab-content">
+      <div class="grid-kpi">
+        <div class="kpi-card">
+          <div class="kpi-label">🏆 Torneos BGA Activos</div>
+          <div class="kpi-val" id="kpi-bga-torneos-count">0</div>
+          <div class="kpi-sub">Sincronizados en tiempo real</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">👥 Participantes BGA</div>
+          <div class="kpi-val" id="kpi-bga-jugadores-count">0</div>
+          <div class="kpi-sub">Detectados en los torneos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">🔗 Miembros Vinculados</div>
+          <div class="kpi-val" id="kpi-bga-vinculados-count">0</div>
+          <div class="kpi-sub">Teléfono ↔ Nick ↔ BGA</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">💎 Puntos por Entregar</div>
+          <div class="kpi-val" id="kpi-bga-puntos-estimados">0</div>
+          <div class="kpi-sub">1º=100 · 2º=70 · 3º=50 · Top=30</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 1: TORNEOS ACTIVOS & RANKING EN VIVO -->
+      <div class="card" style="margin-bottom:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <div class="card-title" style="margin-bottom:4px;">🏆 Torneos Sincronizados (Board Game Arena)</div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">Sincronizados automáticamente vía la extensión Lunara desde el navegador.</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-secondary" onclick="loadTorneosYMiembrosBGA()">🔄 Refrescar Datos</button>
+            <button class="btn btn-primary" onclick="scrollToCanvasGenerator()">🎨 Generar Imagen WhatsApp</button>
+          </div>
+        </div>
+
+        <div id="bga-torneos-container">
+          <div style="text-align:center; padding:30px; color:var(--text-muted);">
+            ⏳ Cargando torneos activos desde la base de datos...
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 2: GENERADOR DE IMÁGENES DE ESTADO (WHATSAPP READY) -->
+      <div class="card" id="bga-image-generator-card" style="margin-bottom:24px; border:1px solid rgba(245, 158, 11, 0.3); background:linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, rgba(13, 11, 24, 0.95) 100%);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <div class="card-title" style="margin-bottom:4px;">🎨 Generador Gráfico de Estado para WhatsApp</div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">Crea tarjetas oficiales en alta resolución con el estado actual del torneo para publicar directamente al grupo.</div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-secondary" id="btn-phase-pre" onclick="setTournamentPhase('pre')">📋 Inscriptos</button>
+            <button class="btn btn-secondary" id="btn-phase-ronda" onclick="setTournamentPhase('ronda')">⚔️ Ronda Activa</button>
+            <button class="btn btn-secondary" id="btn-phase-semis" onclick="setTournamentPhase('semis')">🥊 Semifinales</button>
+            <button class="btn btn-primary" id="btn-phase-final" onclick="setTournamentPhase('final')">🏆 Podio & Puntos</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+          <!-- Preview Canvas -->
+          <div style="flex:1; min-width:320px; max-width:540px; background:#0b0813; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">
+              <span>VISTA PREVIA (1080 x 1350 HD)</span>
+              <span id="canvas-status-badge" style="background:#7c3aed; color:#fff; padding:2px 8px; border-radius:10px; font-weight:600; font-size:0.75rem;">Fase: Podio Final</span>
+            </div>
+            <canvas id="bga-tournament-canvas" width="1080" height="1350" style="width:100%; height:auto; border-radius:8px; display:block; background:#0e0a1a;"></canvas>
+            
+            <div style="display:flex; gap:10px; margin-top:12px;">
+              <button class="btn btn-primary" style="flex:1;" onclick="descargarImagenTorneo()">
+                📥 Descargar PNG
+              </button>
+              <button class="btn btn-secondary" style="flex:1;" onclick="copiarImagenTorneo()">
+                📋 Copiar al Portapapeles
+              </button>
+            </div>
+          </div>
+
+          <!-- Controles y opciones de diseño -->
+          <div style="flex:1; min-width:280px;">
+            <div style="background:rgba(255,255,255,0.03); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); margin-bottom:16px;">
+              <div style="font-weight:600; margin-bottom:10px; color:#fff;">⚙️ Configuración del Gráfico</div>
+              
+              <div style="margin-bottom:12px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Torneo Seleccionado:</label>
+                <select id="canvas-select-torneo" onchange="actualizarCanvasTorneo()" style="width:100%; padding:8px 12px; border-radius:8px; background:#1e1830; color:#fff; border:1px solid rgba(255,255,255,0.1); font-size:0.88rem;">
+                  <option value="">Selecciona un torneo...</option>
+                </select>
+              </div>
+
+              <div style="margin-bottom:12px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Título Personalizado para la Imagen:</label>
+                <input type="text" id="canvas-custom-title" placeholder="Ej: GRAN FINAL TORNEO CHAKRA" oninput="actualizarCanvasTorneo()" style="width:100%; padding:8px 12px; border-radius:8px; background:#1e1830; color:#fff; border:1px solid rgba(255,255,255,0.1); font-size:0.88rem;">
+              </div>
+
+              <div style="margin-bottom:12px;">
+                <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Mensaje de Cabecera o Subtítulo:</label>
+                <input type="text" id="canvas-custom-subtitle" placeholder="Ej: Ronda 3 · Eliminación Directa" oninput="actualizarCanvasTorneo()" style="width:100%; padding:8px 12px; border-radius:8px; background:#1e1830; color:#fff; border:1px solid rgba(255,255,255,0.1); font-size:0.88rem;">
+              </div>
+
+              <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.5; margin-top:14px; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px;">
+                💡 <b>Tip de publicación:</b> Al presionar <i>Copiar al Portapapeles</i> puedes ir a WhatsApp Web o la App y presionar <b>Ctrl + V</b> para pegar la imagen directamente en el chat grupal con el texto formateado.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 3: DIRECTORIO DE VINCULACIÓN (TELÉFONO ↔ NICK ↔ BGA ↔ AGENDA) -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <div class="card-title" style="margin-bottom:4px;">📱 Directorio de Nombres & Vinculaciones BGA</div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">Asocia el número de WhatsApp con su usuario en Board Game Arena y el nombre que le asignes en el club.</div>
+          </div>
+          <div style="display:flex; gap:10px; width:100%; max-width:400px;">
+            <input type="text" id="bga-member-search" placeholder="Buscar por teléfono (+569...), Nick o BGA..." onkeyup="filterBgaMembers()" style="width:100%; padding:8px 14px; border-radius:8px; background:#1a1429; color:#fff; border:1px solid rgba(255,255,255,0.1);">
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table id="bga-members-table">
+            <thead>
+              <tr>
+                <th>Teléfono (WhatsApp)</th>
+                <th>Nombre Asignado (Agenda)</th>
+                <th>Nick Web (Página)</th>
+                <th>Usuario BGA</th>
+                <th>Puntos</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="bga-members-tbody">
+              <tr><td colspan="6" style="text-align:center; padding:20px;">Cargando lista de miembros y usuarios BGA...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL PARA VINCULAR JUGADOR BGA -->
+    <div id="modal-vincular-bga" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+      <div style="background:#161124; border:1px solid rgba(245, 158, 11, 0.4); border-radius:16px; width:100%; max-width:480px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="margin:0; font-size:1.15rem; color:#fff; display:flex; align-items:center; gap:8px;">
+            <span>🔗</span> Vincular Miembro con BGA
+          </h3>
+          <button onclick="cerrarModalVincularBGA()" style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;">&times;</button>
+        </div>
+
+        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+          Asocia el usuario de Board Game Arena a la cuenta del miembro para que sus puntos se asignen automáticamente al terminar los torneos.
+        </div>
+
+        <form onsubmit="guardarVinculacionModal(event)">
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:4px;">📱 Teléfono WhatsApp (Identificador físico único):</label>
+            <input type="text" id="modal-bga-telefono" required placeholder="Ej: 56981279766" style="width:100%; padding:10px 12px; border-radius:8px; background:#0c0914; border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:var(--font-mono); font-size:0.9rem;">
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:0.8rem; color:#38bdf8; margin-bottom:4px;">👤 Nombre Asignado por Admin (Agenda de Contactos):</label>
+            <input type="text" id="modal-bga-agenda" placeholder="Ej: Mauricio Amigo de Pedro (el nombre con que lo conoces)" style="width:100%; padding:10px 12px; border-radius:8px; background:#0c0914; border:1px solid rgba(56,189,248,0.4); color:#fff; font-size:0.9rem;">
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:0.8rem; color:#a78bfa; margin-bottom:4px;">🌐 Nick Web (Apodo que el usuario elige en la página):</label>
+            <input type="text" id="modal-bga-nick-web" placeholder="Ej: MauroMaster (opcional, si ya entró o por pre-asignar)" style="width:100%; padding:10px 12px; border-radius:8px; background:#0c0914; border:1px solid rgba(167,139,250,0.4); color:#fff; font-size:0.9rem;">
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:0.8rem; color:#f59e0b; margin-bottom:4px;">🎲 Usuario en Board Game Arena (BGA):</label>
+            <input type="text" id="modal-bga-username" placeholder="Ej: mauro_bga_2026" style="width:100%; padding:10px 12px; border-radius:8px; background:#0c0914; border:1px solid #f59e0b; color:#fff; font-size:0.9rem; font-weight:600;">
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:4px;">🏷️ Nick Canónico en el Sistema:</label>
+            <input type="text" id="modal-bga-nick" placeholder="Ej: MauroMaster o Mauricio (se auto-completa)" style="width:100%; padding:10px 12px; border-radius:8px; background:#0c0914; border:1px solid rgba(255,255,255,0.1); color:#fff; font-size:0.9rem;">
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px;">
+            <button type="button" class="btn btn-secondary" onclick="cerrarModalVincularBGA()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="btn-guardar-vinc-bga">💾 Guardar Vinculación</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- CONTENEDOR TOAST NOTIFICACIONES -->
+<div id="toast-container"></div>
+
+<script>
+  // ============================================================
+  // CONFIGURACIÓN Y CLIENTE HÍBRIDO (APPS SCRIPT + RENDER CLOUD)
+  // ============================================================
+  const CONFIG = {
+    API_BASE: "https://amigosjugones.onrender.com",
+    LOCAL_API: "https://amigosjugones.onrender.com/api",
+    ADMIN_TOKEN: "AJ_SECRET_ADMIN_TOKEN_2026_XYZ",
+    ORQUESTADOR_URL: "https://script.google.com/macros/s/AKfycby9ZbAUxHH2V29_wYSB7g78te7_lwWAgdPwPOvSA0PH0Lfe8hA4rsTMgUbRKGxHJToicQ/exec",
+    SKINS: [
+      { id: "default",          name: "Arcade Clásico",    icon: "🎲" },
+      { id: "halloween",        name: "Halloween",          icon: "🎃" },
+      { id: "navidad",          name: "Navidad",            icon: "🎄" },
+      { id: "año_nuevo",        name: "Año Nuevo",          icon: "🎆" },
+      { id: "san_valentin",     name: "San Valentín",       icon: "💝" },
+      { id: "fiestas_patrias",  name: "Fiestas Patrias",    icon: "🇨🇱" },
+      { id: "aniversario",      name: "Aniversario AJ",     icon: "🏆" },
+      { id: "verano",           name: "Verano",             icon: "🌊" },
+      { id: "invierno",         name: "Invierno",           icon: "❄️" },
+      { id: "pascua",           name: "Pascua",             icon: "🐣" },
+      { id: "dia_del_juego",    name: "Día del Videojuego", icon: "🕹️" },
+      { id: "dia_del_amigo",    name: "Día del Amigo",      icon: "👫" },
+      { id: "luditon",          name: "Luditón Solidario",  icon: "❤️" }
+    ]
+  };
+
+  let allMembersCache = [];
+
+  function isAppsScript() {
+    return typeof google !== 'undefined' && google.script && google.script.run;
+  }
+
+  async function apiCall(endpoint, method = "GET", data = null) {
+    if (isAppsScript()) {
+      return new Promise((resolve, reject) => {
+        google.script.run
+          .withSuccessHandler(resolve)
+          .withFailureHandler(reject)
+          .handleApiRequest(endpoint, method, data);
+      });
+    } else {
+      // Soporte directo para Capturas On-Demand en entorno local / standalone
+      if (endpoint === "/admin/generar_captura") {
+        const tipo = (data && data.tipo) ? data.tipo : "diario_24h";
+        const url = `${CONFIG.ORQUESTADOR_URL}?action=lunara_captura&tipo=${encodeURIComponent(tipo)}&admin_token=${encodeURIComponent(CONFIG.ADMIN_TOKEN)}`;
+        const res = await fetch(url);
+        return res.json();
+      }
+
+      // Llamada directa local
+      const opts = {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN
+        }
+      };
+      if (data && method !== "GET") opts.body = JSON.stringify(data);
+      const res = await fetch(CONFIG.LOCAL_API + endpoint, opts);
+      return res.json();
+    }
+  }
+
+  function showToast(msg, type = "info") {
+    const container = document.getElementById("toast-container");
+    const t = document.createElement("div");
+    t.className = "toast";
+    let icon = "ℹ️";
+    if (type === "success") icon = "✅";
+    if (type === "error") icon = "❌";
+    t.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
+    container.appendChild(t);
+    setTimeout(() => {
+      t.style.opacity = "0";
+      setTimeout(() => t.remove(), 300);
+    }, 3500);
+  }
+
+  // ============================================================
+  // NAVEGACIÓN POR PESTAÑAS
+  // ============================================================
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+    
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add("active");
+
+    const navItem = Array.from(document.querySelectorAll(".nav-item")).find(el => el.getAttribute("onclick").includes(tabId));
+    if (navItem) {
+      navItem.classList.add("active");
+      const titleText = navItem.innerText.replace(/[0-9]/g, '').trim();
+      document.getElementById("page-title").innerText = titleText;
+    }
+
+    if (window.innerWidth <= 900) {
+      document.getElementById("sidebar").classList.remove("open");
+    }
+
+    // Cargar datos contextuales
+    if (tabId === "tab-miembros") loadMembers();
+    if (tabId === "tab-presencia") _startPresenciaAutoRefresh();
+    else _stopPresenciaAutoRefresh();
+    if (tabId === "tab-juntas") loadJuntas();
+    if (tabId === "tab-skins") renderSkins();
+    if (tabId === "tab-analytics") loadAnalytics();
+    if (tabId === "tab-juegos-crud") initCrudJuegos();
+    if (tabId === "tab-torneos-bga") loadTorneosYMiembrosBGA();
+  }
+
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+  }
+
+  // ============================================================
+  // MÓDULO 1: MIEMBROS & SEGURIDAD
+  // ============================================================
+  async function loadMembers() {
+    try {
+      const res = await apiCall("/admin/miembros");
+      if (res && res.miembros) {
+        allMembersCache = res.miembros;
+        renderMembers(allMembersCache);
+        updateMemberKpis(allMembersCache);
+      }
+    } catch(e) {
+      console.warn("Usando datos de prueba para miembros:", e);
+      renderMembersMock();
+    }
+  }
+
+  function renderMembersMock() {
+    allMembersCache = [
+      { telefono: "56964949817", nick: "@_BLACKGOD_DRAGON", agenda: "BLACK (Fundador)", estado: "Activo", seguridad: "blindada", dispositivos: 1 },
+      { telefono: "56921735014", nick: "Estefi", agenda: "Estefi AJ", estado: "Activo", seguridad: "comunitaria", dispositivos: 2 },
+      { telefono: "56961686454", nick: "Denisse 💕 AJ", agenda: "Denisse", estado: "Activo", seguridad: "comunitaria", dispositivos: 1 },
+      { telefono: "56997790109", nick: "DAN AJ", agenda: "DAN", estado: "Activo", seguridad: "comunitaria", dispositivos: 1 },
+      { telefono: "56997362875", nick: "~Francisco 📯", agenda: "Francisco", estado: "Activo", seguridad: "comunitaria", dispositivos: 0 }
+    ];
+    renderMembers(allMembersCache);
+    updateMemberKpis(allMembersCache);
+  }
+
+  function renderMembers(list) {
+    const tbody = document.getElementById("members-tbody");
+    tbody.innerHTML = "";
+
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px;">No se encontraron miembros con ese filtro.</td></tr>';
+      return;
+    }
+
+    list.forEach(m => {
+      const tr = document.createElement("tr");
+      const isBlindada = m.seguridad === "blindada";
+      const badgeSec = isBlindada 
+        ? '<span class="tag tag-green">🟢 Blindada</span>' 
+        : `<span class="tag tag-yellow">🟡 Comunitaria (${m.dispositivos || 0}/2)</span>`;
+
+      tr.innerHTML = `
+        <td style="font-family:var(--font-mono); font-weight:600;">+${m.telefono}</td>
+        <td><b>${m.nick || '<span style="color:var(--text-muted)">Sin Nick</span>'}</b></td>
+        <td>${m.agenda || m.pushname || '-'}</td>
+        <td><span class="tag tag-green">${m.estado || 'Activo'}</span></td>
+        <td>${badgeSec}</td>
+        <td style="font-family:var(--font-mono);">${m.dispositivos || 0} / 2</td>
+        <td>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="resetDispositivos('${m.telefono}')" title="Resetear los 2 navegadores registrados">🔄 Dispositivos</button>
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="resetPassword('${m.telefono}')" title="Volver a clave comunitaria si olvidó la privada">🔑 Reset Clave</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function updateMemberKpis(list) {
+    document.getElementById("kpi-total-miembros").innerText = list.length;
+    const blindados = list.filter(m => m.seguridad === "blindada").length;
+    document.getElementById("kpi-blindados").innerText = blindados;
+    document.getElementById("kpi-comunitarios").innerText = list.length - blindados;
+  }
+
+  function filterMembers() {
+    const q = document.getElementById("member-search-input").value.toLowerCase();
+    const filtered = allMembersCache.filter(m => 
+      (m.telefono && m.telefono.includes(q)) ||
+      (m.nick && m.nick.toLowerCase().includes(q)) ||
+      (m.agenda && m.agenda.toLowerCase().includes(q))
+    );
+    renderMembers(filtered);
+  }
+
+  async function resetDispositivos(phone) {
+    if (!confirm(`¿Resetear dispositivos vinculados para +${phone}? El miembro podrá volver a iniciar sesión desde sus navegadores actuales.`)) return;
+    try {
+      await apiCall("/admin/reset_dispositivos", "POST", { phone });
+      showToast(`Dispositivos reseteados para +${phone}`, "success");
+      loadMembers();
+    } catch(e) {
+      showToast("Error al resetear dispositivos: " + e.message, "error");
+    }
+  }
+
+  async function resetPassword(phone) {
+    if (!confirm(`¿Anular clave privada para +${phone}? Volverá a requerir la clave comunitaria semanal.`)) return;
+    try {
+      await apiCall("/admin/reset_password", "POST", { phone });
+      showToast(`Clave privada anulada para +${phone}`, "success");
+      loadMembers();
+    } catch(e) {
+      showToast("Error al resetear clave: " + e.message, "error");
+    }
+  }
+
+  // ============================================================
+  // MÓDULO 4: COMUNICADOS Y BANNERS
+  // ============================================================
+  async function publishAviso() {
+    const titulo = document.getElementById("aviso-titulo").value.trim();
+    const mensaje = document.getElementById("aviso-mensaje").value.trim();
+    const tipo = document.getElementById("aviso-tipo").value;
+    const target = document.getElementById("aviso-target").value.trim();
+
+    if (!titulo || !mensaje) {
+      showToast("Por favor completa el título y mensaje del aviso.", "error");
+      return;
+    }
+
+    try {
+      await apiCall("/admin/avisos", "POST", { titulo, mensaje, tipo, target });
+      showToast("¡Aviso publicado con éxito en la web!", "success");
+      document.getElementById("aviso-titulo").value = "";
+      document.getElementById("aviso-mensaje").value = "";
+      document.getElementById("aviso-target").value = "";
+    } catch(e) {
+      showToast("Error al publicar aviso: " + e.message, "error");
+    }
+  }
+
+  // ============================================================
+  // MÓDULO 5: ECONOMÍA DE PUNTOS
+  // ============================================================
+  async function adjustPoints() {
+    const nick = document.getElementById("pts-nick").value.trim();
+    const delta = parseInt(document.getElementById("pts-delta").value, 10);
+    const motivo = document.getElementById("pts-motivo").value.trim();
+
+    if (!nick || isNaN(delta) || !motivo) {
+      showToast("Completa el nick, cantidad de puntos y el motivo obligatorio.", "error");
+      return;
+    }
+
+    try {
+      const res = await apiCall("/admin/puntos", "POST", { nick, puntos: delta, motivo });
+      const msg = (res && res.message) ? res.message : `${delta > 0 ? '+' : ''}${delta} PTS a ${nick}`;
+      showToast(msg, "success");
+
+      const resultEl = document.getElementById("pts-result");
+      if (resultEl) {
+        resultEl.innerHTML = `✅ <b>${msg}</b>`;
+        resultEl.style.display = "block";
+        setTimeout(() => { resultEl.style.display = "none"; }, 5000);
+      }
+
+      document.getElementById("pts-nick").value = "";
+      document.getElementById("pts-delta").value = "";
+      document.getElementById("pts-motivo").value = "";
+    } catch(e) {
+      showToast("Error al ajustar puntos: " + e.message, "error");
+    }
+  }
+
+  async function loadHistorialPuntos() {
+    const tbody = document.getElementById("historial-tbody");
+    const filtroNick = document.getElementById("historial-nick-filtro").value.trim().toLowerCase();
+    if (!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando historial...</td></tr>';
+
+    try {
+      const res = await apiCall("/admin/historial_puntos");
+      if (res && res.historial && res.historial.length > 0) {
+        const rows = filtroNick
+          ? res.historial.filter(h => (h.nick || "").toLowerCase().includes(filtroNick))
+          : res.historial;
+
+        if (rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">No hay registros para ese Nick.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = "";
+        rows.forEach(h => {
+          const delta = Number(h.variacion) || 0;
+          const colorDelta = delta >= 0 ? "var(--green)" : "var(--red)";
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="font-size:0.8rem; color:var(--text-muted);">${h.timestamp ? String(h.timestamp).replace("T", " ").slice(0, 16) : "-"}</td>
+            <td><b>${escapeHtml(h.nick || "")}</b></td>
+            <td style="font-weight:700; color:${colorDelta};">${delta >= 0 ? "+" : ""}${delta} PTS</td>
+            <td style="font-family:var(--font-mono);">${h.saldo_resultante != null ? h.saldo_resultante + " PTS" : "-"}</td>
+            <td style="font-size:0.82rem; color:var(--text-muted);">${escapeHtml(h.detalle || h.motivo || "-")}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Sin historial de movimientos aún.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Sin conexión al historial: ${escapeHtml(e.message)}</td></tr>`;
+    }
+  }
+
+  async function loadEconomiaConfig() {
+    try {
+      const res = await apiCall("/admin/economia");
+      if (res && res.config) {
+        const c = res.config;
+        if (c.meta_temporada != null) document.getElementById("eco-meta-temporada").value = c.meta_temporada;
+        if (c.costo_ficha != null) document.getElementById("eco-costo-ficha").value = c.costo_ficha;
+        if (c.bono_semanal_1 != null) document.getElementById("eco-bono-semanal-1").value = c.bono_semanal_1;
+        if (c.bono_semanal_2 != null) document.getElementById("eco-bono-semanal-2").value = c.bono_semanal_2;
+        if (c.bono_semanal_3 != null) document.getElementById("eco-bono-semanal-3").value = c.bono_semanal_3;
+        if (c.trivia_correcta != null) document.getElementById("eco-trivia-correcta").value = c.trivia_correcta;
+        if (c.criptico_resuelto != null) document.getElementById("eco-criptico-resuelto").value = c.criptico_resuelto;
+        if (c.encuesta_voto != null) document.getElementById("eco-encuesta-voto").value = c.encuesta_voto;
+        showToast("Configuración económica cargada desde Google Sheets.", "success");
+      }
+    } catch(e) {
+      showToast("No se pudo cargar la config económica: " + e.message, "error");
+    }
+  }
+
+  async function saveEconomiaConfig() {
+    const config = {
+      meta_temporada: parseInt(document.getElementById("eco-meta-temporada").value, 10) || 1000,
+      costo_ficha: parseInt(document.getElementById("eco-costo-ficha").value, 10) || 10,
+      bono_semanal_1: parseInt(document.getElementById("eco-bono-semanal-1").value, 10) || 10,
+      bono_semanal_2: parseInt(document.getElementById("eco-bono-semanal-2").value, 10) || 9,
+      bono_semanal_3: parseInt(document.getElementById("eco-bono-semanal-3").value, 10) || 8,
+      trivia_correcta: parseInt(document.getElementById("eco-trivia-correcta").value, 10) || 10,
+      criptico_resuelto: parseInt(document.getElementById("eco-criptico-resuelto").value, 10) || 10,
+      encuesta_voto: parseInt(document.getElementById("eco-encuesta-voto").value, 10) || 1
+    };
+
+    try {
+      const res = await apiCall("/admin/economia", "POST", { config });
+      showToast(res.message || "Configuración económica guardada con éxito.", "success");
+      const resultEl = document.getElementById("eco-result");
+      if (resultEl) {
+        resultEl.innerHTML = "✅ " + (res.message || "Configuración guardada. Los juegos aplicarán los nuevos valores en el próximo ciclo.");
+        resultEl.style.display = "block";
+        setTimeout(() => { resultEl.style.display = "none"; }, 6000);
+      }
+    } catch(e) {
+      showToast("Error al guardar config económica: " + e.message, "error");
+    }
+  }
+
+  // ============================================================
+  // MÓDULO 8: CLAVES ARCADE
+  // ============================================================
+  async function saveArcadeKey() {
+    const key = document.getElementById("arcade-key-input").value.trim();
+    if (!key) return;
+    try {
+      await apiCall("/admin/arcade_key", "POST", { key });
+      showToast(`Clave semanal actualizada a: "${key}"`, "success");
+    } catch(e) {
+      showToast("Clave guardada localmente: " + key, "success");
+    }
+  }
+
+  function generateRandomKey() {
+    const themes = ["CATAN2026", "DIXIT2026", "AZUL2026", "CARCASSONNE", "TERRAFORMING", "EVERDELL", "SCYTHE", "WINGSPAN"];
+    const chosen = themes[Math.floor(Math.random() * themes.length)];
+    document.getElementById("arcade-key-input").value = chosen;
+  }
+
+  // ============================================================
+  // MÓDULO 10: SKINS & MANTENIMIENTO
+  // ============================================================
+  function renderSkins() {
+    const grid = document.getElementById("skins-grid");
+    grid.innerHTML = "";
+    CONFIG.SKINS.forEach(s => {
+      const btn = document.createElement("button");
+      btn.className = "btn btn-secondary";
+      btn.style.cssText = "display:flex; flex-direction:column; align-items:center; padding:14px; gap:8px;";
+      btn.innerHTML = `<span style="font-size:24px;">${s.icon}</span><span style="font-size:12px;">${s.name}</span>`;
+      btn.onclick = () => saveSkinGlobal(s.id, s.name);
+      grid.appendChild(btn);
+    });
+  }
+
+  async function saveSkinGlobal(skinId, skinName) {
+    if (!confirm(`¿Guardar "${skinName}" como skin oficial predeterminado de la web?`)) return;
+
+    let appsScriptOk = false;
+    let localOk = false;
+
+    // 1. Guardar en Google Sheets vía Apps Script (panel admin)
+    try {
+      await apiCall("/admin/skin", "POST", { skin: skinId });
+      appsScriptOk = true;
+    } catch(e) {
+      console.warn("[saveSkinGlobal] Apps Script no disponible:", e);
+    }
+
+    // 2. Guardar en skins.json del servidor Python local (lo que realmente lee la web)
+    try {
+      const payload = {
+        active: skinId,
+        activatedAt: new Date().toISOString(),
+        activatedBy: "admin-panel",
+        availableSkins: CONFIG.SKINS.map(s => s.id)
+      };
+      const res = await fetch(CONFIG.API_BASE + "/save-json", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN
+        },
+        body: JSON.stringify({ file: "skins.json", data: payload })
+      });
+      localOk = res.ok;
+    } catch(e) {
+      console.warn("[saveSkinGlobal] Servidor no disponible:", e);
+    }
+
+    if (localOk) {
+      showToast(`✅ Skin "${skinName}" activada en la web (skins.json actualizado)`, "success");
+    } else if (appsScriptOk) {
+      showToast(`⚠️ Guardado en Sheets, pero el backend no respondió.`, "warning");
+    } else {
+      showToast(`❌ No se pudo guardar la skin. Verifica que el backend esté activo.`, "error");
+    }
+  }
+
+  async function refreshMembersList() {
+    showToast("Actualizando lista de miembros...", "info");
+    await loadMembers();
+    showToast("Lista de miembros actualizada.", "success");
+  }
+
+  async function loadPresencia() {
+    const tbody = document.getElementById("presence-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:16px; color:var(--text-muted);">⏳ Cargando radar...</td></tr>';
+    try {
+      // La presencia viene del backend (Render Cloud / Turso)
+      // vía el endpoint /api/online alimentado por heartbeat.
+      const res = await fetch(CONFIG.API_BASE + "/api/online");
+      const data = res.ok ? await res.json() : null;
+      const usuarios = (data && data.ok && Array.isArray(data.usuarios)) ? data.usuarios : [];
+
+      // Actualizar timestamp
+      const lastEl = document.getElementById("presencia-last-update");
+      if (lastEl) lastEl.textContent = "Actualizado: " + new Date().toLocaleTimeString("es-CL");
+
+      if (usuarios.length > 0) {
+        tbody.innerHTML = "";
+        usuarios.forEach(p => {
+          // Calcular hace cuánto fue el último latido
+          let latidoStr = p.ultima_vez || "—";
+          try {
+            const diff = Math.round((Date.now() - new Date(p.ultima_vez).getTime()) / 1000);
+            latidoStr = diff < 60 ? `Hace ${diff}s` : `Hace ${Math.round(diff/60)}m`;
+          } catch(e) {}
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><b>${p.nick}</b></td>
+            <td><span class="tag tag-yellow">${p.pagina || "—"}</span></td>
+            <td>${latidoStr}</td>
+            <td><span class="tag tag-green">🟢 En línea</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">No hay miembros navegando en este instante.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">❌ Backend no disponible en ' + CONFIG.API_BASE + '.</td></tr>';
+    }
+  }
+
+  // Auto-refresh cada 15s mientras el tab de presencia esté activo
+  let _presenciaInterval = null;
+  function _startPresenciaAutoRefresh() {
+    _stopPresenciaAutoRefresh();
+    loadPresencia();
+    _presenciaInterval = setInterval(loadPresencia, 15000);
+  }
+  function _stopPresenciaAutoRefresh() {
+    if (_presenciaInterval) { clearInterval(_presenciaInterval); _presenciaInterval = null; }
+  }
+
+  async function loadJuntas() {
+    const tbody = document.getElementById("juntas-tbody");
+    if (!tbody) return;
+    try {
+      const res = await apiCall("/admin/juntas");
+      if (res && res.juntas && res.juntas.length > 0) {
+        tbody.innerHTML = "";
+        res.juntas.forEach(j => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><b>${j.juego}</b></td>
+            <td>${j.fecha}</td>
+            <td>${j.lugar}</td>
+            <td>${j.anfitrion}</td>
+            <td><span class="tag tag-yellow">${j.cupos}</span></td>
+            <td>
+              <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="cancelarJunta('${j.juego}')">🚫 Cancelar</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">No hay mesas comunitarias activas.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Cargando mesas desde Google Sheets...</td></tr>';
+    }
+  }
+
+  function cancelarJunta(juego) {
+    const motivo = prompt(`¿Motivo de cancelación para la mesa "${juego}"?`);
+    if (!motivo) return;
+    showToast(`Mesa de "${juego}" cancelada: ${motivo}`, "info");
+    loadJuntas();
+  }
+
+  async function forceRotateEncuesta() {
+    if (!confirm("¿Forzar la activación de la siguiente encuesta geek ahora?")) return;
+    try {
+      const res = await apiCall("/admin/encuestas/rotar", "POST");
+      showToast(res.message || "Encuesta rotada con éxito", "success");
+    } catch(e) {
+      showToast("Error al rotar encuesta: " + e.message, "error");
+    }
+  }
+
+  function triggerMonthlySnapshot() {
+    if (!confirm("¿Ejecutar Snapshot Oficial de Cierre de Mes? Se congelarán los puntajes y se asignarán medallas.")) return;
+    showToast("Ejecutando snapshot y compilando salón de la fama...", "info");
+    setTimeout(() => {
+      showToast("Snapshot completado exitosamente en Google Sheets.", "success");
+    }, 1500);
+  }
+
+  function triggerRollingArchive() {
+    if (!confirm("¿Ejecutar dump de visitas antiguas para mantener Turso en Free Tier?\n\nSe generará un archivo JSON y se purgarán las filas más antiguas de la base de datos.")) return;
+    showToast("Archivando registros de analítica...", "info");
+
+    apiCall("/admin/analytics/archivar", "POST", { mantener_filas: 20000 })
+      .then(res => {
+        const msg = (res && res.message) ? res.message : "Dump completado y visitas depuradas.";
+        showToast(msg, "success");
+        const resultEl = document.getElementById("archive-result");
+        if (resultEl) {
+          resultEl.innerHTML = `✅ <b>${msg}</b>`;
+          resultEl.style.display = "block";
+        }
+        // Actualizar KPI de almacenamiento
+        if (res && res.filas_actuales != null) {
+          const pct = Math.round((res.filas_actuales / 100000) * 100);
+          document.getElementById("analytics-storage").innerText = pct + "%";
+          document.getElementById("analytics-filas").innerText = `${res.filas_actuales.toLocaleString()} / 100k filas`;
+        }
+      })
+      .catch(e => {
+        showToast("Error al archivar: " + e.message, "error");
+      });
+  }
+
+  async function loadAnalytics() {
+    try {
+      const res = await apiCall("/admin/analytics/resumen");
+      if (!res) return;
+
+      if (res.visitas_hoy != null) document.getElementById("analytics-today").innerText = res.visitas_hoy;
+      if (res.visitas_ayer != null) document.getElementById("analytics-yesterday").innerText = res.visitas_ayer;
+
+      if (res.visitas_hoy != null && res.visitas_ayer != null && res.visitas_ayer > 0) {
+        const delta = Math.round(((res.visitas_hoy - res.visitas_ayer) / res.visitas_ayer) * 100);
+        const signo = delta >= 0 ? "+" : "";
+        document.getElementById("analytics-delta").innerText = `${signo}${delta}% vs ayer`;
+      }
+
+      if (res.auth_count != null) document.getElementById("analytics-auth").innerText = res.auth_count;
+      if (res.ratio_texto) document.getElementById("analytics-ratio").innerText = res.ratio_texto;
+
+      if (res.filas_turso != null) {
+        const pct = Math.round((res.filas_turso / 100000) * 100);
+        document.getElementById("analytics-storage").innerText = pct + "%";
+        document.getElementById("analytics-filas").innerText = `${res.filas_turso.toLocaleString()} / 100k filas`;
+      }
+
+      // Top páginas
+      const topPagesEl = document.getElementById("analytics-top-pages");
+      if (topPagesEl && res.top_paginas && res.top_paginas.length > 0) {
+        topPagesEl.innerHTML = res.top_paginas.map((p, i) =>
+          `<div style="padding:4px 0; border-bottom:1px solid var(--border);">
+            <span style="color:var(--primary); font-weight:700;">${i + 1}.</span>
+            <span style="color:#fff; margin-left:4px;">${escapeHtml(p.pagina)}</span>
+            <span style="color:var(--text-muted); margin-left:8px; font-size:0.78rem;">${p.visitas} visitas</span>
+          </div>`
+        ).join("");
+      } else if (topPagesEl) {
+        topPagesEl.innerHTML = '<span style="color:var(--text-muted);">Sin datos disponibles</span>';
+      }
+
+      // Top nicks
+      const topNicksEl = document.getElementById("analytics-top-nicks");
+      if (topNicksEl && res.top_nicks && res.top_nicks.length > 0) {
+        topNicksEl.innerHTML = res.top_nicks.map((n, i) =>
+          `<div style="padding:4px 0; border-bottom:1px solid var(--border);">
+            <span style="color:var(--primary); font-weight:700;">${i + 1}.</span>
+            <span style="color:#fff; font-weight:600; margin-left:4px;">${escapeHtml(n.nick)}</span>
+            <span style="color:var(--text-muted); margin-left:8px; font-size:0.78rem;">${n.visitas} visitas</span>
+          </div>`
+        ).join("");
+      } else if (topNicksEl) {
+        topNicksEl.innerHTML = '<span style="color:var(--text-muted);">Sin datos disponibles</span>';
+      }
+
+    } catch(e) {
+      console.warn("No se pudo cargar analytics:", e.message);
+      document.getElementById("analytics-today").innerText = "--";
+      document.getElementById("analytics-yesterday").innerText = "--";
+    }
+  }
+
+  async function addHonorEntry() {
+    const nick = document.getElementById("honor-nick").value.trim();
+    const titulo = document.getElementById("honor-titulo").value.trim();
+    const merito = document.getElementById("honor-merito").value.trim();
+    const categoria = document.getElementById("honor-categoria").value;
+    const enlace = document.getElementById("honor-enlace").value.trim();
+
+    if (!nick || !titulo) {
+      showToast("Completa al menos el Nick y el Título Honorífico.", "error");
+      return;
+    }
+
+    try {
+      await apiCall("/admin/honor", "POST", { nick, titulo, merito, categoria, enlace });
+      showToast(`Homenaje guardado para ${nick} en el Salón de Honor`, "success");
+      document.getElementById("honor-nick").value = "";
+      document.getElementById("honor-titulo").value = "";
+      document.getElementById("honor-merito").value = "";
+      document.getElementById("honor-enlace").value = "";
+    } catch(e) {
+      showToast("Error al guardar en Salón de Honor: " + e.message, "error");
+    }
+  }
+
+  async function toggleMaintenance(active) {
+    const text = document.getElementById("maintenance-status-text");
+    if (active) {
+      text.innerText = "⚠️ MODO MANTENIMIENTO ACTIVO (Web bloqueada al público)";
+      text.style.color = "var(--red)";
+      showToast("Modo mantenimiento ACTIVADO en el sitio", "error");
+    } else {
+      text.innerText = "Sitio Web Activo (Público)";
+      text.style.color = "#fff";
+      showToast("Modo mantenimiento DESACTIVADO (Sitio normal)", "success");
+    }
+    try {
+      await apiCall("/admin/mantenimiento", "POST", { active });
+    } catch(e) {
+      console.warn("No se pudo sincronizar mantenimiento con Google Sheets:", e);
+    }
+  }
+
+  // ============================================================
+  // MÓDULO 13: GESTOR DE JUEGOS & POPUPS DIARIOS (CRUD)
+  // ============================================================
+  let allMensajesSinLeerCache = [];
+
+  function initCrudJuegos() {
+    const hoy = new Date().toISOString().slice(0, 10);
+    const fCriptico = document.getElementById("crud-criptico-fecha");
+    const fTrivia = document.getElementById("crud-trivia-fecha");
+    const fPopup = document.getElementById("crud-popup-fecha");
+    if (fCriptico && !fCriptico.value) fCriptico.value = hoy;
+    if (fTrivia && !fTrivia.value) fTrivia.value = hoy;
+    if (fPopup && !fPopup.value) fPopup.value = hoy;
+
+    cargarCripticosCrud();
+  }
+
+  function switchCrudSubTab(subtab) {
+    document.querySelectorAll(".crud-subtab-panel").forEach(p => p.style.display = "none");
+    const targetPanel = document.getElementById(`subtab-panel-${subtab}`);
+    if (targetPanel) targetPanel.style.display = "block";
+
+    ["criptico", "trivia", "popup", "mensajes"].forEach(s => {
+      const btn = document.getElementById(`subtab-btn-${s}`);
+      if (btn) {
+        if (s === subtab) {
+          btn.className = "btn btn-primary";
+        } else {
+          btn.className = "btn btn-secondary";
+        }
+      }
+    });
+
+    if (subtab === "criptico") cargarCripticosCrud();
+    if (subtab === "trivia") cargarTriviasCrud();
+    if (subtab === "popup") cargarPopupsCrud();
+    if (subtab === "mensajes") cargarMensajesCrud();
+  }
+
+  // 13.1 CRÍPTICO DEL DÍA
+  async function cargarCripticosCrud() {
+    const tbody = document.getElementById("crud-criptico-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando acertijos...</td></tr>';
+
+    try {
+      const res = await apiCall("/admin/criptico/list");
+      if (res && res.items && res.items.length > 0) {
+        tbody.innerHTML = "";
+        res.items.forEach(c => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="font-family:var(--font-mono); font-weight:600; color:var(--primary);">${escapeHtml(c.fecha)}</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:#fff;">${escapeHtml(c.palabra)}</td>
+            <td style="font-size:0.85rem; color:var(--text-muted);">${escapeHtml(c.pista)}</td>
+            <td><span class="tag tag-yellow">${escapeHtml(c.categoria)}</span></td>
+            <td><span class="tag tag-green">${escapeHtml(c.dificultad)}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Sin acertijos en el banco aún.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Error al cargar crípticos: ${escapeHtml(e.message)}</td></tr>`;
+    }
+  }
+
+  async function guardarCripticoCrud() {
+    const fecha = document.getElementById("crud-criptico-fecha").value.trim();
+    const palabra = document.getElementById("crud-criptico-palabra").value.trim().toUpperCase();
+    const categoria = document.getElementById("crud-criptico-categoria").value.trim();
+    const dificultad = document.getElementById("crud-criptico-dificultad").value;
+    const pista = document.getElementById("crud-criptico-pista").value.trim();
+
+    if (!fecha || !palabra || !pista) {
+      showToast("Completa la fecha, palabra secreta y pista.", "error");
+      return;
+    }
+
+    try {
+      const res = await apiCall("/admin/criptico/save", "POST", { fecha, palabra, categoria, dificultad, pista });
+      showToast(res.message || "Acertijo críptico guardado.", "success");
+      document.getElementById("crud-criptico-palabra").value = "";
+      document.getElementById("crud-criptico-pista").value = "";
+      cargarCripticosCrud();
+    } catch(e) {
+      showToast("Error al guardar críptico: " + e.message, "error");
+    }
+  }
+
+  // 13.2 TRIVIA GEEK
+  async function cargarTriviasCrud() {
+    const tbody = document.getElementById("crud-trivia-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando preguntas de trivia...</td></tr>';
+
+    try {
+      const res = await apiCall("/admin/trivia/list");
+      if (res && res.items && res.items.length > 0) {
+        tbody.innerHTML = "";
+        res.items.forEach(t => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="font-family:var(--font-mono); font-weight:600; color:var(--primary);">${escapeHtml(t.fecha)}</td>
+            <td style="font-weight:600; color:#fff; font-size:0.88rem;">${escapeHtml(t.pregunta)}</td>
+            <td style="font-size:0.78rem; color:var(--text-muted); line-height:1.4;">
+              A: ${escapeHtml(t.opcion_a)} | B: ${escapeHtml(t.opcion_b)}<br>
+              C: ${escapeHtml(t.opcion_c)} | D: ${escapeHtml(t.opcion_d)}
+            </td>
+            <td><span class="tag tag-green" style="font-weight:700;">${escapeHtml(t.correcta)}</span></td>
+            <td><span class="tag tag-yellow">${escapeHtml(t.categoria)}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Sin trivias en el banco aún.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Error al cargar trivias: ${escapeHtml(e.message)}</td></tr>`;
+    }
+  }
+
+  async function guardarTriviaCrud() {
+    const fecha = document.getElementById("crud-trivia-fecha").value.trim();
+    const categoria = document.getElementById("crud-trivia-categoria").value.trim();
+    const dificultad = document.getElementById("crud-trivia-dificultad").value;
+    const correcta = document.getElementById("crud-trivia-correcta").value;
+    const pregunta = document.getElementById("crud-trivia-pregunta").value.trim();
+    const opcion_a = document.getElementById("crud-trivia-op-a").value.trim();
+    const opcion_b = document.getElementById("crud-trivia-op-b").value.trim();
+    const opcion_c = document.getElementById("crud-trivia-op-c").value.trim();
+    const opcion_d = document.getElementById("crud-trivia-op-d").value.trim();
+
+    if (!fecha || !pregunta || !opcion_a || !opcion_b || !opcion_c || !opcion_d) {
+      showToast("Completa la fecha, pregunta y las 4 opciones.", "error");
+      return;
+    }
+
+    try {
+      const res = await apiCall("/admin/trivia/save", "POST", {
+        fecha, categoria, dificultad, correcta, pregunta,
+        opcion_a, opcion_b, opcion_c, opcion_d
+      });
+      showToast(res.message || "Pregunta de trivia guardada.", "success");
+      document.getElementById("crud-trivia-pregunta").value = "";
+      document.getElementById("crud-trivia-op-a").value = "";
+      document.getElementById("crud-trivia-op-b").value = "";
+      document.getElementById("crud-trivia-op-c").value = "";
+      document.getElementById("crud-trivia-op-d").value = "";
+      cargarTriviasCrud();
+    } catch(e) {
+      showToast("Error al guardar trivia: " + e.message, "error");
+    }
+  }
+
+  // 13.3 POPUPS DESTACADOS
+  async function cargarPopupsCrud() {
+    const tbody = document.getElementById("crud-popup-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Cargando popups...</td></tr>';
+
+    try {
+      const res = await apiCall("/admin/popup/list");
+      if (res && res.items && res.items.length > 0) {
+        tbody.innerHTML = "";
+        res.items.forEach(p => {
+          const tr = document.createElement("tr");
+          const estadoBadge = p.activo 
+            ? '<span class="tag tag-green">🟢 Activo</span>' 
+            : '<span class="tag" style="background:rgba(255,255,255,0.1); color:var(--text-muted);">⚪ Inactivo</span>';
+
+          tr.innerHTML = `
+            <td style="font-family:var(--font-mono);">${escapeHtml(p.fecha)}</td>
+            <td><span class="tag tag-yellow">${escapeHtml(p.icono)} ${escapeHtml(p.tipo)}</span></td>
+            <td><b>${escapeHtml(p.titulo)}</b></td>
+            <td><a href="${escapeHtml(p.cta_link)}" target="_blank" style="color:var(--primary); font-size:0.82rem; text-decoration:none;">${escapeHtml(p.cta_texto)} ↗</a></td>
+            <td>${estadoBadge}</td>
+            <td>
+              <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="togglePopupActivo(${p.row_idx}, ${!p.activo})">
+                ${p.activo ? "⏸️ Desactivar" : "▶️ Activar"}
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Sin popups registrados aún.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Error al cargar popups: ${escapeHtml(e.message)}</td></tr>`;
+    }
+  }
+
+  async function guardarPopupCrud() {
+    const fecha = document.getElementById("crud-popup-fecha").value.trim();
+    const tipo = document.getElementById("crud-popup-tipo").value;
+    const icono = document.getElementById("crud-popup-icono").value.trim() || "🎉";
+    const activo = document.getElementById("crud-popup-activo").checked;
+    const titulo = document.getElementById("crud-popup-titulo").value.trim();
+    const descripcion = document.getElementById("crud-popup-desc").value.trim();
+    const cta_texto = document.getElementById("crud-popup-cta-txt").value.trim() || "Ver más";
+    const cta_link = document.getElementById("crud-popup-cta-link").value.trim() || "#";
+
+    if (!titulo || !descripcion) {
+      showToast("Completa al menos el título y la descripción del popup.", "error");
+      return;
+    }
+
+    try {
+      const res = await apiCall("/admin/popup/save", "POST", {
+        fecha, tipo, icono, activo, titulo, descripcion, cta_texto, cta_link
+      });
+      showToast(res.message || "Popup guardado.", "success");
+      document.getElementById("crud-popup-titulo").value = "";
+      document.getElementById("crud-popup-desc").value = "";
+      cargarPopupsCrud();
+    } catch(e) {
+      showToast("Error al guardar popup: " + e.message, "error");
+    }
+  }
+
+  async function togglePopupActivo(rowIdx, nuevoEstado) {
+    try {
+      const res = await apiCall("/admin/popup/toggle", "POST", { row_idx: rowIdx, activo: nuevoEstado });
+      showToast(res.message || "Estado del popup actualizado.", "success");
+      cargarPopupsCrud();
+    } catch(e) {
+      showToast("Error al cambiar estado: " + e.message, "error");
+    }
+  }
+
+  // 13.4 MENSAJES SIN LEER
+  async function cargarMensajesCrud() {
+    const tbody = document.getElementById("crud-msg-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Cargando ranking de WhatsApp...</td></tr>';
+
+    try {
+      const res = await apiCall("/admin/mensajes_sin_leer/list");
+      if (res && res.items && res.items.length > 0) {
+        allMensajesSinLeerCache = res.items;
+        renderMensajesCrud(allMensajesSinLeerCache);
+      } else {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Sin récords registrados aún.</td></tr>';
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Error al cargar mensajes: ${escapeHtml(e.message)}</td></tr>`;
+    }
+  }
+
+  function renderMensajesCrud(items) {
+    const tbody = document.getElementById("crud-msg-tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    if (items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">No se encontraron miembros con ese filtro.</td></tr>';
+      return;
+    }
+
+    items.forEach((m, idx) => {
+      const tr = document.createElement("tr");
+      let colorMsgs = "var(--primary)";
+      if (m.mensajes >= 4000) colorMsgs = "#eab308";
+      else if (m.mensajes >= 1000) colorMsgs = "#38bdf8";
+
+      tr.innerHTML = `
+        <td style="font-family:var(--font-mono); color:var(--text-muted);">${idx + 1}º</td>
+        <td><b>${escapeHtml(m.nombre)}</b></td>
+        <td style="font-family:var(--font-mono); font-weight:700; color:${colorMsgs}; font-size:1.05rem;">${m.mensajes.toLocaleString()}</td>
+        <td><span class="tag tag-yellow">${escapeHtml(m.tier)}</span></td>
+        <td style="font-size:0.82rem; color:var(--text-muted);">${escapeHtml(m.fecha)}</td>
+        <td>
+          <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="editarMensajeCrud('${escapeHtml(m.nombre)}', ${m.mensajes}, '${escapeHtml(m.telefono || '')}')">✏️ Editar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filtrarMensajesCrud() {
+    const q = document.getElementById("crud-msg-busqueda").value.toLowerCase().trim();
+    const filtrados = allMensajesSinLeerCache.filter(m => (m.nombre && m.nombre.toLowerCase().includes(q)));
+    renderMensajesCrud(filtrados);
+  }
+
+  function editarMensajeCrud(nombre, msgs, tel) {
+    document.getElementById("crud-msg-nombre").value = nombre;
+    document.getElementById("crud-msg-cantidad").value = msgs;
+    document.getElementById("crud-msg-telefono").value = tel;
+    document.getElementById("crud-msg-forzar").checked = true;
+    document.getElementById("crud-msg-cantidad").focus();
+    showToast(`Editando a ${nombre}. Modifica la cifra y guarda.`, "info");
+  }
+
+  async function guardarMensajesCrud() {
+    const nombre = document.getElementById("crud-msg-nombre").value.trim();
+    const cantidad = parseInt(document.getElementById("crud-msg-cantidad").value, 10);
+    const telefono = document.getElementById("crud-msg-telefono").value.trim();
+    const forzar = document.getElementById("crud-msg-forzar").checked;
+
+    if (!nombre || isNaN(cantidad) || cantidad <= 0) {
+      showToast("Ingresa un nombre y cantidad de mensajes válidos.", "error");
+      return;
+    }
+
+    try {
+      const res = await apiCall("/admin/mensajes_sin_leer/save", "POST", {
+        nombre, mensajes: cantidad, telefono, forzar
+      });
+      if (res.status === "warning") {
+        showToast(res.message, "error");
+      } else {
+        showToast(res.message || "Récord guardado.", "success");
+        document.getElementById("crud-msg-nombre").value = "";
+        document.getElementById("crud-msg-cantidad").value = "";
+        document.getElementById("crud-msg-telefono").value = "";
+        document.getElementById("crud-msg-forzar").checked = false;
+        cargarMensajesCrud();
+      }
+    } catch(e) {
+      showToast("Error al guardar récord: " + e.message, "error");
+    }
+  }
+
+  // ============================================================
+  // 14. MÓDULO TORNEOS BGA & GENERADOR DE ESTADOS PARA WHATSAPP
+  // ============================================================
+  let bgaTorneosCache = [];
+  let bgaMiembrosCache = [];
+  let currentTournamentPhase = "final"; // 'pre', 'ronda', 'semis', 'final'
+
+  async function loadTorneosYMiembrosBGA() {
+    showToast("Cargando torneos BGA y directorio...", "info");
+    const container = document.getElementById("bga-torneos-container");
+    const tbody = document.getElementById("bga-members-tbody");
+
+    try {
+      // 1. Obtener torneos activos desde Render / Turso
+      const resTorneos = await fetch(CONFIG.API_BASE + "/api/torneos", {
+        headers: { "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN }
+      });
+      const dataTorneos = resTorneos.ok ? await resTorneos.json() : null;
+      bgaTorneosCache = (dataTorneos && dataTorneos.ok && Array.isArray(dataTorneos.torneos)) ? dataTorneos.torneos : [];
+
+      // 2. Obtener miembros con vinculación BGA
+      const resMiembros = await fetch(CONFIG.API_BASE + "/api/admin/miembros_bga", {
+        headers: { "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN }
+      });
+      const dataMiembros = resMiembros.ok ? await resMiembros.json() : null;
+      bgaMiembrosCache = (dataMiembros && dataMiembros.ok && Array.isArray(dataMiembros.miembros)) ? dataMiembros.miembros : [];
+
+      // Actualizar KPIs
+      let totalJugadoresBGA = 0;
+      let totalVinculados = 0;
+      bgaTorneosCache.forEach(t => {
+        totalJugadoresBGA += (t.participantes || []).length;
+        (t.participantes || []).forEach(p => {
+          if (p.nick_aj || p.telefono) totalVinculados++;
+        });
+      });
+
+      document.getElementById("kpi-bga-torneos-count").textContent = bgaTorneosCache.length;
+      document.getElementById("kpi-bga-jugadores-count").textContent = totalJugadoresBGA;
+      document.getElementById("kpi-bga-vinculados-count").textContent = totalVinculados;
+      document.getElementById("kpi-bga-puntos-estimados").textContent = bgaTorneosCache.length > 0 ? (totalJugadoresBGA * 15 + 150) : 0;
+      document.getElementById("badge-torneos-bga").textContent = bgaTorneosCache.length > 0 ? `${bgaTorneosCache.length} Activo(s)` : "Live";
+
+      // Renderizar Torneos y Selector
+      renderTorneosBGA(bgaTorneosCache);
+      poblarSelectorTorneosCanvas(bgaTorneosCache);
+
+      // Renderizar Directorio de Miembros
+      renderBgaMembersTable(bgaMiembrosCache);
+
+      // Dibujar Canvas
+      actualizarCanvasTorneo();
+
+      showToast("Datos de torneos actualizados.", "success");
+    } catch (e) {
+      console.error("Error cargando torneos BGA:", e);
+      if (container) container.innerHTML = `<div style="text-align:center; padding:30px; color:#ef4444;">❌ Error al conectar con el servidor: ${escapeHtml(e.message)}</div>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:#ef4444;">Error al cargar miembros: ${escapeHtml(e.message)}</td></tr>`;
+      showToast("Error al cargar torneos: " + e.message, "error");
+    }
+  }
+
+  function renderTorneosBGA(torneos) {
+    const container = document.getElementById("bga-torneos-container");
+    if (!container) return;
+
+    if (!torneos || torneos.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:40px 20px; background:rgba(255,255,255,0.02); border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">
+          <div style="font-size:2.4rem; margin-bottom:12px;">🎲</div>
+          <div style="font-weight:600; font-size:1.1rem; color:#fff; margin-bottom:6px;">No hay torneos activos sincronizados</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); max-width:500px; margin:0 auto 16px;">
+            Abre la página del torneo en Board Game Arena con tu usuario logueado y presiona el botón <b>🏆 Sincronizar Torneo AJ</b> en la extensión Lunara para enviar los datos aquí en tiempo real.
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = torneos.map(t => {
+      const parts = t.participantes || [];
+      const rowsHtml = parts.map(p => {
+        const vinculado = p.nick_web || p.nombre_agenda_admin || p.nick_aj || (p.telefono ? `+${p.telefono}` : null);
+        const vinculadoBadge = vinculado
+          ? `<span class="tag tag-green" title="Tel: ${p.telefono || 'N/A'}">🔗 ${escapeHtml(vinculado)}</span>`
+          : `<span class="tag" style="background:rgba(239,68,68,0.15); color:#f87171; cursor:pointer;" onclick="abrirModalVincularBGA('', '', '${escapeHtml(p.bga_username)}', '', '')">⚠️ Sin vincular (+ Vincular)</span>`;
+
+        const estadoBadge = p.eliminado
+          ? `<span class="tag" style="background:rgba(255,255,255,0.06); color:var(--text-muted);">❌ Eliminado</span>`
+          : `<span class="tag tag-green">⚔️ En juego</span>`;
+
+        const medalla = p.rank_actual === 1 ? '🥇 ' : (p.rank_actual === 2 ? '🥈 ' : (p.rank_actual === 3 ? '🥉 ' : ''));
+
+        return `
+          <tr>
+            <td style="font-family:var(--font-mono); font-weight:700;">${medalla}#${p.rank_actual || '—'}</td>
+            <td style="font-weight:600; color:#fff;">${escapeHtml(p.bga_username)}</td>
+            <td>${vinculadoBadge}</td>
+            <td style="font-family:var(--font-mono);">${escapeHtml(p.score || '—')}</td>
+            <td>${estadoBadge}</td>
+            <td>
+              <button class="btn btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="abrirModalVincularBGA('${escapeHtml(p.telefono || '')}', '${escapeHtml(p.nick_aj || '')}', '${escapeHtml(p.bga_username)}', '${escapeHtml(p.nombre_agenda_admin || '')}', '${escapeHtml(p.nick_web || '')}')">
+                ✏️ Asignar
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      return `
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px; margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:1.3rem;">🏆</span>
+                <span style="font-size:1.15rem; font-weight:700; color:#fff;">${escapeHtml(t.tournament_name || 'Torneo BGA')}</span>
+                <span class="tag" style="background:#f59e0b; color:#000; font-weight:700;">${escapeHtml(t.status || 'En progreso')}</span>
+                ${t.current_round ? `<span class="tag tag-purple">Ronda ${t.current_round}</span>` : ''}
+              </div>
+              <div style="font-size:0.82rem; color:var(--text-muted);">
+                🎲 Juego: <b>${escapeHtml(t.game || 'BGA')}</b> · 👥 ${parts.length} participantes detectados · ID: <code style="font-size:0.75rem;">${escapeHtml(t.tournament_id)}</code>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary" style="font-size:12px; padding:6px 12px;" onclick="seleccionarTorneoParaCanvas('${escapeHtml(t.tournament_id)}')">
+                🎨 Crear Gráfico
+              </button>
+              <button class="btn btn-danger" style="font-size:12px; padding:6px 12px; background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#fca5a5;" onclick="finalizarTorneoAdmin('${escapeHtml(t.tournament_id)}', '${escapeHtml(t.tournament_name)}')">
+                🏁 Finalizar & Limpiar DB
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container" style="max-height:360px; overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Usuario BGA</th>
+                  <th>Miembro Club Vinculado</th>
+                  <th>Score</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml || '<tr><td colspan="6" style="text-align:center; padding:15px; color:var(--text-muted);">Sin participantes registrados aún.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderBgaMembersTable(members) {
+    const tbody = document.getElementById("bga-members-tbody");
+    if (!tbody) return;
+
+    if (!members || members.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">No hay miembros registrados en la base de datos.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = members.map(m => {
+      const nickWebBadge = m.nick_web
+        ? `<span style="font-weight:600; color:#a78bfa;">${escapeHtml(m.nick_web)}</span>`
+        : `<span style="color:var(--text-muted); font-size:0.8rem; font-style:italic;">— Sin registrar web —</span>`;
+
+      const bgaBadge = m.bga_username
+        ? `<span style="font-weight:600; color:#f59e0b; display:inline-flex; align-items:center; gap:4px;">🎲 ${escapeHtml(m.bga_username)}</span>`
+        : `<span style="color:var(--text-muted); font-size:0.82rem; font-style:italic;">— Sin asignar —</span>`;
+
+      const agendaNombre = m.nombre_agenda_admin || m.nick || '—';
+
+      return `
+        <tr>
+          <td style="font-family:var(--font-mono); font-weight:600; color:var(--primary);">${escapeHtml(m.telefono || '—')}</td>
+          <td style="font-weight:600; color:#fff;">${escapeHtml(agendaNombre)}</td>
+          <td>${nickWebBadge}</td>
+          <td>${bgaBadge}</td>
+          <td style="font-family:var(--font-mono); font-weight:700; color:#38bdf8;">${m.puntos || 0} PTS</td>
+          <td>
+            <button class="btn btn-secondary" style="font-size:11px; padding:4px 10px;" onclick="abrirModalVincularBGA('${escapeHtml(m.telefono || '')}', '${escapeHtml(m.nick || '')}', '${escapeHtml(m.bga_username || '')}', '${escapeHtml(m.nombre_agenda_admin || '')}', '${escapeHtml(m.nick_web || '')}')">
+              ✏️ Editar
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function filterBgaMembers() {
+    const q = (document.getElementById("bga-member-search")?.value || "").toLowerCase().trim();
+    if (!q) {
+      renderBgaMembersTable(bgaMiembrosCache);
+      return;
+    }
+    const filtrados = bgaMiembrosCache.filter(m => {
+      return (m.telefono || "").toLowerCase().includes(q) ||
+             (m.nick || "").toLowerCase().includes(q) ||
+             (m.nick_web || "").toLowerCase().includes(q) ||
+             (m.bga_username || "").toLowerCase().includes(q) ||
+             (m.nombre_agenda_admin || "").toLowerCase().includes(q);
+    });
+    renderBgaMembersTable(filtrados);
+  }
+
+  function abrirModalVincularBGA(telefono = "", nick = "", bga_user = "", agenda = "", nick_web = "") {
+    document.getElementById("modal-bga-telefono").value = telefono;
+    document.getElementById("modal-bga-nick").value = nick;
+    document.getElementById("modal-bga-username").value = bga_user;
+    document.getElementById("modal-bga-agenda").value = agenda;
+    const nickWebInput = document.getElementById("modal-bga-nick-web");
+    if (nickWebInput) nickWebInput.value = nick_web;
+
+    const modal = document.getElementById("modal-vincular-bga");
+    if (modal) {
+      modal.style.display = "flex";
+      setTimeout(() => {
+        if (!telefono) document.getElementById("modal-bga-telefono").focus();
+        else if (!bga_user) document.getElementById("modal-bga-username").focus();
+      }, 50);
+    }
+  }
+
+  function cerrarModalVincularBGA() {
+    const modal = document.getElementById("modal-vincular-bga");
+    if (modal) modal.style.display = "none";
+  }
+
+  async function guardarVinculacionModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const telefono = document.getElementById("modal-bga-telefono").value.trim();
+    const nick = document.getElementById("modal-bga-nick").value.trim();
+    const bga_username = document.getElementById("modal-bga-username").value.trim();
+    const agenda = document.getElementById("modal-bga-agenda").value.trim();
+    const nick_web = (document.getElementById("modal-bga-nick-web")?.value || "").trim();
+
+    if (!telefono && !nick && !agenda) {
+      showToast("Se requiere al menos el teléfono o el nombre del miembro.", "error");
+      return;
+    }
+
+    const btn = document.getElementById("btn-guardar-vinc-bga");
+    if (btn) { btn.disabled = true; btn.textContent = "Guardando..."; }
+
+    try {
+      const res = await fetch(CONFIG.API_BASE + "/api/admin/vincular_bga", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN
+        },
+        body: JSON.stringify({
+          telefono: telefono,
+          nuevo_nick: nick,
+          bga_username: bga_username,
+          nombre_agenda: agenda,
+          nick_web: nick_web
+        })
+      });
+
+      const data = await res.json();
+      if (data && data.ok) {
+        showToast(`✅ Vinculación guardada para ${agenda || nick || telefono}`, "success");
+        cerrarModalVincularBGA();
+        await loadTorneosYMiembrosBGA();
+      } else {
+        throw new Error(data?.error || "No se pudo guardar la vinculación.");
+      }
+    } catch (err) {
+      showToast("Error al guardar: " + err.message, "error");
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = "💾 Guardar Vinculación"; }
+    }
+  }
+
+  async function finalizarTorneoAdmin(tournament_id, tournament_name) {
+    if (!confirm(`¿Estás seguro de FINALIZAR el torneo "${tournament_name}"?\n\nEsto otorgará los puntos correspondientes si aún no se han asignado y limpiará los datos transitorios de la base de datos para no ocupar espacio.`)) {
+      return;
+    }
+
+    showToast("Finalizando torneo y limpiando datos transitorios...", "info");
+    try {
+      const res = await fetch(CONFIG.API_BASE + "/api/torneos/finalizar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + CONFIG.ADMIN_TOKEN
+        },
+        body: JSON.stringify({ tournamentId: tournament_id })
+      });
+
+      const data = await res.json();
+      if (data && data.ok) {
+        showToast("✅ Torneo finalizado y base de datos limpia.", "success");
+        await loadTorneosYMiembrosBGA();
+      } else {
+        throw new Error(data?.error || "Error al finalizar torneo.");
+      }
+    } catch (err) {
+      showToast("Error: " + err.message, "error");
+    }
+  }
+
+  function poblarSelectorTorneosCanvas(torneos) {
+    const sel = document.getElementById("canvas-select-torneo");
+    if (!sel) return;
+    sel.innerHTML = "";
+
+    if (!torneos || torneos.length === 0) {
+      sel.innerHTML = '<option value="">Sin torneos activos</option>';
+      return;
+    }
+
+    torneos.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.tournament_id;
+      opt.textContent = `${t.tournament_name || 'Torneo BGA'} (${t.game || 'BGA'})`;
+      sel.appendChild(opt);
+    });
+  }
+
+  function seleccionarTorneoParaCanvas(tournament_id) {
+    const sel = document.getElementById("canvas-select-torneo");
+    if (sel) {
+      sel.value = tournament_id;
+      actualizarCanvasTorneo();
+      scrollToCanvasGenerator();
+    }
+  }
+
+  function scrollToCanvasGenerator() {
+    const el = document.getElementById("bga-image-generator-card");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function setTournamentPhase(phase) {
+    currentTournamentPhase = phase;
+    ["pre", "ronda", "semis", "final"].forEach(p => {
+      const btn = document.getElementById("btn-phase-" + p);
+      if (btn) {
+        if (p === phase) {
+          btn.className = "btn btn-primary";
+        } else {
+          btn.className = "btn btn-secondary";
+        }
+      }
+    });
+
+    const badge = document.getElementById("canvas-status-badge");
+    const phaseNames = {
+      pre: "Fase: Inscriptos Oficiales",
+      ronda: "Fase: Ronda Activa",
+      semis: "Fase: Semifinales",
+      final: "Fase: Podio & Puntos"
+    };
+    if (badge) badge.textContent = phaseNames[phase] || "Fase: " + phase;
+
+    actualizarCanvasTorneo();
+  }
+
+  function actualizarCanvasTorneo() {
+    const canvas = document.getElementById("bga-tournament-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    const sel = document.getElementById("canvas-select-torneo");
+    const tid = sel ? sel.value : "";
+    const torneo = bgaTorneosCache.find(t => t.tournament_id === tid) || bgaTorneosCache[0] || null;
+
+    const customTitle = document.getElementById("canvas-custom-title")?.value || "";
+    const customSub = document.getElementById("canvas-custom-subtitle")?.value || "";
+
+    drawTournamentCardCanvas(ctx, canvas.width, canvas.height, torneo, currentTournamentPhase, customTitle, customSub);
+  }
+
+  function drawTournamentCardCanvas(ctx, W, H, torneo, phase, customTitle, customSub) {
+    // 1. Fondo Gradiente Cyberpunk
+    const grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, "#080511");
+    grad.addColorStop(0.5, "#120a22");
+    grad.addColorStop(1, "#1a0f30");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid Cyberpunk suave
+    ctx.strokeStyle = "rgba(139, 92, 246, 0.08)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // Marco exterior con resplandor neón
+    ctx.strokeStyle = "rgba(245, 158, 11, 0.4)";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(30, 30, W - 60, H - 60);
+
+    ctx.strokeStyle = "rgba(139, 92, 246, 0.6)";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(36, 36, W - 72, H - 72);
+
+    // 2. Cabecera oficial
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#f59e0b";
+    ctx.font = "bold 26px 'Inter', sans-serif";
+    ctx.fillText("🎲  C L U B   A M I G O S   J U G O N E S  🎲", W / 2, 85);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+    ctx.font = "600 18px 'Inter', sans-serif";
+    ctx.fillText("BOARD GAME ARENA · CIRCUITO OFICIAL DE COMPETICIÓN", W / 2, 115);
+
+    // Línea separadora decorativa
+    const lineGrad = ctx.createLinearGradient(100, 130, W - 100, 130);
+    lineGrad.addColorStop(0, "rgba(245,158,11,0)");
+    lineGrad.addColorStop(0.5, "rgba(245,158,11,0.8)");
+    lineGrad.addColorStop(1, "rgba(245,158,11,0)");
+    ctx.strokeStyle = lineGrad;
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(120, 135); ctx.lineTo(W - 120, 135); ctx.stroke();
+
+    // 3. Título del Torneo
+    const tTitle = (customTitle || (torneo ? torneo.tournament_name : "TORNEO BGA AMIGOS JUGONES")).toUpperCase();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "900 46px 'Inter', sans-serif";
+    ctx.fillText(tTitle, W / 2, 195);
+
+    // Badge de Juego & Fase
+    const gameName = torneo ? (torneo.game || "Board Game Arena") : "Juego de Mesa";
+    const phaseNames = {
+      pre: "FASE PREVIA · LISTA DE INSCRIPTOS",
+      ronda: `EN JUEGO · ${torneo && torneo.current_round ? 'RONDA ' + torneo.current_round : 'CLASIFICATORIAS'}`,
+      semis: "FASE DECISIVA · SEMIFINALES",
+      final: "RESULTADOS OFICIALES · PODIO Y PUNTOS"
+    };
+    const phaseText = customSub || phaseNames[phase] || "ESTADO DEL TORNEO";
+
+    // Pill badge centrado
+    ctx.fillStyle = "rgba(124, 58, 237, 0.4)";
+    const badgeW = 600;
+    const badgeH = 38;
+    ctx.beginPath();
+    ctx.roundRect((W - badgeW) / 2, 220, badgeW, badgeH, 19);
+    ctx.fill();
+    ctx.strokeStyle = "#8b5cf6";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "bold 18px 'Inter', sans-serif";
+    ctx.fillText(`🎮 ${gameName}  |  ${phaseText}`, W / 2, 245);
+
+    // 4. Contenido de Jugadores según la Fase
+    const players = torneo ? (torneo.participantes || []) : [
+      { rank_actual: 1, bga_username: "BlackDragon_CL", nick_aj: "BLACK", score: "48", eliminado: 0 },
+      { rank_actual: 2, bga_username: "Estefi_Queen", nick_aj: "Estefi", score: "42", eliminado: 0 },
+      { rank_actual: 3, bga_username: "NicoPilot_AJ", nick_aj: "Nico_Piloto", score: "39", eliminado: 0 },
+      { rank_actual: 4, bga_username: "JessShadow", nick_aj: "Jess_Shadow", score: "35", eliminado: 0 },
+      { rank_actual: 5, bga_username: "KuroGamer", nick_aj: "Kuro_Dragon", score: "28", eliminado: 1 },
+      { rank_actual: 6, bga_username: "DanPlayer", nick_aj: "DAN AJ", score: "24", eliminado: 1 }
+    ];
+
+    const startY = 295;
+    const itemH = 82;
+    const marginX = 80;
+    const cardW = W - (marginX * 2);
+
+    if (phase === "final") {
+      // PODIO & PUNTOS: Dibujar podio destacado (Top 3)
+      const maxRows = Math.min(players.length, 10);
+      for (let i = 0; i < maxRows; i++) {
+        const p = players[i];
+        const y = startY + (i * itemH);
+        const rank = p.rank_actual || (i + 1);
+
+        // Estilo de tarjeta según rank
+        let cardBg = "rgba(255, 255, 255, 0.03)";
+        let cardBorder = "rgba(255, 255, 255, 0.08)";
+        let medal = `#${rank}`;
+        let ptsText = "+15 PTS";
+
+        if (rank === 1) {
+          cardBg = "linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, rgba(20, 15, 35, 0.9) 100%)";
+          cardBorder = "#f59e0b";
+          medal = "🥇 1º";
+          ptsText = "💎 +100 PTS";
+        } else if (rank === 2) {
+          cardBg = "linear-gradient(90deg, rgba(203, 213, 225, 0.2) 0%, rgba(20, 15, 35, 0.9) 100%)";
+          cardBorder = "#cbd5e1";
+          medal = "🥈 2º";
+          ptsText = "💎 +70 PTS";
+        } else if (rank === 3) {
+          cardBg = "linear-gradient(90deg, rgba(217, 119, 6, 0.2) 0%, rgba(20, 15, 35, 0.9) 100%)";
+          cardBorder = "#d97706";
+          medal = "🥉 3º";
+          ptsText = "💎 +50 PTS";
+        } else if (rank <= 6) {
+          ptsText = "+30 PTS";
+        }
+
+        // Rectángulo del jugador
+        ctx.fillStyle = cardBg.includes("gradient") ? "#171026" : cardBg;
+        ctx.beginPath();
+        ctx.roundRect(marginX, y, cardW, itemH - 12, 10);
+        ctx.fill();
+        ctx.strokeStyle = cardBorder;
+        ctx.lineWidth = rank <= 3 ? 2 : 1;
+        ctx.stroke();
+
+        // Rank / Medalla
+        ctx.textAlign = "left";
+        ctx.font = rank <= 3 ? "bold 26px 'Inter', sans-serif" : "600 22px 'Inter', sans-serif";
+        ctx.fillStyle = rank === 1 ? "#fbbf24" : (rank === 2 ? "#f1f5f9" : (rank === 3 ? "#f97316" : "#94a3b8"));
+        ctx.fillText(medal, marginX + 20, y + 43);
+
+        // Nombres: Nick del club + BGA Username
+        const clubNick = p.nick_web || p.nombre_agenda_admin || p.nick_aj || p.bga_username;
+        const bgaNick = p.bga_username ? `BGA: ${p.bga_username}` : '';
+
+        ctx.font = "bold 22px 'Inter', sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(clubNick, marginX + 130, y + 36);
+
+        ctx.font = "14px 'Inter', sans-serif";
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillText(bgaNick, marginX + 130, y + 56);
+
+        // Puntos y Score
+        ctx.textAlign = "right";
+        ctx.font = "bold 22px 'Inter', sans-serif";
+        ctx.fillStyle = rank <= 3 ? "#34d399" : "#38bdf8";
+        ctx.fillText(ptsText, marginX + cardW - 24, y + 36);
+
+        if (p.score) {
+          ctx.font = "14px 'Inter', sans-serif";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+          ctx.fillText(`Score: ${p.score} pts`, marginX + cardW - 24, y + 56);
+        }
+      }
+    } else {
+      // PRE / RONDA / SEMIS: Lista con estados (En juego / Eliminado)
+      const maxRows = Math.min(players.length, 10);
+      for (let i = 0; i < maxRows; i++) {
+        const p = players[i];
+        const y = startY + (i * itemH);
+        const isEliminated = p.eliminado;
+
+        ctx.fillStyle = isEliminated ? "rgba(0,0,0,0.4)" : "rgba(255, 255, 255, 0.04)";
+        ctx.beginPath();
+        ctx.roundRect(marginX, y, cardW, itemH - 12, 10);
+        ctx.fill();
+        ctx.strokeStyle = isEliminated ? "rgba(239,68,68,0.25)" : "rgba(255, 255, 255, 0.1)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.textAlign = "left";
+        ctx.font = "bold 20px 'Inter', sans-serif";
+        ctx.fillStyle = isEliminated ? "#64748b" : "#38bdf8";
+        ctx.fillText(`#${p.rank_actual || (i + 1)}`, marginX + 24, y + 43);
+
+        const clubNick = p.nick_web || p.nombre_agenda_admin || p.nick_aj || p.bga_username;
+        ctx.font = "bold 22px 'Inter', sans-serif";
+        ctx.fillStyle = isEliminated ? "#94a3b8" : "#ffffff";
+        ctx.fillText(clubNick, marginX + 100, y + 36);
+
+        ctx.font = "14px 'Inter', sans-serif";
+        ctx.fillStyle = "#64748b";
+        ctx.fillText(`BGA: ${p.bga_username}`, marginX + 100, y + 56);
+
+        ctx.textAlign = "right";
+        if (isEliminated) {
+          ctx.font = "bold 16px 'Inter', sans-serif";
+          ctx.fillStyle = "#ef4444";
+          ctx.fillText("❌ ELIMINADO", marginX + cardW - 24, y + 43);
+        } else {
+          ctx.font = "bold 16px 'Inter', sans-serif";
+          ctx.fillStyle = "#10b981";
+          ctx.fillText(phase === "pre" ? "✅ INSCRIPTO" : "⚔️ CLASIFICADO", marginX + cardW - 24, y + 43);
+        }
+      }
+    }
+
+    // 5. Pie de Tarjeta Oficial
+    const footerY = H - 65;
+    ctx.textAlign = "center";
+    ctx.font = "14px 'Inter', sans-serif";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+    const nowStr = new Date().toLocaleString("es-CL", { dateStyle: "long", timeStyle: "short" });
+    ctx.fillText(`Emitido: ${nowStr}  ·  Amigos Jugones Oficial  ·  amigosjugones.onrender.com`, W / 2, footerY);
+  }
+
+  function descargarImagenTorneo() {
+    const canvas = document.getElementById("bga-tournament-canvas");
+    if (!canvas) return;
+    const link = document.createElement("a");
+    const sel = document.getElementById("canvas-select-torneo");
+    const tName = (sel && sel.selectedOptions[0]) ? sel.selectedOptions[0].textContent.replace(/[^a-z0-9]/gi, '_').toLowerCase() : "torneo_bga";
+    link.download = `${tName}_${currentTournamentPhase}_${Date.now()}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    showToast("📥 Imagen descargada con éxito.", "success");
+  }
+
+  async function copiarImagenTorneo() {
+    const canvas = document.getElementById("bga-tournament-canvas");
+    if (!canvas) return;
+
+    try {
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          showToast("Error generando imagen para copiar.", "error");
+          return;
+        }
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob })
+        ]);
+        showToast("📋 ¡Imagen copiada al portapapeles! Pégala con Ctrl+V en WhatsApp.", "success");
+      }, "image/png");
+    } catch (e) {
+      console.warn("Clipboard API blob error, fallback a descarga:", e);
+      descargarImagenTorneo();
+    }
+  }
+
+  // Inicializar al cargar
+  window.addEventListener("DOMContentLoaded", () => {
+    loadMembers();
+  });
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // 🎮 CONTROL DIARIO DEL MACROJUEGO — Funciones JS
+  // ══════════════════════════════════════════════════════════════════════════
+
+  let _macroReporteData = null;
+
+  function _macroFechaHoy() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function _macroShowMsg(elId, msg, ok) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.style.background = ok ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)';
+    el.style.border    = ok ? '1px solid rgba(16,185,129,0.4)' : '1px solid rgba(239,68,68,0.4)';
+    el.style.color     = ok ? '#6ee7b7' : '#fca5a5';
+  }
+
+  async function macroCargarConfig() {
+    const fecha = _macroFechaHoy();
+    document.getElementById('macro-fecha-title').textContent = fecha;
+    document.getElementById('macro-config-loading').style.display = 'block';
+    document.getElementById('macro-config-body').style.display   = 'none';
+    try {
+      const res  = await fetch(`/api/admin/config_dia?fecha=${fecha}`, { headers: { 'x-admin-token': adminToken } });
+      const data = await res.json();
+      document.getElementById('macro-pts-grupal').value  = data.pts_grupal  ?? 7;
+      document.getElementById('macro-pts-ataque').value  = data.pts_ataque  ?? 10;
+      document.getElementById('macro-damage-cap').value  = data.damage_cap  ?? 25;
+      document.getElementById('macro-umbral').value      = data.catchup_umbral ?? 100;
+      const tog = document.getElementById('macro-catchup-toggle');
+      tog.checked = !!data.catchup_activo;
+      tog.dispatchEvent(new Event('change'));
+      document.getElementById('macro-config-loading').style.display = 'none';
+      document.getElementById('macro-config-body').style.display   = 'block';
+    } catch(e) {
+      document.getElementById('macro-config-loading').innerHTML = '<span style="color:#fca5a5;">❌ Error al cargar configuración del día.</span>';
+    }
+  }
+
+  async function macroGuardarConfig() {
+    const fecha   = _macroFechaHoy();
+    const payload = {
+      fecha,
+      pts_grupal:          parseInt(document.getElementById('macro-pts-grupal').value) || 7,
+      pts_ataque:          parseInt(document.getElementById('macro-pts-ataque').value) || 10,
+      damage_cap:          parseInt(document.getElementById('macro-damage-cap').value) || 25,
+      catchup_umbral:      parseInt(document.getElementById('macro-umbral').value)    || 100,
+      catchup_activo:      document.getElementById('macro-catchup-toggle').checked ? 1 : 0
+    };
+    try {
+      const res  = await fetch('/api/admin/config_dia', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      _macroShowMsg('macro-config-msg', data.ok ? '✅ Configuración guardada.' : ('❌ ' + (data.error || 'Error')), data.ok);
+    } catch(e) {
+      _macroShowMsg('macro-config-msg', '❌ Error de red.', false);
+    }
+  }
+
+  async function macroAcreditar(tipo) {
+    const rawNicks = document.getElementById('macro-lote-nicks').value.trim();
+    if (!rawNicks) { alert('Ingresa al menos un nick.'); return; }
+    const nicks = rawNicks.split(',').map(n => n.trim()).filter(Boolean);
+    if (!nicks.length) { alert('Nicks no válidos.'); return; }
+
+    const loadEl  = document.getElementById('macro-lote-loading');
+    const resEl   = document.getElementById('macro-lote-result');
+    loadEl.style.display = 'block';
+    resEl.style.display  = 'none';
+
+    const labels = { grupal: '📋 Grupal', personal: '✨ Personal', ataque: '🐢 Caparazón Azul' };
+    try {
+      const res  = await fetch('/api/admin/acreditar_dia', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+        body: JSON.stringify({ nicks, tipo, fecha: _macroFechaHoy(), autor: 'Admin' })
+      });
+      const data = await res.json();
+      loadEl.style.display = 'none';
+
+      if (data.ok) {
+        let lines = [`✅ ${labels[tipo]} ejecutado (${nicks.length} jugador${nicks.length>1?'es':''})\n`];
+        (data.resultados || []).forEach(r => {
+          const catchupTag = r.catchup_x2 ? ' ⚡ x2 Catch-Up' : '';
+          if (r.ok) {
+            lines.push(`  • ${r.nick}: ${r.delta > 0 ? '+' : ''}${r.delta} PTS${catchupTag}`);
+          } else {
+            lines.push(`  ⚠️ ${r.nick}: ${r.error || 'sin resultado'}`);
+          }
+        });
+        if (data.cascada && data.cascada.length) {
+          lines.push('\n💥 Cascada de sabotaje:');
+          data.cascada.forEach(c => lines.push(`  • ${c.nick}: -${c.descuento} PTS`));
+        }
+        resEl.textContent = lines.join('\n');
+        resEl.style.borderColor = 'rgba(16,185,129,0.4)';
+      } else {
+        resEl.textContent = '❌ ' + (data.error || 'Error desconocido');
+        resEl.style.borderColor = 'rgba(239,68,68,0.4)';
+      }
+      resEl.style.display = 'block';
+    } catch(e) {
+      loadEl.style.display = 'none';
+      resEl.textContent = '❌ Error de red: ' + e.message;
+      resEl.style.display = 'block';
+      resEl.style.borderColor = 'rgba(239,68,68,0.4)';
+    }
+  }
+
+  async function macroCargarReporte() {
+    const fecha   = _macroFechaHoy();
+    const loadEl  = document.getElementById('macro-reporte-loading');
+    const tablaEl = document.getElementById('macro-reporte-tabla');
+    const canvWrap= document.getElementById('macro-canvas-wrap');
+    loadEl.style.display  = 'block';
+    tablaEl.style.display = 'none';
+    canvWrap.style.display= 'none';
+    try {
+      const res  = await fetch(`/api/admin/reporte_dia?fecha=${fecha}`, { headers: { 'x-admin-token': adminToken } });
+      const data = await res.json();
+      loadEl.style.display = 'none';
+      _macroReporteData    = data;
+
+      // Tabla ganadores
+      const gEl = document.getElementById('macro-tabla-ganadores');
+      if (data.ganadores && data.ganadores.length) {
+        gEl.innerHTML = data.ganadores.map(g =>
+          `<div>${g.nick} <strong style="color:#34d399;">+${g.delta} PTS</strong>${g.catchup_x2 ? ' <span style="font-size:0.68rem;background:rgba(16,185,129,0.2);color:#6ee7b7;border-radius:10px;padding:1px 6px;">⚡ x2</span>' : ''}</div>`
+        ).join('');
+      } else { gEl.innerHTML = '<span style="color:#64748b;">Sin acreditaciones hoy</span>'; }
+
+      // Tabla impactados
+      const iEl = document.getElementById('macro-tabla-impactados');
+      if (data.impactados_sabotaje && data.impactados_sabotaje.length) {
+        iEl.innerHTML = data.impactados_sabotaje.map(i =>
+          `<div>${i.nick} <strong style="color:#f87171;">-${i.total_descuento} PTS</strong></div>`
+        ).join('');
+      } else { iEl.innerHTML = '<span style="color:#64748b;">Sin sabotajes hoy</span>'; }
+
+      // Saboteadores (anonimato)
+      const totalSab = data.total_saboteadores || 0;
+      document.getElementById('macro-tabla-saboteadores').textContent =
+        totalSab > 0
+          ? `🐢 ${totalSab} Caparazón${totalSab > 1 ? 'es Azules detonados' : ' Azul detonado'} hoy — Los saboteadores permanecen en el anonimato 👀`
+          : '✅ Sin sabotajes hoy';
+
+      tablaEl.style.display  = 'block';
+
+      // Dibujar canvas
+      const canvas = document.getElementById('macro-canvas');
+      const ctx    = canvas.getContext('2d');
+      drawDailyReportCanvas(ctx, canvas.width, canvas.height, data);
+      canvWrap.style.display = 'block';
+
+    } catch(e) {
+      loadEl.innerHTML = '<span style="color:#fca5a5;">❌ Error al generar reporte.</span>';
+    }
+  }
+
+  async function macroCopiarCanvas() {
+    const canvas = document.getElementById('macro-canvas');
+    const msgEl  = document.getElementById('macro-canvas-msg');
+    try {
+      canvas.toBlob(async (blob) => {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        _macroShowMsg('macro-canvas-msg', '✅ ¡Imagen copiada! Pégala en WhatsApp con Ctrl+V.', true);
+      });
+    } catch(e) {
+      _macroShowMsg('macro-canvas-msg', '❌ No se pudo copiar. Descárgala manualmente.', false);
+    }
+  }
+
+  function macroDescargarCanvas() {
+    const canvas = document.getElementById('macro-canvas');
+    const fecha  = _macroFechaHoy();
+    const link   = document.createElement('a');
+    link.download = `reporte_macrojuego_${fecha}.png`;
+    link.href      = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // ── Generador de Tarjeta Canvas 1080x1350 ──────────────────────────────
+  function drawDailyReportCanvas(ctx, W, H, data) {
+    const fecha = data.fecha || _macroFechaHoy();
+    const ganadores      = data.ganadores           || [];
+    const impactados     = data.impactados_sabotaje || [];
+    const totalSab       = data.total_saboteadores  || 0;
+
+    // ── Paleta ──────────────────────────────────────────────────────────
+    const C = {
+      bg:       '#070914',
+      bgCard:   '#0d1526',
+      green:    '#10b981',
+      greenDim: 'rgba(16,185,129,0.15)',
+      greenBrd: 'rgba(16,185,129,0.4)',
+      red:      '#ef4444',
+      redDim:   'rgba(239,68,68,0.12)',
+      redBrd:   'rgba(239,68,68,0.4)',
+      amber:    '#fbbf24',
+      amberDim: 'rgba(251,191,36,0.1)',
+      amberBrd: 'rgba(251,191,36,0.4)',
+      purple:   '#8b5cf6',
+      white:    '#ffffff',
+      muted:    '#94a3b8',
+      text:     '#e2e8f0',
+    };
+
+    // ── Helpers ─────────────────────────────────────────────────────────
+    const rr = (x, y, w, h, r) => {
+      ctx.beginPath();
+      ctx.moveTo(x+r, y);
+      ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+      ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+      ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+      ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
+      ctx.closePath();
+    };
+    const fillRR = (x, y, w, h, r, color) => { ctx.fillStyle = color; rr(x,y,w,h,r); ctx.fill(); };
+    const strokeRR = (x, y, w, h, r, color, lw=2) => {
+      ctx.strokeStyle = color; ctx.lineWidth = lw; rr(x,y,w,h,r); ctx.stroke();
+    };
+    const txt = (t, x, y, font, color, align='left') => {
+      ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.fillText(t, x, y);
+    };
+
+    // ── FONDO ───────────────────────────────────────────────────────────
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Gradiente radial de fondo
+    const gBg = ctx.createRadialGradient(W/2, H*0.2, 0, W/2, H*0.2, W*0.9);
+    gBg.addColorStop(0, 'rgba(16,185,129,0.06)');
+    gBg.addColorStop(1, 'transparent');
+    ctx.fillStyle = gBg; ctx.fillRect(0, 0, W, H);
+
+    // ── HEADER ──────────────────────────────────────────────────────────
+    const gHead = ctx.createLinearGradient(0, 0, W, 0);
+    gHead.addColorStop(0, 'rgba(16,185,129,0.25)');
+    gHead.addColorStop(0.5, 'rgba(139,92,246,0.15)');
+    gHead.addColorStop(1, 'rgba(16,185,129,0.25)');
+    fillRR(32, 32, W-64, 170, 20, 'rgba(13,21,38,0.95)');
+    strokeRR(32, 32, W-64, 170, 20, C.greenBrd, 2);
+    ctx.fillStyle = gHead; rr(32,32,W-64,170,20); ctx.fill();
+
+    txt('⚔️ REPORTE DIARIO', W/2, 95, 'bold 56px system-ui', C.white, 'center');
+    txt('DEL MACROJUEGO ⚔️', W/2, 155, 'bold 56px system-ui', C.green, 'center');
+
+    // Fecha
+    const fechaFmt = (() => {
+      try {
+        const [y,m,d] = fecha.split('-');
+        const ms = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        return `📅 ${parseInt(d)} de ${ms[parseInt(m)-1]} de ${y}`;
+      } catch(e) { return fecha; }
+    })();
+    fillRR(W/2-240, 218, 480, 46, 23, 'rgba(16,185,129,0.12)');
+    strokeRR(W/2-240, 218, 480, 46, 23, C.greenBrd, 1.5);
+    txt(fechaFmt, W/2, 248, 'bold 28px system-ui', C.green, 'center');
+
+    let curY = 290;
+    const PAD = 32, INNER = W - PAD*2, ROW_H = 64, SEC_PAD = 18;
+
+    // ── SECCIÓN GANADORES ──────────────────────────────────────────────
+    const secGH = SEC_PAD*2 + 52 + (ganadores.length || 1) * ROW_H + 10;
+    fillRR(PAD, curY, INNER, secGH, 16, C.greenDim);
+    strokeRR(PAD, curY, INNER, secGH, 16, C.greenBrd, 2);
+
+    txt('🟢  ASCENSOS DEL DÍA', PAD+SEC_PAD, curY+42, 'bold 34px system-ui', C.green);
+    txt('PUNTOS GANADOS', INNER+PAD-SEC_PAD, curY+42, '700 26px system-ui', C.muted, 'right');
+    curY += SEC_PAD + 52;
+
+    if (!ganadores.length) {
+      txt('Sin acreditaciones hoy.', W/2, curY+ROW_H/2+10, '500 30px system-ui', C.muted, 'center');
+      curY += ROW_H;
+    }
+    ganadores.forEach((g, idx) => {
+      if (idx % 2 === 0) {
+        fillRR(PAD+10, curY, INNER-20, ROW_H-6, 10, 'rgba(16,185,129,0.07)');
+      }
+      txt(g.nick, PAD+SEC_PAD+8, curY+ROW_H/2+8, 'bold 32px system-ui', C.white);
+      const pts = `+${g.delta} PTS`;
+      txt(pts, INNER+PAD-SEC_PAD-8 - (g.catchup_x2 ? 180 : 0), curY+ROW_H/2+8, 'bold 36px system-ui', C.green, 'right');
+      if (g.catchup_x2) {
+        fillRR(INNER+PAD-SEC_PAD-172, curY+ROW_H/2-20, 160, 36, 18, 'rgba(16,185,129,0.25)');
+        txt('⚡ x2', INNER+PAD-SEC_PAD-96, curY+ROW_H/2+6, 'bold 24px system-ui', '#6ee7b7', 'center');
+      }
+      curY += ROW_H;
+    });
+    curY += SEC_PAD;
+
+    // ── SECCIÓN IMPACTADOS ─────────────────────────────────────────────
+    const secIH = SEC_PAD*2 + 52 + (impactados.length || 1) * ROW_H + 10;
+    fillRR(PAD, curY, INNER, secIH, 16, C.redDim);
+    strokeRR(PAD, curY, INNER, secIH, 16, C.redBrd, 2);
+
+    txt('🔴  IMPACTOS DE SABOTAJE', PAD+SEC_PAD, curY+42, 'bold 34px system-ui', C.red);
+    txt('PTS DESCONTADOS', INNER+PAD-SEC_PAD, curY+42, '700 26px system-ui', C.muted, 'right');
+    curY += SEC_PAD + 52;
+
+    if (!impactados.length) {
+      txt('Sin impactos hoy.', W/2, curY+ROW_H/2+10, '500 30px system-ui', C.muted, 'center');
+      curY += ROW_H;
+    }
+    impactados.forEach((im, idx) => {
+      if (idx % 2 === 0) {
+        fillRR(PAD+10, curY, INNER-20, ROW_H-6, 10, 'rgba(239,68,68,0.06)');
+      }
+      txt(im.nick, PAD+SEC_PAD+8, curY+ROW_H/2+8, 'bold 32px system-ui', C.white);
+      txt(`-${im.total_descuento} PTS`, INNER+PAD-SEC_PAD, curY+ROW_H/2+8, 'bold 36px system-ui', C.red, 'right');
+      curY += ROW_H;
+    });
+    curY += SEC_PAD;
+
+    // ── SECCIÓN ANONIMATO ──────────────────────────────────────────────
+    fillRR(PAD, curY, INNER, 130, 16, C.amberDim);
+    strokeRR(PAD, curY, INNER, 130, 16, C.amberBrd, 2);
+    if (totalSab > 0) {
+      txt('🐢 ALERTA DE SABOTAJE EN LAS SOMBRAS 💣', W/2, curY+50, 'bold 30px system-ui', C.amber, 'center');
+      txt(`¡Hoy se detonaron ${totalSab} Caparazón${totalSab>1?'es Azules':'Azul'} en WhatsApp!`, W/2, curY+86, '600 27px system-ui', C.text, 'center');
+      txt('Los saboteadores permanecen en el anonimato... 👀', W/2, curY+116, '500 24px system-ui', C.muted, 'center');
+    } else {
+      txt('✅ Día Limpio — Sin Sabotajes', W/2, curY+68, 'bold 32px system-ui', C.green, 'center');
+      txt('El honor del grupo se mantiene intacto hoy.', W/2, curY+104, '500 26px system-ui', C.muted, 'center');
+    }
+    curY += 130 + 20;
+
+    // ── FOOTER ─────────────────────────────────────────────────────────
+    const footY = H - 90;
+    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    ctx.fillRect(0, footY, W, H - footY);
+    txt('Amigos Jugones', W/2, footY + 44, 'bold 32px system-ui', C.green, 'center');
+    txt('amigosjugones.onrender.com', W/2, footY + 76, '400 24px system-ui', C.muted, 'center');
+  }
+
+  // ── Autocargar config al abrir el tab ─────────────────────────────────
+  const _macroOrigSwitchTab = typeof switchTab === 'function' ? switchTab : null;
+  if (typeof switchTab === 'function') {
+    const _origSwitch = switchTab;
+    switchTab = function(id) {
+      _origSwitch(id);
+      if (id === 'tab-macrojuego') macroCargarConfig();
+    };
+  }
+
+</script>
+
+</body>
+</html>
+

@@ -3438,6 +3438,257 @@ def moderar_solicitud_evento(evento_id: int, accion: str, admin_nick: str = '') 
         return {'ok': False, 'error': str(e)}
 
 
+# =============================================================================
+# CONTROL DIARIO DEL MACROJUEGO & MOTOR DE CATCH-UP AUTOMATIZADO
+# =============================================================================
+
+def obtener_o_crear_config_dia(fecha: str | None = None) -> dict:
+    """
+    Retorna la configuración maestra del Macrojuego para una fecha dada (YYYY-MM-DD).
+    Si no existe fila para hoy, la auto-inicializa de forma determinista.
+    """
+    if not fecha:
+        fecha = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM config_diaria_macrojuego WHERE fecha = ?", (fecha,)).fetchone()
+        if row:
+            return dict(row)
+
+        # Generador determinista de puntos diarios basado en la fecha (40% 5p, 40% 10p, 20% 15p)
+        dt = datetime.datetime.strptime(fecha, "%Y-%m-%d")
+        seed = dt.year * 10000 + dt.month * 100 + dt.day
+        rnd = (seed * 9301 + 49297) % 233280
+        val = rnd / 233280.0
+        if val < 0.40:
+            pts_dia = 5
+        elif val < 0.80:
+            pts_dia = 10
+        else:
+            pts_dia = 15
+
+        # Días oficiales de Catch-Up automático: Miércoles (2) y Domingo (6)
+        catchup_auto = 1 if dt.weekday() in (2, 6) else 0
+
+        conn.execute("""
+            INSERT OR IGNORE INTO config_diaria_macrojuego
+                (fecha, pts_grupal, pts_ataque, catchup_activo, catchup_umbral, catchup_multiplicador, damage_cap, notas)
+            VALUES (?, ?, 10, ?, 100, 2, 25, 'Inicializado automáticamente')
+        """, (fecha, pts_dia, catchup_auto))
+        conn.commit()
+
+        row = conn.execute("SELECT * FROM config_diaria_macrojuego WHERE fecha = ?", (fecha,)).fetchone()
+        return dict(row) if row else {
+            "fecha": fecha, "pts_grupal": pts_dia, "pts_ataque": 10,
+            "catchup_activo": catchup_auto, "catchup_umbral": 100,
+            "catchup_multiplicador": 2, "damage_cap": 25, "notas": ""
+        }
+
+
+def actualizar_config_dia(fecha: str, **kwargs) -> dict:
+    """
+    Actualiza cualquier parámetro de la Ficha Diaria del Macrojuego (puntos, switch x2, umbral, etc.).
+    """
+    if not fecha:
+        fecha = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    # Asegurar que la fila exista
+    obtener_o_crear_config_dia(fecha)
+
+    campos_validos = ("pts_grupal", "pts_ataque", "catchup_activo", "catchup_umbral", "catchup_multiplicador", "damage_cap", "notas")
+    updates = []
+    params = []
+
+    for k, v in kwargs.items():
+        if k in campos_validos and v is not None:
+            updates.append(f"{k} = ?")
+            params.append(v)
+
+    if not updates:
+        return obtener_o_crear_config_dia(fecha)
+
+    params.append(fecha)
+    sql = f"UPDATE config_diaria_macrojuego SET {', '.join(updates)} WHERE fecha = ?"
+    with get_db() as conn:
+        conn.execute(sql, params)
+        conn.commit()
+
+    return obtener_o_crear_config_dia(fecha)
+
+
+def acreditar_dia_por_lote(nicks, tipo: str = "grupal", autor: str = "Admin", fecha: str | None = None) -> dict:
+    """
+    Acredita puntos o detona sabotajes para una lista de jugadores según las reglas del día.
+    El Administrador NO pasa números: el sistema calcula automáticamente según la Ficha Diaria,
+    aplica Catch-Up x2 si el saldo < umbral, y ejecuta el Caparazón Azul con Damage Cap.
+    """
+    if not fecha:
+        fecha = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    if isinstance(nicks, str):
+        nicks = [n.strip() for n in nicks.replace("\n", ",").split(",") if n.strip()]
+
+    if not nicks:
+        return {"ok": False, "error": "nicks_vacios", "mensaje": "Ingresa al menos un Nick para acreditar."}
+
+    cfg = obtener_o_crear_config_dia(fecha)
+    pts_grupal = cfg.get("pts_grupal", 7)
+    pts_ataque = cfg.get("pts_ataque", 10)
+    catchup_activo = bool(cfg.get("catchup_activo", 0))
+    catchup_umbral = cfg.get("catchup_umbral", 100)
+    catchup_multiplicador = cfg.get("catchup_multiplicador", 2)
+
+    tipo = tipo.lower().strip()
+    ganadores = []
+    impactados_sabotaje = []
+    total_saboteadores = 0
+
+    if tipo in ("grupal", "secreta"):
+        for nick in nicks:
+            with get_db() as conn:
+                row = conn.execute("SELECT puntos FROM jugadores WHERE LOWER(nick) = LOWER(?)", (nick,)).fetchone()
+                saldo_actual = row["puntos"] if row else 0
+
+            es_catchup = catchup_activo and (saldo_actual < catchup_umbral)
+            pts_base = pts_grupal if tipo == "grupal" else 10
+            pts_final = (pts_base * catchup_multiplicador) if es_catchup else pts_base
+
+            desc = f"Misión {'Grupal' if tipo == 'grupal' else 'Personal'} ({fecha})"
+            if es_catchup:
+                desc += f" [⚡ Catch-Up x{catchup_multiplicador}]"
+
+            res = asignar_puntos(
+                nick=nick,
+                puntos=pts_final,
+                tipo_evento="RETO_MACROJUEGO" if tipo == "grupal" else "MISION_SECRETA",
+                descripcion=desc,
+                autor=autor
+            )
+
+            tipo_entrega = "grupal" if tipo == "grupal" else "secreta_positiva"
+            try:
+                with get_db() as conn:
+                    conn.execute("""
+                        INSERT INTO misiones_entregas (nick, fecha_mision, tipo_mision, desafios_completados, pruebas_urls, estado, puntos_otorgados, admin_revisor, fecha_revision)
+                        VALUES (?, ?, ?, '[]', '[]', 'aprobado', ?, ?, datetime('now'))
+                        ON CONFLICT(nick, fecha_mision, tipo_mision) DO UPDATE SET
+                            estado = 'aprobado', puntos_otorgados = excluded.puntos_otorgados, admin_revisor = excluded.admin_revisor, fecha_revision = datetime('now')
+                    """, (nick, fecha, tipo_entrega, pts_final, autor))
+                    conn.commit()
+            except Exception:
+                pass
+
+            ganadores.append({
+                "nick": nick,
+                "pts_otorgados": pts_final,
+                "catch_up": es_catchup,
+                "saldo_nuevo": res.get("nuevo_saldo", saldo_actual + pts_final)
+            })
+
+    elif tipo in ("ataque", "caparazon"):
+        total_saboteadores = len(nicks)
+        for atacante in nicks:
+            res_ataque = ejecutar_contraataque(
+                nick_atacante=atacante,
+                puntos_restar=pts_ataque,
+                descripcion=f"Caparazón Azul ({fecha})",
+                autor=autor
+            )
+            for af in res_ataque.get("detalles", []):
+                existente = next((x for x in impactados_sabotaje if x["nick"].lower() == af["nick"].lower()), None)
+                descuento = af.get("descuento", pts_ataque)
+                if existente:
+                    existente["descuento_total"] += descuento
+                    existente["nuevo_saldo"] = af["nuevo_saldo"]
+                else:
+                    impactados_sabotaje.append({
+                        "nick": af["nick"],
+                        "descuento_total": descuento,
+                        "nuevo_saldo": af["nuevo_saldo"]
+                    })
+
+    exportar_ranking_json()
+
+    return {
+        "ok": True,
+        "fecha": fecha,
+        "tipo": tipo,
+        "config": cfg,
+        "ganadores": ganadores,
+        "impactados_sabotaje": impactados_sabotaje,
+        "total_saboteadores": total_saboteadores
+    }
+
+
+def obtener_reporte_movimientos_dia(fecha: str | None = None) -> dict:
+    """
+    Retorna los movimientos de puntos de la fecha para generar la tarjeta gráfica (1080x1350).
+    Respeta el anonimato de los saboteadores: lista quién ganó puntos, quién fue impactado
+    y el conteo total de Caparazones Azules detonados.
+    """
+    if not fecha:
+        fecha = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    cfg = obtener_o_crear_config_dia(fecha)
+    ganadores = []
+    impactados = []
+    saboteadores_count = 0
+
+    with get_db() as conn:
+        rows_ganadores = conn.execute("""
+            SELECT nick, variacion_pts, descripcion, saldo_resultante
+            FROM historial_transacciones
+            WHERE variacion_pts > 0 AND date(timestamp) = date(?)
+            ORDER BY variacion_pts DESC, timestamp ASC
+        """, (fecha,)).fetchall()
+
+        for r in rows_ganadores:
+            ganadores.append({
+                "nick": r["nick"],
+                "pts": r["variacion_pts"],
+                "motivo": r["descripcion"] or "Reto Cumplido",
+                "saldo": r["saldo_resultante"]
+            })
+
+        rows_impactados = conn.execute("""
+            SELECT nick, SUM(ABS(variacion_pts)) as total_descuento, MIN(saldo_resultante) as saldo_final
+            FROM historial_transacciones
+            WHERE tipo_evento = 'SABOTAJE_CONTRAATAQUE' AND date(timestamp) = date(?)
+            GROUP BY LOWER(nick)
+            ORDER BY total_descuento DESC
+        """, (fecha,)).fetchall()
+
+        for r in rows_impactados:
+            impactados.append({
+                "nick": r["nick"],
+                "descuento": r["total_descuento"],
+                "saldo_final": r["saldo_final"]
+            })
+
+        row_count = conn.execute("""
+            SELECT COUNT(DISTINCT nick) as total
+            FROM misiones_entregas
+            WHERE tipo_mision = 'secreta_ataque' AND fecha_mision = ? AND estado = 'aprobado'
+        """, (fecha,)).fetchone()
+        saboteadores_count = row_count["total"] if row_count else 0
+
+        if saboteadores_count == 0 and len(impactados) > 0:
+            row_tx_count = conn.execute("""
+                SELECT COUNT(DISTINCT descripcion) as total
+                FROM historial_transacciones
+                WHERE tipo_evento = 'SABOTAJE_CONTRAATAQUE' AND date(timestamp) = date(?)
+            """, (fecha,)).fetchone()
+            saboteadores_count = max(1, row_tx_count["total"] if row_tx_count else 1)
+
+    return {
+        "ok": True,
+        "fecha": fecha,
+        "config": cfg,
+        "ganadores": ganadores,
+        "impactados_sabotaje": impactados,
+        "total_saboteadores": saboteadores_count
+    }
+
 
 # =============================================================================
 # =============================================================================

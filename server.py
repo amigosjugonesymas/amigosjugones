@@ -449,6 +449,20 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
             return
 
+        # ── GET /api/admin/config_dia ───────────────────────────────────────
+        if parsed.path == '/api/admin/config_dia':
+            fecha = _safe_str(params.get('fecha')) or None
+            res = gestor_db.obtener_o_crear_config_dia(fecha)
+            self._send_json({'ok': True, 'config': res}, 200)
+            return
+
+        # ── GET /api/admin/reporte_dia ──────────────────────────────────────
+        if parsed.path == '/api/admin/reporte_dia':
+            fecha = _safe_str(params.get('fecha')) or None
+            res = gestor_db.obtener_reporte_movimientos_dia(fecha)
+            self._send_json(res, 200)
+            return
+
 
         # ─── ARCHIVOS ESTÁTICOS ───────────────────────────────────────────────
         super().do_GET()
@@ -1525,6 +1539,47 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 return
             res = gestor_db.moderar_solicitud_evento(evento_id, accion, admin_nick)
             self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── POST /api/admin/config_dia ──────────────────────────────────────
+        if parsed.path == '/api/admin/config_dia':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            fecha = _safe_str(params.get('fecha')) or None
+            kwargs = {}
+            for k in ("pts_grupal", "pts_ataque", "catchup_activo", "catchup_umbral", "catchup_multiplicador", "damage_cap", "notas"):
+                if k in params and params[k] is not None:
+                    val = params[k]
+                    if k in ("pts_grupal", "pts_ataque", "catchup_activo", "catchup_umbral", "catchup_multiplicador", "damage_cap"):
+                        try:
+                            val = int(val)
+                        except (ValueError, TypeError):
+                            continue
+                    kwargs[k] = val
+            res = gestor_db.actualizar_config_dia(fecha, **kwargs)
+            self._send_json({'ok': True, 'config': res}, 200)
+            return
+
+        # ── POST /api/admin/acreditar_dia ───────────────────────────────────
+        if parsed.path == '/api/admin/acreditar_dia':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            nicks = params.get('nicks')
+            tipo = _safe_str(params.get('tipo', 'grupal')) or 'grupal'
+            autor = _safe_str(params.get('autor', 'Admin')) or 'Admin'
+            fecha = _safe_str(params.get('fecha')) or None
+
+            res = gestor_db.acreditar_dia_por_lote(nicks, tipo=tipo, autor=autor, fecha=fecha)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── POST /api/admin/reporte_dia ─────────────────────────────────────
+        if parsed.path == '/api/admin/reporte_dia':
+            fecha = _safe_str(params.get('fecha')) or None
+            res = gestor_db.obtener_reporte_movimientos_dia(fecha)
+            self._send_json(res, 200)
             return
 
         self._send_json({"ok": False, "error": "endpoint_no_encontrado"}, 404)

@@ -471,5 +471,21 @@ CREATE TABLE IF NOT EXISTS solicitudes_eventos (
 CREATE INDEX IF NOT EXISTS idx_solicitudes_eventos_estado ON solicitudes_eventos(estado, categoria);
 CREATE INDEX IF NOT EXISTS idx_solicitudes_eventos_nick ON solicitudes_eventos(nick);
 
+-- ============================================================================
+-- CONTROL DIARIO DEL MACROJUEGO & REPORTE DE MOVIMIENTOS
+-- Persistencia de configuración diaria (puntos, switch de aumento, umbral y daño).
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS config_diaria_macrojuego (
+    fecha TEXT PRIMARY KEY,                       -- 'YYYY-MM-DD'
+    pts_grupal INTEGER NOT NULL DEFAULT 7,        -- 5, 7, 10, 15
+    pts_ataque INTEGER NOT NULL DEFAULT 10,       -- 10, 15, 20
+    catchup_activo INTEGER NOT NULL DEFAULT 0,    -- 0 = inactivo, 1 = activo (x2)
+    catchup_umbral INTEGER NOT NULL DEFAULT 100,  -- Umbral de puntos para aplicar x2 (ej: < 100)
+    catchup_multiplicador INTEGER NOT NULL DEFAULT 2, -- 2x
+    damage_cap INTEGER NOT NULL DEFAULT 25,       -- Máximo descuento diario por sabotajes
+    notas TEXT DEFAULT ''
+);
+
 
 
