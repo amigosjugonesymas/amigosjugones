@@ -45,6 +45,13 @@ def _safe_int(val, default=0):
     except (ValueError, TypeError):
         return default
 
+def _safe_str(val, default=""):
+    if isinstance(val, (list, tuple)):
+        val = val[0] if val else default
+    if val is None:
+        return default
+    return str(val).strip()
+
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get('PORT', 8888))
 
 class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -88,14 +95,15 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         if parsed.path == '/api/auth/login':
-            phone = params.get('phone', params.get('telefono', ['']))[0].strip()
-            password = params.get('password', params.get('key', ['']))[0].strip()
-            device_id = params.get('device_id', [''])[0].strip()
+            phone = _safe_str(params.get('phone', params.get('telefono', '')))
+            password = _safe_str(params.get('password', params.get('key', '')))
+            device_id = _safe_str(params.get('device_id', ''))
+            nick = _safe_str(params.get('nick', params.get('nombre', '')))
             if not phone or not password:
                 self._send_json({"ok": False, "error": "datos_incompletos"}, 400)
                 return
             try:
-                res = gestor_db.verificar_credenciales_miembro(phone, password, device_id)
+                res = gestor_db.verificar_credenciales_miembro(phone, password, device_id, nick)
                 status_code = 200 if res.get("ok") else (403 if res.get("error") == "limite_dispositivos_alcanzado" else 401)
                 self._send_json(res, status_code)
             except Exception as e:
@@ -448,16 +456,17 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: LOGIN CON CONTROL DE DISPOSITIVOS Y CLAVE PRIVADA ─────────
         if parsed.path == '/api/auth/login':
-            phone = str(params.get('phone', params.get('telefono', ''))).strip()
-            password = str(params.get('password', params.get('key', ''))).strip()
-            device_id = str(params.get('device_id', '')).strip()
+            phone = _safe_str(params.get('phone', params.get('telefono', '')))
+            password = _safe_str(params.get('password', params.get('key', '')))
+            device_id = _safe_str(params.get('device_id', ''))
+            nick = _safe_str(params.get('nick', params.get('nombre', '')))
 
             if not phone or not password:
                 self._send_json({"ok": False, "error": "datos_incompletos", "mensaje": "Teléfono y contraseña son obligatorios."}, 400)
                 return
 
             try:
-                res = gestor_db.verificar_credenciales_miembro(phone, password, device_id)
+                res = gestor_db.verificar_credenciales_miembro(phone, password, device_id, nick)
                 status_code = 200 if res.get("ok") else (403 if res.get("error") == "limite_dispositivos_alcanzado" else 401)
                 self._send_json(res, status_code)
             except Exception as e:
@@ -619,11 +628,20 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 is_finished = any(kw in status.lower() for kw in ['finaliz', 'terminad', 'complet', 'finish', 'ended', 'over'])
 
                 for player in players:
-                    bga_name = str(player.get('name', '')).strip()
-                    rank = _safe_int(player.get('rank', 999), 999)
-                    score = str(player.get('score', '')).strip()
-                    eliminated = bool(player.get('eliminated', False))
-                    bga_user_id = str(player.get('bgaUserId', '')).strip()
+                    if isinstance(player, dict):
+                        bga_name = _safe_str(player.get('name', ''))
+                        rank = _safe_int(player.get('rank', 999), 999)
+                        score = _safe_str(player.get('score', ''))
+                        eliminated = bool(player.get('eliminated', False))
+                        bga_user_id = _safe_str(player.get('bgaUserId', ''))
+                    elif isinstance(player, str):
+                        bga_name = player.strip()
+                        rank = 999
+                        score = ''
+                        eliminated = False
+                        bga_user_id = ''
+                    else:
+                        continue
 
                     if not bga_name:
                         continue
@@ -692,10 +710,10 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
                 return
             try:
-                identificador = str(params.get('telefono', params.get('nick', params.get('identificador', '')))).strip()
-                bga_username = params.get('bga_username')
-                nuevo_nick = params.get('nuevo_nick')
-                nombre_agenda = params.get('nombre_agenda')
+                identificador = _safe_str(params.get('telefono', params.get('nick', params.get('identificador', ''))))
+                bga_username = _safe_str(params.get('bga_username')) if params.get('bga_username') is not None else None
+                nuevo_nick = _safe_str(params.get('nuevo_nick')) if params.get('nuevo_nick') is not None else None
+                nombre_agenda = _safe_str(params.get('nombre_agenda')) if params.get('nombre_agenda') is not None else None
 
                 if not identificador:
                     self._send_json({"ok": False, "error": "telefono_o_nick_requerido"}, 400)
@@ -1231,20 +1249,22 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         # ─── API: RADAR JUGÓN NATIVO (POST) (PASO 9) ──────────────────────────
         # POST /api/radar/guardar
         if parsed.path == '/api/radar/guardar':
-            nick = params.get('nick', '').strip()
+            nick = _safe_str(params.get('nick'))
             if not nick:
                 self._send_json({"ok": False, "error": "nick_requerido"}, 400)
                 return
             try:
+                dias_raw = params.get('dias_disponibles', [])
+                dias_list = dias_raw if isinstance(dias_raw, list) else [str(dias_raw)]
                 res = gestor_db.guardar_radar(
                     nick=nick,
-                    zona=params.get('zona', 'Sector Santiago'),
-                    estilos=params.get('estilos', ''),
-                    favoritos=params.get('favoritos', ''),
-                    coleccion=params.get('coleccion', ''),
-                    dias_disponibles=params.get('dias_disponibles', []),
-                    horario_preferido=params.get('horario_preferido', 'Tarde / Noche (17:00 - 21:00)'),
-                    busca_jugadores_para=params.get('busca_jugadores_para', '')
+                    zona=_safe_str(params.get('zona'), 'Sector Santiago'),
+                    estilos=_safe_str(params.get('estilos')),
+                    favoritos=_safe_str(params.get('favoritos')),
+                    coleccion=_safe_str(params.get('coleccion')),
+                    dias_disponibles=dias_list,
+                    horario_preferido=_safe_str(params.get('horario_preferido'), 'Tarde / Noche (17:00 - 21:00)'),
+                    busca_jugadores_para=_safe_str(params.get('busca_jugadores_para'))
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
@@ -1253,7 +1273,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # POST /api/radar/eliminar o /api/radar/borrar
         if parsed.path in ('/api/radar/eliminar', '/api/radar/borrar'):
-            nick = params.get('nick', '').strip()
+            nick = _safe_str(params.get('nick'))
             if not nick:
                 self._send_json({"ok": False, "error": "nick_requerido"}, 400)
                 return
@@ -1278,8 +1298,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         # Acepta JSON con { "nick": "...", "fecha": "YYYY-MM-DD", "imagenes": [ { "base64": "...", "nombre": "p1.webp" } ] }
         # Guarda las imágenes temporalmente en uploads/temp_misiones/
         if parsed.path == '/api/misiones/subir_pruebas':
-            nick = params.get('nick', '').strip()
-            fecha = params.get('fecha', datetime.now(timezone.utc).strftime('%Y-%m-%d')).strip()
+            nick = _safe_str(params.get('nick'))
+            fecha = _safe_str(params.get('fecha'), datetime.now(timezone.utc).strftime('%Y-%m-%d'))
             imagenes = params.get('imagenes', [])
             if not nick or not imagenes:
                 self._send_json({"ok": False, "error": "nick_e_imagenes_requeridos"}, 400)
@@ -1303,12 +1323,15 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     pass
 
                 for idx, img_data in enumerate(imagenes):
-                    b64_str = img_data.get('base64', '')
+                    if not isinstance(img_data, dict):
+                        continue
+                    b64_str = _safe_str(img_data.get('base64', ''))
                     if ',' in b64_str:
                         b64_str = b64_str.split(',', 1)[1]
                     file_bytes = base64.b64decode(b64_str)
                     clean_nick = re.sub(r'[^a-zA-Z0-9_-]', '', nick)
-                    ext = "webp" if "webp" in img_data.get('nombre', '').lower() else "jpg"
+                    img_name = _safe_str(img_data.get('nombre', ''))
+                    ext = "webp" if "webp" in img_name.lower() else "jpg"
                     unique_name = f"{fecha}_{clean_nick}_{uuid.uuid4().hex[:8]}_{idx+1}.{ext}"
                     file_path = os.path.join(dest_dir, unique_name)
                     with open(file_path, "wb") as f_img:
@@ -1322,11 +1345,13 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # POST /api/misiones/entregar
         if parsed.path == '/api/misiones/entregar':
-            nick = params.get('nick', '').strip()
-            fecha = params.get('fecha', datetime.now(timezone.utc).strftime('%Y-%m-%d')).strip()
-            tipo = params.get('tipo', 'grupal').strip()
-            desafios = params.get('desafios', [])
-            pruebas = params.get('pruebas', [])
+            nick = _safe_str(params.get('nick'))
+            fecha = _safe_str(params.get('fecha'), datetime.now(timezone.utc).strftime('%Y-%m-%d'))
+            tipo = _safe_str(params.get('tipo'), 'grupal')
+            desafios_raw = params.get('desafios', [])
+            desafios = desafios_raw if isinstance(desafios_raw, list) else [str(desafios_raw)]
+            pruebas_raw = params.get('pruebas', [])
+            pruebas = pruebas_raw if isinstance(pruebas_raw, list) else [str(pruebas_raw)]
             if not nick or not desafios:
                 self._send_json({"ok": False, "error": "nick_y_desafios_requeridos"}, 400)
                 return
@@ -1349,14 +1374,27 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             if not self._is_admin(params):
                 self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
                 return
-            mision_id = params.get('mision_id')
-            accion = params.get('accion', 'aprobar').strip()
-            admin_nick = params.get('admin_nick', 'Admin').strip()
-            comentario = params.get('comentario', '').strip()
-            puntos = int(params.get('puntos', 7))
+            mision_id_raw = params.get('mision_id')
+            mision_id = _safe_int(mision_id_raw)
+            accion = _safe_str(params.get('accion'), 'aprobar')
+            admin_nick = _safe_str(params.get('admin_nick'), 'Admin')
+            comentario = _safe_str(params.get('comentario'))
+            puntos = _safe_int(params.get('puntos'), 7)
             if not mision_id:
                 self._send_json({"ok": False, "error": "mision_id_requerido"}, 400)
                 return
+            try:
+                res = gestor_db.moderar_mision(
+                    mision_id=mision_id,
+                    accion=accion,
+                    admin_nick=admin_nick,
+                    comentario=comentario,
+                    puntos_custom=puntos
+                )
+                self._send_json(res, 200 if res.get("ok") else 400)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
             try:
                 res = gestor_db.moderar_mision(
                     mision_id=int(mision_id),

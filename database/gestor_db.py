@@ -734,7 +734,8 @@ def ver_estado():
             print(f"  #{r['pos']} {r['nick']:<15} | Score: {r['score']:>6} | Cortes: {r['cortes']:>3} | Renta: {r['renta_diaria']}")
 
         cursor.execute("SELECT COUNT(*) as total FROM historial_transacciones")
-        total_tx = cursor.fetchone()["total"]
+        row_tx = cursor.fetchone()
+        total_tx = row_tx["total"] if row_tx else 0
         print(f"\n📜 Total registros en historial: {total_tx} (Retención: 21 días / 3 semanas)")
         print("=" * 50 + "\n")
 
@@ -894,8 +895,8 @@ def registrar_voto(encuesta_id, nick, score, comentario=None):
             "SELECT COUNT(*) as total, AVG(score) as promedio FROM votos WHERE encuesta_id = ?",
             (encuesta_id,)
         ).fetchone()
-        total = stats["total"]
-        promedio = round(stats["promedio"], 2)
+        total = stats["total"] if stats else 0
+        promedio = round(stats["promedio"], 2) if (stats and stats["promedio"]) else 0.0
 
         conn.execute(
             "UPDATE encuestas_activas SET total_votos = ?, promedio_score = ? WHERE id = ?",
@@ -1225,6 +1226,8 @@ def bajarse_de_junta(junta_id, nick):
         cursor.execute("DELETE FROM juntas_anotados WHERE id = ?", (anotado["id"],))
         
         junta = cursor.execute("SELECT cupos_disponibles, cupos_totales FROM juntas WHERE id = ?", (junta_id,)).fetchone()
+        if not junta:
+            return {"ok": False, "error": "Junta no encontrada"}
         nuevos_cupos = min(junta["cupos_totales"] - 1, junta["cupos_disponibles"] + 1)
         
         cursor.execute("""
@@ -1703,7 +1706,7 @@ def exportar_mercado_json():
 RADAR_JSON_PATH = os.path.join(PROJECT_ROOT, "radar.json")
 
 def guardar_radar(nick: str, zona: str = "Sector Santiago", estilos: str = "",
-                  favoritos: str = "", coleccion: str = "", dias_disponibles: list = None,
+                  favoritos: str = "", coleccion: str = "", dias_disponibles: list | None = None,
                   horario_preferido: str = "Tarde / Noche (17:00 - 21:00)",
                   busca_jugadores_para: str = "") -> dict:
     """Guarda o actualiza la ficha del Radar Jugón de un miembro autenticado."""
@@ -1821,7 +1824,7 @@ MISIONES_UPLOADS_DIR = os.path.join(PROJECT_ROOT, "uploads", "temp_misiones")
 os.makedirs(MISIONES_UPLOADS_DIR, exist_ok=True)
 
 def registrar_entrega_mision(nick: str, fecha_mision: str, tipo_mision: str = "grupal",
-                             desafios_completados: list = None, pruebas_urls: list = None) -> dict:
+                             desafios_completados: list | None = None, pruebas_urls: list | None = None) -> dict:
     """Registra la entrega de desafíos de una misión diaria para un jugador.
     Control anti-doble cobro: UNIQUE(nick, fecha_mision, tipo_mision)."""
     if not desafios_completados:
@@ -1885,7 +1888,7 @@ def obtener_entrega_mision(nick: str, fecha_mision: str, tipo_mision: str = "gru
             }
         }
 
-def listar_misiones_pendientes(fecha_mision: str = None) -> list:
+def listar_misiones_pendientes(fecha_mision: str | None = None) -> list:
     """Lista las entregas de misiones en estado 'pendiente' para la bandeja de moderación del admin."""
     with get_db() as conn:
         query = "SELECT * FROM misiones_entregas WHERE estado = 'pendiente'"
@@ -2115,16 +2118,18 @@ def obtener_resumen_analytics(dias=30):
         """, (fecha_limite,)).fetchone()
 
         # Visitas hoy
-        hoy_count = conn.execute(
+        row_hoy = conn.execute(
             "SELECT COUNT(*) as c FROM visitas_analytics WHERE DATE(timestamp) = ?",
             (hoy,)
-        ).fetchone()["c"]
+        ).fetchone()
+        hoy_count = row_hoy["c"] if row_hoy else 0
 
         # Visitas ayer
-        ayer_count = conn.execute(
+        row_ayer = conn.execute(
             "SELECT COUNT(*) as c FROM visitas_analytics WHERE DATE(timestamp) = ?",
             (ayer,)
-        ).fetchone()["c"]
+        ).fetchone()
+        ayer_count = row_ayer["c"] if row_ayer else 0
 
         # Top 10 páginas más visitadas
         top_paginas = conn.execute("""
@@ -2186,9 +2191,10 @@ def obtener_resumen_analytics(dias=30):
         """, (fecha_limite,)).fetchall()
 
         # Total registros actuales en la tabla (para saber si está cerca del límite)
-        total_registros = conn.execute(
+        row_tot_reg = conn.execute(
             "SELECT COUNT(*) as c FROM visitas_analytics"
-        ).fetchone()["c"]
+        ).fetchone()
+        total_registros = row_tot_reg["c"] if row_tot_reg else 0
 
         # Archivos históricos disponibles
         archivos = conn.execute(
@@ -2199,16 +2205,17 @@ def obtener_resumen_analytics(dias=30):
     hora_mapa = {r["hora"]: r["visitas"] for r in por_hora}
     dia_mapa = {r["dia"]: r["visitas"] for r in por_dia_semana}
 
+    res_totales = totales or {}
     return {
         "ok": True,
         "periodo_dias": dias,
         "resumen": {
-            "total_visitas": totales["total_visitas"] or 0,
-            "visitantes_unicos": totales["visitantes_unicos"] or 0,
-            "sesiones_unicas": totales["sesiones_unicas"] or 0,
-            "visitas_miembros": totales["visitas_miembros"] or 0,
-            "visitas_anonimas": totales["visitas_anonimas"] or 0,
-            "duracion_promedio_seg": round(totales["duracion_promedio"] or 0, 1),
+            "total_visitas": res_totales.get("total_visitas") or 0,
+            "visitantes_unicos": res_totales.get("visitantes_unicos") or 0,
+            "sesiones_unicas": res_totales.get("sesiones_unicas") or 0,
+            "visitas_miembros": res_totales.get("visitas_miembros") or 0,
+            "visitas_anonimas": res_totales.get("visitas_anonimas") or 0,
+            "duracion_promedio_seg": round(res_totales.get("duracion_promedio") or 0, 1),
             "visitas_hoy": hoy_count,
             "visitas_ayer": ayer_count,
             "variacion_hoy_pct": round(((hoy_count - ayer_count) / max(ayer_count, 1)) * 100, 1)
@@ -2236,7 +2243,8 @@ def _verificar_y_archivar_analytics():
     """
     try:
         with get_db() as conn:
-            total = conn.execute("SELECT COUNT(*) as c FROM visitas_analytics").fetchone()["c"]
+            row_c = conn.execute("SELECT COUNT(*) as c FROM visitas_analytics").fetchone()
+            total = row_c["c"] if row_c else 0
             if total < ANALYTICS_MAX_ROWS:
                 return  # Aún hay espacio, no hacer nada
 
@@ -2577,21 +2585,8 @@ def init_seguridad_tabla():
     print("✅ [Seguridad] Tablas y columnas de seguridad inicializadas.")
 
 
-def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '') -> dict:
-    """Valida las credenciales de un miembro con la lógica completa del plan de seguridad.
-
-    Flujo:
-    1. Busca al jugador por teléfono (normalizado).
-    2. Si tiene clave privada activa:
-       - Rechaza la clave comunitaria con mensaje específico.
-       - Valida el hash de la clave privada. Si correcto → acceso libre (sin límite de dispositivos).
-    3. Si usa clave comunitaria:
-       - Valida contra la clave semanal vigente.
-       - Comprueba/registra el device_id (máximo 2 por teléfono).
-       - Retorna sugerir_clave_privada=True.
-
-    Returns: dict con keys: ok, error (si falla), session (si ok), sugerir_clave_privada, mensaje
-    """
+def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '', nick: str = '') -> dict:
+    """Valida las credenciales de un miembro con la lógica completa del plan de seguridad."""
     # Asegurar que la tabla existe antes de operar
     try:
         init_seguridad_tabla()
@@ -2601,6 +2596,7 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
     phone = _normalize_phone(phone)
     password = password.strip()
     device_id = (device_id or '').strip()
+    nick = (nick or '').strip()
 
     if not phone or not password:
         return {"ok": False, "error": "datos_incompletos", "mensaje": "Teléfono y contraseña son obligatorios."}
@@ -2620,6 +2616,22 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
 
         jugador = dict(row)
         tiene_privada = int(jugador.get('tiene_clave_privada', 0)) == 1
+
+        # Si el usuario ingresó un nick explícito en su login y no colisiona con otro miembro, sincronizarlo
+        if nick and jugador.get('nick') != nick:
+            try:
+                colision = conn.execute(
+                    "SELECT nick FROM jugadores WHERE UPPER(nick) = UPPER(?) AND telefono != ? AND telefono != ?",
+                    (nick, phone, '+' + phone)
+                ).fetchone()
+                if not colision:
+                    conn.execute(
+                        "UPDATE jugadores SET nick = ? WHERE telefono = ? OR telefono = ?",
+                        (nick, phone, '+' + phone)
+                    )
+                    jugador['nick'] = nick
+            except Exception as e_nick:
+                print(f"⚠️ Aviso al actualizar nick en login: {e_nick}")
 
         # ── RAMA 1: Cuenta con clave privada activa ────────────────────────────
         if tiene_privada:
@@ -2675,10 +2687,11 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
                 )
             else:
                 # Nuevo dispositivo: verificar límite
-                count = conn.execute(
+                row_cnt = conn.execute(
                     "SELECT COUNT(*) as cnt FROM dispositivos_miembro WHERE telefono = ?",
                     (phone,)
-                ).fetchone()['cnt']
+                ).fetchone()
+                count = row_cnt['cnt'] if row_cnt else 0
 
                 if count >= 2:
                     return {
@@ -2696,9 +2709,10 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
                 )
 
         # Contar dispositivos actuales para el estado
-        dispositivos_count = conn.execute(
+        row_disp = conn.execute(
             "SELECT COUNT(*) as cnt FROM dispositivos_miembro WHERE telefono = ?", (phone,)
-        ).fetchone()['cnt'] if device_id else 0
+        ).fetchone() if device_id else None
+        dispositivos_count = row_disp['cnt'] if row_disp else 0
 
         # ✅ Login exitoso con clave comunitaria
         return {
@@ -2862,10 +2876,11 @@ def obtener_estado_seguridad(phone: str) -> dict | None:
         if not row:
             return None
 
-        count = conn.execute(
+        row_cnt = conn.execute(
             "SELECT COUNT(*) as cnt FROM dispositivos_miembro WHERE telefono = ? OR telefono = ?",
             (phone, '+' + phone)
-        ).fetchone()['cnt']
+        ).fetchone()
+        count = row_cnt['cnt'] if row_cnt else 0
 
         dispositivos = conn.execute(
             "SELECT device_id, nombre_dispositivo, creado_en, ultimo_acceso FROM dispositivos_miembro WHERE telefono = ? OR telefono = ? ORDER BY ultimo_acceso DESC",
@@ -3016,12 +3031,12 @@ def obtener_jugadores_todos() -> list:
         return []
 
 
-def vincular_jugador_bga(identificador: str, bga_username: str = None, nuevo_nick: str = None, nombre_agenda: str = None) -> dict:
+def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nuevo_nick: str | None = None, nombre_agenda: str | None = None) -> dict:
     """
     Asocia o actualiza el bga_username, nick y/o nombre_agenda_admin de un miembro
     identificado por su teléfono o por su nick actual.
     """
-    clean_id = str(identificador or "").strip()
+    clean_id = identificador.strip()
     if not clean_id:
         return {"ok": False, "error": "identificador_requerido"}
     
@@ -3050,15 +3065,15 @@ def vincular_jugador_bga(identificador: str, bga_username: str = None, nuevo_nic
 
             if bga_username is not None:
                 updates.append("bga_username = ?")
-                params.append(str(bga_username).strip())
+                params.append(bga_username.strip())
 
             if nombre_agenda is not None:
                 updates.append("nombre_agenda_admin = ?")
-                params.append(str(nombre_agenda).strip())
+                params.append(nombre_agenda.strip())
 
-            if nuevo_nick is not None and str(nuevo_nick).strip() and str(nuevo_nick).strip() != target_nick:
+            if nuevo_nick is not None and nuevo_nick.strip() and nuevo_nick.strip() != target_nick:
                 updates.append("nick = ?")
-                params.append(str(nuevo_nick).strip())
+                params.append(nuevo_nick.strip())
 
             if updates:
                 params.append(target_nick)
@@ -3080,7 +3095,7 @@ def vincular_jugador_bga(identificador: str, bga_username: str = None, nuevo_nic
 
 def sumar_puntos_jugador(nick_o_telefono: str, puntos: int, razon: str = "") -> dict:
     """Suma puntos a un jugador por nick o teléfono y registra la transacción en historial_transacciones."""
-    clean_id = str(nick_o_telefono or "").strip()
+    clean_id = nick_o_telefono.strip()
     digits = normalizar_telefono(clean_id)
     try:
         with get_db() as conn:
@@ -3098,13 +3113,13 @@ def sumar_puntos_jugador(nick_o_telefono: str, puntos: int, razon: str = "") -> 
 
             nick = row["nick"]
             saldo_anterior = int(row["puntos"] or 0)
-            nuevo_saldo = saldo_anterior + int(puntos)
+            nuevo_saldo = saldo_anterior + puntos
 
             cur.execute("""
                 UPDATE jugadores 
                 SET puntos = ?, total_ganados = COALESCE(total_ganados, 0) + ?, ultima_actividad = datetime('now')
                 WHERE nick = ?
-            """, (nuevo_saldo, int(puntos), nick))
+            """, (nuevo_saldo, puntos, nick))
 
             # Transacción oficial en historial
             try:
@@ -3113,7 +3128,7 @@ def sumar_puntos_jugador(nick_o_telefono: str, puntos: int, razon: str = "") -> 
                 cur.execute("""
                     INSERT INTO historial_transacciones (timestamp, nick, tipo_evento, descripcion, variacion_pts, saldo_resultante)
                     VALUES (?, ?, 'TORNEO_BGA', ?, ?, ?)
-                """, (now_iso, nick, str(razon), int(puntos), nuevo_saldo))
+                """, (now_iso, nick, razon, puntos, nuevo_saldo))
             except Exception as e_tx:
                 print(f"⚠️ Error registrando historial tx torneo: {e_tx}")
 
@@ -3164,7 +3179,7 @@ def obtener_torneos_activos() -> list:
 def finalizar_torneo(tournament_id: str) -> dict:
     """Marca el torneo como finalizado y limpia los datos transitorios."""
     _init_torneos_tablas()
-    tid = str(tournament_id).strip()
+    tid = tournament_id.strip()
     try:
         with get_db() as conn:
             # Marcar como inactivo (mantiene histórico del torneo)
