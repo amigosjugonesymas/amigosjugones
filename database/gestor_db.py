@@ -1956,19 +1956,32 @@ def moderar_mision(mision_id: int, accion: str, admin_nick: str = "Admin",
         puntos_a_sumar = puntos_custom if accion == "aprobar" else 0
         nuevo_estado = "aprobado" if accion == "aprobar" else "rechazado"
 
-        # 1. Si es aprobación, sumar puntos al jugador
+        # 1. Si es aprobación:
         if accion == "aprobar":
-            conn.execute("UPDATE jugadores SET puntos = puntos + ? WHERE LOWER(nick) = LOWER(?)", (puntos_a_sumar, nick))
-            # Registrar en historial de transacciones si la tabla existe
-            try:
-                row_j = conn.execute("SELECT puntos FROM jugadores WHERE LOWER(nick) = LOWER(?)", (nick,)).fetchone()
-                saldo_act = row_j["puntos"] if row_j else 0
-                conn.execute("""
-                    INSERT INTO historial_transacciones (nick, tipo_evento, descripcion, variacion_pts, saldo_resultante, timestamp)
-                    VALUES (?, 'MISION_DIARIA', ?, ?, ?, datetime('now'))
-                """, (nick, f"Misión Diaria {row['fecha_mision']} ({row['tipo_mision']})", puntos_a_sumar, saldo_act))
-            except Exception:
-                pass
+            es_ataque = (puntos_custom < 0) or ("contraataque" in comentario.lower()) or ("caparaz" in comentario.lower())
+            if es_ataque:
+                # Mecánica Caparazón Azul / Contraataque:
+                # No suma al atacante, sino que descuenta en cascada a todos los que estén estrictamente por encima en el podio.
+                pts_descuento = abs(puntos_custom) if puntos_custom < 0 else 10
+                ejecutar_contraataque(
+                    nick_atacante=nick,
+                    puntos_restar=pts_descuento,
+                    descripcion=f"Impacto Caparazón Azul ({row['fecha_mision']})",
+                    autor=admin_nick
+                )
+                puntos_a_sumar = 0
+            else:
+                conn.execute("UPDATE jugadores SET puntos = puntos + ? WHERE LOWER(nick) = LOWER(?)", (puntos_a_sumar, nick))
+                # Registrar en historial de transacciones si la tabla existe
+                try:
+                    row_j = conn.execute("SELECT puntos FROM jugadores WHERE LOWER(nick) = LOWER(?)", (nick,)).fetchone()
+                    saldo_act = row_j["puntos"] if row_j else 0
+                    conn.execute("""
+                        INSERT INTO historial_transacciones (nick, tipo_evento, descripcion, variacion_pts, saldo_resultante, timestamp)
+                        VALUES (?, 'MISION_DIARIA', ?, ?, ?, datetime('now'))
+                    """, (nick, f"Misión Diaria {row['fecha_mision']} ({row['tipo_mision']})", puntos_a_sumar, saldo_act))
+                except Exception:
+                    pass
 
         # 2. Actualizar estado de la misión
         conn.execute("""

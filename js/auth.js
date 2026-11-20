@@ -1601,45 +1601,89 @@
         const mision  = todas[nickVal % todas.length];
         const nickHoy = new Date().toISOString().slice(0, 10);
 
+        // Detectar si la misión es de Ataque / Caparazón Azul o si es Positiva
+        const esAtaque = (mision.tipo && mision.tipo.toLowerCase() !== 'positiva') ||
+                         String(mision.pts || '').includes('-') ||
+                         String(mision.pts || '').toLowerCase().includes('arriba') ||
+                         String(mision.titulo || '').toLowerCase().includes('ataque') ||
+                         String(mision.titulo || '').toLowerCase().includes('sabotaje');
+
+        let recompensaHtml = '';
+        let badgeHtml = '';
+        let submitBtnText = '';
+        let submitBtnGrad = '';
+        let cardBg = '';
+        let cardBorder = '';
+        let ptsParam = '';
+
+        if (esAtaque) {
+          cardBg = 'background:rgba(239,68,68,0.08);';
+          cardBorder = 'border:1px solid rgba(239,68,68,0.4);';
+          badgeHtml = '<span style="margin-left:auto; font-size:0.68rem; background:rgba(239,68,68,0.25); color:#fca5a5; border:1px solid rgba(239,68,68,0.4); border-radius:20px; padding:3px 10px; font-weight:800; white-space:nowrap;">🐢 Caparazón Azul (Ataque)</span>';
+          
+          const rawNum = parseInt(String(mision.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
+          ptsParam = `-${rawNum}`;
+          
+          recompensaHtml = `
+            <div style="font-size:0.75rem; color:#fca5a5; font-weight:700;">Efecto Cascada (Sabotaje):</div>
+            <div style="font-size:0.85rem; font-weight:800; color:#ef4444; text-align:right;">💣 -${rawNum} PTS a todos los de arriba en el ranking</div>
+          `;
+          submitBtnText = '🐢 Disparar Caparazón Azul (Enviar Prueba)';
+          submitBtnGrad = 'background:linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); box-shadow:0 4px 16px rgba(239,68,68,0.4);';
+        } else {
+          cardBg = 'background:rgba(139,92,246,0.10);';
+          cardBorder = 'border:1px solid rgba(139,92,246,0.4);';
+          badgeHtml = '<span style="margin-left:auto; font-size:0.68rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.4); border-radius:20px; padding:3px 10px; font-weight:800; white-space:nowrap;">✨ Recompensa Personal</span>';
+          
+          const ptsVal = parseInt(String(mision.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
+          ptsParam = `${ptsVal}`;
+          
+          recompensaHtml = `
+            <div style="font-size:0.75rem; color:#94a3b8; font-weight:700;">Recompensa:</div>
+            <div style="font-size:0.9rem; font-weight:800; color:#10b981;">+${ptsVal} PTS a tu cuenta</div>
+          `;
+          submitBtnText = '🤫 Enviar Prueba de Misión Secreta';
+          submitBtnGrad = 'background:linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow:0 4px 16px rgba(139,92,246,0.35);';
+        }
+
         secContent.innerHTML = `
-          <div style="background:rgba(139,92,246,0.10); border:1px solid rgba(139,92,246,0.4); border-radius:14px; padding:16px; margin-bottom:12px;">
+          <div style="${cardBg} ${cardBorder} border-radius:14px; padding:16px; margin-bottom:12px;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-              <span style="font-size:1.6rem;">🤫</span>
+              <span style="font-size:1.6rem;">${esAtaque ? '🐢' : '🤫'}</span>
               <div>
-                <div style="font-size:0.68rem; color:#a78bfa; font-weight:800; text-transform:uppercase; letter-spacing:1px;">Tu Misión Secreta Personal</div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:2px;">Solo tú la ves · Recompensa independiente</div>
+                <div style="font-size:0.68rem; color:${esAtaque ? '#fca5a5' : '#a78bfa'}; font-weight:800; text-transform:uppercase; letter-spacing:1px;">Tu Misión Secreta Personal</div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:2px;">Solo tú la ves · Asignada esta semana</div>
               </div>
-              <span style="margin-left:auto; font-size:0.68rem; background:rgba(139,92,246,0.25); color:#c4b5fd; border-radius:20px; padding:3px 8px; font-weight:700; white-space:nowrap;">${mision.tipo === 'positiva' ? '✨ Positiva' : '⚔️ Ataque'}</span>
+              ${badgeHtml}
             </div>
 
             <div style="font-size:1rem; color:#fff; font-weight:800; margin-bottom:6px; line-height:1.3;">${mision.titulo}</div>
             <div style="font-size:0.78rem; color:#cbd5e1; line-height:1.4; margin-bottom:12px;">${mision.desc || ''}</div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 12px;">
-              <div style="font-size:0.72rem; color:#94a3b8;">Recompensa:</div>
-              <div style="font-size:0.9rem; font-weight:800; color:#a78bfa;">+${mision.pts || '?'} PTS</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 12px; gap:8px;">
+              ${recompensaHtml}
             </div>
           </div>
 
           <!-- Upload de prueba única para Misión Secreta -->
-          <div style="background:#0b1120; border:1px dashed rgba(139,92,246,0.4); border-radius:12px; padding:12px; text-align:center; margin-bottom:12px;">
+          <div style="background:#0b1120; border:1px dashed ${esAtaque ? 'rgba(239,68,68,0.4)' : 'rgba(139,92,246,0.4)'}; border-radius:12px; padding:12px; text-align:center; margin-bottom:12px;">
             <div style="font-size:1.2rem; margin-bottom:4px;">📸</div>
             <div style="font-size:0.82rem; color:#fff; font-weight:700; margin-bottom:2px;">Prueba de tu Misión Secreta</div>
             <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:8px;">1 captura que demuestre que la completaste.</div>
             <input type="file" id="aj-sec-file-input" accept="image/*" style="display:none;" onchange="AuthManager._handleArchivosMisionSecreta(this)">
-            <button type="button" onclick="document.getElementById('aj-sec-file-input').click()" style="background:rgba(139,92,246,0.18); border:1px solid rgba(139,92,246,0.5); color:#a78bfa; font-weight:800; border-radius:8px; padding:8px 14px; font-size:0.78rem; cursor:pointer;">
+            <button type="button" onclick="document.getElementById('aj-sec-file-input').click()" style="background:${esAtaque ? 'rgba(239,68,68,0.18)' : 'rgba(139,92,246,0.18)'}; border:1px solid ${esAtaque ? 'rgba(239,68,68,0.5)' : 'rgba(139,92,246,0.5)'}; color:${esAtaque ? '#fca5a5' : '#a78bfa'}; font-weight:800; border-radius:8px; padding:8px 14px; font-size:0.78rem; cursor:pointer;">
               📷 Seleccionar Captura
             </button>
             <div id="aj-sec-preview" style="margin-top:8px;"></div>
           </div>
 
           <div id="aj-sec-error" style="display:none; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; padding:8px 12px; border-radius:8px; font-size:0.76rem; font-weight:600; margin-bottom:10px; text-align:center;"></div>
-          <div id="aj-sec-ok"    style="display:none; background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.4); color:#c4b5fd; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; margin-bottom:10px; text-align:center;"></div>
+          <div id="aj-sec-ok"    style="display:none; background:${esAtaque ? 'rgba(239,68,68,0.15)' : 'rgba(139,92,246,0.15)'}; border:1px solid ${esAtaque ? 'rgba(239,68,68,0.4)' : 'rgba(139,92,246,0.4)'}; color:${esAtaque ? '#fca5a5' : '#c4b5fd'}; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; margin-bottom:10px; text-align:center;"></div>
 
           <button id="aj-sec-btn-submit"
-            onclick="AuthManager._guardarEntregaMisionSecreta('${nick}', '${nickHoy}', '${mision.id || 'SEC-?'}', '${(mision.pts || '0').toString()}')"
-            style="width:100%; min-height:48px; background:linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); color:#fff; font-weight:800; border:none; border-radius:10px; font-size:0.9rem; cursor:pointer; letter-spacing:0.3px; box-shadow:0 4px 16px rgba(139,92,246,0.35); transition:transform 0.15s ease;">
-            🤫 Enviar Prueba de Misión Secreta
+            onclick="AuthManager._guardarEntregaMisionSecreta('${nick}', '${nickHoy}', '${mision.id || 'SEC-?'}', '${ptsParam}', ${esAtaque})"
+            style="width:100%; min-height:48px; ${submitBtnGrad} color:#fff; font-weight:800; border:none; border-radius:10px; font-size:0.9rem; cursor:pointer; letter-spacing:0.3px; transition:transform 0.15s ease;">
+            ${submitBtnText}
           </button>
         `;
       } catch (e) {
@@ -1691,10 +1735,11 @@
     }
 
     // ── Guardar entrega de Misión Secreta ─────────────────────────────────
-    async _guardarEntregaMisionSecreta(nick, fecha, misionId, pts) {
+    async _guardarEntregaMisionSecreta(nick, fecha, misionId, pts, esAtaque = false) {
       const errDiv = document.getElementById('aj-sec-error');
       const okDiv  = document.getElementById('aj-sec-ok');
       const btn    = document.getElementById('aj-sec-btn-submit');
+      const labelOriginal = esAtaque ? '🐢 Disparar Caparazón Azul (Enviar Prueba)' : '🤫 Enviar Prueba de Misión Secreta';
 
       if (errDiv) errDiv.style.display = 'none';
       if (okDiv)  okDiv.style.display  = 'none';
@@ -1726,26 +1771,31 @@
             desafios: [misionId],
             pruebas: upData.urls || [],
             mision_id: misionId,
-            pts_esperados: parseInt(pts, 10) || 0
+            pts_esperados: parseInt(pts, 10) || (esAtaque ? -10 : 10)
           })
         });
         const entData = await entRes.json();
 
         if (entData && entData.ok) {
-          if (okDiv) { okDiv.textContent = '✅ ¡Prueba enviada! El Admin la revisará pronto.'; okDiv.style.display = 'block'; }
+          if (okDiv) {
+            okDiv.textContent = esAtaque
+              ? '🐢 ¡Prueba de Caparazón Azul enviada! Al ser aprobada por el Admin, detonará el impacto en cascada a los superiores en el ranking.'
+              : '✅ ¡Prueba enviada! El Admin la revisará pronto.';
+            okDiv.style.display = 'block';
+          }
           if (btn) btn.textContent = '✅ Enviado';
           this._secImagenBase64 = null;
           setTimeout(() => {
             const m = document.getElementById('aj-misiones-modal');
             if (m) m.remove();
-          }, 1800);
+          }, 2000);
         } else {
           if (errDiv) { errDiv.textContent = entData.mensaje || entData.error || 'No se pudo registrar la entrega.'; errDiv.style.display = 'block'; }
-          if (btn) { btn.disabled = false; btn.textContent = '🤫 Enviar Prueba de Misión Secreta'; }
+          if (btn) { btn.disabled = false; btn.textContent = labelOriginal; }
         }
       } catch (e) {
         if (errDiv) { errDiv.textContent = 'Error: ' + (e.message || 'Error de red.'); errDiv.style.display = 'block'; }
-        if (btn) { btn.disabled = false; btn.textContent = '🤫 Enviar Prueba de Misión Secreta'; }
+        if (btn) { btn.disabled = false; btn.textContent = labelOriginal; }
       }
     }
 
