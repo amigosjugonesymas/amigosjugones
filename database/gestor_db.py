@@ -489,7 +489,7 @@ def asignar_puntos(nick, puntos, tipo_evento="RETO_MACROJUEGO", descripcion="", 
     exportar_ranking_json()
     return {"ok": True, "nick": nick, "puntos_asignados": puntos, "nuevo_saldo": nuevo_saldo}
 
-def ejecutar_contraataque(nick_atacante, puntos_restar=5, descripcion="Misión Contraataque (Caparazón Azul)", autor="Admin"):
+def ejecutar_contraataque(nick_atacante: str, puntos_restar: int = 5, descripcion: str = "Misión Contraataque (Caparazón Azul)", autor: str = "Admin") -> dict:
     """
     Mecánica Macrojuego: Descuenta puntos a TODOS los jugadores que estén por encima del atacante.
     Regla de Blindaje Diario (Damage Cap): Ningún jugador puede perder más de 25 PTS en un solo día por sabotajes.
@@ -3588,24 +3588,30 @@ def acreditar_dia_por_lote(nicks, tipo: str = "grupal", autor: str = "Admin", fe
     elif tipo in ("ataque", "caparazon"):
         total_saboteadores = len(nicks)
         for atacante in nicks:
-            res_ataque = ejecutar_contraataque(
+            res_ataque: dict = ejecutar_contraataque(
                 nick_atacante=atacante,
                 puntos_restar=pts_ataque,
                 descripcion=f"Caparazón Azul ({fecha})",
                 autor=autor
             )
-            for af in res_ataque.get("detalles", []):
-                existente = next((x for x in impactados_sabotaje if x["nick"].lower() == af["nick"].lower()), None)
-                descuento = af.get("descuento", pts_ataque)
-                if existente:
-                    existente["descuento_total"] += descuento
-                    existente["nuevo_saldo"] = af["nuevo_saldo"]
-                else:
-                    impactados_sabotaje.append({
-                        "nick": af["nick"],
-                        "descuento_total": descuento,
-                        "nuevo_saldo": af["nuevo_saldo"]
-                    })
+            detalles = res_ataque.get("detalles")
+            if isinstance(detalles, list):
+                for af in detalles:
+                    if not isinstance(af, dict):
+                        continue
+                    nick_af = str(af.get("nick", ""))
+                    descuento = int(af.get("descuento", pts_ataque))
+                    nuevo_saldo = int(af.get("nuevo_saldo", 0))
+                    existente = next((x for x in impactados_sabotaje if x["nick"].lower() == nick_af.lower()), None)
+                    if existente:
+                        existente["descuento_total"] += descuento
+                        existente["nuevo_saldo"] = nuevo_saldo
+                    else:
+                        impactados_sabotaje.append({
+                            "nick": nick_af,
+                            "descuento_total": descuento,
+                            "nuevo_saldo": nuevo_saldo
+                        })
 
     exportar_ranking_json()
 
