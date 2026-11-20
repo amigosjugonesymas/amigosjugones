@@ -426,6 +426,16 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ── GET /api/admin/solicitudes_miembros ─────────────────────────────
+        if parsed.path == '/api/admin/solicitudes_miembros':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            estado_filtro = _safe_str(params.get('estado', 'pendiente')) or 'pendiente'
+            resultado = gestor_db.listar_solicitudes_miembros(estado_filtro)
+            self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
+            return
+
 
         # ─── ARCHIVOS ESTÁTICOS ───────────────────────────────────────────────
         super().do_GET()
@@ -1405,16 +1415,13 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         # ── POST /api/solicitudes/miembro_destacado ─────────────────────────
-        if path == '/api/solicitudes/miembro_destacado' and method == 'POST':
-            def _gv(k, d=''):
-                v = params.get(k, d)
-                return v[0] if isinstance(v, list) and v else (v or d)
-            nick = _gv('nick').strip()
-            categoria = _gv('categoria').strip().lower()
-            nombre_proyecto = _gv('nombre_proyecto').strip()
-            enlace = _gv('enlace').strip()
-            descripcion = _gv('descripcion').strip()
-            imagen_url = _gv('imagen_url').strip()
+        if parsed.path == '/api/solicitudes/miembro_destacado':
+            nick = _safe_str(params.get('nick'))
+            categoria = _safe_str(params.get('categoria')).lower()
+            nombre_proyecto = _safe_str(params.get('nombre_proyecto'))
+            enlace = _safe_str(params.get('enlace'))
+            descripcion = _safe_str(params.get('descripcion'))
+            imagen_url = _safe_str(params.get('imagen_url'))
             if not nick or not categoria or not nombre_proyecto or not enlace:
                 self._send_json({'ok': False, 'error': 'Campos nick, categoria, nombre_proyecto y enlace son obligatorios'}, 400)
                 return
@@ -1422,32 +1429,27 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(res, 200 if res.get('ok') else 400)
             return
 
-        # ── GET /api/admin/solicitudes_miembros ─────────────────────────────
-        if path == '/api/admin/solicitudes_miembros' and method == 'GET':
+        # ── POST /api/admin/solicitudes_miembros ────────────────────────────
+        if parsed.path == '/api/admin/solicitudes_miembros':
             if not self._check_admin_token(params):
                 self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
                 return
-            estado_filtro = params.get('estado', 'pendiente')
-            if isinstance(estado_filtro, list):
-                estado_filtro = estado_filtro[0]
+            estado_filtro = _safe_str(params.get('estado', 'pendiente')) or 'pendiente'
             resultado = gestor_db.listar_solicitudes_miembros(estado_filtro)
             self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
             return
 
         # ── POST /api/admin/moderar_solicitud ───────────────────────────────
-        if path == '/api/admin/moderar_solicitud' and method == 'POST':
+        if parsed.path == '/api/admin/moderar_solicitud':
             if not self._check_admin_token(params):
                 self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
                 return
-            def _gv2(k, d=''):
-                v = params.get(k, d)
-                return v[0] if isinstance(v, list) and v else (v or d)
             try:
-                sol_id = int(_gv2('solicitud_id', 0))
+                sol_id = int(_safe_str(params.get('solicitud_id', '0')) or 0)
             except (ValueError, TypeError):
                 sol_id = 0
-            accion = _gv2('accion').strip().lower()
-            admin_nick = _gv2('admin_nick', 'Admin').strip()
+            accion = _safe_str(params.get('accion')).lower()
+            admin_nick = _safe_str(params.get('admin_nick', 'Admin')) or 'Admin'
             if not sol_id or not accion:
                 self._send_json({'ok': False, 'error': 'solicitud_id y accion son obligatorios'}, 400)
                 return

@@ -2457,7 +2457,6 @@
         }
       }
     }
-  }
 
   // ─── MODAL PROYECTO MIEMBRO DESTACADO (CREADORES, TIENDAS, etc.) ───────────
   async abrirModalProyecto(categoria = 'creadores') {
@@ -2591,6 +2590,8 @@
       if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
     }
   }
+
+} // fin class AuthManagerClass
 
   // Instancia Global
   window.AuthManager = new AuthManagerClass();
