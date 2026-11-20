@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-11-18T09:10:47.931771",
+  "last_update": "2026-11-19T20:45:09.493369",
   "semana_activa": "Semana 47 / November 2026",
   "ranking_principal": [
     {
@@ -7,12 +7,12 @@
       "puntos": 152
     },
     {
-      "nombre": "Nico_Piloto",
-      "puntos": 104
+      "nombre": "BLACK",
+      "puntos": 112
     },
     {
-      "nombre": "BLACK",
-      "puntos": 102
+      "nombre": "Nico_Piloto",
+      "puntos": 104
     },
     {
       "nombre": "Kuro_Dragon",
@@ -135,21 +135,21 @@
     {
       "pilot": "BLACK",
       "km": 409.0,
-      "date": "18/11",
+      "date": "19/11",
       "car": "🏎️",
       "rent": "+3 PTS/día"
     },
     {
       "pilot": "Nico_Piloto",
       "km": 242.5,
-      "date": "18/11",
+      "date": "19/11",
       "car": "🚀",
       "rent": "+2 PTS/día"
     },
     {
       "pilot": "Jess_Shadow",
       "km": 198.0,
-      "date": "18/11",
+      "date": "19/11",
       "car": "⚡",
       "rent": "+1 PTS/día"
     }
@@ -160,7 +160,7 @@
       "score": 36000,
       "time": 60,
       "cuts": 90,
-      "date": "18/11",
+      "date": "19/11",
       "rent": "+3 PTS/día"
     },
     {
@@ -168,7 +168,7 @@
       "score": 34500,
       "time": 64,
       "cuts": 82,
-      "date": "18/11",
+      "date": "19/11",
       "rent": "+2 PTS/día"
     },
     {
@@ -176,7 +176,7 @@
       "score": 28900,
       "time": 51,
       "cuts": 68,
-      "date": "18/11",
+      "date": "19/11",
       "rent": "+1 PTS/día"
     }
   ]

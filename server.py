@@ -587,20 +587,26 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     for j in jugadores:
                         if j.get('bga_username') and normalize(j['bga_username']) == bga_norm:
                             return j
-                    # 2. Coincidencia exacta con nick del jugador
+                    # 2. Coincidencia exacta con nick_web
+                    for j in jugadores:
+                        if j.get('nick_web') and normalize(j['nick_web']) == bga_norm:
+                            return j
+                    # 3. Coincidencia exacta con nick del jugador
                     for j in jugadores:
                         if j.get('nick') and normalize(j['nick']) == bga_norm:
                             return j
-                    # 3. Coincidencia exacta con nombre de agenda admin
+                    # 4. Coincidencia exacta con nombre de agenda admin
                     for j in jugadores:
                         if j.get('nombre_agenda_admin') and normalize(j['nombre_agenda_admin']) == bga_norm:
                             return j
-                    # 4. Coincidencia parcial / substring
+                    # 5. Coincidencia parcial / substring
                     for j in jugadores:
                         nick_norm = normalize(j.get('nick', ''))
+                        nick_web_norm = normalize(j.get('nick_web', ''))
                         bga_user_norm = normalize(j.get('bga_username', ''))
                         agenda_norm = normalize(j.get('nombre_agenda_admin', ''))
                         if bga_norm and ((bga_norm in nick_norm or nick_norm in bga_norm) or
+                                         (nick_web_norm and (bga_norm in nick_web_norm or nick_web_norm in bga_norm)) or
                                          (bga_user_norm and (bga_norm in bga_user_norm or bga_user_norm in bga_norm)) or
                                          (agenda_norm and (bga_norm in agenda_norm or agenda_norm in bga_norm))):
                             return j
@@ -714,6 +720,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 bga_username = _safe_str(params.get('bga_username')) if params.get('bga_username') is not None else None
                 nuevo_nick = _safe_str(params.get('nuevo_nick')) if params.get('nuevo_nick') is not None else None
                 nombre_agenda = _safe_str(params.get('nombre_agenda')) if params.get('nombre_agenda') is not None else None
+                nick_web = _safe_str(params.get('nick_web')) if params.get('nick_web') is not None else None
 
                 if not identificador:
                     self._send_json({"ok": False, "error": "telefono_o_nick_requerido"}, 400)
@@ -723,7 +730,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     identificador=identificador,
                     bga_username=bga_username,
                     nuevo_nick=nuevo_nick,
-                    nombre_agenda=nombre_agenda
+                    nombre_agenda=nombre_agenda,
+                    nick_web=nick_web
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:

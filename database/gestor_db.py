@@ -2618,7 +2618,7 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
         tiene_privada = int(jugador.get('tiene_clave_privada', 0)) == 1
 
         # Si el usuario ingresó un nick explícito en su login y no colisiona con otro miembro, sincronizarlo
-        if nick and jugador.get('nick') != nick:
+        if nick:
             try:
                 colision = conn.execute(
                     "SELECT nick FROM jugadores WHERE UPPER(nick) = UPPER(?) AND telefono != ? AND telefono != ?",
@@ -2626,10 +2626,11 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
                 ).fetchone()
                 if not colision:
                     conn.execute(
-                        "UPDATE jugadores SET nick = ? WHERE telefono = ? OR telefono = ?",
-                        (nick, phone, '+' + phone)
+                        "UPDATE jugadores SET nick = ?, nick_web = ? WHERE telefono = ? OR telefono = ?",
+                        (nick, nick, phone, '+' + phone)
                     )
                     jugador['nick'] = nick
+                    jugador['nick_web'] = nick
             except Exception as e_nick:
                 print(f"⚠️ Aviso al actualizar nick en login: {e_nick}")
 
@@ -3014,13 +3015,13 @@ def guardar_participante_torneo(data: dict) -> dict:
 
 
 def obtener_jugadores_todos() -> list:
-    """Retorna todos los jugadores con nick, telefono, nombre_agenda_admin y bga_username para matching de torneos."""
+    """Retorna todos los jugadores con nick, telefono, nombre_agenda_admin, nick_web y bga_username para matching de torneos."""
     try:
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute("""
                 SELECT nick, telefono, nombre_agenda_admin, nombre_perfil_ws, 
-                       COALESCE(bga_username, '') as bga_username, puntos 
+                       nick_web, COALESCE(bga_username, '') as bga_username, puntos 
                 FROM jugadores 
                 WHERE estado = 'Activo' OR estado IS NULL
             """)
@@ -3031,10 +3032,10 @@ def obtener_jugadores_todos() -> list:
         return []
 
 
-def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nuevo_nick: str | None = None, nombre_agenda: str | None = None) -> dict:
+def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nuevo_nick: str | None = None, nombre_agenda: str | None = None, nick_web: str | None = None) -> dict:
     """
-    Asocia o actualiza el bga_username, nick y/o nombre_agenda_admin de un miembro
-    identificado por su teléfono o por su nick actual.
+    Asocia o actualiza el bga_username, nick, nick_web y/o nombre_agenda_admin de un miembro
+    identificado por su teléfono o por su nick actual. Si no existe y se provee teléfono, lo auto-crea.
     """
     clean_id = identificador.strip()
     if not clean_id:
@@ -3057,7 +3058,25 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                 row = cur.fetchone()
 
             if not row:
-                return {"ok": False, "error": f"Miembro con identificador '{clean_id}' no encontrado en la base de datos."}
+                if len(digits) >= 7:
+                    # Auto-crear miembro con teléfono para torneos aunque no esté registrado en la web aún
+                    clean_phone = digits
+                    chosen_nick = (nuevo_nick or nick_web or nombre_agenda or f"Jugador_{clean_phone[-4:]}").strip()
+                    cur.execute("""
+                        INSERT INTO jugadores (nick, telefono, nombre_agenda_admin, bga_username, nick_web, puntos, estado)
+                        VALUES (?, ?, ?, ?, ?, 0, 'Activo')
+                    """, (
+                        chosen_nick,
+                        clean_phone,
+                        (nombre_agenda or "").strip() or None,
+                        (bga_username or "").strip() or None,
+                        (nick_web or "").strip() or None
+                    ))
+                    conn.commit()
+                    cur.execute("SELECT * FROM jugadores WHERE telefono = ?", (clean_phone,))
+                    row = cur.fetchone()
+                else:
+                    return {"ok": False, "error": f"Miembro con identificador '{clean_id}' no encontrado en la base de datos."}
 
             target_nick = row["nick"]
             updates = []
@@ -3071,6 +3090,10 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                 updates.append("nombre_agenda_admin = ?")
                 params.append(nombre_agenda.strip())
 
+            if nick_web is not None:
+                updates.append("nick_web = ?")
+                params.append(nick_web.strip() if nick_web.strip() else None)
+
             if nuevo_nick is not None and nuevo_nick.strip() and nuevo_nick.strip() != target_nick:
                 updates.append("nick = ?")
                 params.append(nuevo_nick.strip())
@@ -3082,7 +3105,7 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                 conn.commit()
 
             cur.execute("""
-                SELECT nick, telefono, nombre_agenda_admin, nombre_perfil_ws, 
+                SELECT nick, telefono, nombre_agenda_admin, nombre_perfil_ws, nick_web,
                        COALESCE(bga_username, '') as bga_username, puntos 
                 FROM jugadores 
                 WHERE nick = ? OR telefono = ?
@@ -3160,11 +3183,11 @@ def obtener_torneos_activos() -> list:
             torneos = [dict(r) for r in cur.fetchall()]
             for t in torneos:
                 cur.execute("""
-                    SELECT p.*, j.telefono, j.nombre_agenda_admin, j.puntos as puntos_actuales
+                    SELECT p.*, j.telefono, j.nombre_agenda_admin, j.nick_web, j.puntos as puntos_actuales
                     FROM torneo_participantes p
                     LEFT JOIN jugadores j ON (
-                        (p.nick_aj IS NOT NULL AND UPPER(p.nick_aj) = UPPER(j.nick)) OR 
-                        (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(j.bga_username))
+                        (p.nick_aj IS NOT NULL AND (UPPER(p.nick_aj) = UPPER(j.nick) OR UPPER(p.nick_aj) = UPPER(COALESCE(j.nick_web, '')))) OR 
+                        (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(COALESCE(j.bga_username, '')))
                     )
                     WHERE p.tournament_id = ?
                     ORDER BY p.rank_actual ASC

@@ -262,7 +262,10 @@
           'clave_invalida': data.mensaje || 'Contraseña incorrecta. Verifica la clave comunitaria del grupo.',
           'clave_incorrecta': data.mensaje || 'Contraseña privada incorrecta.'
         };
-        const userMsg = errMap[data.error] || data.mensaje || data.error || 'Error al iniciar sesión.';
+        const serverStatusMsg = (res && res.status >= 500) 
+          ? '⏳ El servidor en la nube se está reiniciando/actualizando. Espera unos segundos y vuelve a intentar.' 
+          : 'Error al iniciar sesión.';
+        const userMsg = errMap[data.error] || data.mensaje || (data.error ? ('Error: ' + data.error) : serverStatusMsg);
 
         // Enriquecer error de límite de dispositivos con botón de WhatsApp
         if (data.error === 'limite_dispositivos_alcanzado') {

@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS jugadores (
     password_salt TEXT DEFAULT NULL,
     tiene_clave_privada INTEGER NOT NULL DEFAULT 0,
     fecha_registro_privada TEXT DEFAULT NULL,
-    bga_username TEXT DEFAULT NULL
+    bga_username TEXT DEFAULT NULL,
+    nick_web TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS podio_carrera (
