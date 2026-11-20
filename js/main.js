@@ -625,18 +625,18 @@ function openPopup(id) {
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem; line-height: 1.5;">
             <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #34d399;">
-              <strong style="color:var(--text);">1. 📋 Tarjeta de Misión Grupal:</strong><br>
+              <strong style="color:var(--text);">1. 📋 Tarjeta de Misión Grupal (<span style="color:#34d399;">+5 a +15 PTS</span>):</strong><br>
               <span style="color:var(--text-dim);">
-                Cada mañana se activa una tarjeta con 7 desafíos sencillos. Cumples los 7 y ganas los puntos del día.<br>
+                Cada mañana se activa una tarjeta con 7 desafíos sencillos. Cumples los 7 y ganas los puntos asignados a la carta diaria (rotación de +5 a +15 PTS; todos los que la cumplan ganan exactamente la misma cantidad).<br>
                 • <strong style="color:#34d399;">⚡ Bono Activador (+3 PTS):</strong> Cualquiera puede sacar la tarjeta de la web y ponerla en el grupo. El primero en hacerlo gana <strong>+3 PTS</strong> enviando su captura de prueba.<br>
                 • <strong style="color:#f87171;">⚠️ Regla de Activación:</strong> Si la tarjeta no está puesta en el grupo, <em>nadie puede sumar puntos ese día</em>.<br>
-                <span style="color:#f59e0b; font-weight:600;">¡Importante! Debes cumplir los 7 desafíos para cobrar los puntos de la tarjeta.</span>
+                <span style="color:#f59e0b; font-weight:600;">¡Importante! Debes cumplir los 7 desafíos para cobrar los puntos de la tarjeta ("Todo o Nada").</span>
               </span>
             </div>
 
             <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #34d399;">
-              <strong style="color:var(--text);">2. 🤫 Tarjeta de Misión Secreta:</strong><br>
-              <span style="color:var(--text-dim);">Entras a la web y robas tu carta individual del día. Cumples tu reto propio, envías la prueba y sumas puntos (cada miembro tiene retos distintos).</span>
+              <strong style="color:var(--text);">2. 🤫 Tarjeta de Misión Secreta (<span style="color:#34d399;">+5 a +15 PTS</span>):</strong><br>
+              <span style="color:var(--text-dim);">Entras a la web y robas tu carta individual del día. Cumples tu reto propio (Vía Positiva), envías la prueba y sumas de +5 a +15 PTS (los retos son diferentes pero la recompensa fijada para el día es idéntica para todos los que la cumplan).</span>
             </div>
 
             <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #34d399;">
@@ -668,8 +668,8 @@ function openPopup(id) {
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem; line-height: 1.5;">
             <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #f87171;">
-              <strong style="color:var(--text);">💥 Contraatacando (Misión de Sabotaje):</strong><br>
-              <span style="color:var(--text-dim);">Si vas perdiendo, puedes elegir ejecutar la misión secreta de sabotaje de tu tarjeta personal. Si la cumples sin que te descubran, le descuentas de golpe los puntos que indique la tarjeta a <strong style="color:#fff;">TODOS los que estén por encima de ti en el ranking</strong>.</span>
+              <strong style="color:var(--text);">💥 Contraatacando (Caparazón Azul / Sabotaje) (<span style="color:#f87171;">-10 a -20 PTS</span>):</strong><br>
+              <span style="color:var(--text-dim);">Si vas perdiendo, puedes elegir ejecutar la misión secreta de sabotaje de tu tarjeta personal en WhatsApp. Si la cumples sin que te descubran, le descuentas de golpe el valor del día (-10 a -20 PTS) a <strong style="color:#fff;">TODOS los que estén estrictamente por encima de ti en el ranking</strong>. Los ataques de varios miembros se acumulan en cascada, concentrando el mayor castigo sobre los líderes de la cima.</span>
             </div>
 
             <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #f87171;">
@@ -701,11 +701,15 @@ function openPopup(id) {
             </div>
             <div style="display:flex; gap:8px; align-items:flex-start;">
               <span style="color:#fbbf24; font-weight:bold;">2.</span>
-              <span><strong style="color:var(--text);">Debes enviarle a algún administrador capturas de pantalla</strong> de tus objetivos cumplidos para que registren tu puntuación.</span>
+              <span><strong style="color:var(--text);">Debes enviarle a algún administrador capturas de pantalla</strong> de tus objetivos cumplidos para que registren tu puntuación (o enviarlas mediante el módulo web).</span>
             </div>
             <div style="display:flex; gap:8px; align-items:flex-start;">
               <span style="color:#fbbf24; font-weight:bold;">3.</span>
               <span><strong style="color:var(--text);">Hay algunos juegos en la web que te otorgan puntos automáticos</strong>, pero debes iniciar sesión para obtenerlos.</span>
+            </div>
+            <div style="display:flex; gap:8px; align-items:flex-start;">
+              <span style="color:#fbbf24; font-weight:bold;">4.</span>
+              <span><strong style="color:#fbbf24;">🛡️ Requisito de Activación:</strong> Para reclamar y validar los puntos de las Misiones (Grupal de 7 retos o Tarjeta Secreta), tu número debe tener un <strong>Nick activado en la página web</strong>. Los puntos de torneos BGA y actividad general se acumulan automáticamente a tu teléfono.</span>
             </div>
           </div>
         </div>

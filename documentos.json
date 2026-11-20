@@ -11,13 +11,15 @@
         "num": 1,
         "icono": "📋",
         "titulo": "Tarjeta de Misión Grupal",
-        "descripcion": "Cada mañana se activa una tarjeta con 7 desafíos sencillos. Cumples los 7 y ganas los puntos del día.<br>• <strong style=\"color:#34d399;\">⚡ Bono Activador (+3 PTS):</strong> Cualquiera puede sacar la tarjeta de la web y ponerla en el grupo. El primero en hacerlo gana <strong>+3 PTS</strong> enviando su captura de prueba.<br>• <strong style=\"color:#f87171;\">⚠️ Regla de Activación:</strong> Si la tarjeta no está puesta en el grupo, <em>nadie puede sumar puntos ese día</em>.<br><span style=\"color:#f59e0b; font-weight:600;\">¡Importante! Debes cumplir los 7 desafíos para cobrar los puntos de la tarjeta.</span>"
+        "badge": "+5 a +15 PTS",
+        "descripcion": "Cada mañana se activa una tarjeta con 7 desafíos sencillos. Cumples los 7 y ganas los puntos asignados a la carta diaria (rotación de +5 a +15 PTS; todos los que la cumplan ganan exactamente la misma cantidad).<br>• <strong style=\"color:#34d399;\">⚡ Bono Activador (+3 PTS):</strong> Cualquiera puede sacar la tarjeta de la web y ponerla en el grupo. El primero en hacerlo gana <strong>+3 PTS</strong> enviando su captura de prueba.<br>• <strong style=\"color:#f87171;\">⚠️ Regla de Activación:</strong> Si la tarjeta no está puesta en el grupo, <em>nadie puede sumar puntos ese día</em>.<br><span style=\"color:#f59e0b; font-weight:600;\">¡Importante! Debes cumplir los 7 desafíos para cobrar los puntos de la tarjeta (\"Todo o Nada\").</span>"
       },
       {
         "num": 2,
         "icono": "🤫",
         "titulo": "Tarjeta de Misión Secreta",
-        "descripcion": "Entras a la web y robas tu carta individual del día. Cumples tu reto propio, envías la prueba y sumas puntos (cada miembro tiene retos distintos)."
+        "badge": "+5 a +15 PTS",
+        "descripcion": "Entras a la web y robas tu carta individual del día. Cumples tu reto propio (Vía Positiva), envías la prueba y sumas de +5 a +15 PTS (los retos son diferentes pero la recompensa diaria fijada es idéntica para todos los que la cumplan)."
       },
       {
         "num": 3,
@@ -50,8 +52,9 @@
     "resta_puntos": [
       {
         "icono": "💥",
-        "titulo": "Contraatacando (Misión de Sabotaje)",
-        "descripcion": "Si vas perdiendo, puedes elegir ejecutar la misión secreta de sabotaje de tu tarjeta personal. Si la cumples sin que te descubran, le descuentas de golpe los puntos que indique la tarjeta a <strong style=\"color:#fff;\">TODOS los que estén por encima de ti en el ranking</strong>."
+        "titulo": "Contraatacando (Caparazón Azul / Sabotaje)",
+        "badge": "-10 a -20 PTS",
+        "descripcion": "Si vas perdiendo, puedes elegir ejecutar la misión de sabotaje de tu tarjeta personal en WhatsApp. Si la cumples sin que te descubran, le descuentas de golpe el valor del día (-10 a -20 PTS) a <strong style=\"color:#fff;\">TODOS los que estén estrictamente por encima de ti en el ranking</strong>. Los ataques de varios miembros se acumulan en cascada, castigando con mayor fuerza acumulada a los líderes de la cima."
       },
       {
         "icono": "🏎️",
@@ -71,11 +74,15 @@
       },
       {
         "num": 2,
-        "texto": "Debes enviarle a algún administrador capturas de pantalla de tus objetivos cumplidos para que registren tu puntuación."
+        "texto": "Debes enviarle a algún administrador capturas de pantalla de tus objetivos cumplidos para que registren tu puntuación (o enviarlas mediante el módulo web)."
       },
       {
         "num": 3,
         "texto": "Hay algunos juegos en la web que te otorgan puntos automáticos, pero debes iniciar sesión para obtenerlos."
+      },
+      {
+        "num": 4,
+        "texto": "🛡️ Requisito de Activación: Para reclamar y validar los puntos de las Misiones (Grupal de 7 retos o Tarjeta Secreta), tu número debe tener un Nick activado en la página web. Los puntos de torneos BGA y actividad general se acumulan automáticamente a tu teléfono."
       }
     ]
   },
