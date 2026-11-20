@@ -5767,15 +5767,48 @@ function getDefaultDocs() {
 
 function getDefaultForms() {
   return [
-    { nombre: 'Eventos y Concursos de la Comunidad', icono: '👑', descripcion: 'Promueve tu torneo, tarde de juegos o concurso', alimenta: 'Cartelera y Calendario', onclick: "AuthManager.abrirModalEvento('Evento')" },
-    { nombre: 'Disponibilidad para jugar',         icono: '⏰', descripcion: 'Indica cuándo puedes jugar',                 alimenta: 'Radar Jugón',               onclick: "AuthManager.abrirModalRadar()" },
-    { nombre: 'Mercado Amigos Jugones',            icono: '🛒', descripcion: 'Publica tu juego a la venta o cambio',       alimenta: 'El Mercado Jugón',          onclick: "AuthManager.abrirModalMercado()" },
-    { nombre: 'Tu fecha de cumpleaños',            icono: '🎂', descripcion: 'Para ser saludado en el grupo',              alimenta: 'Recordatorios del grupo',   onclick: "AuthManager.abrirModalCumpleanos()" },
-    { nombre: 'Creadores en Amigos Jugones',     icono: '🎬', descripcion: 'Registra tu canal o perfil de creador',        alimenta: 'Sección Creadores',         onclick: "AuthManager.abrirModalProyecto('creadores')" },
-    { nombre: 'Organizaciones en Amigos Jugones', icono: '🏢', descripcion: 'Registra tu organización o club lúdico',      alimenta: 'Sección Organizaciones',    onclick: "AuthManager.abrirModalProyecto('organizaciones')" },
-    { nombre: 'Tiendas en Amigos Jugones',         icono: '🛍️', descripcion: 'Registra tu tienda o catálogo',              alimenta: 'Sección Tiendas',           onclick: "AuthManager.abrirModalProyecto('tiendas')" },
-    { nombre: 'Tu perfil en Instagram',            icono: '📷', descripcion: 'Agrega tu perfil personal o de fotos',       alimenta: 'Sección Participantes',     onclick: "AuthManager.abrirModalProyecto('participantes')" },
-    { nombre: 'Tus redes de divulgación',          icono: '📡', descripcion: 'Registra tus canales de divulgación',        alimenta: 'Sección Divulgadores',      onclick: "AuthManager.abrirModalProyecto('divulgadores')" },
+    {
+      nombre: 'Eventos y Concursos de la Comunidad',
+      icono: '👑',
+      descripcion: 'Promueve tu torneo, tarde de juegos o concurso',
+      alimenta: 'Cartelera y Calendario',
+      onclick: "AuthManager.abrirModalEvento('Evento')"
+    },
+    {
+      nombre: 'Disponibilidad para jugar',
+      icono: '⏰',
+      descripcion: 'Indica tus días, horarios y juegos preferidos',
+      alimenta: 'Radar Jugón',
+      onclick: "AuthManager.abrirModalRadar()"
+    },
+    {
+      nombre: 'Mercado Amigos Jugones',
+      icono: '🛒',
+      descripcion: 'Publica tu juego a la venta, trueque o servicio',
+      alimenta: 'El Mercado Jugón',
+      onclick: "AuthManager.abrirModalMercado()"
+    },
+    {
+      nombre: 'Tu fecha de cumpleaños',
+      icono: '🎂',
+      descripcion: 'Para ser saludado y celebrado en el grupo',
+      alimenta: 'Recordatorios del grupo',
+      onclick: "AuthManager.abrirModalCumpleanos()"
+    },
+    {
+      nombre: 'Miembros Destacados de la Comunidad',
+      icono: '⭐',
+      descripcion: 'Registra tu perfil, creador, tienda, organización o divulgación',
+      alimenta: 'Sección Miembros Destacados',
+      onclick: "AuthManager.abrirModalProyecto()"
+    },
+    {
+      nombre: 'Misiones Diarias (Envío de Pruebas)',
+      icono: '🃏',
+      descripcion: 'Envía tus capturas o pruebas de retos diarios y secretos',
+      alimenta: 'Puntos y Desafíos Diarios',
+      onclick: "AuthManager.abrirModalMisiones()"
+    },
   ];
 }
 
