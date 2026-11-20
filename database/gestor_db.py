@@ -3485,7 +3485,7 @@ def obtener_o_crear_config_dia(fecha: str | None = None) -> dict:
         }
 
 
-def actualizar_config_dia(fecha: str, **kwargs) -> dict:
+def actualizar_config_dia(fecha: str | None = None, **kwargs) -> dict:
     """
     Actualiza cualquier parámetro de la Ficha Diaria del Macrojuego (puntos, switch x2, umbral, etc.).
     """

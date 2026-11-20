@@ -1550,15 +1550,19 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             kwargs = {}
             for k in ("pts_grupal", "pts_ataque", "catchup_activo", "catchup_umbral", "catchup_multiplicador", "damage_cap", "notas"):
                 if k in params and params[k] is not None:
-                    val = params[k]
+                    raw_val = params[k]
+                    if isinstance(raw_val, list) and raw_val:
+                        raw_val = raw_val[0]
                     if k in ("pts_grupal", "pts_ataque", "catchup_activo", "catchup_umbral", "catchup_multiplicador", "damage_cap"):
                         try:
-                            val = int(val)
+                            val = int(str(raw_val).strip())
                         except (ValueError, TypeError):
                             continue
+                    else:
+                        val = str(raw_val)
                     kwargs[k] = val
             res = gestor_db.actualizar_config_dia(fecha, **kwargs)
-            self._send_json({'ok': True, 'config': res}, 200)
+            self._send_json({'ok': True, **res}, 200)
             return
 
         # ── POST /api/admin/acreditar_dia ───────────────────────────────────
