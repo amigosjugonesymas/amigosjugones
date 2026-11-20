@@ -1403,19 +1403,6 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
-            try:
-                res = gestor_db.moderar_mision(
-                    mision_id=int(mision_id),
-                    accion=accion,
-                    admin_nick=admin_nick,
-                    comentario=comentario,
-                    puntos_custom=puntos
-                )
-                self._send_json(res, 200 if res.get("ok") else 400)
-            except Exception as e:
-                self._send_json({"ok": False, "error": str(e)}, 500)
-            return
-
 
         self._send_json({"ok": False, "error": "endpoint_no_encontrado"}, 404)
 

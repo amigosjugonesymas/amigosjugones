@@ -194,7 +194,8 @@ def get_db():
     """
     if TURSO_URL and TURSO_TOKEN:
         try:
-            import libsql_client
+            import importlib
+            libsql_client = importlib.import_module("libsql_client")
             cli = libsql_client.create_client_sync(TURSO_URL, auth_token=TURSO_TOKEN)
             return TursoConnection(cli)
         except Exception as e:
@@ -3075,12 +3076,14 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                     conn.commit()
                     cur.execute("SELECT * FROM jugadores WHERE telefono = ?", (clean_phone,))
                     row = cur.fetchone()
-                else:
-                    return {"ok": False, "error": f"Miembro con identificador '{clean_id}' no encontrado en la base de datos."}
 
-            target_nick = row["nick"]
-            updates = []
-            params = []
+            if not row:
+                return {"ok": False, "error": f"Miembro con identificador '{clean_id}' no encontrado en la base de datos."}
+
+            target_nick = str(row["nick"])
+            row_telefono = str(row["telefono"] or "")
+            updates: list[str] = []
+            params: list[object] = []
 
             if bga_username is not None:
                 updates.append("bga_username = ?")
@@ -3109,7 +3112,7 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                        COALESCE(bga_username, '') as bga_username, puntos 
                 FROM jugadores 
                 WHERE nick = ? OR telefono = ?
-            """, (nuevo_nick or target_nick, row["telefono"]))
+            """, (nuevo_nick or target_nick, row_telefono))
             act = cur.fetchone()
             return {"ok": True, "jugador": dict(act) if act else None}
     except Exception as e:
