@@ -4771,7 +4771,10 @@ function renderFormularios(el, d) {
     </div>
     <div class="grid-2">
       ${forms.map(f => `
-        <a href="${f.url || '#'}" target="_blank" class="form-card">
+        <div class="form-card" role="button" tabindex="0" style="cursor:pointer;"
+          onclick="${f.onclick || 'void(0)'}"
+          onkeydown="if(event.key==='Enter'||event.key===' '){${f.onclick || 'void(0)'}}"
+        >
           <div class="form-icon">${f.icono || '📝'}</div>
           <div class="form-info">
             <div class="form-name">${escapeHtml(f.nombre)}</div>
@@ -4779,7 +4782,7 @@ function renderFormularios(el, d) {
             ${f.alimenta ? `<div class="form-feeds">→ Alimenta: ${escapeHtml(f.alimenta)}</div>` : ''}
           </div>
           <span class="doc-arrow text-green">→</span>
-        </a>
+        </div>
       `).join('')}
     </div>
   `;
@@ -5764,14 +5767,14 @@ function getDefaultDocs() {
 
 function getDefaultForms() {
   return [
-    { nombre: 'Creadores en Amigos Jugones', icono: '🎬', descripcion: 'Registra tu canal/perfil de creador', alimenta: 'Sección Creadores' },
-    { nombre: 'Disponibilidad para jugar', icono: '⏰', descripcion: 'Indica cuándo puedes jugar', alimenta: 'Radar Jugón' },
-    { nombre: 'Mercado Amigos Jugones', icono: '🛒', descripcion: 'Publica tu juego a la venta o cambio', alimenta: 'El Mercado Jugón' },
-    { nombre: 'Organizaciones en Amigos Jugones', icono: '🏢', descripcion: 'Registra tu organización', alimenta: 'Sección Organizaciones' },
-    { nombre: 'Tiendas en Amigos Jugones', icono: '🛍️', descripcion: 'Registra tu tienda', alimenta: 'Sección Tiendas' },
-    { nombre: 'Tu fecha de cumpleaños', icono: '🎂', descripcion: 'Para ser saludado en el grupo', alimenta: 'Recordatorios del grupo' },
-    { nombre: 'Tu perfil en Instagram', icono: '📷', descripcion: 'Agrega tu perfil personal', alimenta: 'Sección Participantes' },
-    { nombre: 'Tus redes de divulgación', icono: '📡', descripcion: 'Registra tus canales de divulgación', alimenta: 'Sección Divulgadores' },
+    { nombre: 'Creadores en Amigos Jugones',     icono: '🎬', descripcion: 'Registra tu canal/perfil de creador',         alimenta: 'Sección Creadores',         onclick: "AuthManager.abrirModalProyecto('creadores')" },
+    { nombre: 'Disponibilidad para jugar',         icono: '⏰', descripcion: 'Indica cuándo puedes jugar',                 alimenta: 'Radar Jugón',               onclick: "AuthManager.abrirModalRadar()" },
+    { nombre: 'Mercado Amigos Jugones',            icono: '🛒', descripcion: 'Publica tu juego a la venta o cambio',       alimenta: 'El Mercado Jugón',          onclick: "AuthManager.abrirModalMercado()" },
+    { nombre: 'Organizaciones en Amigos Jugones', icono: '🏢', descripcion: 'Registra tu organización',                   alimenta: 'Sección Organizaciones',    onclick: "AuthManager.abrirModalProyecto('organizaciones')" },
+    { nombre: 'Tiendas en Amigos Jugones',         icono: '🛍️', descripcion: 'Registra tu tienda',                        alimenta: 'Sección Tiendas',           onclick: "AuthManager.abrirModalProyecto('tiendas')" },
+    { nombre: 'Tu fecha de cumpleaños',            icono: '🎂', descripcion: 'Para ser saludado en el grupo',              alimenta: 'Recordatorios del grupo',   onclick: "AuthManager.abrirModalCumpleanos()" },
+    { nombre: 'Tu perfil en Instagram',            icono: '📷', descripcion: 'Agrega tu perfil personal',                  alimenta: 'Sección Participantes',     onclick: "AuthManager.abrirModalProyecto('participantes')" },
+    { nombre: 'Tus redes de divulgación',          icono: '📡', descripcion: 'Registra tus canales de divulgación',        alimenta: 'Sección Divulgadores',      onclick: "AuthManager.abrirModalProyecto('divulgadores')" },
   ];
 }
 

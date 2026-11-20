@@ -1404,6 +1404,57 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ── POST /api/solicitudes/miembro_destacado ─────────────────────────
+        if path == '/api/solicitudes/miembro_destacado' and method == 'POST':
+            def _gv(k, d=''):
+                v = params.get(k, d)
+                return v[0] if isinstance(v, list) and v else (v or d)
+            nick = _gv('nick').strip()
+            categoria = _gv('categoria').strip().lower()
+            nombre_proyecto = _gv('nombre_proyecto').strip()
+            enlace = _gv('enlace').strip()
+            descripcion = _gv('descripcion').strip()
+            imagen_url = _gv('imagen_url').strip()
+            if not nick or not categoria or not nombre_proyecto or not enlace:
+                self._send_json({'ok': False, 'error': 'Campos nick, categoria, nombre_proyecto y enlace son obligatorios'}, 400)
+                return
+            res = gestor_db.guardar_solicitud_miembro(nick, categoria, nombre_proyecto, enlace, descripcion, imagen_url)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── GET /api/admin/solicitudes_miembros ─────────────────────────────
+        if path == '/api/admin/solicitudes_miembros' and method == 'GET':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            estado_filtro = params.get('estado', 'pendiente')
+            if isinstance(estado_filtro, list):
+                estado_filtro = estado_filtro[0]
+            resultado = gestor_db.listar_solicitudes_miembros(estado_filtro)
+            self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
+            return
+
+        # ── POST /api/admin/moderar_solicitud ───────────────────────────────
+        if path == '/api/admin/moderar_solicitud' and method == 'POST':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            def _gv2(k, d=''):
+                v = params.get(k, d)
+                return v[0] if isinstance(v, list) and v else (v or d)
+            try:
+                sol_id = int(_gv2('solicitud_id', 0))
+            except (ValueError, TypeError):
+                sol_id = 0
+            accion = _gv2('accion').strip().lower()
+            admin_nick = _gv2('admin_nick', 'Admin').strip()
+            if not sol_id or not accion:
+                self._send_json({'ok': False, 'error': 'solicitud_id y accion son obligatorios'}, 400)
+                return
+            res = gestor_db.moderar_solicitud_miembro(sol_id, accion, admin_nick)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
         self._send_json({"ok": False, "error": "endpoint_no_encontrado"}, 404)
 
 
@@ -1530,6 +1581,15 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
         self.end_headers()
         self.wfile.write(body)
+
+    def _check_admin_token(self, params):
+        """Verifica el token de administrador en los parámetros."""
+        import os
+        ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ')
+        token = params.get('token', '')
+        if isinstance(token, list):
+            token = token[0] if token else ''
+        return str(token).strip() == ADMIN_TOKEN
 
     def end_headers(self):
         # Desactivar caché para archivos de datos dinámicos

@@ -3225,6 +3225,78 @@ def finalizar_torneo(tournament_id: str) -> dict:
 
 
 # =============================================================================
+# SOLICITUDES DE MIEMBROS DESTACADOS (CREADORES, ORG., TIENDAS, INSTAGRAM, DIVULG.)
+# =============================================================================
+
+def guardar_solicitud_miembro(nick: str, categoria: str, nombre_proyecto: str,
+                               enlace: str, descripcion: str = '',
+                               imagen_url: str = '') -> dict:
+    """Guarda una nueva solicitud de miembro destacado (Creadores, Tiendas, etc.)."""
+    CATEGORIAS_VALIDAS = {'creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores'}
+    nick = nick.strip()
+    categoria = categoria.strip().lower()
+    nombre_proyecto = nombre_proyecto.strip()
+    enlace = enlace.strip()
+
+    if not nick or not categoria or not nombre_proyecto or not enlace:
+        return {'ok': False, 'error': 'nick, categoria, nombre_proyecto y enlace son obligatorios'}
+    if categoria not in CATEGORIAS_VALIDAS:
+        return {'ok': False, 'error': f'categoria_invalida: {categoria}. Válidas: {CATEGORIAS_VALIDAS}'}
+
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                INSERT INTO solicitudes_miembros
+                    (nick, categoria, nombre_proyecto, enlace, descripcion, imagen_url)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (nick, categoria, nombre_proyecto, enlace, descripcion or '', imagen_url or ''))
+        return {'ok': True, 'mensaje': f'Solicitud de {categoria} registrada. Pendiente de revisión.'}
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+
+
+def listar_solicitudes_miembros(estado: str = 'pendiente') -> list:
+    """Retorna solicitudes de miembros filtradas por estado (pendiente/aprobado/rechazado)."""
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            if estado == 'todas':
+                cur.execute("""
+                    SELECT id, nick, categoria, nombre_proyecto, enlace, descripcion,
+                           imagen_url, estado, admin_revisor, fecha_solicitud, fecha_revision
+                    FROM solicitudes_miembros ORDER BY fecha_solicitud DESC
+                """)
+            else:
+                cur.execute("""
+                    SELECT id, nick, categoria, nombre_proyecto, enlace, descripcion,
+                           imagen_url, estado, admin_revisor, fecha_solicitud, fecha_revision
+                    FROM solicitudes_miembros WHERE estado = ? ORDER BY fecha_solicitud DESC
+                """, (estado,))
+            rows = cur.fetchall()
+            return [dict(r) for r in rows]
+    except Exception as e:
+        print(f"⚠️ [Solicitudes] Error listando: {e}")
+        return []
+
+
+def moderar_solicitud_miembro(solicitud_id: int, accion: str, admin_nick: str = '') -> dict:
+    """Aprueba o rechaza una solicitud de miembro destacado."""
+    if accion not in ('aprobar', 'rechazar'):
+        return {'ok': False, 'error': 'accion debe ser aprobar o rechazar'}
+    nuevo_estado = 'aprobado' if accion == 'aprobar' else 'rechazado'
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                UPDATE solicitudes_miembros
+                SET estado = ?, admin_revisor = ?, fecha_revision = datetime('now')
+                WHERE id = ?
+            """, (nuevo_estado, admin_nick or 'Admin', solicitud_id))
+        return {'ok': True, 'solicitud_id': solicitud_id, 'nuevo_estado': nuevo_estado}
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+
+
+# =============================================================================
 # =============================================================================
 if __name__ == "__main__":
     if len(sys.argv) > 1:

@@ -2459,6 +2459,139 @@
     }
   }
 
+  // ─── MODAL PROYECTO MIEMBRO DESTACADO (CREADORES, TIENDAS, etc.) ───────────
+  async abrirModalProyecto(categoria = 'creadores') {
+    const isAuth = this.isAuthenticated();
+    if (!isAuth) {
+      this.showModal({ reason: 'Identifícate para registrar tu proyecto en la comunidad.' });
+      return;
+    }
+    this.closeModal();
+
+    const CATS = {
+      creadores:      { label: 'Creadores en Amigos Jugones',    icon: '🎬', placeholder_nombre: 'Nombre de tu canal o perfil', placeholder_enlace: 'URL de YouTube, Twitch, etc.' },
+      organizaciones: { label: 'Organizaciones en Amigos Jugones', icon: '🏢', placeholder_nombre: 'Nombre de la organización',    placeholder_enlace: 'Web o redes de la organización' },
+      tiendas:        { label: 'Tiendas en Amigos Jugones',       icon: '🛍️', placeholder_nombre: 'Nombre de tu tienda',           placeholder_enlace: 'Web o Instagram de la tienda' },
+      participantes:  { label: 'Tu perfil en Instagram',          icon: '📷', placeholder_nombre: 'Tu nombre o nickname',          placeholder_enlace: 'URL de tu perfil de Instagram' },
+      divulgadores:   { label: 'Tus redes de divulgación',        icon: '📡', placeholder_nombre: 'Tu nombre o canal',             placeholder_enlace: 'URL principal de tus redes' },
+    };
+
+    const cat = CATS[categoria] || CATS['creadores'];
+    const nick = this.getNick();
+    const modalId = 'aj-proyecto-modal';
+
+    let modal = document.getElementById(modalId);
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = modalId;
+      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:16px;';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="card glow custom-scrollbar" style="width:100%; max-width:480px; background:linear-gradient(145deg,#0f0f1e,#080814); border:1px solid rgba(168,85,247,0.4); border-radius:16px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto;">
+        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.08); border:none; color:#94a3b8; border-radius:8px; width:30px; height:30px; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">✕</button>
+
+        <div style="text-align:center; margin-bottom:20px;">
+          <div style="font-size:2.5rem; margin-bottom:6px; filter:drop-shadow(0 0 14px rgba(168,85,247,0.5));">${cat.icon}</div>
+          <h2 style="font-size:1.1rem; color:#fff; font-weight:800; margin:0 0 4px; letter-spacing:0.5px;">${cat.label}</h2>
+          <div style="font-size:0.68rem; color:#a855f7; font-weight:700; text-transform:uppercase; letter-spacing:1.5px;">REGISTRO COMUNITARIO</div>
+        </div>
+
+        <div id="aj-proyecto-msg" style="display:none; padding:10px 14px; border-radius:8px; margin-bottom:14px; font-size:0.82rem; font-weight:600;"></div>
+
+        <form id="aj-proyecto-form" style="display:flex; flex-direction:column; gap:14px;" onsubmit="return false;">
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Nombre del proyecto *</label>
+            <input id="aj-proy-nombre" type="text" placeholder="${cat.placeholder_nombre}"
+              style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;"
+              required maxlength="120">
+          </div>
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Enlace / URL *</label>
+            <input id="aj-proy-enlace" type="url" placeholder="${cat.placeholder_enlace}"
+              style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;"
+              required maxlength="300">
+          </div>
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Descripción breve (opcional)</label>
+            <textarea id="aj-proy-desc" placeholder="Cuéntanos un poco sobre tu proyecto..."
+              rows="3" style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.85rem; outline:none; resize:vertical; box-sizing:border-box; font-family:inherit;" maxlength="400"></textarea>
+          </div>
+
+          <button id="aj-proy-btn" type="submit" onclick="AuthManager._submitProyecto('${categoria}', '${nick}')"
+            style="width:100%; padding:13px; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:10px; font-size:0.92rem; font-weight:800; cursor:pointer; letter-spacing:0.5px; text-transform:uppercase; transition:opacity 0.2s;">
+            ${cat.icon} Enviar Solicitud
+          </button>
+        </form>
+
+        <div style="margin-top:16px; text-align:center; font-size:0.72rem; color:#475569; line-height:1.5;">
+          Tu solicitud será revisada por el equipo de Amigos Jugones antes de aparecer en la sección.
+        </div>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+  }
+
+  async _submitProyecto(categoria, nick) {
+    const btn = document.getElementById('aj-proy-btn');
+    const msgDiv = document.getElementById('aj-proyecto-msg');
+    const nombre = (document.getElementById('aj-proy-nombre')?.value || '').trim();
+    const enlace = (document.getElementById('aj-proy-enlace')?.value || '').trim();
+    const desc = (document.getElementById('aj-proy-desc')?.value || '').trim();
+
+    if (!nombre || !enlace) {
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        msgDiv.style.background = 'rgba(239,68,68,0.15)';
+        msgDiv.style.color = '#f87171';
+        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+        msgDiv.textContent = '⚠️ Nombre y enlace son obligatorios.';
+      }
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
+
+    try {
+      const apiBase = AUTH_CONFIG.apiUrl('');
+      const url = apiBase ? `${apiBase}/api/solicitudes/miembro_destacado` : '/api/solicitudes/miembro_destacado';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nick, categoria, nombre_proyecto: nombre, enlace, descripcion: desc })
+      });
+      const data = await res.json();
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        if (data.ok) {
+          msgDiv.style.background = 'rgba(16,185,129,0.15)';
+          msgDiv.style.color = '#34d399';
+          msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
+          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud enviada! Será revisada pronto.');
+          document.getElementById('aj-proyecto-form')?.reset();
+          if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
+        } else {
+          msgDiv.style.background = 'rgba(239,68,68,0.15)';
+          msgDiv.style.color = '#f87171';
+          msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+          msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
+          if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+        }
+      }
+    } catch (err) {
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        msgDiv.style.background = 'rgba(239,68,68,0.15)';
+        msgDiv.style.color = '#f87171';
+        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+        msgDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+      }
+      if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+    }
+  }
+
   // Instancia Global
   window.AuthManager = new AuthManagerClass();
   window.cumpleanosAbrirModal = () => window.AuthManager && window.AuthManager.abrirModalCumpleanos();

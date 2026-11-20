@@ -420,3 +420,26 @@ CREATE TABLE IF NOT EXISTS misiones_entregas (
 CREATE INDEX IF NOT EXISTS idx_misiones_estado ON misiones_entregas(estado, fecha_mision);
 CREATE INDEX IF NOT EXISTS idx_misiones_nick ON misiones_entregas(nick);
 
+-- ============================================================================
+-- SOLICITUDES DE MIEMBROS DESTACADOS (CREADORES, ORGANIZACIONES, TIENDAS, INSTAGRAM, DIVULGADORES)
+-- Sustituye formularios externos de Google Forms con recepción nativa y moderación.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS solicitudes_miembros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nick TEXT NOT NULL REFERENCES jugadores(nick) ON DELETE CASCADE,
+    categoria TEXT NOT NULL CHECK(categoria IN ('creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores')),
+    nombre_proyecto TEXT NOT NULL,
+    enlace TEXT NOT NULL,
+    descripcion TEXT DEFAULT '',
+    imagen_url TEXT DEFAULT '',
+    estado TEXT NOT NULL DEFAULT 'pendiente' CHECK(estado IN ('pendiente', 'aprobado', 'rechazado')),
+    admin_revisor TEXT DEFAULT NULL,
+    fecha_solicitud TEXT NOT NULL DEFAULT (datetime('now')),
+    fecha_revision TEXT DEFAULT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_estado ON solicitudes_miembros(estado, categoria);
+CREATE INDEX IF NOT EXISTS idx_solicitudes_nick ON solicitudes_miembros(nick);
+
+
