@@ -1781,18 +1781,33 @@ def exportar_radar_json() -> dict:
         rows = conn.execute("SELECT * FROM radar_jugadores ORDER BY nick COLLATE NOCASE ASC").fetchall()
         fichas = []
         for r in rows:
-            dias = []
+            dias_raw = None
             try:
-                dias = json.loads(r["dias_disponibles"]) if r["dias_disponibles"] else []
+                dias_raw = json.loads(r["dias_disponibles"]) if r["dias_disponibles"] else []
             except Exception:
-                dias = []
+                dias_raw = []
+
+            disp_map = {}
+            dias_activos = []
+            if isinstance(dias_raw, dict):
+                disp_map = dias_raw
+                for k, v in dias_raw.items():
+                    horario_val = v.get("horario", "") if isinstance(v, dict) else str(v)
+                    if horario_val and not any(neg in horario_val.lower() for neg in ["no tengo disponible", "no disponible"]):
+                        dias_activos.append(k)
+            elif isinstance(dias_raw, list):
+                dias_activos = dias_raw
+                for d in dias_raw:
+                    disp_map[d] = {"horario": r["horario_preferido"], "excepcion": ""}
+
             fichas.append({
                 "nick": r["nick"],
                 "zona": r["zona"],
                 "estilos": r["estilos"],
                 "favoritos": r["favoritos"],
                 "coleccion": r["coleccion"],
-                "dias_disponibles": dias,
+                "dias_disponibles": dias_activos,
+                "disponibilidad": disp_map,
                 "horario_preferido": r["horario_preferido"],
                 "busca_jugadores_para": r["busca_jugadores_para"],
                 "fecha_actualizacion": r["fecha_actualizacion"]
@@ -3232,7 +3247,7 @@ def guardar_solicitud_miembro(nick: str, categoria: str, nombre_proyecto: str,
                                enlace: str, descripcion: str = '',
                                imagen_url: str = '') -> dict:
     """Guarda una nueva solicitud de miembro destacado (Creadores, Tiendas, etc.)."""
-    CATEGORIAS_VALIDAS = {'creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores'}
+    CATEGORIAS_VALIDAS = {'creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores', 'comunidades'}
     nick = nick.strip()
     categoria = categoria.strip().lower()
     nombre_proyecto = nombre_proyecto.strip()
@@ -3294,6 +3309,78 @@ def moderar_solicitud_miembro(solicitud_id: int, accion: str, admin_nick: str = 
         return {'ok': True, 'solicitud_id': solicitud_id, 'nuevo_estado': nuevo_estado}
     except Exception as e:
         return {'ok': False, 'error': str(e)}
+
+
+# =============================================================================
+# SOLICITUDES DE EVENTOS Y CONCURSOS DE LA COMUNIDAD
+# =============================================================================
+
+def guardar_solicitud_evento(nick: str, categoria: str, nombre: str, organizador: str,
+                             fecha_inicio: str, fecha_termino: str, ubicacion: str,
+                             descripcion: str, costo: str = 'Gratis',
+                             requiere_inscripcion: str = 'No', cupos_limitados: str = 'No',
+                             link_red_social: str = '', link_afiche: str = '') -> dict:
+    """Registra una nueva solicitud de evento o concurso de la comunidad."""
+    categoria = 'Concurso' if categoria.strip().lower() == 'concurso' else 'Evento'
+    nick = nick.strip()
+    nombre = nombre.strip()
+    organizador = organizador.strip()
+    ubicacion = ubicacion.strip()
+    descripcion = descripcion.strip()
+    link_red_social = link_red_social.strip()
+    link_afiche = link_afiche.strip()
+
+    if not nick or not nombre or not organizador or not fecha_inicio or not fecha_termino or not ubicacion or not descripcion or not link_red_social or not link_afiche:
+        return {'ok': False, 'error': 'Todos los campos obligatorios del evento deben ser completados.'}
+
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                INSERT INTO solicitudes_eventos
+                    (nick, categoria, nombre, organizador, fecha_inicio, fecha_termino,
+                     ubicacion, descripcion, costo, requiere_inscripcion, cupos_limitados,
+                     link_red_social, link_afiche)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (nick, categoria, nombre, organizador, fecha_inicio, fecha_termino,
+                  ubicacion, descripcion, costo or 'Gratis', requiere_inscripcion or 'No',
+                  cupos_limitados or 'No', link_red_social, link_afiche))
+        return {'ok': True, 'mensaje': f'{categoria} registrado con éxito. Pendiente de revisión por el equipo administrador.'}
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+
+
+def listar_solicitudes_eventos(estado: str = 'pendiente') -> list:
+    """Lista solicitudes de eventos filtradas por estado (pendiente/aprobado/rechazado/todas)."""
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            if estado == 'todas':
+                cur.execute("SELECT * FROM solicitudes_eventos ORDER BY fecha_solicitud DESC")
+            else:
+                cur.execute("SELECT * FROM solicitudes_eventos WHERE estado = ? ORDER BY fecha_solicitud DESC", (estado,))
+            rows = cur.fetchall()
+            return [dict(r) for r in rows]
+    except Exception as e:
+        print(f"⚠️ [Eventos] Error listando solicitudes: {e}")
+        return []
+
+
+def moderar_solicitud_evento(evento_id: int, accion: str, admin_nick: str = '') -> dict:
+    """Aprueba o rechaza una solicitud de evento o concurso."""
+    if accion not in ('aprobar', 'rechazar'):
+        return {'ok': False, 'error': 'accion debe ser aprobar o rechazar'}
+    nuevo_estado = 'aprobado' if accion == 'aprobar' else 'rechazado'
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                UPDATE solicitudes_eventos
+                SET estado = ?, admin_revisor = ?, fecha_revision = datetime('now')
+                WHERE id = ?
+            """, (nuevo_estado, admin_nick or 'Admin', evento_id))
+        return {'ok': True, 'evento_id': evento_id, 'nuevo_estado': nuevo_estado}
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+
 
 
 # =============================================================================

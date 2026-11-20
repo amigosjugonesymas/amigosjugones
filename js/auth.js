@@ -553,8 +553,8 @@
       ];
 
       modal.innerHTML = `
-        <div class="card glow" style="width:100%; max-width:420px; background:linear-gradient(145deg, #13112a 0%, #0c0a1a 100%); border:1px solid rgba(236,72,153,0.45); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(236,72,153,0.25); position:relative; box-sizing:border-box;">
-          <button onclick="document.getElementById('aj-cumple-modal').remove(); AuthManager.showModal();" style="position:absolute; top:14px; right:14px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px; line-height:1;" title="Cerrar">✕</button>
+        <div class="card glow" style="width:100%; max-width:440px; background:linear-gradient(145deg, #13112a 0%, #0c0a1a 100%); border:1px solid rgba(236,72,153,0.45); border-radius:18px; padding:28px 24px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(236,72,153,0.25); position:relative; box-sizing:border-box;">
+          <button onclick="document.getElementById('aj-cumple-modal').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
           
           <div style="text-align:center; margin-bottom:18px;">
             <div style="font-size:2.5rem; margin-bottom:4px; filter: drop-shadow(0 0 14px rgba(236,72,153,0.55));">🎂</div>
@@ -805,8 +805,8 @@
       const igPre = user.instagram || '';
 
       modal.innerHTML = `
-        <div class="card glow custom-scrollbar" style="width:100%; max-width:460px; max-height:90vh; overflow-y:auto; background:linear-gradient(145deg, #13112a 0%, #0c0a1a 100%); border:1px solid rgba(168,85,247,0.45); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(124,58,237,0.25); position:relative; box-sizing:border-box;">
-          <button onclick="document.getElementById('aj-mercado-modal').remove()" style="position:absolute; top:14px; right:14px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px; line-height:1;" title="Cerrar">✕</button>
+        <div class="card glow custom-scrollbar" style="width:100%; max-width:480px; max-height:90vh; overflow-y:auto; background:linear-gradient(145deg, #13112a 0%, #0c0a1a 100%); border:1px solid rgba(168,85,247,0.45); border-radius:18px; padding:28px 24px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(124,58,237,0.25); position:relative; box-sizing:border-box;">
+          <button onclick="document.getElementById('aj-mercado-modal').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
           
           <div style="text-align:center; margin-bottom:16px;">
             <div style="font-size:2.4rem; margin-bottom:4px; filter: drop-shadow(0 0 14px rgba(168,85,247,0.5));">🛍️</div>
@@ -846,7 +846,7 @@
 
             <div>
               <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🎲 Título del Artículo o Servicio *</label>
-              <input type="text" id="aj-merc-titulo" placeholder="Ej: Catan Edición 25 Aniversario" maxlength="80" style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.9rem; outline:none; box-sizing:border-box;" />
+              <input type="text" id="aj-merc-titulo" placeholder="Ej: Catan Edición 25 Aniversario" maxlength="80" style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.9rem; outline:none; box-sizing:border-box;" required />
             </div>
 
             <div style="display:flex; gap:10px;">
@@ -866,8 +866,8 @@
             </div>
 
             <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🖼️ URL de Foto (opcional)</label>
-              <input type="url" id="aj-merc-foto" placeholder="https://... (enlace a foto o portada)" style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box;" />
+              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🖼️ URL de Foto del Producto * <span style="color:#f43f5e; font-size:0.7rem;">(Obligatoria para la vitrina)</span></label>
+              <input type="url" id="aj-merc-foto" required placeholder="https://... (enlace directo a imagen jpg/png/webp)" style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box;" />
             </div>
 
             <div>
@@ -906,6 +906,11 @@
 
       if (!titulo) {
         if (errDiv) { errDiv.textContent = 'Por favor ingresa un título para el anuncio.'; errDiv.style.display = 'block'; }
+        return;
+      }
+
+      if (!foto) {
+        if (errDiv) { errDiv.textContent = '⚠️ La URL de la foto es obligatoria. Sin foto no hay producto que se pueda ver en la vitrina.'; errDiv.style.display = 'block'; }
         return;
       }
 
@@ -983,13 +988,13 @@
 
       const estilosList = [
         'Eurogames', 'Ameritrash', 'Fillers', 'Party Games',
-        'Cooperativos', 'Rol (RPG)', 'Deckbuilders', 'Wargames',
-        'Deducción Social', 'Prototipos'
+        'Juegos de Rol (RPG)', 'Wargames', 'Deckbuilders',
+        'Cooperativos', 'Deducción Social', 'Prototipos', 'Otros'
       ];
 
       modal.innerHTML = `
-        <div class="card glow custom-scrollbar" style="width:100%; max-width:490px; max-height:92vh; overflow-y:auto; background:linear-gradient(145deg, #0e1726 0%, #070c16 100%); border:1px solid rgba(14,165,233,0.45); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(14,165,233,0.22); position:relative; box-sizing:border-box;">
-          <button onclick="document.getElementById('aj-radar-modal').remove()" style="position:absolute; top:14px; right:14px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px; line-height:1;" title="Cerrar">✕</button>
+        <div class="card glow custom-scrollbar" style="width:100%; max-width:580px; max-height:92vh; overflow-y:auto; background:linear-gradient(145deg, #0e1726 0%, #070c16 100%); border:1px solid rgba(14,165,233,0.45); border-radius:18px; padding:28px 22px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(14,165,233,0.22); position:relative; box-sizing:border-box;">
+          <button onclick="document.getElementById('aj-radar-modal').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
           
           <div style="text-align:center; margin-bottom:16px;">
             <div style="font-size:2.5rem; margin-bottom:4px; filter: drop-shadow(0 0 14px rgba(14,165,233,0.55));">📡</div>
@@ -998,71 +1003,83 @@
           </div>
 
           <div style="background:rgba(14,165,233,0.08); border:1px solid rgba(14,165,233,0.25); border-radius:10px; padding:10px 12px; margin-bottom:16px; font-size:0.75rem; color:#f1f5f9; line-height:1.45;">
-            👋 <strong>¡Hola, ${nick}!</strong> Elige qué días sueles estar disponible para jugar. La comunidad verá tus días activos en el Radar para coordinar partidas sin formularios externos.
+            👋 <strong>¡Hola, ${nick}!</strong> Configura tus sectores, estilos y disponibilidad día a día con horarios específicos por cada jornada.
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:14px;">
-            <!-- Días de Disponibilidad -->
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <label style="font-size:0.76rem; color:#cbd5e1; font-weight:700;">📅 Días que puedes jugar (toca para activar):</label>
-                <div style="display:flex; gap:6px;">
-                  <button type="button" onclick="AuthManager._toggleTodosDiasRadar(true)" style="background:rgba(255,255,255,0.06); border:1px solid #334155; color:#94a3b8; font-size:0.65rem; padding:2px 6px; border-radius:5px; cursor:pointer;">Todos</button>
-                  <button type="button" onclick="AuthManager._toggleFindeRadar()" style="background:rgba(255,255,255,0.06); border:1px solid #334155; color:#94a3b8; font-size:0.65rem; padding:2px 6px; border-radius:5px; cursor:pointer;">Finde</button>
-                  <button type="button" onclick="AuthManager._toggleTodosDiasRadar(false)" style="background:rgba(255,255,255,0.06); border:1px solid #334155; color:#94a3b8; font-size:0.65rem; padding:2px 6px; border-radius:5px; cursor:pointer;">Limpiar</button>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <!-- Sección 1: Preferencias de Juego y Ubicación -->
+            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(14,165,233,0.18); border-radius:12px; padding:14px;">
+              <div style="font-size:0.76rem; color:#38bdf8; font-weight:800; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.8px;">
+                📍 Preferencias y Coordenadas
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">📍 Sectores o Lugares de Preferencia *</label>
+                <input type="text" id="aj-radar-zona" placeholder="Ej: Maipú, Santiago Centro, Providencia, Online..." maxlength="80" style="width:100%; height:42px; padding:0 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:9px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" required />
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🎲 Juegos Favoritos</label>
+                <input type="text" id="aj-radar-favs" placeholder="Ej: Catan, Dune Imperium, Faraway, Harmonies, Azul..." maxlength="120" style="width:100%; height:42px; padding:0 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:9px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" />
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:6px;">🎭 ¿Qué juegos prefieres jugar? * (toca para seleccionar):</label>
+                <div id="aj-radar-estilos-container" style="display:flex; flex-wrap:wrap; gap:6px;">
+                  ${estilosList.map(est => `
+                    <button type="button" class="aj-radar-estilo-btn" data-estilo="${est}" onclick="AuthManager._toggleEstiloChip(this)" style="padding:6px 11px; background:#111c30; border:1px solid #1e293b; border-radius:8px; color:#94a3b8; font-size:0.75rem; font-weight:600; cursor:pointer; transition:all 0.15s ease;">
+                      ${est}
+                    </button>
+                  `).join('')}
                 </div>
               </div>
-              <div id="aj-radar-dias-container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(56px, 1fr)); gap:6px;">
+
+              <div>
+                <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">💬 ¿Qué buscas o qué juegos puedes llevar? (opcional)</label>
+                <textarea id="aj-radar-busca" rows="2" placeholder="Ej: Suelo llevar fillers a las juntas, busco grupo para campaña..." maxlength="150" style="width:100%; padding:9px 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:9px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box; resize:vertical;"></textarea>
+              </div>
+            </div>
+
+            <!-- Sección 2: Disponibilidad Día a Día -->
+            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(14,165,233,0.18); border-radius:12px; padding:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                <div style="font-size:0.76rem; color:#38bdf8; font-weight:800; text-transform:uppercase; letter-spacing:0.8px;">
+                  📅 Horario Disponible por Día
+                </div>
+                <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                  <button type="button" onclick="AuthManager._presetRadar('semana_noche')" style="background:rgba(14,165,233,0.12); border:1px solid #0284c7; color:#38bdf8; font-size:0.65rem; padding:3px 7px; border-radius:6px; cursor:pointer; font-weight:600;">Semana Noche</button>
+                  <button type="button" onclick="AuthManager._presetRadar('finde')" style="background:rgba(14,165,233,0.12); border:1px solid #0284c7; color:#38bdf8; font-size:0.65rem; padding:3px 7px; border-radius:6px; cursor:pointer; font-weight:600;">Finde Tarde</button>
+                  <button type="button" onclick="AuthManager._presetRadar('flexible')" style="background:rgba(14,165,233,0.12); border:1px solid #0284c7; color:#38bdf8; font-size:0.65rem; padding:3px 7px; border-radius:6px; cursor:pointer; font-weight:600;">Todo Flexible</button>
+                  <button type="button" onclick="AuthManager._presetRadar('limpiar')" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#f87171; font-size:0.65rem; padding:3px 7px; border-radius:6px; cursor:pointer; font-weight:600;">Limpiar</button>
+                </div>
+              </div>
+
+              <div id="aj-radar-dias-wrap" style="display:flex; flex-direction:column; gap:8px;">
                 ${diasSemana.map(d => `
-                  <button type="button" class="aj-radar-day-btn" data-day="${d.key}" onclick="AuthManager._toggleDiaChip(this)" style="min-height:46px; padding:6px 4px; background:#111c30; border:1px solid #1e293b; border-radius:9px; color:#94a3b8; font-size:0.75rem; font-weight:700; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; transition:all 0.15s ease;">
-                    <span style="font-size:0.85rem;">${d.emoji}</span>
-                    <span>${d.short}</span>
-                  </button>
+                  <div class="aj-radar-dia-row" style="background:rgba(255,255,255,0.03); border:1px solid rgba(14,165,233,0.15); border-radius:10px; padding:9px 12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                      <strong style="color:#e2e8f0; font-size:0.82rem; display:flex; align-items:center; gap:6px;">
+                        <span>${d.emoji}</span> <span>${d.label}</span>
+                      </strong>
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                      <div>
+                        <select id="aj-radar-horario-${d.key}" style="width:100%; height:36px; padding:0 8px; background:#111c30; border:1px solid #1e3a5f; border-radius:8px; color:#fff; font-size:0.8rem; outline:none; box-sizing:border-box;">
+                          <option value="No tengo disponible este día">❌ No disponible</option>
+                          <option value="Mañana (09:00 - 13:00)">☕ Mañana (09:00 - 13:00)</option>
+                          <option value="Tarde (13:00 - 17:00)">☀️ Tarde (13:00 - 17:00)</option>
+                          <option value="Tarde/Noche (17:00 - 21:00)">🌆 Tarde/Noche (17:00 - 21:00)</option>
+                          <option value="Noche (21:00 - 01:00)">🌙 Noche (21:00 - 01:00)</option>
+                          <option value="Todo el día / Flexible">🎲 Todo el día / Flexible</option>
+                        </select>
+                      </div>
+                      <div>
+                        <input type="text" id="aj-radar-nota-${d.key}" placeholder="Excepciones (ej: quincenal)" maxlength="70" style="width:100%; height:36px; padding:0 10px; background:#0b1322; border:1px solid #162a45; border-radius:8px; color:#cbd5e1; font-size:0.78rem; outline:none; box-sizing:border-box;" />
+                      </div>
+                    </div>
+                  </div>
                 `).join('')}
               </div>
-            </div>
-
-            <!-- Horario Preferido -->
-            <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">⏰ Horario Habitual</label>
-              <select id="aj-radar-horario" style="width:100%; height:44px; padding:0 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:10px; color:#fff; font-size:0.9rem; font-weight:600; outline:none; box-sizing:border-box;">
-                <option value="Tarde / Noche (17:00 - 21:00)">🌆 Tarde / Noche (17:00 - 21:00)</option>
-                <option value="Noche (21:00 - 01:00)">🌙 Noche (21:00 - 01:00)</option>
-                <option value="Tarde (13:00 - 17:00)">☀️ Tarde (13:00 - 17:00)</option>
-                <option value="Mañana (09:00 - 13:00)">☕ Mañana (09:00 - 13:00)</option>
-                <option value="Todo el día / Fines de Semana">🎲 Todo el día / Fines de Semana</option>
-                <option value="Horario Flexible / A coordinar">🤝 Horario Flexible / A coordinar</option>
-              </select>
-            </div>
-
-            <!-- Zona o Comuna -->
-            <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">📍 Zona / Comuna / Sector de Santiago</label>
-              <input type="text" id="aj-radar-zona" placeholder="Ej: Sector Sur y Centro, Providencia, Online..." maxlength="80" style="width:100%; height:44px; padding:0 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:10px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" />
-            </div>
-
-            <!-- Juegos Favoritos -->
-            <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🎲 Juegos Favoritos</label>
-              <input type="text" id="aj-radar-favs" placeholder="Ej: Catan, Dune Imperium, Faraway, Harmonies" maxlength="120" style="width:100%; height:44px; padding:0 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:10px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" />
-            </div>
-
-            <!-- Estilos de Juego Preferidos (Chips) -->
-            <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:6px;">🎭 Estilos de Juego Favoritos (toca para añadir):</label>
-              <div id="aj-radar-estilos-container" style="display:flex; flex-wrap:wrap; gap:6px;">
-                ${estilosList.map(est => `
-                  <button type="button" class="aj-radar-estilo-btn" data-estilo="${est}" onclick="AuthManager._toggleEstiloChip(this)" style="padding:5px 10px; background:#111c30; border:1px solid #1e293b; border-radius:8px; color:#94a3b8; font-size:0.74rem; font-weight:600; cursor:pointer; transition:all 0.15s ease;">
-                    ${est}
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-
-            <!-- ¿Qué buscas? / Colección / Mensaje -->
-            <div>
-              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">💬 ¿Qué buscas o qué juegos puedes llevar?</label>
-              <textarea id="aj-radar-busca" rows="2" placeholder="Ej: Me gusta probar novedades, suelo llevar fillers a las juntas..." maxlength="150" style="width:100%; padding:10px 12px; background:#111c30; border:1px solid #1e3a5f; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box; resize:vertical;"></textarea>
             </div>
 
             <div id="aj-radar-error" style="display:none; font-size:0.75rem; color:#f87171; background:rgba(239,68,68,0.12); padding:9px 12px; border-radius:8px; border:1px solid rgba(239,68,68,0.3);"></div>
@@ -1084,48 +1101,39 @@
       this._precargarModalRadar(nick);
     }
 
-    _toggleDiaChip(btn) {
+    _presetRadar(tipo) {
+      const keysSemana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'];
+      const keysFinde = ['SABADO', 'DOMINGO'];
+      const allKeys = [...keysSemana, ...keysFinde];
+
+      allKeys.forEach(k => {
+        const sel = document.getElementById('aj-radar-horario-' + k);
+        if (!sel) return;
+        if (tipo === 'semana_noche') {
+          sel.value = keysSemana.includes(k) ? 'Tarde/Noche (17:00 - 21:00)' : 'No tengo disponible este día';
+        } else if (tipo === 'finde') {
+          sel.value = keysFinde.includes(k) ? 'Tarde (13:00 - 17:00)' : 'No tengo disponible este día';
+        } else if (tipo === 'flexible') {
+          sel.value = 'Todo el día / Flexible';
+        } else if (tipo === 'limpiar') {
+          sel.value = 'No tengo disponible este día';
+        }
+      });
+    }
+
+    _toggleEstiloChip(btn) {
       const active = btn.classList.toggle('active');
       if (active) {
-        btn.style.background = 'linear-gradient(135deg, #0ea5e9, #0284c7)';
+        btn.style.background = 'rgba(14, 165, 233, 0.25)';
         btn.style.borderColor = '#38bdf8';
-        btn.style.color = '#fff';
-        btn.style.boxShadow = '0 2px 10px rgba(14,165,233,0.4)';
+        btn.style.color = '#38bdf8';
+        btn.style.boxShadow = '0 0 8px rgba(14,165,233,0.3)';
       } else {
         btn.style.background = '#111c30';
         btn.style.borderColor = '#1e293b';
         btn.style.color = '#94a3b8';
         btn.style.boxShadow = 'none';
       }
-    }
-
-    _toggleEstiloChip(btn) {
-      const active = btn.classList.toggle('active');
-      if (active) {
-        btn.style.background = 'rgba(14, 165, 233, 0.22)';
-        btn.style.borderColor = '#38bdf8';
-        btn.style.color = '#38bdf8';
-      } else {
-        btn.style.background = '#111c30';
-        btn.style.borderColor = '#1e293b';
-        btn.style.color = '#94a3b8';
-      }
-    }
-
-    _toggleTodosDiasRadar(activar) {
-      const btns = document.querySelectorAll('.aj-radar-day-btn');
-      btns.forEach(b => {
-        if (activar && !b.classList.contains('active')) this._toggleDiaChip(b);
-        if (!activar && b.classList.contains('active')) this._toggleDiaChip(b);
-      });
-    }
-
-    _toggleFindeRadar() {
-      this._toggleTodosDiasRadar(false);
-      const findes = ['SABADO', 'DOMINGO'];
-      document.querySelectorAll('.aj-radar-day-btn').forEach(b => {
-        if (findes.includes(b.dataset.day)) this._toggleDiaChip(b);
-      });
     }
 
     async _cargarRadarEnPerfil(nick) {
@@ -1135,8 +1143,9 @@
         const cache = localStorage.getItem('aj_radar_' + nick);
         if (cache) {
           const d = JSON.parse(cache);
-          if (d && d.dias_disponibles && d.dias_disponibles.length > 0) {
-            el.innerHTML = `<span style="color:#38bdf8;">📡 ${d.dias_disponibles.length} días activos</span> <span style="font-size:0.7rem; color:#94a3b8;">(${d.zona || 'Comunidad'})</span>`;
+          const numDias = Array.isArray(d.dias_disponibles) ? d.dias_disponibles.length : Object.keys(d.disponibilidad || {}).length;
+          if (numDias > 0) {
+            el.innerHTML = `<span style="color:#38bdf8;">📡 ${numDias} días activos</span> <span style="font-size:0.7rem; color:#94a3b8;">(${d.zona || 'Comunidad'})</span>`;
           }
         }
         const res = await fetch(`/api/radar/mio?nick=${encodeURIComponent(nick)}`);
@@ -1144,7 +1153,7 @@
         if (data && data.radar && data.radar.registrado) {
           const r = data.radar;
           localStorage.setItem('aj_radar_' + nick, JSON.stringify(r));
-          const numDias = (r.dias_disponibles || []).length;
+          const numDias = Array.isArray(r.dias_disponibles) ? r.dias_disponibles.length : Object.keys(r.disponibilidad || {}).length;
           el.innerHTML = `<span style="color:#38bdf8;">📡 ${numDias} días activos</span> <span style="font-size:0.7rem; color:#94a3b8;">(${r.zona || 'Comunidad'})</span>`;
         } else if (!cache) {
           el.innerHTML = `<span style="color:#94a3b8; font-weight:600;">Sin configurar aún</span>`;
@@ -1181,22 +1190,29 @@
 
     async _precargarModalRadar(nick) {
       const zonaIn = document.getElementById('aj-radar-zona');
-      const horarioSel = document.getElementById('aj-radar-horario');
       const favsIn = document.getElementById('aj-radar-favs');
       const buscaIn = document.getElementById('aj-radar-busca');
       const btnBorrar = document.getElementById('aj-radar-btn-borrar');
 
+      const diasSemanaKeys = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+
       const poblar = (d) => {
         if (d.zona && zonaIn) zonaIn.value = d.zona;
-        if (d.horario_preferido && horarioSel) horarioSel.value = d.horario_preferido;
         if (d.favoritos && favsIn) favsIn.value = d.favoritos;
         if (d.busca_jugadores_para && buscaIn) buscaIn.value = d.busca_jugadores_para;
         if (d.coleccion && buscaIn && !buscaIn.value) buscaIn.value = d.coleccion;
 
-        const diasActivos = d.dias_disponibles || [];
-        document.querySelectorAll('.aj-radar-day-btn').forEach(b => {
-          if (diasActivos.includes(b.dataset.day) && !b.classList.contains('active')) {
-            this._toggleDiaChip(b);
+        const disp = d.disponibilidad || {};
+        const diasList = Array.isArray(d.dias_disponibles) ? d.dias_disponibles : [];
+
+        diasSemanaKeys.forEach(k => {
+          const sel = document.getElementById('aj-radar-horario-' + k);
+          const nota = document.getElementById('aj-radar-nota-' + k);
+          if (disp[k]) {
+            if (sel && disp[k].horario) sel.value = disp[k].horario;
+            if (nota && disp[k].excepcion) nota.value = disp[k].excepcion;
+          } else if (diasList.includes(k)) {
+            if (sel) sel.value = d.horario_preferido || 'Tarde/Noche (17:00 - 21:00)';
           }
         });
 
@@ -1207,7 +1223,7 @@
           }
         });
 
-        if (btnBorrar && (d.registrado || diasActivos.length > 0)) {
+        if (btnBorrar && (d.registrado || diasList.length > 0 || Object.keys(disp).length > 0)) {
           btnBorrar.style.display = 'block';
         }
       };
@@ -1231,18 +1247,27 @@
 
     async _guardarRadar(nick) {
       const zona = (document.getElementById('aj-radar-zona')?.value || '').trim();
-      const horario = document.getElementById('aj-radar-horario')?.value || 'Tarde / Noche (17:00 - 21:00)';
       const favs = (document.getElementById('aj-radar-favs')?.value || '').trim();
       const busca = (document.getElementById('aj-radar-busca')?.value || '').trim();
-
-      const dias = [];
-      document.querySelectorAll('.aj-radar-day-btn.active').forEach(b => {
-        dias.push(b.dataset.day);
-      });
 
       const estilos = [];
       document.querySelectorAll('.aj-radar-estilo-btn.active').forEach(b => {
         estilos.push(b.dataset.estilo);
+      });
+
+      const diasSemanaKeys = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+      const dispMap = {};
+      const diasActivos = [];
+
+      diasSemanaKeys.forEach(k => {
+        const sel = document.getElementById('aj-radar-horario-' + k);
+        const nota = document.getElementById('aj-radar-nota-' + k);
+        const hor = sel ? sel.value : 'No tengo disponible este día';
+        const exc = nota ? nota.value.trim() : '';
+        dispMap[k] = { horario: hor, excepcion: exc };
+        if (hor && !hor.toLowerCase().includes('no tengo disponible') && !hor.toLowerCase().includes('no disponible')) {
+          diasActivos.push(k);
+        }
       });
 
       const errDiv = document.getElementById('aj-radar-error');
@@ -1252,9 +1277,17 @@
       if (errDiv) errDiv.style.display = 'none';
       if (okDiv) okDiv.style.display = 'none';
 
-      if (dias.length === 0) {
+      if (!zona) {
         if (errDiv) {
-          errDiv.textContent = 'Por favor selecciona al menos un día que tengas disponible para jugar.';
+          errDiv.textContent = 'Por favor ingresa tus sectores o lugares de preferencia.';
+          errDiv.style.display = 'block';
+        }
+        return;
+      }
+
+      if (diasActivos.length === 0) {
+        if (errDiv) {
+          errDiv.textContent = 'Indica al menos un día con horario disponible para jugar.';
           errDiv.style.display = 'block';
         }
         return;
@@ -1262,19 +1295,19 @@
 
       if (btn) { btn.disabled = true; btn.textContent = 'Guardando... ⏳'; }
 
+      const primerHorario = diasActivos.length > 0 ? (dispMap[diasActivos[0]]?.horario || 'Flexible') : 'Flexible';
       const payload = {
         nick,
         zona: zona || 'Sector Santiago',
         estilos: estilos.join(', '),
         favoritos: favs,
         coleccion: busca,
-        dias_disponibles: dias,
-        horario_preferido: horario,
+        dias_disponibles: dispMap,
+        horario_preferido: primerHorario,
         busca_jugadores_para: busca
       };
 
-      // Guardado local inmediato
-      localStorage.setItem('aj_radar_' + nick, JSON.stringify({ ...payload, registrado: true }));
+      localStorage.setItem('aj_radar_' + nick, JSON.stringify({ ...payload, registrado: true, disponibilidad: dispMap }));
 
       try {
         const res = await fetch('/api/radar/guardar', {
@@ -1299,7 +1332,6 @@
           if (btn) { btn.disabled = false; btn.textContent = '💾 Guardar mi Disponibilidad'; }
         }
       } catch (e) {
-        // Fallback offline
         if (okDiv) { okDiv.textContent = '✅ Guardado localmente en tu dispositivo.'; okDiv.style.display = 'block'; }
         if (btn) btn.textContent = '✅ Guardado';
         setTimeout(() => {
@@ -2458,24 +2490,24 @@
       }
     }
 
-  // ─── MODAL PROYECTO MIEMBRO DESTACADO (CREADORES, TIENDAS, etc.) ───────────
-  async abrirModalProyecto(categoria = 'creadores') {
+  // ─── MODAL PROYECTO MIEMBRO DESTACADO (GOOGLE FORMS FIDELIDAD TOTAL) ───────
+  async abrirModalProyecto(seccionInicial = 'creadores') {
     const isAuth = this.isAuthenticated();
     if (!isAuth) {
-      this.showModal({ reason: 'Identifícate para registrar tu proyecto en la comunidad.' });
+      this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para registrar tu ficha en Miembros Destacados.' });
       return;
     }
     this.closeModal();
 
-    const CATS = {
-      creadores:      { label: 'Creadores en Amigos Jugones',    icon: '🎬', placeholder_nombre: 'Nombre de tu canal o perfil', placeholder_enlace: 'URL de YouTube, Twitch, etc.' },
-      organizaciones: { label: 'Organizaciones en Amigos Jugones', icon: '🏢', placeholder_nombre: 'Nombre de la organización',    placeholder_enlace: 'Web o redes de la organización' },
-      tiendas:        { label: 'Tiendas en Amigos Jugones',       icon: '🛍️', placeholder_nombre: 'Nombre de tu tienda',           placeholder_enlace: 'Web o Instagram de la tienda' },
-      participantes:  { label: 'Tu perfil en Instagram',          icon: '📷', placeholder_nombre: 'Tu nombre o nickname',          placeholder_enlace: 'URL de tu perfil de Instagram' },
-      divulgadores:   { label: 'Tus redes de divulgación',        icon: '📡', placeholder_nombre: 'Tu nombre o canal',             placeholder_enlace: 'URL principal de tus redes' },
-    };
+    const SECCIONES = [
+      { key: 'participantes',  label: 'Perfiles Personales', icon: '📷', desc: 'Tu perfil personal e Instagram' },
+      { key: 'divulgadores',   label: 'Divulgadores',        icon: '📡', desc: 'Canales de divulgación lúdica' },
+      { key: 'creadores',      label: 'Creadores',           icon: '🎬', desc: 'Creadores de contenido y juegos' },
+      { key: 'organizaciones', label: 'Organizaciones',      icon: '🏢', desc: 'Clubes y agrupaciones lúdicas' },
+      { key: 'tiendas',        label: 'Tiendas',             icon: '🛍️', desc: 'Tiendas físicas y online' },
+      { key: 'comunidades',    label: 'Comunidades',         icon: '👥', desc: 'Comunidades afines y grupos' }
+    ];
 
-    const cat = CATS[categoria] || CATS['creadores'];
     const nick = this.getNick();
     const modalId = 'aj-proyecto-modal';
 
@@ -2483,49 +2515,88 @@
     if (!modal) {
       modal = document.createElement('div');
       modal.id = modalId;
-      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:16px;';
+      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
       document.body.appendChild(modal);
     }
 
     modal.innerHTML = `
-      <div class="card glow custom-scrollbar" style="width:100%; max-width:480px; background:linear-gradient(145deg,#0f0f1e,#080814); border:1px solid rgba(168,85,247,0.4); border-radius:16px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto;">
-        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.08); border:none; color:#94a3b8; border-radius:8px; width:30px; height:30px; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">✕</button>
+      <div class="card glow custom-scrollbar" style="width:100%; max-width:520px; background:linear-gradient(145deg,#0f0f1e,#080814); border:1px solid rgba(168,85,247,0.45); border-radius:18px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto; box-sizing:border-box; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(168,85,247,0.22);">
+        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
 
-        <div style="text-align:center; margin-bottom:20px;">
-          <div style="font-size:2.5rem; margin-bottom:6px; filter:drop-shadow(0 0 14px rgba(168,85,247,0.5));">${cat.icon}</div>
-          <h2 style="font-size:1.1rem; color:#fff; font-weight:800; margin:0 0 4px; letter-spacing:0.5px;">${cat.label}</h2>
-          <div style="font-size:0.68rem; color:#a855f7; font-weight:700; text-transform:uppercase; letter-spacing:1.5px;">REGISTRO COMUNITARIO</div>
+        <div style="text-align:center; margin-bottom:18px;">
+          <div style="font-size:2.5rem; margin-bottom:4px; filter:drop-shadow(0 0 14px rgba(168,85,247,0.55));">⭐</div>
+          <h2 style="font-size:1.25rem; color:#fff; font-weight:800; margin:0 0 4px; letter-spacing:-0.3px;">Ficha de Miembro Destacado</h2>
+          <div style="font-size:0.7rem; color:#c084fc; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Hub Nativo de Miembro</div>
+        </div>
+
+        <div style="background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.25); border-radius:10px; padding:10px 12px; margin-bottom:16px; font-size:0.75rem; color:#f1f5f9; line-height:1.45;">
+          👋 <strong>¡Hola, ${nick}!</strong> Completa tu ficha para aparecer en nuestra web. Toda solicitud será revisada por el equipo de administración antes de ser publicada.
         </div>
 
         <div id="aj-proyecto-msg" style="display:none; padding:10px 14px; border-radius:8px; margin-bottom:14px; font-size:0.82rem; font-weight:600;"></div>
 
         <form id="aj-proyecto-form" style="display:flex; flex-direction:column; gap:14px;" onsubmit="return false;">
+          <!-- 1. Sección donde quiere aparecer -->
           <div>
-            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Nombre del proyecto *</label>
-            <input id="aj-proy-nombre" type="text" placeholder="${cat.placeholder_nombre}"
-              style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;"
-              required maxlength="120">
-          </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Enlace / URL *</label>
-            <input id="aj-proy-enlace" type="url" placeholder="${cat.placeholder_enlace}"
-              style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;"
-              required maxlength="300">
-          </div>
-          <div>
-            <label style="display:block; font-size:0.75rem; color:#94a3b8; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px;">Descripción breve (opcional)</label>
-            <textarea id="aj-proy-desc" placeholder="Cuéntanos un poco sobre tu proyecto..."
-              rows="3" style="width:100%; padding:11px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.3); border-radius:8px; color:#fff; font-size:0.85rem; outline:none; resize:vertical; box-sizing:border-box; font-family:inherit;" maxlength="400"></textarea>
+            <label style="display:block; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; font-weight:700;">
+              📌 ¿En qué sección quieres aparecer? *
+            </label>
+            <select id="aj-proy-cat" style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.88rem; font-weight:600; outline:none; box-sizing:border-box;">
+              ${SECCIONES.map(s => `
+                <option value="${s.key}" ${s.key === seccionInicial ? 'selected' : ''}>
+                  ${s.icon} ${s.label} — ${s.desc}
+                </option>
+              `).join('')}
+            </select>
           </div>
 
-          <button id="aj-proy-btn" type="submit" onclick="AuthManager._submitProyecto('${categoria}', '${nick}')"
-            style="width:100%; padding:13px; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:10px; font-size:0.92rem; font-weight:800; cursor:pointer; letter-spacing:0.5px; text-transform:uppercase; transition:opacity 0.2s;">
-            ${cat.icon} Enviar Solicitud
+          <!-- 2. Nombre que quiero que aparezca en la ficha -->
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; font-weight:700;">
+              🏷️ Nombre que quiero que aparezca en la ficha *
+            </label>
+            <input id="aj-proy-nombre" type="text" placeholder="Ej: Tu Nombre, Canal, Tienda o Nickname"
+              style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;"
+              required maxlength="100">
+          </div>
+
+          <!-- 3. Redes sociales y páginas web -->
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; font-weight:700;">
+              🌐 Redes sociales y páginas web que quieras destacar *
+            </label>
+            <textarea id="aj-proy-enlace" rows="3" placeholder="Pega los enlaces directos (Instagram, YouTube, Twitch, Web, etc.). Puedes incluir varios:"
+              style="width:100%; padding:10px 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; resize:vertical; box-sizing:border-box; font-family:inherit;"
+              required maxlength="350"></textarea>
+          </div>
+
+          <!-- 4. Link externo de tu logo, imagen, etc. -->
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; font-weight:700;">
+              🖼️ Link externo de tu logo, imagen o foto de perfil *
+            </label>
+            <input id="aj-proy-img" type="url" placeholder="https://... (enlace directo a imagen jpg/png/webp)"
+              style="width:100%; height:44px; padding:0 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box;"
+              required maxlength="300">
+          </div>
+
+          <!-- 5. Descripción o presentación adicional -->
+          <div>
+            <label style="display:block; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; font-weight:700;">
+              💬 Descripción o presentación adicional (opcional)
+            </label>
+            <textarea id="aj-proy-desc" placeholder="Cuéntanos un poco sobre tu proyecto, qué ofreces o tu pasión por los juegos..."
+              rows="2" style="width:100%; padding:10px 12px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:0.85rem; outline:none; resize:vertical; box-sizing:border-box; font-family:inherit;" maxlength="400"></textarea>
+          </div>
+
+          <button id="aj-proy-btn" type="submit" onclick="AuthManager._submitProyecto('${nick}')"
+            style="width:100%; min-height:48px; background:linear-gradient(135deg,#7c3aed,#ec4899); color:#fff; border:none; border-radius:10px; font-size:0.92rem; font-weight:800; cursor:pointer; letter-spacing:0.4px; text-transform:uppercase; transition:opacity 0.2s; box-shadow:0 4px 16px rgba(124,58,237,0.35); margin-top:4px;">
+            ⭐ Enviar Solicitud de Ficha
           </button>
         </form>
 
-        <div style="margin-top:16px; text-align:center; font-size:0.72rem; color:#475569; line-height:1.5;">
-          Tu solicitud será revisada por el equipo de Amigos Jugones antes de aparecer en la sección.
+        <div style="margin-top:14px; text-align:center; font-size:0.72rem; color:#64748b; line-height:1.45;">
+          🛡️ Al enviar, tu ficha quedará en estado de moderación para que el equipo de administradores verifique los enlaces y la publique en la vitrina.
         </div>
       </div>
     `;
@@ -2533,20 +2604,22 @@
     modal.style.display = 'flex';
   }
 
-  async _submitProyecto(categoria, nick) {
+  async _submitProyecto(nick) {
     const btn = document.getElementById('aj-proy-btn');
     const msgDiv = document.getElementById('aj-proyecto-msg');
+    const categoria = document.getElementById('aj-proy-cat')?.value || 'creadores';
     const nombre = (document.getElementById('aj-proy-nombre')?.value || '').trim();
     const enlace = (document.getElementById('aj-proy-enlace')?.value || '').trim();
+    const imagenUrl = (document.getElementById('aj-proy-img')?.value || '').trim();
     const desc = (document.getElementById('aj-proy-desc')?.value || '').trim();
 
-    if (!nombre || !enlace) {
+    if (!nombre || !enlace || !imagenUrl) {
       if (msgDiv) {
         msgDiv.style.display = 'block';
         msgDiv.style.background = 'rgba(239,68,68,0.15)';
         msgDiv.style.color = '#f87171';
         msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '⚠️ Nombre y enlace son obligatorios.';
+        msgDiv.textContent = '⚠️ Nombre, redes/enlaces y link de imagen son obligatorios.';
       }
       return;
     }
@@ -2559,7 +2632,7 @@
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nick, categoria, nombre_proyecto: nombre, enlace, descripcion: desc })
+        body: JSON.stringify({ nick, categoria, nombre_proyecto: nombre, enlace, descripcion: desc, imagen_url: imagenUrl })
       });
       const data = await res.json();
       if (msgDiv) {
@@ -2568,9 +2641,13 @@
           msgDiv.style.background = 'rgba(16,185,129,0.15)';
           msgDiv.style.color = '#34d399';
           msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
-          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud enviada! Será revisada pronto.');
+          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud enviada! Será revisada por los administradores.');
           document.getElementById('aj-proyecto-form')?.reset();
           if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
+          setTimeout(() => {
+            const m = document.getElementById('aj-proyecto-modal');
+            if (m) m.remove();
+          }, 1800);
         } else {
           msgDiv.style.background = 'rgba(239,68,68,0.15)';
           msgDiv.style.color = '#f87171';
@@ -2586,6 +2663,253 @@
         msgDiv.style.color = '#f87171';
         msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
         msgDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+      }
+      if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+    }
+  }
+
+  // ─── MODAL PUBLICACIÓN DE EVENTOS Y CONCURSOS ─────────────────────────────
+  async abrirModalEvento(categoriaInicial = 'Evento') {
+    const isAuth = this.isAuthenticated();
+    if (!isAuth) {
+      this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para publicar un evento o concurso.' });
+      return;
+    }
+    this.closeModal();
+
+    const nick = this.getNick();
+    const modalId = 'aj-evento-modal';
+
+    let modal = document.getElementById(modalId);
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = modalId;
+      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
+      document.body.appendChild(modal);
+    }
+
+    const catNorm = categoriaInicial.toLowerCase().includes('concurso') ? 'Concurso' : 'Evento';
+
+    modal.innerHTML = `
+      <div class="card glow custom-scrollbar" style="width:100%; max-width:580px; background:linear-gradient(145deg,#0d1117,#080c14); border:1px solid rgba(245,158,11,0.45); border-radius:18px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto; box-sizing:border-box; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(245,158,11,0.22);">
+        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
+
+        <div style="text-align:center; margin-bottom:16px;">
+          <div style="font-size:2.5rem; margin-bottom:4px; filter:drop-shadow(0 0 14px rgba(245,158,11,0.55));">👑</div>
+          <h2 style="font-size:1.25rem; color:#fff; font-weight:800; margin:0 0 4px; letter-spacing:-0.3px;">Promueve tus Eventos y Concursos</h2>
+          <div style="font-size:0.7rem; color:#fbbf24; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Cartelera Comunitaria Oficial</div>
+        </div>
+
+        <!-- Banner Normas Resumen -->
+        <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); border-radius:10px; padding:12px; margin-bottom:16px; font-size:0.75rem; color:#f1f5f9; line-height:1.45;">
+          ¿Estás organizando un torneo, tarde de juegos, evento geek o concurso? Completa este formulario para que aparezca en nuestra web y sea promocionado gratuitamente en WhatsApp e Instagram tras la revisión de administración.
+        </div>
+
+        <div id="aj-evento-msg" style="display:none; padding:10px 14px; border-radius:8px; margin-bottom:14px; font-size:0.82rem; font-weight:600;"></div>
+
+        <form id="aj-evento-form" style="display:flex; flex-direction:column; gap:12px;" onsubmit="return false;">
+          <!-- Categoría -->
+          <div>
+            <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🏷️ Categoría *</label>
+            <select id="aj-evt-cat" style="width:100%; height:42px; padding:0 12px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.88rem; font-weight:700; outline:none; box-sizing:border-box;">
+              <option value="Evento" ${catNorm === 'Evento' ? 'selected' : ''}>🌟 Evento / Partida / Tarde de Juegos</option>
+              <option value="Concurso" ${catNorm === 'Concurso' ? 'selected' : ''}>🏆 Concurso / Torneo / Sorteo</option>
+            </select>
+          </div>
+
+          <!-- Nombre del Evento -->
+          <div>
+            <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🎲 Nombre del Evento o Concurso *</label>
+            <input type="text" id="aj-evt-nombre" placeholder="Ej: Torneo de Catan: Copa Invierno" maxlength="100" style="width:100%; height:42px; padding:0 12px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" required />
+          </div>
+
+          <!-- Quién organiza -->
+          <div>
+            <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">👤 ¿Quién organiza el evento? *</label>
+            <input type="text" id="aj-evt-org" value="${escapeHtml(nick)}" placeholder="Nombre de organizador o agrupación" maxlength="80" style="width:100%; height:42px; padding:0 12px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" required />
+          </div>
+
+          <!-- Fechas y horas -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">⏰ Fecha y hora de inicio *</label>
+              <input type="datetime-local" id="aj-evt-inicio" style="width:100%; height:42px; padding:0 10px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;" required />
+            </div>
+            <div>
+              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🏁 Fecha y hora de término *</label>
+              <input type="datetime-local" id="aj-evt-termino" style="width:100%; height:42px; padding:0 10px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;" required />
+            </div>
+          </div>
+
+          <!-- Lugar / Ubicación -->
+          <div>
+            <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">📍 Lugar / Ubicación *</label>
+            <input type="text" id="aj-evt-lugar" placeholder="Ej: Providencia (Metro Manuel Montt), Presencial, o Plataforma Online..." maxlength="100" style="width:100%; height:42px; padding:0 12px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.88rem; outline:none; box-sizing:border-box;" required />
+          </div>
+
+          <!-- Costo y Requisitos -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+            <div>
+              <label style="font-size:0.72rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">💵 Costo entrada *</label>
+              <input type="text" id="aj-evt-costo" placeholder="Ej: Gratis / $3.000" maxlength="30" style="width:100%; height:38px; padding:0 8px; background:#161f2e; border:1px solid #23354d; border-radius:8px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;" required />
+            </div>
+            <div>
+              <label style="font-size:0.72rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">📝 ¿Inscripción? *</label>
+              <select id="aj-evt-inscr" style="width:100%; height:38px; padding:0 6px; background:#161f2e; border:1px solid #23354d; border-radius:8px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;">
+                <option value="No">No</option>
+                <option value="Si">Sí</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.72rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">👥 ¿Cupos limitados? *</label>
+              <select id="aj-evt-cupos" style="width:100%; height:38px; padding:0 6px; background:#161f2e; border:1px solid #23354d; border-radius:8px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;">
+                <option value="No">No</option>
+                <option value="Si">Sí</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Información y Requisitos del evento -->
+          <div>
+            <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">📄 Información y Requisitos del evento o concurso *</label>
+            <textarea id="aj-evt-desc" rows="3" placeholder="Detalla de qué trata, premios (en concursos), requisitos de asistencia, dinámicas..." style="width:100%; padding:10px 12px; background:#161f2e; border:1px solid #23354d; border-radius:9px; color:#fff; font-size:0.85rem; outline:none; box-sizing:border-box; resize:vertical; font-family:inherit;" required maxlength="500"></textarea>
+          </div>
+
+          <!-- Links Difusión y Afiche -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🔗 Link post red social *</label>
+              <input type="url" id="aj-evt-link-post" placeholder="https://instagram.com/p/..." style="width:100%; height:40px; padding:0 10px; background:#161f2e; border:1px solid #23354d; border-radius:8px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;" required />
+            </div>
+            <div>
+              <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:4px;">🖼️ Link imagen afiche *</label>
+              <input type="url" id="aj-evt-link-afiche" placeholder="https://... (link directo a imagen)" style="width:100%; height:40px; padding:0 10px; background:#161f2e; border:1px solid #23354d; border-radius:8px; color:#fff; font-size:0.82rem; outline:none; box-sizing:border-box;" required />
+            </div>
+          </div>
+
+          <!-- Caja de Normas y Compromiso Jugón -->
+          <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(245,158,11,0.3); border-radius:10px; padding:12px; margin-top:4px;">
+            <div style="font-size:0.74rem; color:#fbbf24; font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+              📜 Normas Oficiales de Publicación:
+            </div>
+            <ul style="margin:0 0 10px 18px; padding:0; font-size:0.72rem; color:#94a3b8; line-height:1.45;">
+              <li><strong>Filtro Anti-Infiltrados:</strong> Exclusivo para miembros activos del grupo WhatsApp.</li>
+              <li><strong>Información Completa:</strong> Coordenadas claras (fecha, hora, lugar, costo y cupos).</li>
+              <li><strong>Bases Claras:</strong> Premios y requisitos detallados en concursos.</li>
+              <li><strong>Afiches:</strong> Links directos válidos para renderizado.</li>
+              <li><strong>Vigencia Automática:</strong> Se archiva al vencer la fecha de término.</li>
+              <li><strong>Moderación:</strong> La administración puede editar o descartar publicaciones que no cumplan el reglamento.</li>
+            </ul>
+
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:0.76rem; color:#fff; font-weight:700;">
+              <input type="checkbox" id="aj-evt-compromiso" required style="width:16px; height:16px; accent-color:#f59e0b; cursor:pointer;" />
+              <span>☑ Acepto las normas de Amigos Jugones al publicar este evento</span>
+            </label>
+          </div>
+
+          <button id="aj-evt-btn" type="submit" onclick="AuthManager._submitEvento('${nick}')"
+            style="width:100%; min-height:48px; background:linear-gradient(135deg,#f59e0b,#d97706); color:#000; border:none; border-radius:10px; font-size:0.92rem; font-weight:900; cursor:pointer; letter-spacing:0.4px; text-transform:uppercase; transition:opacity 0.2s; box-shadow:0 4px 16px rgba(245,158,11,0.35); margin-top:6px;">
+            👑 Publicar Evento / Concurso
+          </button>
+        </form>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+  }
+
+  async _submitEvento(nick) {
+    const btn = document.getElementById('aj-evt-btn');
+    const msgDiv = document.getElementById('aj-evento-msg');
+    const categoria = document.getElementById('aj-evt-cat')?.value || 'Evento';
+    const nombre = (document.getElementById('aj-evt-nombre')?.value || '').trim();
+    const org = (document.getElementById('aj-evt-org')?.value || '').trim();
+    const inicio = (document.getElementById('aj-evt-inicio')?.value || '').trim();
+    const termino = (document.getElementById('aj-evt-termino')?.value || '').trim();
+    const lugar = (document.getElementById('aj-evt-lugar')?.value || '').trim();
+    const costo = (document.getElementById('aj-evt-costo')?.value || '').trim();
+    const inscr = document.getElementById('aj-evt-inscr')?.value || 'No';
+    const cupos = document.getElementById('aj-evt-cupos')?.value || 'No';
+    const desc = (document.getElementById('aj-evt-desc')?.value || '').trim();
+    const linkPost = (document.getElementById('aj-evt-link-post')?.value || '').trim();
+    const linkAfiche = (document.getElementById('aj-evt-link-afiche')?.value || '').trim();
+    const compromiso = document.getElementById('aj-evt-compromiso')?.checked;
+
+    if (!compromiso) {
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        msgDiv.style.background = 'rgba(239,68,68,0.15)';
+        msgDiv.style.color = '#f87171';
+        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+        msgDiv.textContent = '⚠️ Debes aceptar las normas de Amigos Jugones para continuar.';
+      }
+      return;
+    }
+
+    if (!nombre || !org || !inicio || !termino || !lugar || !desc || !linkPost || !linkAfiche) {
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        msgDiv.style.background = 'rgba(239,68,68,0.15)';
+        msgDiv.style.color = '#f87171';
+        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+        msgDiv.textContent = '⚠️ Todos los campos marcados con asterisco (*) son obligatorios.';
+      }
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
+
+    try {
+      const apiBase = AUTH_CONFIG.apiUrl('');
+      const url = apiBase ? `${apiBase}/api/solicitudes/evento` : '/api/solicitudes/evento';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nick,
+          categoria,
+          nombre,
+          organizador: org,
+          fecha_inicio: inicio,
+          fecha_termino: termino,
+          ubicacion: lugar,
+          descripcion: desc,
+          costo,
+          requiere_inscripcion: inscr,
+          cupos_limitados: cupos,
+          link_red_social: linkPost,
+          link_afiche: linkAfiche
+        })
+      });
+      const data = await res.json();
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        if (data.ok) {
+          msgDiv.style.background = 'rgba(16,185,129,0.15)';
+          msgDiv.style.color = '#34d399';
+          msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
+          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud registrada con éxito! Será revisada pronto.');
+          document.getElementById('aj-evento-form')?.reset();
+          if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
+          setTimeout(() => {
+            const m = document.getElementById('aj-evento-modal');
+            if (m) m.remove();
+          }, 1800);
+        } else {
+          msgDiv.style.background = 'rgba(239,68,68,0.15)';
+          msgDiv.style.color = '#f87171';
+          msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+          msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
+          if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+        }
+      }
+    } catch (err) {
+      if (msgDiv) {
+        msgDiv.style.display = 'block';
+        msgDiv.style.background = 'rgba(239,68,68,0.15)';
+        msgDiv.style.color = '#f87171';
+        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+        msgDiv.textContent = '❌ Error de conexión con el servidor.';
       }
       if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
     }

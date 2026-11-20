@@ -436,6 +436,16 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
             return
 
+        # ── GET /api/admin/solicitudes_eventos ──────────────────────────────
+        if parsed.path == '/api/admin/solicitudes_eventos':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            estado_filtro = _safe_str(params.get('estado', 'pendiente')) or 'pendiente'
+            resultado = gestor_db.listar_solicitudes_eventos(estado_filtro)
+            self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
+            return
+
 
         # ─── ARCHIVOS ESTÁTICOS ───────────────────────────────────────────────
         super().do_GET()
@@ -1454,6 +1464,63 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({'ok': False, 'error': 'solicitud_id y accion son obligatorios'}, 400)
                 return
             res = gestor_db.moderar_solicitud_miembro(sol_id, accion, admin_nick)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── POST /api/solicitudes/evento ────────────────────────────────────
+        if parsed.path == '/api/solicitudes/evento':
+            nick = _safe_str(params.get('nick'))
+            categoria = _safe_str(params.get('categoria', 'Evento'))
+            nombre = _safe_str(params.get('nombre'))
+            organizador = _safe_str(params.get('organizador'))
+            fecha_inicio = _safe_str(params.get('fecha_inicio'))
+            fecha_termino = _safe_str(params.get('fecha_termino'))
+            ubicacion = _safe_str(params.get('ubicacion'))
+            descripcion = _safe_str(params.get('descripcion'))
+            costo = _safe_str(params.get('costo', 'Gratis')) or 'Gratis'
+            requiere_inscripcion = _safe_str(params.get('requiere_inscripcion', 'No')) or 'No'
+            cupos_limitados = _safe_str(params.get('cupos_limitados', 'No')) or 'No'
+            link_red_social = _safe_str(params.get('link_red_social'))
+            link_afiche = _safe_str(params.get('link_afiche'))
+
+            if not nick or not nombre or not organizador or not fecha_inicio or not fecha_termino or not ubicacion or not descripcion or not link_red_social or not link_afiche:
+                self._send_json({'ok': False, 'error': 'Todos los campos obligatorios deben ser completados'}, 400)
+                return
+
+            res = gestor_db.guardar_solicitud_evento(
+                nick=nick, categoria=categoria, nombre=nombre, organizador=organizador,
+                fecha_inicio=fecha_inicio, fecha_termino=fecha_termino, ubicacion=ubicacion,
+                descripcion=descripcion, costo=costo, requiere_inscripcion=requiere_inscripcion,
+                cupos_limitados=cupos_limitados, link_red_social=link_red_social, link_afiche=link_afiche
+            )
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── POST /api/admin/solicitudes_eventos ─────────────────────────────
+        if parsed.path == '/api/admin/solicitudes_eventos':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            estado_filtro = _safe_str(params.get('estado', 'pendiente')) or 'pendiente'
+            resultado = gestor_db.listar_solicitudes_eventos(estado_filtro)
+            self._send_json({'ok': True, 'solicitudes': resultado, 'total': len(resultado)}, 200)
+            return
+
+        # ── POST /api/admin/moderar_evento ──────────────────────────────────
+        if parsed.path == '/api/admin/moderar_evento':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            try:
+                evento_id = int(_safe_str(params.get('evento_id', '0')) or 0)
+            except (ValueError, TypeError):
+                evento_id = 0
+            accion = _safe_str(params.get('accion')).lower()
+            admin_nick = _safe_str(params.get('admin_nick', 'Admin')) or 'Admin'
+            if not evento_id or not accion:
+                self._send_json({'ok': False, 'error': 'evento_id y accion son obligatorios'}, 400)
+                return
+            res = gestor_db.moderar_solicitud_evento(evento_id, accion, admin_nick)
             self._send_json(res, 200 if res.get('ok') else 400)
             return
 

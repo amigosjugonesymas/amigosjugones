@@ -4037,10 +4037,10 @@ function renderRadar(el, d) {
             <div class="cta-title">¿Quieres aparecer aquí?</div>
             <p class="cta-desc">Completa tu ficha de disponibilidad para que la comunidad sepa cuándo motivarse contigo.</p>
           </div>
-          <a href="https://forms.gle/FKo9h63pAaSaYrBk8" target="_blank" class="btn btn-primary cta-btn">
+          <button onclick="AuthManager.abrirModalRadar()" class="btn btn-primary cta-btn" style="border:none; cursor:pointer;">
             <span style="font-size: 1.2rem;">🤝</span>
             <span>¡Quiero unirme al Radar!</span>
-          </a>
+          </button>
         </div>
       </div>
       ${renderComingSoon('📡', 'Radar Jugón', 'Los datos de disponibilidad se están sincronizando. Agrega jugadores en la pestaña FICHA JUGADORES.')}
@@ -4059,10 +4059,10 @@ function renderRadar(el, d) {
           <div class="cta-title">¿Quieres aparecer aquí?</div>
           <p class="cta-desc">Completa tu ficha de disponibilidad para que la comunidad sepa cuándo motivarse contigo.</p>
         </div>
-        <a href="https://forms.gle/FKo9h63pAaSaYrBk8" target="_blank" class="btn btn-primary cta-btn">
+        <button onclick="AuthManager.abrirModalRadar()" class="btn btn-primary cta-btn" style="border:none; cursor:pointer;">
           <span style="font-size: 1.2rem;">🤝</span>
           <span>¡Quiero unirme al Radar!</span>
-        </a>
+        </button>
       </div>
     </div>
     
@@ -4208,10 +4208,10 @@ function renderMiembros(el, d) {
           <div class="cta-title">¿Aparecer aquí?</div>
           <p class="cta-desc">Completa el formulario para ser parte de los Miembros Destacados y compartir tus proyectos o redes con la comunidad.</p>
         </div>
-        <a href="https://forms.gle/T4G3gCB4XnbY9YH7A" target="_blank" class="btn btn-primary cta-btn">
+        <button onclick="AuthManager.abrirModalProyecto()" class="btn btn-primary cta-btn" style="border:none; cursor:pointer;">
           <span style="font-size: 1.2rem;">📝</span>
           <span>¡Quiero participar!</span>
-        </a>
+        </button>
       </div>
     </div>
     <!-- 🎒 Mis Logros (Medallas del Miembro Conectado) -->
@@ -4364,10 +4364,10 @@ function renderInstagram(el, d) {
   // Comprobar autenticación para el botón de CTA
   const isAuth = window.AuthManager && typeof window.AuthManager.isAuthenticated === 'function' && window.AuthManager.isAuthenticated();
   const ctaButtonHtml = isAuth
-    ? `<a href="${formUrl}" target="_blank" class="btn btn-primary cta-btn" style="background: linear-gradient(135deg, #db2777, #7c3aed, #f59e0b);">
+    ? `<button onclick="AuthManager.abrirModalProyecto('participantes')" class="btn btn-primary cta-btn" style="border:none; cursor:pointer; background: linear-gradient(135deg, #db2777, #7c3aed, #f59e0b);">
          <span style="font-size: 1.2rem;">📸</span>
          <span>¡Promocionar en IG!</span>
-       </a>`
+       </button>`
     : `<button onclick="AuthManager.showModal('login')" class="btn btn-primary cta-btn" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);">
          <span style="font-size: 1.2rem;">🔒</span>
          <span>Inicia sesión para compartir</span>
@@ -5767,13 +5767,14 @@ function getDefaultDocs() {
 
 function getDefaultForms() {
   return [
-    { nombre: 'Creadores en Amigos Jugones',     icono: '🎬', descripcion: 'Registra tu canal/perfil de creador',         alimenta: 'Sección Creadores',         onclick: "AuthManager.abrirModalProyecto('creadores')" },
+    { nombre: 'Eventos y Concursos de la Comunidad', icono: '👑', descripcion: 'Promueve tu torneo, tarde de juegos o concurso', alimenta: 'Cartelera y Calendario', onclick: "AuthManager.abrirModalEvento('Evento')" },
     { nombre: 'Disponibilidad para jugar',         icono: '⏰', descripcion: 'Indica cuándo puedes jugar',                 alimenta: 'Radar Jugón',               onclick: "AuthManager.abrirModalRadar()" },
     { nombre: 'Mercado Amigos Jugones',            icono: '🛒', descripcion: 'Publica tu juego a la venta o cambio',       alimenta: 'El Mercado Jugón',          onclick: "AuthManager.abrirModalMercado()" },
-    { nombre: 'Organizaciones en Amigos Jugones', icono: '🏢', descripcion: 'Registra tu organización',                   alimenta: 'Sección Organizaciones',    onclick: "AuthManager.abrirModalProyecto('organizaciones')" },
-    { nombre: 'Tiendas en Amigos Jugones',         icono: '🛍️', descripcion: 'Registra tu tienda',                        alimenta: 'Sección Tiendas',           onclick: "AuthManager.abrirModalProyecto('tiendas')" },
     { nombre: 'Tu fecha de cumpleaños',            icono: '🎂', descripcion: 'Para ser saludado en el grupo',              alimenta: 'Recordatorios del grupo',   onclick: "AuthManager.abrirModalCumpleanos()" },
-    { nombre: 'Tu perfil en Instagram',            icono: '📷', descripcion: 'Agrega tu perfil personal',                  alimenta: 'Sección Participantes',     onclick: "AuthManager.abrirModalProyecto('participantes')" },
+    { nombre: 'Creadores en Amigos Jugones',     icono: '🎬', descripcion: 'Registra tu canal o perfil de creador',        alimenta: 'Sección Creadores',         onclick: "AuthManager.abrirModalProyecto('creadores')" },
+    { nombre: 'Organizaciones en Amigos Jugones', icono: '🏢', descripcion: 'Registra tu organización o club lúdico',      alimenta: 'Sección Organizaciones',    onclick: "AuthManager.abrirModalProyecto('organizaciones')" },
+    { nombre: 'Tiendas en Amigos Jugones',         icono: '🛍️', descripcion: 'Registra tu tienda o catálogo',              alimenta: 'Sección Tiendas',           onclick: "AuthManager.abrirModalProyecto('tiendas')" },
+    { nombre: 'Tu perfil en Instagram',            icono: '📷', descripcion: 'Agrega tu perfil personal o de fotos',       alimenta: 'Sección Participantes',     onclick: "AuthManager.abrirModalProyecto('participantes')" },
     { nombre: 'Tus redes de divulgación',          icono: '📡', descripcion: 'Registra tus canales de divulgación',        alimenta: 'Sección Divulgadores',      onclick: "AuthManager.abrirModalProyecto('divulgadores')" },
   ];
 }
@@ -6513,10 +6514,10 @@ function renderEventosDestacados(el, d) {
             <div class="cta-title">¿TIENES UN EVENTO?</div>
             <p class="cta-desc">¿Organizas un evento o concurso jugón? Queremos que la comunidad lo sepa y participe.</p>
           </div>
-          <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" rel="noopener noreferrer" class="btn btn-primary cta-btn">
+          <button onclick="AuthManager.abrirModalEvento('Evento')" class="btn btn-primary cta-btn" style="border:none; cursor:pointer;">
             <span style="font-size: 1.2rem;">✨</span>
             <span>Enviar Evento</span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -6717,10 +6718,10 @@ function renderConcursosDestacados(el, d) {
             <div class="cta-title">¿TIENES UN CONCURSO?</div>
             <p class="cta-desc">¿Organizas un torneo o concurso para la comunidad jugona? Queremos que todos se enteren y participen.</p>
           </div>
-          <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" rel="noopener noreferrer" class="btn btn-primary cta-btn">
+          <button onclick="AuthManager.abrirModalEvento('Concurso')" class="btn btn-primary cta-btn" style="border:none; cursor:pointer;">
             <span style="font-size: 1.2rem;">✨</span>
             <span>Enviar Concurso</span>
-          </a>
+          </button>
         </div>
       </div>
 

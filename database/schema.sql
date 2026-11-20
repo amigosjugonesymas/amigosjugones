@@ -428,7 +428,7 @@ CREATE INDEX IF NOT EXISTS idx_misiones_nick ON misiones_entregas(nick);
 CREATE TABLE IF NOT EXISTS solicitudes_miembros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nick TEXT NOT NULL REFERENCES jugadores(nick) ON DELETE CASCADE,
-    categoria TEXT NOT NULL CHECK(categoria IN ('creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores')),
+    categoria TEXT NOT NULL CHECK(categoria IN ('creadores', 'organizaciones', 'tiendas', 'participantes', 'divulgadores', 'comunidades')),
     nombre_proyecto TEXT NOT NULL,
     enlace TEXT NOT NULL,
     descripcion TEXT DEFAULT '',
@@ -441,5 +441,35 @@ CREATE TABLE IF NOT EXISTS solicitudes_miembros (
 
 CREATE INDEX IF NOT EXISTS idx_solicitudes_estado ON solicitudes_miembros(estado, categoria);
 CREATE INDEX IF NOT EXISTS idx_solicitudes_nick ON solicitudes_miembros(nick);
+
+-- ============================================================================
+-- SOLICITUDES DE EVENTOS Y CONCURSOS DE LA COMUNIDAD
+-- Sustituye formularios externos y difusión manual con recepción nativa.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS solicitudes_eventos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nick TEXT NOT NULL REFERENCES jugadores(nick) ON DELETE CASCADE,
+    categoria TEXT NOT NULL CHECK(categoria IN ('Evento', 'Concurso')),
+    nombre TEXT NOT NULL,
+    organizador TEXT NOT NULL,
+    fecha_inicio TEXT NOT NULL,
+    fecha_termino TEXT NOT NULL,
+    ubicacion TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    costo TEXT DEFAULT 'Gratis',
+    requiere_inscripcion TEXT DEFAULT 'No',
+    cupos_limitados TEXT DEFAULT 'No',
+    link_red_social TEXT NOT NULL,
+    link_afiche TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'pendiente' CHECK(estado IN ('pendiente', 'aprobado', 'rechazado')),
+    admin_revisor TEXT DEFAULT NULL,
+    fecha_solicitud TEXT NOT NULL DEFAULT (datetime('now')),
+    fecha_revision TEXT DEFAULT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_eventos_estado ON solicitudes_eventos(estado, categoria);
+CREATE INDEX IF NOT EXISTS idx_solicitudes_eventos_nick ON solicitudes_eventos(nick);
+
 
 
