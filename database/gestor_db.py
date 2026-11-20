@@ -496,7 +496,7 @@ def ejecutar_contraataque(nick_atacante: str, puntos_restar: int = 5, descripcio
     """
     now = datetime.datetime.now().isoformat()
     fecha_hoy = now[:10]
-    puntos_restar = abs(int(puntos_restar))
+    puntos_restar = abs(puntos_restar)
     afectados = []
 
     with get_db() as conn:
