@@ -453,7 +453,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         if parsed.path == '/api/admin/config_dia':
             fecha = _safe_str(params.get('fecha')) or None
             res = gestor_db.obtener_o_crear_config_dia(fecha)
-            self._send_json({'ok': True, 'config': res}, 200)
+            self._send_json({'ok': True, **res}, 200)
             return
 
         # ── GET /api/admin/reporte_dia ──────────────────────────────────────
@@ -1710,13 +1710,34 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def _check_admin_token(self, params):
-        """Verifica el token de administrador en los parámetros."""
-        import os
-        ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ')
-        token = params.get('token', '')
-        if isinstance(token, list):
-            token = token[0] if token else ''
-        return str(token).strip() == ADMIN_TOKEN
+        """Verifica el token de administrador en encabezados, parámetros o query string."""
+        import os, urllib.parse
+        ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', os.environ.get('ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ'))
+        # 1. Authorization header (Bearer)
+        auth_header = self.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            if auth_header[7:].strip() == ADMIN_TOKEN:
+                return True
+        # 2. x-admin-token header
+        x_tok = self.headers.get('x-admin-token', '')
+        if x_tok and x_tok.strip() == ADMIN_TOKEN:
+            return True
+        # 3. Diccionario params (POST body o GET params)
+        if params and isinstance(params, dict):
+            for k in ('token', 'admin_token', 'ADMIN_TOKEN'):
+                val = params.get(k)
+                if isinstance(val, list) and val:
+                    val = val[0]
+                if val and str(val).strip() == ADMIN_TOKEN:
+                    return True
+        # 4. Query string
+        parsed = urllib.parse.urlparse(self.path)
+        qs = urllib.parse.parse_qs(parsed.query)
+        for k in ('token', 'admin_token'):
+            val = qs.get(k, [''])[0]
+            if val and val.strip() == ADMIN_TOKEN:
+                return True
+        return False
 
     def end_headers(self):
         # Desactivar caché para archivos de datos dinámicos

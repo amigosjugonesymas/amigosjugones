@@ -3402,7 +3402,8 @@
     document.getElementById('macro-config-loading').style.display = 'block';
     document.getElementById('macro-config-body').style.display   = 'none';
     try {
-      const res  = await fetch(`/api/admin/config_dia?fecha=${fecha}`, { headers: { 'x-admin-token': adminToken } });
+      const url = `${CONFIG.API_BASE}/api/admin/config_dia?fecha=${fecha}&token=${encodeURIComponent(CONFIG.ADMIN_TOKEN)}`;
+      const res  = await fetch(url, { headers: { 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN } });
       const data = await res.json();
       document.getElementById('macro-pts-grupal').value  = data.pts_grupal  ?? 7;
       document.getElementById('macro-pts-ataque').value  = data.pts_ataque  ?? 10;
@@ -3421,6 +3422,8 @@
   async function macroGuardarConfig() {
     const fecha   = _macroFechaHoy();
     const payload = {
+      token:               CONFIG.ADMIN_TOKEN,
+      admin_token:         CONFIG.ADMIN_TOKEN,
       fecha,
       pts_grupal:          parseInt(document.getElementById('macro-pts-grupal').value) || 7,
       pts_ataque:          parseInt(document.getElementById('macro-pts-ataque').value) || 10,
@@ -3429,9 +3432,9 @@
       catchup_activo:      document.getElementById('macro-catchup-toggle').checked ? 1 : 0
     };
     try {
-      const res  = await fetch('/api/admin/config_dia', {
+      const res  = await fetch(`${CONFIG.API_BASE}/api/admin/config_dia`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN },
         body: JSON.stringify(payload)
       });
       const data = await res.json();
@@ -3454,10 +3457,10 @@
 
     const labels = { grupal: '📋 Grupal', personal: '✨ Personal', ataque: '🐢 Caparazón Azul' };
     try {
-      const res  = await fetch('/api/admin/acreditar_dia', {
+      const res  = await fetch(`${CONFIG.API_BASE}/api/admin/acreditar_dia`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
-        body: JSON.stringify({ nicks, tipo, fecha: _macroFechaHoy(), autor: 'Admin' })
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN },
+        body: JSON.stringify({ token: CONFIG.ADMIN_TOKEN, admin_token: CONFIG.ADMIN_TOKEN, nicks, tipo, fecha: _macroFechaHoy(), autor: 'Admin' })
       });
       const data = await res.json();
       loadEl.style.display = 'none';
@@ -3500,7 +3503,8 @@
     tablaEl.style.display = 'none';
     canvWrap.style.display= 'none';
     try {
-      const res  = await fetch(`/api/admin/reporte_dia?fecha=${fecha}`, { headers: { 'x-admin-token': adminToken } });
+      const url = `${CONFIG.API_BASE}/api/admin/reporte_dia?fecha=${fecha}&token=${encodeURIComponent(CONFIG.ADMIN_TOKEN)}`;
+      const res  = await fetch(url, { headers: { 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN } });
       const data = await res.json();
       loadEl.style.display = 'none';
       _macroReporteData    = data;
