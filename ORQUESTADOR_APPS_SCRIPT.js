@@ -198,6 +198,10 @@ function dispatchAction(p) {
       case "sync_whatsapp_members":
         return handleSyncWhatsappMembers(p);
 
+      // ── Guardar Captura de Lunara en Google Drive ───
+      case "guardar_captura_drive":
+        return handleGuardarCapturaDrive(p);
+
       default:
         return {
           status: "error",
@@ -975,6 +979,64 @@ function handleSyncWhatsappMembers(p) {
     total_miembros: totalFinal,
     message: `Sincronización completa. ${nuevos.length} miembros nuevos agregados. Total en hoja: ${totalFinal}.`
   };
+}
+
+/**
+ * ── 12c. SUBIR Y GUARDAR CAPTURA DE LUNARA EN GOOGLE DRIVE ───────────────────
+ * Guarda una imagen generada por Lunara (base64 o dataUrl) directamente en la
+ * subcarpeta dedicada 'CAPTURAS_LUNARA' en Google Drive.
+ */
+function handleGuardarCapturaDrive(p) {
+  try {
+    const base64Data = p.image_base64 || p.dataUrl || p.image || "";
+    if (!base64Data) {
+      return { status: "error", error: "sin_imagen", message: "No se proporcionó data de imagen." };
+    }
+
+    // Extraer raw base64 si viene con prefijo data:image/...;base64,
+    const cleanBase64 = String(base64Data).replace(/^data:image\/[a-z]+;base64,/, "");
+    const imageBytes = Utilities.base64Decode(cleanBase64);
+
+    const rawName = p.file_name || p.filename || `captura_torneo_${Date.now()}.png`;
+    const fileName = rawName.endsWith(".png") ? rawName : `${rawName}.png`;
+
+    let targetFolder = null;
+    if (CONFIG.CAPTURAS_FOLDER_ID) {
+      try {
+        targetFolder = DriveApp.getFolderById(CONFIG.CAPTURAS_FOLDER_ID);
+      } catch (e) {
+        Logger.log("Aviso: Fallback buscando subcarpeta CAPTURAS_LUNARA por nombre");
+      }
+    }
+    if (!targetFolder) {
+      const parentFolder = DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID);
+      targetFolder = obtenerOCrearSubcarpeta(parentFolder, CONFIG.SUBFOLDER_CAPTURAS);
+    }
+
+    const blob = Utilities.newBlob(imageBytes, "image/png", fileName);
+    const file = targetFolder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    const driveUrl = file.getUrl();
+    const fileId = file.getId();
+    const directUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
+
+    return {
+      status: "ok",
+      file_id: fileId,
+      file_name: fileName,
+      drive_url: driveUrl,
+      direct_url: directUrl,
+      folder_name: targetFolder.getName(),
+      message: `Imagen guardada exitosamente en Google Drive en la carpeta '${targetFolder.getName()}'.`
+    };
+  } catch (err) {
+    return {
+      status: "error",
+      error: "drive_save_error",
+      message: "Error guardando imagen en Google Drive: " + err.message
+    };
+  }
 }
 
 /**
