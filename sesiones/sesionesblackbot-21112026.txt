@@ -222,3 +222,37 @@ CAMBIOS EN EXTENSIÓN CHROME:
 - background.js (líneas 139 y 334): Actualizada ORQUESTADOR_URL a la nueva implementación.
 - sidepanel/toolRunner.js (línea 1328): Actualizada ORQUESTADOR_URL en la subida automática a Drive.
 - Otros Apps Script: Ningún otro archivo requirió cambios (admin_panel/Codigo.gs y Config.gs permanecen intactos).
+
+--- ACTUALIZACIÓN 21/11/2026 (13:30) ---
+SOPORTE DE JUGADORES ELIMINADOS (TACHADOS) Y CORRECCIÓN DE PARSEO EN LLAVES BGA
+
+HALLAZGOS:
+1. En Duelo #3 (Terminado), el jugador eliminado '_BLACK' no aparecía en la imagen generada, y en su lugar aparecía '1.°' como nombre del segundo jugador.
+2. Causa raíz:
+   - El selector DOM 'el.querySelectorAll("[class*='player']")' coincidía con elementos de rango/posición como '.player_rank' que contenían el texto '1.°'. Al no descartar '1.°' como nombre inválido, se guardaba como el jugador 2 y '_BLACK' quedaba fuera o descartado.
+   - Las partidas vacías/no jugadas (como la Gran Final) tenían 0 jugadores ('...'), por lo que la condición 'info.players.length > 0' descartaba la tarjeta real de la Final y el scraper recogía divs contenedores de la página con fragmentos del título ('Primaveral', 'Yokai Pagoda Amigos Jugones').
+   - Los jugadores eliminados en BGA no tenían aplicado el efecto visual de tachado (line-through) ni se distinguían adecuadamente en la tarjeta.
+
+CORRECCIONES APLICADAS:
+1. Scraper de Torneo BGA (extensiones_chrome/gemini-workspace-assistant/content/bgaTournamentScraper.js):
+   - Refactorizado 'parseMatchElement':
+     * Añadido validador estricto 'isInvalidPlayer()' que descarta rangos ('1.°', '2.°', '1st', '2nd'), estados ('Terminado', 'En curso (X%)', 'Por jugar', 'Omitido'), marcas de tiempo y palabras del título del torneo/juego.
+     * Selectores de nombres específicos para evitar falsos positivos con clases de badges o ranks.
+     * Detección visual profunda de eliminación ('checkIsEliminated') inspeccionando 'del', 's', 'strike', 'style*='line-through'', clases '.eliminated', '.loser' y 'getComputedStyle()'.
+     * Regla de coherencia para partidas terminadas: si un jugador gana ('1.°'), el contrincante en el duelo se marca automáticamente como eliminado ('2.°', isEliminated: true).
+     * Relleno automático de partidas pendientes con '{ name: "..." }', permitiendo que la Gran Final conserve su estado real de 'Por jugar' con slots 'Por definir'.
+   - En 'extractBGABracket': Se preservan los duelos válidos de llaves incluso si sus jugadores aún no están definidos.
+
+2. Motor Gráfico AMOLED (extensiones_chrome/gemini-workspace-assistant/sidepanel/tournamentCanvas.js):
+   - En 'drawPlayer(p, yLine)':
+     * Detección de 'isEliminated' mediante estado del jugador y posición en duelos terminados.
+     * Color de texto atenuado (#94a3b8 / #64748b) para jugadores eliminados.
+     * Trazo de línea roja continua horizontal neón ('rgba(239, 68, 68, 0.9)', 2px grosor) atravesando exactamente el nombre del jugador (y su nick del club si está vinculado).
+     * Badge de medalla/posición en la esquina derecha: dorado '#fbbf24' '1.°' para el ganador y rojo '#ef4444' '2.°' para el eliminado.
+     * Para slots no definidos ('Por definir' / '...'): renderizado sutil en gris cursiva sin línea tachada.
+
+TESTS:
+- Sintaxis JavaScript: 'node -c' en 'bgaTournamentScraper.js' y 'tournamentCanvas.js' -> OK (0 errores).
+- Pruebas unitarias de expresiones regulares y filtrado de nombres -> OK (gatoverah: 1.°, _BLACK: 2.° eliminado, Final: Por jugar con slots vacíos).
+- Git status: 'amigosjugones_sin_bot' limpio.
+- Archivos temporales: Ninguno creado. Entorno limpio.
