@@ -3137,7 +3137,7 @@
 
         <!-- Banner Explicativo sutil -->
         <div style="padding:6px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.68rem; color:#64748b; text-align:center;">
-          ⏳ Los mensajes se eliminan automáticamente tras 7 días. Charla casual sin spam.
+          ⏳ Los mensajes se eliminan automáticamente tras 7 días. Charla casual sin enlaces ni spam.
         </div>
 
         <!-- Contenedor de Mensajes con Scroll Infinito -->
@@ -3283,6 +3283,13 @@
     if (!inp) return;
     const texto = inp.value.trim();
     if (!texto) return;
+
+    // 🚫 Prohibición de enlaces y URLs (política anti-spam / anti-phishing)
+    const regexLink = /(https?:\/\/|www\.|\.(com|org|net|cl|es|io|me|app|gg|xyz|link|site|online)(\/|\s|$|[?#]))/i;
+    if (regexLink.test(texto)) {
+      alert('🚫 Por seguridad y política anti-spam, no está permitido compartir enlaces o páginas web en GhostRed.');
+      return;
+    }
 
     this._ghostRedSending = true;
     if (btn) btn.disabled = true;

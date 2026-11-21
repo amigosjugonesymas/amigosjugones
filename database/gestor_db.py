@@ -3772,6 +3772,15 @@ def enviar_mensaje_chat(nick: str, mensaje: str) -> dict:
     if len(msj_limpio) > 400:
         return {"ok": False, "error": "mensaje_excede_400_caracteres"}
 
+    # 🚫 Prohibir enlaces (anti-spam / anti-phishing)
+    patron_links = re.compile(r"(https?://|www\.|(?:\.com|\.org|\.net|\.cl|\.es|\.io|\.me|\.app|\.gg|\.xyz|\.link|\.site|\.online)(?:/|\s|$|[?#]))", re.IGNORECASE)
+    if patron_links.search(msj_limpio):
+        return {
+            "ok": False,
+            "error": "links_prohibidos",
+            "motivo": "Por seguridad y política anti-spam, no está permitido compartir enlaces en GhostRed."
+        }
+
     purgar_chat_expirado()
     mensaje_final = filtrar_palabras_censuradas(msj_limpio)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
