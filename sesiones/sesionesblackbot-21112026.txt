@@ -211,3 +211,14 @@ TESTS:
 - Sintaxis JS validada con node -c en los 4 archivos -> OK (0 errores).
 - Git Commit: 59b5801 -> origin/main.
 - Archivos temporales: Ninguno creado. Entorno limpio.
+
+--- ACTUALIZACIÓN 21/11/2026 (13:05) ---
+ACTUALIZACIÓN URL DEL ORQUESTADOR (NUEVA VERSIÓN DESPLEGADA):
+
+URL NUEVA PROPORCIONADA POR EL USUARIO:
+  https://script.google.com/macros/s/AKfycbzssckyVlf04CqDgwkffiUor3NFQZaIy602MYLlyxVAoU2wkzp1p_AVUMW_l5D-DeRw8Q/exec
+
+CAMBIOS EN EXTENSIÓN CHROME:
+- background.js (líneas 139 y 334): Actualizada ORQUESTADOR_URL a la nueva implementación.
+- sidepanel/toolRunner.js (línea 1328): Actualizada ORQUESTADOR_URL en la subida automática a Drive.
+- Otros Apps Script: Ningún otro archivo requirió cambios (admin_panel/Codigo.gs y Config.gs permanecen intactos).
