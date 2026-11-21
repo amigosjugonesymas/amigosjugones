@@ -487,5 +487,32 @@ CREATE TABLE IF NOT EXISTS config_diaria_macrojuego (
     notas TEXT DEFAULT ''
 );
 
+-- ============================================================================
+-- 👻 GHOSTRED — CANAL COMUNITARIO EFÍMERO (7 DÍAS) & MODERACIÓN
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS chat_mensajes (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    nick          TEXT NOT NULL,
+    mensaje       TEXT NOT NULL,
+    timestamp     TEXT NOT NULL DEFAULT (datetime('now')),
+    fecha         TEXT NOT NULL DEFAULT (date('now')),
+    eliminado     INTEGER NOT NULL DEFAULT 0,  -- 0: Visible, 1: Purgado por Admin
+    eliminado_por TEXT DEFAULT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_chat_fecha ON chat_mensajes(fecha);
+CREATE INDEX IF NOT EXISTS idx_chat_activo ON chat_mensajes(eliminado, timestamp);
+
+CREATE TABLE IF NOT EXISTS chat_moderacion_config (
+    id                  INTEGER PRIMARY KEY CHECK (id = 1),
+    palabras_censuradas TEXT NOT NULL DEFAULT '',
+    chat_habilitado     INTEGER NOT NULL DEFAULT 1
+);
+
+INSERT OR IGNORE INTO chat_moderacion_config (id, palabras_censuradas, chat_habilitado)
+VALUES (1, '', 1);
+
+
 
 

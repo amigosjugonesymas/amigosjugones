@@ -527,6 +527,10 @@
         <span class="icon">🎮</span> Control Macrojuego
         <span class="badge" style="background:#10b981; color:#fff; font-weight:700;">Hoy</span>
       </li>
+      <li class="nav-item" onclick="switchTab('tab-ghostred')">
+        <span class="icon">👻</span> Moderación GhostRed
+        <span class="badge" style="background:#10b981; color:#fff; font-weight:700;">Live</span>
+      </li>
     </ul>
   </aside>
 
@@ -830,6 +834,57 @@
             <button class="btn btn-secondary" onclick="macroDescargarCanvas()">📥 Descargar PNG</button>
           </div>
           <div id="macro-canvas-msg" style="display:none; margin-top:8px; padding:6px 12px; border-radius:8px; font-size:0.78rem; font-weight:700; text-align:center;"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 👻 MÓDULO MODERACIÓN GHOSTRED (CHAT 7 DÍAS) -->
+    <section id="tab-ghostred" class="tab-content">
+
+      <!-- CARD 1: Transmisiones en Vivo & Purgar Mensajes -->
+      <div class="card" style="margin-bottom:16px; border:1px solid rgba(16,185,129,0.4);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div class="card-title" style="margin:0;">👻 Monitor de Transmisiones GhostRed (Últimos 7 Días)</div>
+          <button class="btn btn-secondary" onclick="ghostredCargarFeed()" style="font-size:0.78rem; padding:6px 12px;">🔄 Actualizar Feed</button>
+        </div>
+        <p style="color:#94a3b8; font-size:0.82rem; margin-bottom:14px;">
+          Visualiza los mensajes activos transmitidos por los jugadores. Los mensajes se purgan automáticamente tras 7 días. Si detectas contenido inapropiado, puedes <strong style="color:#f87171;">purgarlo al instante</strong>.
+        </p>
+
+        <div id="ghostred-feed-loading" style="text-align:center; padding:20px; color:#fbbf24; font-size:0.85rem;">
+          Cargando transmisiones de GhostRed... ⏳
+        </div>
+
+        <div id="ghostred-feed-wrap" style="display:none; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.82rem; text-align:left;">
+            <thead>
+              <tr style="background:rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.1); color:#94a3b8;">
+                <th style="padding:10px 8px;">Fecha/Hora</th>
+                <th style="padding:10px 8px;">Nick</th>
+                <th style="padding:10px 8px;">Mensaje</th>
+                <th style="padding:10px 8px;">Estado</th>
+                <th style="padding:10px 8px; text-align:center;">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="ghostred-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CARD 2: Filtro de Palabras Censuradas -->
+      <div class="card" style="border:1px solid rgba(239,68,68,0.4);">
+        <div class="card-title">🚫 Filtro de Palabras Censuradas</div>
+        <p style="color:#94a3b8; font-size:0.82rem; margin-bottom:12px;">
+          Términos separados por coma. Los mensajes que contengan estas palabras serán enmascarados automáticamente con <strong style="color:#fbbf24;">***</strong> al momento de transmitirse.
+        </p>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Palabras prohibidas (separadas por coma)</label>
+          <textarea id="ghostred-input-palabras" rows="3" placeholder="Ej: insulto1, palabra2, spam3" style="width:100%; background:#111827; border:1px solid #374151; color:#fff; border-radius:8px; padding:10px; font-size:0.85rem; box-sizing:border-box;"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn" onclick="ghostredGuardarPalabras()" style="background:linear-gradient(135deg, #ef4444, #b91c1c);">💾 Guardar Lista Negra</button>
+          <span id="ghostred-palabras-msg" style="display:none; font-size:0.8rem; font-weight:700;"></span>
         </div>
       </div>
 
@@ -3727,7 +3782,121 @@
     switchTab = function(id) {
       _origSwitch(id);
       if (id === 'tab-macrojuego') macroCargarConfig();
+      if (id === 'tab-ghostred') ghostredCargarFeed();
     };
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // 👻 GHOSTRED — MODERACIÓN ADMIN
+  // ══════════════════════════════════════════════════════════════════════════
+
+  async function ghostredCargarFeed() {
+    const loadEl = document.getElementById('ghostred-feed-loading');
+    const wrapEl = document.getElementById('ghostred-feed-wrap');
+    const tbody  = document.getElementById('ghostred-table-body');
+    if (!loadEl || !wrapEl || !tbody) return;
+
+    loadEl.style.display = 'block';
+    wrapEl.style.display = 'none';
+
+    try {
+      const url = `${CONFIG.API_BASE}/api/admin/chat/mensajes?token=${encodeURIComponent(CONFIG.ADMIN_TOKEN)}`;
+      const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN } });
+      const data = await res.json();
+      loadEl.style.display = 'none';
+
+      if (!data || !data.ok) {
+        loadEl.innerHTML = `<span style="color:#f87171;">❌ Error al cargar mensajes: ${data.error || 'Error'}</span>`;
+        loadEl.style.display = 'block';
+        return;
+      }
+
+      // Cargar lista de palabras
+      const txtPalabras = document.getElementById('ghostred-input-palabras');
+      if (txtPalabras && Array.isArray(data.palabras_censuradas)) {
+        txtPalabras.value = data.palabras_censuradas.join(', ');
+      }
+
+      const msgs = data.mensajes || [];
+      if (msgs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">No hay mensajes activos en los últimos 7 días.</td></tr>';
+      } else {
+        tbody.innerHTML = msgs.map(m => {
+          const estaEliminado = m.eliminado === 1;
+          const statusBadge = estaEliminado
+            ? `<span style="color:#f87171; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:6px; padding:2px 6px; font-size:0.72rem;">Purgado (${m.eliminado_por || 'Admin'})</span>`
+            : `<span style="color:#34d399; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); border-radius:6px; padding:2px 6px; font-size:0.72rem;">Activo</span>`;
+          const btnAction = estaEliminado
+            ? `<span style="color:#64748b; font-size:0.75rem;">—</span>`
+            : `<button class="btn btn-secondary" onclick="ghostredEliminarMensaje(${m.id})" style="padding:4px 8px; font-size:0.72rem; background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.4); color:#fca5a5;">🗑️ Purgar</button>`;
+
+          return `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05); ${estaEliminado ? 'opacity:0.5;' : ''}">
+              <td style="padding:8px; color:#94a3b8; font-size:0.76rem; white-space:nowrap;">${m.timestamp || ''}</td>
+              <td style="padding:8px; font-weight:800; color:#fbbf24;">${m.nick || ''}</td>
+              <td style="padding:8px; color:#e2e8f0; line-height:1.4;">${m.mensaje || ''}</td>
+              <td style="padding:8px;">${statusBadge}</td>
+              <td style="padding:8px; text-align:center;">${btnAction}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      wrapEl.style.display = 'block';
+    } catch(e) {
+      loadEl.innerHTML = '<span style="color:#f87171;">❌ Error de conexión al cargar GhostRed.</span>';
+      loadEl.style.display = 'block';
+    }
+  }
+
+  async function ghostredEliminarMensaje(id) {
+    if (!confirm(`¿Estás seguro de purgar el mensaje #${id} de GhostRed?`)) return;
+    try {
+      const url = `${CONFIG.API_BASE}/api/admin/chat/eliminar`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN },
+        body: JSON.stringify({ token: CONFIG.ADMIN_TOKEN, id: id, admin_nick: 'Admin' })
+      });
+      const data = await res.json();
+      if (data && data.ok) {
+        ghostredCargarFeed();
+      } else {
+        alert(data.error || 'Error al eliminar mensaje');
+      }
+    } catch(e) {
+      alert('Error de conexión al purgar mensaje.');
+    }
+  }
+
+  async function ghostredGuardarPalabras() {
+    const inp = document.getElementById('ghostred-input-palabras');
+    const msg = document.getElementById('ghostred-palabras-msg');
+    if (!inp) return;
+    const palabras = inp.value.trim();
+
+    try {
+      const url = `${CONFIG.API_BASE}/api/admin/chat/palabras`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + CONFIG.ADMIN_TOKEN },
+        body: JSON.stringify({ token: CONFIG.ADMIN_TOKEN, palabras: palabras })
+      });
+      const data = await res.json();
+      if (data && data.ok) {
+        msg.textContent = '✅ Lista negra actualizada.';
+        msg.style.color = '#34d399';
+      } else {
+        msg.textContent = '❌ ' + (data.error || 'Error al guardar');
+        msg.style.color = '#f87171';
+      }
+      msg.style.display = 'inline';
+      setTimeout(() => { if (msg) msg.style.display = 'none'; }, 3000);
+    } catch(e) {
+      msg.textContent = '❌ Error de conexión';
+      msg.style.color = '#f87171';
+      msg.style.display = 'inline';
+    }
   }
 
 </script>

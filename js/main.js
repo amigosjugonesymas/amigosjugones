@@ -248,6 +248,7 @@ function renderGlobalFooter() {
 
         <!-- Pastillas de Información y Ayuda -->
         <div class="global-footer-links">
+          <button onclick="window.AuthManager && window.AuthManager.abrirGhostRed()" class="btn-footer-pill" style="border:1px solid rgba(16,185,129,0.5); background:rgba(16,185,129,0.15); color:#6ee7b7; font-weight:800;">👻 GhostRed (Live)</button>
           <button onclick="premiosAbrirModal()" id="btn-premios-footer" class="btn-footer-pill btn-pill-amber">🎁 Premios</button>
           <button onclick="notifAbrirAvisosPublicos()" class="btn-footer-pill btn-pill-blue">📢 Avisos Oficiales</button>
           <button onclick="openPopup('que_hacer')" class="btn-footer-pill btn-pill-purple">🧭 ¿Qué hacer aquí?</button>
@@ -273,6 +274,27 @@ function renderGlobalFooter() {
         </div>
       </div>
     </footer>
+
+    <!-- 👻 BOTÓN FLOTANTE GHOSTRED (FAB NEÓN CYBERPUNK) -->
+    <div id="ghostred-fab-container" style="position:fixed; bottom:82px; right:16px; z-index:9999;">
+      <button id="btn-ghostred-fab" onclick="window.AuthManager && window.AuthManager.abrirGhostRed()"
+        style="display:flex; align-items:center; gap:7px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:1px solid rgba(110,231,183,0.5); border-radius:30px; padding:9px 15px; font-weight:800; font-size:0.82rem; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,0.6), 0 0 16px rgba(16,185,129,0.35); transition:all 0.2s ease; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">
+        <span style="font-size:1.1rem; filter:drop-shadow(0 0 4px rgba(255,255,255,0.8));">👻</span>
+        <span style="letter-spacing:0.3px;">GhostRed</span>
+        <span style="width:7px; height:7px; background:#34d399; border-radius:50%; box-shadow:0 0 8px #34d399; display:inline-block; animation:pulseGhostRed 2s infinite;"></span>
+      </button>
+      <style>
+        @keyframes pulseGhostRed {
+          0% { transform: scale(0.9); opacity: 0.6; }
+          50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px #34d399; }
+          100% { transform: scale(0.9); opacity: 0.6; }
+        }
+        #btn-ghostred-fab:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.8), 0 0 24px rgba(16,185,129,0.6);
+        }
+      </style>
+    </div>
   `;
 }
 

@@ -463,6 +463,28 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(res, 200)
             return
 
+        # ── 👻 GHOSTRED GET /api/chat/mensajes ──────────────────────────────
+        if parsed.path == '/api/chat/mensajes':
+            nick = _safe_str(params.get('nick'))
+            if not nick:
+                self._send_json({'ok': False, 'error': 'auth_requerida', 'motivo': 'Debes iniciar sesión para acceder a GhostRed'}, 401)
+                return
+            desde_id = _safe_int(params.get('desde_id'), 0)
+            limite = _safe_int(params.get('limite'), 300)
+            res = gestor_db.obtener_mensajes_chat(desde_id=desde_id if desde_id > 0 else None, limite=limite)
+            self._send_json(res, 200)
+            return
+
+        # ── 👻 GHOSTRED GET /api/admin/chat/mensajes ────────────────────────
+        if parsed.path == '/api/admin/chat/mensajes':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            limite = _safe_int(params.get('limite'), 200)
+            res = gestor_db.obtener_mensajes_chat_admin(limite=limite)
+            self._send_json(res, 200)
+            return
+
 
         # ─── ARCHIVOS ESTÁTICOS ───────────────────────────────────────────────
         super().do_GET()
@@ -1584,6 +1606,41 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             fecha = _safe_str(params.get('fecha')) or None
             res = gestor_db.obtener_reporte_movimientos_dia(fecha)
             self._send_json(res, 200)
+            return
+
+        # ── 👻 GHOSTRED POST /api/chat/enviar ───────────────────────────────
+        if parsed.path == '/api/chat/enviar':
+            nick = _safe_str(params.get('nick'))
+            if not nick:
+                self._send_json({'ok': False, 'error': 'auth_requerida', 'motivo': 'Debes iniciar sesión para transmitir en GhostRed'}, 401)
+                return
+            mensaje = _safe_str(params.get('mensaje'))
+            if not mensaje:
+                self._send_json({'ok': False, 'error': 'mensaje_vacio'}, 400)
+                return
+            res = gestor_db.enviar_mensaje_chat(nick=nick, mensaje=mensaje)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── 👻 GHOSTRED POST /api/admin/chat/eliminar ───────────────────────
+        if parsed.path == '/api/admin/chat/eliminar':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            mensaje_id = _safe_int(params.get('id', params.get('mensaje_id')), 0)
+            admin_nick = _safe_str(params.get('admin_nick'), 'Admin')
+            res = gestor_db.moderar_eliminar_mensaje_chat(mensaje_id=mensaje_id, admin_nick=admin_nick)
+            self._send_json(res, 200 if res.get('ok') else 400)
+            return
+
+        # ── 👻 GHOSTRED POST /api/admin/chat/palabras ───────────────────────
+        if parsed.path == '/api/admin/chat/palabras':
+            if not self._check_admin_token(params):
+                self._send_json({'ok': False, 'error': 'No autorizado'}, 401)
+                return
+            palabras = _safe_str(params.get('palabras'))
+            nuevas = gestor_db.obtener_o_actualizar_palabras_censuradas(nuevas_palabras=palabras)
+            self._send_json({'ok': True, 'palabras_censuradas': nuevas}, 200)
             return
 
         self._send_json({"ok": False, "error": "endpoint_no_encontrado"}, 404)

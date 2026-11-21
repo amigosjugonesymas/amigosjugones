@@ -3057,6 +3057,276 @@
     }
   }
 
+  // ─── 👻 GHOSTRED: CANAL COMUNITARIO EFÍMERO (7 DÍAS) ───────────────────────
+
+  _ghostRedInterval = null;
+  _ghostRedLastId = 0;
+  _ghostRedSending = false;
+
+  abrirGhostRed() {
+    if (!this.isAuthenticated()) {
+      this.mostrarBloqueoGhostRed();
+      return;
+    }
+    this.abrirModalGhostRed();
+  }
+
+  mostrarBloqueoGhostRed() {
+    const modalId = 'aj-ghostred-lock-modal';
+    let modal = document.getElementById(modalId);
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = modalId;
+      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div style="width:100%; max-width:440px; background:linear-gradient(145deg, #101426 0%, #070914 100%); border:1px solid rgba(239,68,68,0.5); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(239,68,68,0.2); position:relative; text-align:center; box-sizing:border-box;">
+        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px;">✕</button>
+        <div style="font-size:2.5rem; margin-bottom:8px; filter:drop-shadow(0 0 12px rgba(239,68,68,0.5));">🔒</div>
+        <div style="font-size:0.75rem; color:#f87171; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">Acceso Denegado a GhostRed</div>
+        <h2 style="font-size:1.2rem; color:#fff; font-weight:800; margin:0 0 8px;">Se Requiere Handshake de Sesión</h2>
+        <p style="color:#cbd5e1; font-size:0.82rem; line-height:1.5; margin:0 0 16px;">
+          <strong>GhostRed</strong> es la frecuencia efímera confidencial de <strong>Amigos Jugones</strong>. Para leer y transmitir transmisiones con tu Nick gamer debes iniciar sesión con tu cuenta.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button onclick="document.getElementById('${modalId}').remove(); AuthManager.showModal({ reason: 'Identifícate con tu cuenta para acceder a GhostRed.' });"
+            style="width:100%; padding:12px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; font-weight:800; font-size:0.88rem; cursor:pointer; box-shadow:0 4px 15px rgba(16,185,129,0.35);">
+            🔑 Iniciar Sesión con mi Cuenta
+          </button>
+          <button onclick="document.getElementById('${modalId}').remove()"
+            style="width:100%; padding:10px; background:#1e293b; color:#94a3b8; border:none; border-radius:10px; font-weight:700; font-size:0.82rem; cursor:pointer;">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    `;
+    modal.style.display = 'flex';
+  }
+
+  abrirModalGhostRed() {
+    const nick = this.getNick();
+    const modalId = 'aj-ghostred-modal';
+    let modal = document.getElementById(modalId);
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = modalId;
+      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:12px; box-sizing:border-box;';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div style="width:100%; max-width:540px; height:85vh; max-height:680px; background:linear-gradient(145deg, #0d1526 0%, #070914 100%); border:1px solid rgba(16,185,129,0.45); border-radius:18px; display:flex; flex-direction:column; box-shadow:0 12px 50px rgba(0,0,0,0.9), 0 0 30px rgba(16,185,129,0.2); position:relative; overflow:hidden; box-sizing:border-box;">
+
+        <!-- Cabecera Cyberpunk -->
+        <div style="padding:14px 16px; background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.25); display:flex; align-items:center; gap:10px;">
+          <div style="font-size:1.6rem; filter:drop-shadow(0 0 8px rgba(16,185,129,0.6));">👻</div>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1rem; font-weight:900; color:#fff; letter-spacing:0.5px;">GhostRed</span>
+              <span style="font-size:0.65rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.5); border-radius:20px; padding:1px 6px; font-weight:800;">LIVE 🟢</span>
+              <span style="font-size:0.65rem; background:rgba(139,92,246,0.2); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4); border-radius:20px; padding:1px 6px; font-weight:700;">TTL: 7 Días</span>
+            </div>
+            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">
+              Conectado como <strong style="color:#34d399;">${nick}</strong> · Transmisiones efímeras
+            </div>
+          </div>
+          <button onclick="AuthManager.cerrarGhostRed()" style="background:none; border:none; color:#94a3b8; font-size:1.4rem; cursor:pointer; padding:6px; line-height:1; transition:color 0.2s;" title="Cerrar">✕</button>
+        </div>
+
+        <!-- Banner Explicativo sutil -->
+        <div style="padding:6px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.68rem; color:#64748b; text-align:center;">
+          ⏳ Los mensajes se eliminan automáticamente tras 7 días. Charla casual sin spam.
+        </div>
+
+        <!-- Contenedor de Mensajes con Scroll Infinito -->
+        <div id="ghostred-feed" style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth;">
+          <div id="ghostred-loading" style="text-align:center; padding:30px; color:#94a3b8; font-size:0.82rem;">
+            Sincronizando con GhostRed... ⏳
+          </div>
+        </div>
+
+        <!-- Área de Entrada / Transmisión -->
+        <div style="padding:10px 14px; background:rgba(10,14,28,0.95); border-top:1px solid rgba(16,185,129,0.2); box-sizing:border-box;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="text" id="ghostred-input" maxlength="400" placeholder="Escribe un mensaje en GhostRed..."
+              style="flex:1; background:#070a14; border:1px solid rgba(16,185,129,0.4); color:#fff; border-radius:10px; padding:10px 12px; font-size:0.85rem; outline:none; transition:border-color 0.2s;"
+              onkeydown="if(event.key==='Enter'&&!event.shiftKey){ event.preventDefault(); AuthManager._enviarMensajeGhostRed(); }"
+              oninput="document.getElementById('ghostred-counter').textContent = 400 - this.value.length;">
+            <button id="ghostred-btn-send" onclick="AuthManager._enviarMensajeGhostRed()"
+              style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; padding:10px 14px; font-weight:800; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:4px; box-shadow:0 2px 10px rgba(16,185,129,0.3); transition:transform 0.1s;">
+              <span>🚀</span>
+            </button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; font-size:0.65rem; color:#64748b; padding:0 2px;">
+            <span>Presiona Enter para enviar</span>
+            <span id="ghostred-counter">400</span>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+
+    // Cargar mensajes iniciales
+    this._cargarMensajesGhostRed(true);
+
+    // Iniciar polling silencioso cada 8s
+    if (this._ghostRedInterval) clearInterval(this._ghostRedInterval);
+    this._ghostRedInterval = setInterval(() => {
+      this._cargarMensajesGhostRed(false);
+    }, 8000);
+
+    // Foco en el input
+    setTimeout(() => {
+      const inp = document.getElementById('ghostred-input');
+      if (inp) inp.focus();
+    }, 150);
+  }
+
+  cerrarGhostRed() {
+    if (this._ghostRedInterval) {
+      clearInterval(this._ghostRedInterval);
+      this._ghostRedInterval = null;
+    }
+    const modal = document.getElementById('aj-ghostred-modal');
+    if (modal) modal.remove();
+  }
+
+  async _cargarMensajesGhostRed(isFirstLoad = false) {
+    const feed = document.getElementById('ghostred-feed');
+    if (!feed) return;
+    const nick = this.getNick();
+
+    try {
+      const url = AUTH_CONFIG.apiUrl(`/api/chat/mensajes?nick=${encodeURIComponent(nick)}`);
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data || !data.ok) {
+        if (isFirstLoad) {
+          feed.innerHTML = `<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error sincronizando con la red: ${data.error || 'Desconocido'}</div>`;
+        }
+        return;
+      }
+
+      const mensajes = Array.isArray(data.mensajes) ? data.mensajes : [];
+
+      if (mensajes.length === 0) {
+        feed.innerHTML = `
+          <div style="text-align:center; padding:40px 20px; color:#64748b;">
+            <div style="font-size:2rem; margin-bottom:6px;">📡</div>
+            <div style="font-weight:700; color:#94a3b8; font-size:0.85rem;">Frecuencia limpia</div>
+            <div style="font-size:0.75rem; margin-top:3px;">No hay transmisiones activas en los últimos 7 días. ¡Sé el primero en escribir!</div>
+          </div>
+        `;
+        return;
+      }
+
+      const miNickLower = nick.toLowerCase();
+      let html = '';
+
+      mensajes.forEach(m => {
+        const esMio = (m.nick || '').toLowerCase() === miNickLower;
+        const hora = (m.timestamp || '').slice(11, 16) || '';
+        const fecha = (m.fecha || '').slice(5) || '';
+
+        if (esMio) {
+          html += `
+            <div style="align-self:flex-end; max-width:82%; display:flex; flex-direction:column; align-items:flex-end;">
+              <div style="background:rgba(16,185,129,0.2); border:1px solid rgba(16,185,129,0.45); border-radius:14px 14px 2px 14px; padding:8px 12px; color:#e2e8f0; font-size:0.84rem; line-height:1.4; word-break:break-word; box-shadow:0 2px 10px rgba(0,0,0,0.3);">
+                ${this._escaparHtml(m.mensaje)}
+              </div>
+              <div style="font-size:0.62rem; color:#6ee7b7; margin-top:2px; padding-right:4px;">
+                Tú · ${hora}
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div style="align-self:flex-start; max-width:82%; display:flex; flex-direction:column; align-items:flex-start;">
+              <div style="font-size:0.65rem; color:#fbbf24; font-weight:800; margin-bottom:2px; padding-left:4px;">
+                ${this._escaparHtml(m.nick)}
+              </div>
+              <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:14px 14px 14px 2px; padding:8px 12px; color:#e2e8f0; font-size:0.84rem; line-height:1.4; word-break:break-word; box-shadow:0 2px 10px rgba(0,0,0,0.3);">
+                ${this._escaparHtml(m.mensaje)}
+              </div>
+              <div style="font-size:0.62rem; color:#64748b; margin-top:2px; padding-left:4px;">
+                ${fecha} ${hora}
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      // Chequear si el usuario estaba cerca del final antes de re-renderizar para mantener scroll
+      const estabaAbajo = (feed.scrollHeight - feed.scrollTop - feed.clientHeight) < 60;
+      feed.innerHTML = html;
+
+      if (isFirstLoad || estabaAbajo) {
+        feed.scrollTop = feed.scrollHeight;
+      }
+
+    } catch (e) {
+      if (isFirstLoad) {
+        feed.innerHTML = '<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error de conexión con GhostRed.</div>';
+      }
+    }
+  }
+
+  async _enviarMensajeGhostRed() {
+    if (this._ghostRedSending) return;
+    const inp = document.getElementById('ghostred-input');
+    const btn = document.getElementById('ghostred-btn-send');
+    if (!inp) return;
+    const texto = inp.value.trim();
+    if (!texto) return;
+
+    this._ghostRedSending = true;
+    if (btn) btn.disabled = true;
+
+    const nick = this.getNick();
+
+    try {
+      const url = AUTH_CONFIG.apiUrl('/api/chat/enviar');
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nick, mensaje: texto })
+      });
+      const data = await res.json();
+
+      if (data && data.ok) {
+        inp.value = '';
+        document.getElementById('ghostred-counter').textContent = '400';
+        await this._cargarMensajesGhostRed(false);
+        const feed = document.getElementById('ghostred-feed');
+        if (feed) feed.scrollTop = feed.scrollHeight;
+      } else {
+        alert(data.error || 'Error al transmitir mensaje.');
+      }
+    } catch (err) {
+      alert('Error de red al transmitir en GhostRed.');
+    } finally {
+      this._ghostRedSending = false;
+      if (btn) btn.disabled = false;
+      if (inp) inp.focus();
+    }
+  }
+
+  _escaparHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+
 } // fin class AuthManagerClass
 
   // Instancia Global
@@ -3064,5 +3334,6 @@
   window.cumpleanosAbrirModal = () => window.AuthManager && window.AuthManager.abrirModalCumpleanos();
   window.mercadoAbrirModal = () => window.AuthManager && window.AuthManager.abrirModalMercado();
   window.radarAbrirModal = () => window.AuthManager && window.AuthManager.abrirModalRadar();
+  window.ghostRedAbrirModal = () => window.AuthManager && window.AuthManager.abrirGhostRed();
 
 })(window);

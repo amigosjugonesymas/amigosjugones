@@ -3697,6 +3697,197 @@ def obtener_reporte_movimientos_dia(fecha: str | None = None) -> dict:
 
 
 # =============================================================================
+# 👻 GHOSTRED — CANAL COMUNITARIO EFÍMERO (7 DÍAS) & MODERACIÓN
+# =============================================================================
+
+def purgar_chat_expirado() -> int:
+    """
+    Elimina físicamente los mensajes con más de 7 días de antigüedad.
+    Se ejecuta automáticamente en cada lectura y transmisión.
+    """
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM chat_mensajes WHERE fecha < date('now', '-7 days')")
+            purgados = cursor.rowcount
+            if purgados > 0:
+                conn.commit()
+            return purgados
+    except Exception as e:
+        print(f"[GhostRed] Error en purga automática: {e}")
+        return 0
+
+
+def obtener_o_actualizar_palabras_censuradas(nuevas_palabras: str | None = None) -> list[str]:
+    """
+    Lee o actualiza la lista de palabras prohibidas separadas por coma en chat_moderacion_config.
+    Retorna la lista de palabras limpias en minúsculas.
+    """
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS chat_moderacion_config (id INTEGER PRIMARY KEY CHECK (id = 1), palabras_censuradas TEXT NOT NULL DEFAULT '', chat_habilitado INTEGER NOT NULL DEFAULT 1)")
+        cursor.execute("INSERT OR IGNORE INTO chat_moderacion_config (id, palabras_censuradas, chat_habilitado) VALUES (1, '', 1)")
+        
+        if nuevas_palabras is not None:
+            texto_guardar = str(nuevas_palabras).strip()
+            cursor.execute("UPDATE chat_moderacion_config SET palabras_censuradas = ? WHERE id = 1", (texto_guardar,))
+            conn.commit()
+            raw = texto_guardar
+        else:
+            row = cursor.execute("SELECT palabras_censuradas FROM chat_moderacion_config WHERE id = 1").fetchone()
+            raw = row["palabras_censuradas"] if row else ""
+
+    palabras = [p.strip().lower() for p in raw.split(",") if p.strip()]
+    return palabras
+
+
+def filtrar_palabras_censuradas(texto: str) -> str:
+    """
+    Reemplaza términos prohibidos con asteriscos (***) sin alterar mayúsculas del resto del texto.
+    """
+    if not texto:
+        return ""
+    palabras = obtener_o_actualizar_palabras_censuradas()
+    if not palabras:
+        return texto
+
+    texto_filtrado = texto
+    for p in palabras:
+        patron = re.compile(rf"\b{re.escape(p)}\b", re.IGNORECASE)
+        texto_filtrado = patron.sub("***", texto_filtrado)
+    return texto_filtrado
+
+
+def enviar_mensaje_chat(nick: str, mensaje: str) -> dict:
+    """
+    Inserta un nuevo mensaje en GhostRed tras validar nick y sanitizar contenido.
+    """
+    nick_limpio = str(nick or "").strip()
+    msj_limpio = str(mensaje or "").strip()
+
+    if not nick_limpio:
+        return {"ok": False, "error": "nick_requerido"}
+    if not msj_limpio:
+        return {"ok": False, "error": "mensaje_vacio"}
+    if len(msj_limpio) > 400:
+        return {"ok": False, "error": "mensaje_excede_400_caracteres"}
+
+    purgar_chat_expirado()
+    mensaje_final = filtrar_palabras_censuradas(msj_limpio)
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    fecha_hoy = now[:10]
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO chat_mensajes (nick, mensaje, timestamp, fecha, eliminado)
+            VALUES (?, ?, ?, ?, 0)
+        """, (nick_limpio, mensaje_final, now, fecha_hoy))
+        nuevo_id = cursor.lastrowid or 0
+        conn.commit()
+
+    return {
+        "ok": True,
+        "mensaje": {
+            "id": nuevo_id,
+            "nick": nick_limpio,
+            "mensaje": mensaje_final,
+            "timestamp": now,
+            "fecha": fecha_hoy
+        }
+    }
+
+
+def obtener_mensajes_chat(desde_id: int | None = None, limite: int = 300) -> dict:
+    """
+    Retorna el feed de mensajes activos de los últimos 7 días.
+    Soporta polling diferencial vía desde_id.
+    """
+    purgar_chat_expirado()
+    limite = min(500, max(10, int(limite)))
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+        if desde_id and int(desde_id) > 0:
+            cursor.execute("""
+                SELECT id, nick, mensaje, timestamp, fecha
+                FROM chat_mensajes
+                WHERE eliminado = 0 AND id > ?
+                ORDER BY id ASC
+                LIMIT ?
+            """, (int(desde_id), limite))
+        else:
+            cursor.execute("""
+                SELECT id, nick, mensaje, timestamp, fecha
+                FROM chat_mensajes
+                WHERE eliminado = 0
+                ORDER BY id ASC
+                LIMIT ?
+            """, (limite,))
+
+        filas = [dict(r) for r in cursor.fetchall()]
+
+    return {
+        "ok": True,
+        "mensajes": filas,
+        "total": len(filas)
+    }
+
+
+def obtener_mensajes_chat_admin(limite: int = 200) -> dict:
+    """
+    Retorna mensajes recientes para el monitor del Panel de Administración,
+    incluyendo estado de eliminación y autor de la moderación.
+    """
+    purgar_chat_expirado()
+    limite = min(500, max(20, int(limite)))
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT id, nick, mensaje, timestamp, fecha, eliminado, eliminado_por
+            FROM chat_mensajes
+            ORDER BY id DESC
+            LIMIT ?
+        """, (limite,))
+        filas = [dict(r) for r in cursor.fetchall()]
+
+    palabras = obtener_o_actualizar_palabras_censuradas()
+
+    return {
+        "ok": True,
+        "mensajes": filas,
+        "total": len(filas),
+        "palabras_censuradas": palabras
+    }
+
+
+def moderar_eliminar_mensaje_chat(mensaje_id: int, admin_nick: str = "Admin") -> dict:
+    """
+    Marca un mensaje como eliminado por el moderador.
+    """
+    try:
+        m_id = int(mensaje_id)
+    except (ValueError, TypeError):
+        return {"ok": False, "error": "id_invalido"}
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE chat_mensajes
+            SET eliminado = 1, eliminado_por = ?
+            WHERE id = ?
+        """, (str(admin_nick or "Admin"), m_id))
+        filas_afectadas = cursor.rowcount
+        conn.commit()
+
+    if filas_afectadas > 0:
+        return {"ok": True, "id": m_id, "mensaje": "Mensaje purgado exitosamente"}
+    return {"ok": False, "error": "mensaje_no_encontrado"}
+
+
+
+# =============================================================================
 # =============================================================================
 if __name__ == "__main__":
     if len(sys.argv) > 1:
