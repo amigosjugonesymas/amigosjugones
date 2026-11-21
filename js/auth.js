@@ -3065,7 +3065,14 @@
 
   abrirGhostRed() {
     if (!this.isAuthenticated()) {
+      const lockModal = document.getElementById('aj-ghostred-lock-modal');
+      if (lockModal) { lockModal.remove(); return; }
       this.mostrarBloqueoGhostRed();
+      return;
+    }
+    const modal = document.getElementById('aj-ghostred-modal');
+    if (modal) {
+      this.cerrarGhostRed();
       return;
     }
     this.abrirModalGhostRed();
@@ -3077,32 +3084,52 @@
     if (!modal) {
       modal = document.createElement('div');
       modal.id = modalId;
-      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;';
       document.body.appendChild(modal);
     }
 
+    modal.style.cssText = `
+      position: fixed;
+      bottom: 85px;
+      right: 16px;
+      width: 340px;
+      max-width: calc(100vw - 28px);
+      z-index: 99998;
+      background: linear-gradient(155deg, #101426 0%, #070914 100%);
+      border: 1px solid rgba(239,68,68,0.55);
+      border-radius: 18px 18px 4px 18px;
+      padding: 20px 18px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.9), 0 0 25px rgba(239,68,68,0.25);
+      box-sizing: border-box;
+      text-align: center;
+      animation: ghostredSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    `;
+
     modal.innerHTML = `
-      <div style="width:100%; max-width:440px; background:linear-gradient(145deg, #101426 0%, #070914 100%); border:1px solid rgba(239,68,68,0.5); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(239,68,68,0.2); position:relative; text-align:center; box-sizing:border-box;">
-        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px;">✕</button>
-        <div style="font-size:2.5rem; margin-bottom:8px; filter:drop-shadow(0 0 12px rgba(239,68,68,0.5));">🔒</div>
-        <div style="font-size:0.75rem; color:#f87171; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">Acceso Denegado a GhostRed</div>
-        <h2 style="font-size:1.2rem; color:#fff; font-weight:800; margin:0 0 8px;">Se Requiere Handshake de Sesión</h2>
-        <p style="color:#cbd5e1; font-size:0.82rem; line-height:1.5; margin:0 0 16px;">
-          <strong>GhostRed</strong> es la frecuencia efímera confidencial de <strong>Amigos Jugones</strong>. Para leer y transmitir transmisiones con tu Nick gamer debes iniciar sesión con tu cuenta.
-        </p>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <button onclick="document.getElementById('${modalId}').remove(); AuthManager.showModal({ reason: 'Identifícate con tu cuenta para acceder a GhostRed.' });"
-            style="width:100%; padding:12px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; font-weight:800; font-size:0.88rem; cursor:pointer; box-shadow:0 4px 15px rgba(16,185,129,0.35);">
-            🔑 Iniciar Sesión con mi Cuenta
-          </button>
-          <button onclick="document.getElementById('${modalId}').remove()"
-            style="width:100%; padding:10px; background:#1e293b; color:#94a3b8; border:none; border-radius:10px; font-weight:700; font-size:0.82rem; cursor:pointer;">
-            Cancelar
-          </button>
-        </div>
+      <style>
+        @keyframes ghostredSlideUp {
+          0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      </style>
+      <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:10px; right:12px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px;">✕</button>
+      <div style="font-size:2.2rem; margin-bottom:6px; filter:drop-shadow(0 0 10px rgba(239,68,68,0.5));">🔒</div>
+      <div style="font-size:0.72rem; color:#f87171; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">Acceso Denegado a GhostRed</div>
+      <h2 style="font-size:1.05rem; color:#fff; font-weight:800; margin:0 0 6px;">Se Requiere Handshake de Sesión</h2>
+      <p style="color:#cbd5e1; font-size:0.78rem; line-height:1.45; margin:0 0 14px;">
+        GhostRed es la frecuencia efímera confidencial de Amigos Jugones. Identifícate con tu cuenta para transmitir.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <button onclick="document.getElementById('${modalId}').remove(); AuthManager.showModal({ reason: 'Identifícate con tu cuenta para acceder a GhostRed.' });"
+          style="width:100%; padding:10px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; font-weight:800; font-size:0.84rem; cursor:pointer; box-shadow:0 4px 15px rgba(16,185,129,0.35);">
+          🔑 Iniciar Sesión
+        </button>
+        <button onclick="document.getElementById('${modalId}').remove()"
+          style="width:100%; padding:8px; background:#1e293b; color:#94a3b8; border:none; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer;">
+          Cancelar
+        </button>
       </div>
     `;
-    modal.style.display = 'flex';
+    modal.style.display = 'block';
   }
 
   abrirModalGhostRed() {
@@ -3112,59 +3139,81 @@
     if (!modal) {
       modal = document.createElement('div');
       modal.id = modalId;
-      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:12px; box-sizing:border-box;';
       document.body.appendChild(modal);
     }
 
+    modal.style.cssText = `
+      position: fixed;
+      bottom: 85px;
+      right: 16px;
+      width: 380px;
+      max-width: calc(100vw - 28px);
+      height: 520px;
+      max-height: calc(100vh - 110px);
+      z-index: 99998;
+      background: linear-gradient(155deg, #0d1526 0%, #070914 100%);
+      border: 1px solid rgba(16,185,129,0.45);
+      border-radius: 18px 18px 4px 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.9), 0 0 30px rgba(16,185,129,0.25);
+      overflow: hidden;
+      box-sizing: border-box;
+      animation: ghostredSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    `;
+
     modal.innerHTML = `
-      <div style="width:100%; max-width:540px; height:85vh; max-height:680px; background:linear-gradient(145deg, #0d1526 0%, #070914 100%); border:1px solid rgba(16,185,129,0.45); border-radius:18px; display:flex; flex-direction:column; box-shadow:0 12px 50px rgba(0,0,0,0.9), 0 0 30px rgba(16,185,129,0.2); position:relative; overflow:hidden; box-sizing:border-box;">
+      <style>
+        @keyframes ghostredSlideUp {
+          0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      </style>
 
-        <!-- Cabecera Cyberpunk -->
-        <div style="padding:14px 16px; background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.25); display:flex; align-items:center; gap:10px;">
-          <div style="font-size:1.6rem; filter:drop-shadow(0 0 8px rgba(16,185,129,0.6));">👻</div>
-          <div style="flex:1;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:1rem; font-weight:900; color:#fff; letter-spacing:0.5px;">GhostRed</span>
-              <span style="font-size:0.65rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.5); border-radius:20px; padding:1px 6px; font-weight:800;">LIVE 🟢</span>
-              <span style="font-size:0.65rem; background:rgba(139,92,246,0.2); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4); border-radius:20px; padding:1px 6px; font-weight:700;">TTL: 7 Días</span>
-            </div>
-            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">
-              Conectado como <strong style="color:#34d399;">${nick}</strong> · Transmisiones efímeras
-            </div>
+      <!-- Cabecera Cyberpunk Estilo Widget -->
+      <div style="padding:12px 14px; background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.25); display:flex; align-items:center; gap:8px;">
+        <div style="font-size:1.4rem; filter:drop-shadow(0 0 6px rgba(16,185,129,0.6));">👻</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.95rem; font-weight:900; color:#fff; letter-spacing:0.4px;">GhostRed</span>
+            <span style="font-size:0.62rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.5); border-radius:20px; padding:1px 5px; font-weight:800;">LIVE 🟢</span>
+            <span style="font-size:0.62rem; background:rgba(139,92,246,0.2); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4); border-radius:20px; padding:1px 5px; font-weight:700;">TTL: 7D</span>
           </div>
-          <button onclick="AuthManager.cerrarGhostRed()" style="background:none; border:none; color:#94a3b8; font-size:1.4rem; cursor:pointer; padding:6px; line-height:1; transition:color 0.2s;" title="Cerrar">✕</button>
-        </div>
-
-        <!-- Banner Explicativo sutil -->
-        <div style="padding:6px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.68rem; color:#64748b; text-align:center;">
-          ⏳ Los mensajes se eliminan automáticamente tras 7 días. Charla casual sin enlaces ni spam.
-        </div>
-
-        <!-- Contenedor de Mensajes con Scroll Infinito -->
-        <div id="ghostred-feed" style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth;">
-          <div id="ghostred-loading" style="text-align:center; padding:30px; color:#94a3b8; font-size:0.82rem;">
-            Sincronizando con GhostRed... ⏳
+          <div style="font-size:0.65rem; color:#94a3b8; margin-top:1px;">
+            Conectado como <strong style="color:#34d399;">${nick}</strong>
           </div>
         </div>
+        <button onclick="AuthManager.cerrarGhostRed()" style="background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px 8px; line-height:1; transition:color 0.2s;" title="Minimizar">✕</button>
+      </div>
 
-        <!-- Área de Entrada / Transmisión -->
-        <div style="padding:10px 14px; background:rgba(10,14,28,0.95); border-top:1px solid rgba(16,185,129,0.2); box-sizing:border-box;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <input type="text" id="ghostred-input" maxlength="400" placeholder="Escribe un mensaje en GhostRed..."
-              style="flex:1; background:#070a14; border:1px solid rgba(16,185,129,0.4); color:#fff; border-radius:10px; padding:10px 12px; font-size:0.85rem; outline:none; transition:border-color 0.2s;"
-              onkeydown="if(event.key==='Enter'&&!event.shiftKey){ event.preventDefault(); AuthManager._enviarMensajeGhostRed(); }"
-              oninput="document.getElementById('ghostred-counter').textContent = 400 - this.value.length;">
-            <button id="ghostred-btn-send" onclick="AuthManager._enviarMensajeGhostRed()"
-              style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; padding:10px 14px; font-weight:800; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:4px; box-shadow:0 2px 10px rgba(16,185,129,0.3); transition:transform 0.1s;">
-              <span>🚀</span>
-            </button>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; font-size:0.65rem; color:#64748b; padding:0 2px;">
-            <span>Presiona Enter para enviar</span>
-            <span id="ghostred-counter">400</span>
-          </div>
+      <!-- Banner Explicativo sutil -->
+      <div style="padding:5px 10px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.65rem; color:#64748b; text-align:center;">
+        ⏳ Se purgan a los 7 días. Charla casual sin enlaces ni spam.
+      </div>
+
+      <!-- Contenedor de Mensajes con Scroll Infinito -->
+      <div id="ghostred-feed" style="flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:8px; scroll-behavior:smooth;">
+        <div id="ghostred-loading" style="text-align:center; padding:30px; color:#94a3b8; font-size:0.8rem;">
+          Sincronizando con GhostRed... ⏳
         </div>
+      </div>
 
+      <!-- Área de Entrada / Transmisión -->
+      <div style="padding:8px 12px; background:rgba(10,14,28,0.95); border-top:1px solid rgba(16,185,129,0.2); box-sizing:border-box;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <input type="text" id="ghostred-input" maxlength="400" placeholder="Escribe un mensaje en GhostRed..."
+            style="flex:1; background:#070a14; border:1px solid rgba(16,185,129,0.4); color:#fff; border-radius:10px; padding:8px 10px; font-size:0.82rem; outline:none; transition:border-color 0.2s;"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){ event.preventDefault(); AuthManager._enviarMensajeGhostRed(); }"
+            oninput="document.getElementById('ghostred-counter').textContent = 400 - this.value.length;">
+          <button id="ghostred-btn-send" onclick="AuthManager._enviarMensajeGhostRed()"
+            style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; padding:8px 12px; font-weight:800; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(16,185,129,0.3); transition:transform 0.1s;">
+            <span>🚀</span>
+          </button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3px; font-size:0.62rem; color:#64748b; padding:0 2px;">
+          <span>Enter para enviar</span>
+          <span id="ghostred-counter">400</span>
+        </div>
       </div>
     `;
 
