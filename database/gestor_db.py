@@ -3729,7 +3729,7 @@ def obtener_o_actualizar_palabras_censuradas(nuevas_palabras: str | None = None)
         cursor.execute("INSERT OR IGNORE INTO chat_moderacion_config (id, palabras_censuradas, chat_habilitado) VALUES (1, '', 1)")
         
         if nuevas_palabras is not None:
-            texto_guardar = str(nuevas_palabras).strip()
+            texto_guardar = nuevas_palabras.strip()
             cursor.execute("UPDATE chat_moderacion_config SET palabras_censuradas = ? WHERE id = 1", (texto_guardar,))
             conn.commit()
             raw = texto_guardar
@@ -3762,8 +3762,8 @@ def enviar_mensaje_chat(nick: str, mensaje: str) -> dict:
     """
     Inserta un nuevo mensaje en GhostRed tras validar nick y sanitizar contenido.
     """
-    nick_limpio = str(nick or "").strip()
-    msj_limpio = str(mensaje or "").strip()
+    nick_limpio = nick.strip()
+    msj_limpio = mensaje.strip()
 
     if not nick_limpio:
         return {"ok": False, "error": "nick_requerido"}
@@ -3804,18 +3804,18 @@ def obtener_mensajes_chat(desde_id: int | None = None, limite: int = 300) -> dic
     Soporta polling diferencial vía desde_id.
     """
     purgar_chat_expirado()
-    limite = min(500, max(10, int(limite)))
+    limite = min(500, max(10, limite))
 
     with get_db() as conn:
         cursor = conn.cursor()
-        if desde_id and int(desde_id) > 0:
+        if desde_id and desde_id > 0:
             cursor.execute("""
                 SELECT id, nick, mensaje, timestamp, fecha
                 FROM chat_mensajes
                 WHERE eliminado = 0 AND id > ?
                 ORDER BY id ASC
                 LIMIT ?
-            """, (int(desde_id), limite))
+            """, (desde_id, limite))
         else:
             cursor.execute("""
                 SELECT id, nick, mensaje, timestamp, fecha
@@ -3840,7 +3840,7 @@ def obtener_mensajes_chat_admin(limite: int = 200) -> dict:
     incluyendo estado de eliminación y autor de la moderación.
     """
     purgar_chat_expirado()
-    limite = min(500, max(20, int(limite)))
+    limite = min(500, max(20, limite))
 
     with get_db() as conn:
         cursor = conn.cursor()
@@ -3866,23 +3866,18 @@ def moderar_eliminar_mensaje_chat(mensaje_id: int, admin_nick: str = "Admin") ->
     """
     Marca un mensaje como eliminado por el moderador.
     """
-    try:
-        m_id = int(mensaje_id)
-    except (ValueError, TypeError):
-        return {"ok": False, "error": "id_invalido"}
-
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute("""
             UPDATE chat_mensajes
             SET eliminado = 1, eliminado_por = ?
             WHERE id = ?
-        """, (str(admin_nick or "Admin"), m_id))
+        """, (admin_nick or "Admin", mensaje_id))
         filas_afectadas = cursor.rowcount
         conn.commit()
 
     if filas_afectadas > 0:
-        return {"ok": True, "id": m_id, "mensaje": "Mensaje purgado exitosamente"}
+        return {"ok": True, "id": mensaje_id, "mensaje": "Mensaje purgado exitosamente"}
     return {"ok": False, "error": "mensaje_no_encontrado"}
 
 
