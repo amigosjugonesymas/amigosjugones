@@ -174,3 +174,40 @@ TESTS & VERIFICACIÓN:
 - Validación de sintaxis JS: node -c en los 4 archivos JS -> OK (0 errores).
 - Git Commit: 56ba3f3 -> origin/main.
 - Archivos temporales: Ninguno creado, entorno 100% limpio.
+
+--- ACTUALIZACIÓN 21/11/2026 (12:58) ---
+REDiseño GRÁFICA TORNEO: LOGO COMUNIDAD + PROGRESIÓN EN 3 COLUMNAS + AUTO-SUBIDA A GOOGLE DRIVE
+
+HALLAZGOS TRAS PRUEBA REAL EN BGA:
+1. Identidad: Se cambió "CLUB" por "COMUNIDAD AMIGOS JUGONES". Se incorporó el logo oficial (LOGO AMIGOS JUGONES.png).
+2. Título: BGA repetía fragmentos con bullets (Yokai Pagoda Primaveral • Yokai Pagoda...). Se creó limpiarTituloTorneo().
+3. Progresión: El scraper agrupaba partidas duplicadas por contenedores padre y detectaba texto como "Final estimado:"
+   como fase, colapsando todas las partidas en una sola columna vertical superpuesta.
+4. Google Drive: Se requería que al sincronizar se guarde automáticamente en la carpeta de capturas de Lunara.
+
+CORRECCIONES APLICADAS:
+1. Scraper DOM Geométrico (content/bgaTournamentScraper.js):
+   - Filtrado estricto de nodos hoja (!contains) para descartar wrappers o divs padres duplicados.
+   - Agrupación por coordenadas visuales en pantalla (getBoundingClientRect().left y .top).
+   - Detección precisa de las 3 columnas reales (Cuartos de final, Semifinales, Final) sin texto basura.
+
+2. Motor Gráfico AMOLED Cyberpunk (sidepanel/tournamentCanvas.js):
+   - Logo Oficial: Incorporado 'icons/logo_amigos_jugones.png' (68x68) a ambos lados de la cabecera.
+   - Cabecera: "🎲 COMUNIDAD AMIGOS JUGONES 🎲".
+   - Progresión Visual 3 Columnas:
+     * Columna 1 (Cuartos): 4 duelos espaciados con duelos #1..#4.
+     * Columna 2 (Semifinales): 2 duelos centrados verticalmente entre sus cuartos correspondientes.
+     * Columna 3 (Gran Final): 1 duelo centrado con insignia dorada.
+   - Líneas de llave (elbow bracket connectors) neón trazadas geométricamente de izquierda a derecha.
+   - Eliminado todo tipo de texto superpuesto: padding de 55px vertical, tarjetas de 92px de alto.
+
+3. Almacenamiento Automático en Google Drive (ORQUESTADOR_APPS_SCRIPT.js & sidepanel/toolRunner.js):
+   - Nuevo endpoint en Orquestador: case "guardar_captura_drive" -> handleGuardarCapturaDrive(p).
+   - Recibe la imagen en base64, crea el archivo PNG en Drive en la subcarpeta 'CAPTURAS_LUNARA'
+     (CONFIG.CAPTURAS_FOLDER_ID / CONFIG.DRIVE_FOLDER_ID) con permisos de visualización pública.
+   - Lunara sube la imagen en segundo plano al sincronizar y adjunta el enlace directo al chat con el botón "📂 Ver en Drive".
+
+TESTS:
+- Sintaxis JS validada con node -c en los 4 archivos -> OK (0 errores).
+- Git Commit: 59b5801 -> origin/main.
+- Archivos temporales: Ninguno creado. Entorno limpio.
