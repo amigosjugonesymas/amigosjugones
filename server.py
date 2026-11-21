@@ -633,6 +633,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
                 # Obtener todos los jugadores AJ para fuzzy matching
                 jugadores_aj = gestor_db.obtener_jugadores_todos()
+                matched_members = {}
 
                 def normalize(s):
                     import unicodedata
@@ -727,6 +728,14 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
                     if matched:
                         matched_players += 1
+                        matched_members[bga_name.lower()] = {
+                            'bga_username': bga_name,
+                            'nick_aj': matched.get('nick'),
+                            'nick_web': matched.get('nick_web'),
+                            'nombre_agenda': matched.get('nombre_agenda_admin'),
+                            'telefono': matched.get('telefono'),
+                            'puntos': matched.get('puntos', 0)
+                        }
                         # Asignar puntos solo si torneo terminado
                         if is_finished and rank < 999:
                             pts, reason = calcular_puntos(rank, total_players)
@@ -745,6 +754,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "tournament_name": tournament_name,
                     "total_players": total_players,
                     "matched_players": matched_players,
+                    "matched_members": matched_members,
                     "points_assigned": points_assigned,
                     "is_finished": is_finished,
                     "mensaje": f"Torneo '{tournament_name}' sincronizado. {matched_players} miembros AJ identificados."
