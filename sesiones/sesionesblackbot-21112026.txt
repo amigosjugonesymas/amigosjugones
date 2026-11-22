@@ -338,3 +338,45 @@ TESTS:
 - node -c tournamentCanvas.js -> OK.
 - Test deduplicación: OLD=6 matches (Semi#1 perdido) vs NEW=7 matches (todos presentes) ✓
 - Test filtro fechas: "20/11/2026" FILTRADO, "2026-11-22" FILTRADO, "Lali2" VÁLIDO ✓
+
+--- ACTUALIZACIÓN 22/11/2026 (02:55) ---
+CORRECCIÓN DE COHERENCIA EN FASES (CUARTOS/SEMIS/FINAL VS OCTAVOS), CONTEO REAL DE JUGADORES Y ESTADO LIMPIO
+
+PROBLEMAS REPORTADOS POR EL USUARIO:
+1. Incoherencia en nombres de fases: Decía "OCTAVOS DE FINAL", "CUARTOS DE FINAL", "SEMIFINALES" cuando en BGA solo hay 7-8 jugadores y las fases son Cuartos -> Semifinales -> Final.
+2. Conteo de jugadores erróneo: Mostraba "0 JUGADORES" en la píldora informativa.
+3. Estado de aplicación sucio: Mostraba "CARGANDO APLICACIÓN... ..." en vez del estado real del torneo.
+4. Adaptabilidad para cualquier torneo: Se requería que la lógica funcione automáticamente para cualquier número de participantes (3, 4, 8, 10, 12, 16 o más) deduciendo las rondas de forma coherente.
+
+CAUSAS RAÍZ:
+1. Selector de estado demasiado amplio: `[id*='status']` y `[class*='phase']` capturaban contenedores internos de carga de BGA ("Cargando aplicación...").
+2. Jugadores no visibles en DOM en vista de Árbol: La tabla de ranking `#tournament_ranking tr` no se renderiza en la pestaña Resumen/Árbol, por lo que el arreglo `players` quedaba vacío (0 jugadores).
+3. Generación de columna espuria: Un elemento exterior a la llave creaba una 4ta columna en el scraper, haciendo que se aplicara el esquema de 16 jugadores ("Octavos de final", "Cuartos", "Semis", "Final") en vez del esquema de 8 jugadores.
+
+CORRECCIONES APLICADAS:
+1. bgaTournamentScraper.js:
+   - Nueva función `extractBGAPhaseTabs()`: Lee directamente las pestañas y migas de pan oficiales de BGA (ej: "Cuartos de final", "Semifinales", "Final").
+   - Nueva función `getStageNameByMatchCount(matchesCount, roundIdx, totalRounds)`: Regla matemática estricta según el número de duelos por ronda:
+     * 1 duelo = Final
+     * 2 duelos = Semifinales
+     * 3-4 duelos = Cuartos de final
+     * 5-8 duelos = Octavos de final
+     * 9-16 duelos = Dieciseisavos de final
+   - Filtrado de columnas espurias: Si la primera ronda tiene 4 duelos o menos, o si BGA define 3 fases, se descarta cualquier columna excedente generada por elementos externos.
+   - Conteo real de participantes:
+     * Se extraen todos los nombres únicos de jugadores presentes en cualquier fase del cuadro (`bracketPlayers`).
+     * Si la tabla de posiciones está ausente, se puebla `uniquePlayers` con los participantes descubiertos en las llaves.
+     * Detección de texto de cabecera (`(\d+)\s*(?:jugadores|participantes)`).
+     * `totalPlayers` se calcula con `Math.max(uniquePlayers, bracketPlayers, headerCount, firstRoundCapacity)`. Nunca más será 0.
+   - Estado del torneo limpio: Selectores estrictos descartando textos con "cargando/loading/aplicación", con fallback derivado del estado de las partidas ("En curso" / "Terminado" / "En progreso").
+
+2. tournamentCanvas.js:
+   - Safeguard de normalización: Se ajustan los títulos de las columnas según la cantidad real de duelos de cada ronda (4 duelos = Cuartos, 2 = Semis, 1 = Final).
+   - Sanitización del texto de estado en la píldora superior.
+   - Muestra dinámica y precisa de `👥 X JUGADORES`.
+
+TESTS:
+- node -c bgaTournamentScraper.js -> OK (0 errores).
+- node -c tournamentCanvas.js -> OK (0 errores).
+- Tests unitarios de resolución de nombres de fases (4 duelos -> Cuartos de final, 2 duelos -> Semifinales, 1 duelo -> Final) -> OK.
+- Verificación de conteo de jugadores -> OK (7/8 participantes).
