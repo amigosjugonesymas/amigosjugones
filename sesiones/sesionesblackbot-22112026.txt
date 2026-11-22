@@ -73,3 +73,21 @@
   * 1 duelo -> `Final`
 - **Control de Archivos Temporales:** Ningún archivo de prueba o temporal dejado en el repositorio.
 - **Git:** Cambios versionados y sincronizados con `origin/main`.
+
+---
+
+### 5. Rediseño Dinámico del Canvas y Corrección de Torneos Multi-Fase (04:00 - 04:30)
+
+- **Problema:** El torneo "Océanos de Papel" tenía 4 fases visibles en BGA (Paso 1 → Cuartos → Semifinales → Final) pero la imagen generada las omitía casi todas, mostrando solo 3 columnas con participantes incorrectos.
+- **Causa Raíz (3 bugs encadenados):**
+  1. **Bug del filtro de columnas en `bgaTournamentScraper.js`:** La condición `if (columns.length > 3 && columns[0].matches.length <= 4)` truncaba brutalmente a 3 columnas cualquier torneo con más fases, incluyendo torneos de 4 fases legítimas.
+  2. **Bug de reconstrucción hardcodeada en `tournamentCanvas.js`:** La condición `if (allMatchesFlat.length >= 4 && rounds.length !== 3)` imponía artificialmente una estructura de 3 rondas fija (Cuartos→Semis→Final), destruyendo la información real de rondas cuando el scraper ya la había extraído correctamente.
+  3. **Canvas de tamaño fijo:** El canvas de 1260×920px era insuficiente para torneos con 4+ fases o 6+ partidas por ronda, cortando o solapando los elementos.
+- **Pregunta del usuario sobre DOM vs impresión:**
+  * ✅ El sistema SÍ lee el DOM real: `bgaTournamentScraper.js` corre como content script de Chrome Extension dentro de la pestaña del usuario autenticado. Usa `document.querySelectorAll()`, `getBoundingClientRect()`, `el.innerText`, `window.tournament_infos`, y `window.getComputedStyle()` — todos acceden al DOM vivo y renderizado.
+  * ⚠️ El problema NO era de acceso al DOM sino de **lógica de agrupamiento**: el código correctamente leía los nodos del bracket, pero luego los reorganizaba de forma equivocada (truncando columnas y reconstruyendo fases con números fijos).
+- **Solución:**
+  * `bgaTournamentScraper.js`: Reemplazado el truncado agresivo por un validador `isValidBracketProgression()` que respeta cualquier número de columnas mientras sea una progresión decreciente válida. Solo elimina la última columna si es espuria (1 partida extra fuera de la progresión).
+  * `tournamentCanvas.js`: Eliminados todos los bloques de reconstrucción hardcodeada. Ahora el canvas respeta las rondas tal como las entregó el scraper, reconstruyendo solo si llegaron vacías (0 columnas). El motor de dibujo es completamente dinámico para N rondas.
+  * Canvas adaptativo: Dimensiones cambian según complejidad: 980×740 (2 rondas), 1260×880 (3 rondas), 1480×1040 (4+ rondas o 6+ partidas/ronda).
+  * `extractBGAPhaseTabs()` actualizado para reconocer también "Paso 1", "Ronda N", "Round N", etc.
