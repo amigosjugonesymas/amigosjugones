@@ -113,3 +113,24 @@
 - **Verificación:**
   * Sintaxis JavaScript verificada con Node.js en ambos archivos (`node -c`).
   * Simulación matemática del árbol de 16 jugadores (8 Octavos → 4 Cuartos → 2 Semis → 1 Final): 7 conexiones pares exactas, `DodderyScorpion` posicionado con seguridad a $Y = 757$px (más de 150px de margen antes del pie de página).
+
+---
+
+### 7. Corrección de Regresión de Lienzo Negro por Sobrefiltrado de Nodos Hoja (05:15 - 05:40)
+- **Problema:** Tras la actualización anterior, la imagen generada volvió a quedar completamente negra en el cuerpo central (mostrando solo el marco, cabecera y barra de estado con "9 JUGADORES"), idéntico al fallo de lienzo vacío anterior.
+- **Causa Raíz:**
+  1. **Sobrefiltrado en `leafMatches`:** La condición experimental `containedCount >= 2` e `isTinyHeader` descartaba simultáneamente el contenedor principal de la partida y sus sub-elementos internos en cascada. Como resultado, `leafMatches` quedaba reducido a 0 elementos (`[]`).
+  2. **Cascada de vacío:** Al ser `leafMatches: []`, `parsedList` y `bracket.rounds` quedaban vacíos. En `tournamentCanvas.js`, `hasBracket` evaluaba a `false`. El flujo caía en el fallback `else`, el cual tampoco encontraba tabla de posiciones (en la vista de llaves BGA no existe la tabla `#tournament_ranking`), dejando el cuerpo en negro absoluto.
+- **Solución Implementada:**
+  1. **Restauración del Filtro Canónico de Nodos Hoja en `bgaTournamentScraper.js`:**
+     * Se restauró la definición canónica e infalible: `matchCandidates.filter(el => !matchCandidates.some(other => other !== el && el.contains(other)))`.
+     * El descarte de insignias y badges del sistema (como `DUELO #18 - EN CURSO`) se realiza exclusivamente en el paso 3 (`parsedList`), donde se verifica que toda partida en curso/terminada/omitida tenga al menos 1 jugador real (`realPlayers.length > 0`). Esto elimina los badges espurios sin destruir las tarjetas de duelo reales.
+  2. **Optimización Ligera de `extractBGAPhaseTabs()`:**
+     * Se eliminó el query masivo de todo el árbol DOM que provocaba reflow sincrónico; ahora apunta directamente a las clases de fases y flechas BGA.
+  3. **Agrupación Geométrica Pura por Columnas X:**
+     * Las columnas de duelos se agrupan geométricamente por proximidad horizontal ($X \pm 100$px), garantizando que los 8 duelos de Octavos/Paso 1, los 4 de Cuartos, los 2 de Semis y el de la Final queden en sus 4 columnas naturales respectivas sin depender de alineaciones de pestañas externas.
+  4. **Protección Extra en Fallback de `tournamentCanvas.js`:**
+     * En el bloque `else`, se agregó extracción profunda de jugadores desde `bracket.rounds` para asegurar que nunca quede en blanco incluso si no se activara el modo llave.
+- **Verificación:**
+  * Ambos archivos validados con `node -c` (0 errores de sintaxis).
+  * Simulación completa de parseo en Node.js confirmando que las 4 columnas (Octavos, Cuartos, Semifinales, Final) se construyen de forma íntegra con sus 9 jugadores reales.
