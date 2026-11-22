@@ -91,3 +91,25 @@
   * `tournamentCanvas.js`: Eliminados todos los bloques de reconstrucción hardcodeada. Ahora el canvas respeta las rondas tal como las entregó el scraper, reconstruyendo solo si llegaron vacías (0 columnas). El motor de dibujo es completamente dinámico para N rondas.
   * Canvas adaptativo: Dimensiones cambian según complejidad: 980×740 (2 rondas), 1260×880 (3 rondas), 1480×1040 (4+ rondas o 6+ partidas/ronda).
   * `extractBGAPhaseTabs()` actualizado para reconocer también "Paso 1", "Ronda N", "Round N", etc.
+
+---
+
+### 6. Solución Definitiva a Líneas de Conexión, Eliminación de Badges Espurios y Alineación Geométrica de Fases (04:45 - 05:00)
+- **Problema:** En el torneo de 16 participantes "Océanos de Papel" (4 fases: Octavos/Paso 1 → Cuartos → Semifinales → Final), se presentaron tres anomalías visuales críticas:
+  1. Faltaban las líneas de conexión entre Cuartos de final #3 y #4 hacia Semifinales #2.
+  2. Se dibujaba una línea vertical errónea que atravesaba el pie de página hasta el borde inferior ("línea rara abajo").
+  3. Se creaba una columna espuria titulada "FINAL" con una tarjeta fantasma "DUELO #18 - EN CURSO (Por definir / Por definir)", empujando a los duelos reales de Semifinales a la columna 4 ("GRAN FINAL"), donde el Duelo #2 (`DodderyScorpion`) quedaba ubicado a $Y = 1010$px, parcialmente cortado por debajo del footer.
+- **Causa Raíz:**
+  1. **Badge de estado capturado como duelo ("DUELO #18"):** En la página de BGA, el encabezado contiene insignias de estado como `<div class="tournament_status">En curso</div>`. Al no tener enlaces de jugadores pero contener texto con palabras generales, no era filtrado, asignándosele el número por defecto 18 y jugadores `["...", "..."]`. Al situarse en $X \approx 500$px, generaba una columna intermedia artificial entre Cuartos y Semis/Final.
+  2. **Falla en el selector de pestañas BGA:** `extractBGAPhaseTabs()` dependía de la clase `.tournament_phases .arrow`. En ciertas vistas de BGA las clases de los contenedores difieren, provocando que la lista de pestañas quedara vacía. Al no haber pestañas, el sistema usaba el agrupamiento geométrico por umbral de 100px y la regla `matchesCount === 1` para nombrar "FINAL" a la columna del duelo espurio.
+  3. **Quiebre en el trazador de líneas y coordenadas:** Como la columna 3 artificial solo tenía 1 partida (índice 0), el bucle de conexión para índice $j = 1$ en Cuartos (duelos 3 y 4) no encontraba partida destino (`nextCoords[1]` indefinido), dejando los duelos sin conectar. En la columna 4, el duelo de `DodderyScorpion` ($j = 1$) no tenía alimentador en la columna 3, calculándose con salto geométrico libre a $Y = 1010$px, y el trazador de líneas dibujaba un codo vertical hacia abajo que cruzaba el footer.
+- **Solución Implementada:**
+  1. **Filtro Estricto Anti-Badges en `bgaTournamentScraper.js`:** Se implementó una regla inviolable en el parseo: cualquier elemento con estado "En curso", "Terminado" u "Omitido" DEBE poseer al menos un jugador real con nombre válido (`realPlayers.length > 0`). Si no tiene jugadores reales (ambos son `...` o `Por definir`), se descarta automáticamente como insignia del sistema. Esto elimina 100% el falso "DUELO #18".
+  2. **Extractor Universal de Pestañas BGA en `extractBGAPhaseTabs()`:** Ya no depende de nombres de clase específicos de BGA. Escanea todos los elementos visibles del DOM buscando textos exactos de fases (`Paso \d+`, `Ronda \d+`, `Cuartos de final`, `Semifinales`, `Final`, etc.), aísla los nodos hoja y agrupa automáticamente la fila horizontal superior por alineación de coordenada `top`. Las partidas se asignan directamente a la pestaña oficial que tienen arriba según proximidad de `centerX`.
+  3. **Normalización Posicional y Matemática de Fases:** Tanto en el scraper como en `tournamentCanvas.js`, la última columna es invariablemente `Final` (rotulada `GRAN FINAL`), la penúltima es `Semifinales`, la antepenúltima es `Cuartos de final`, y la previa `Octavos de final`.
+  4. **Clamp Vertical y Soporte de Alimentador Alternativo en `tournamentCanvas.js`:**
+     * Se incorporó restricción de coordenadas: `matchY = Math.min(Math.max(matchY, 248), H - 55 - cardH)`. Ningún duelo puede exceder los límites verticales ni tocar el footer.
+     * En el trazado de líneas, se añadió soporte para `else if (feeder2)`, garantizando conectores limpios y simétricos sin bifurcaciones anómalas.
+- **Verificación:**
+  * Sintaxis JavaScript verificada con Node.js en ambos archivos (`node -c`).
+  * Simulación matemática del árbol de 16 jugadores (8 Octavos → 4 Cuartos → 2 Semis → 1 Final): 7 conexiones pares exactas, `DodderyScorpion` posicionado con seguridad a $Y = 757$px (más de 150px de margen antes del pie de página).
