@@ -1,0 +1,71 @@
+# Registro de Sesión - BLACK-BOT - 22/11/2026
+
+## 🎯 Objetivos de la Sesión
+- [x] Corregir la inversión del orden visual de Semifinales (garantizar Semi #1 arriba <-> Q1+Q2 y Semi #2 abajo <-> Q3+Q4).
+- [x] Solucionar bug de deduplicación que eliminaba a Semi #1 (Lali2/...) por coincidir en jugadores con Q1.
+- [x] Filtrar cadenas de sistema BGA y fechas (ej. "20/11/2026", "+ ? XP", "Eliminación sencilla") para que no se interpreten como jugadores.
+- [x] Corregir la coherencia de nombres de fases (Cuartos de final, Semifinales, Final vs Octavos erróneos) para que dependan matemáticamente de la cantidad de duelos y jugadores reales.
+- [x] Solucionar el conteo de jugadores que mostraba "0 JUGADORES" en la vista de llaves.
+- [x] Eliminar texto residual de carga ("CARGANDO APLICACIÓN... ...") y deducir el estado real del torneo.
+- [x] Resolver bug de lienzo en blanco provocado por el recorte involuntario de columnas (`columns.slice(0, bgaTabs.length)`).
+- [x] Reorganizar la bitácora de sesión creando el archivo correspondiente al día actual (`sesionesblackbot-22112026.txt`) según las directrices mandatorias de `documentacion/actualizarlogdesesion.txt` y `instrucciones/bitacora_sesiones/logsdesesion.md`.
+
+---
+
+## 🛠️ Cambios Realizados
+
+### 1. Corrección del Orden de Semifinales y Filtrado de Textos de Sistema (01:50)
+- **Problema:** En la columna de Semifinales, el Duelo #2 (`gatoverah` vs `Amigosjugones`, En curso 25%) aparecía en la posición superior en vez de la inferior, y la segunda posición mostraba textos del sistema como "Eliminación sencilla" y "+ ? XP".
+- **Causa Raíz:** BGA renderizaba la caja del duelo activo con una coordenada Y visual más pequeña en el DOM. El scraper ordenaba puramente por `rectY` y sobreescribía los números con `mIdx + 1`.
+- **Solución:**
+  * En `bgaTournamentScraper.js`: Se preserva el número oficial BGA (`m.num`) parseado directamente del texto de la partida (ej: "2 En curso...").
+  * En `tournamentCanvas.js`: Se ordenan explícitamente `qMatches`, `sMatches` y `fMatches` por número ascendente (`m.num`) antes de asignar las coordenadas de dibujo.
+
+### 2. Solución al Bug de Deduplicación y Filtro de Fechas (02:10)
+- **Problema:** El duelo Semi #1 (`Lali2` / `...`, Por jugar) seguía sin aparecer en la imagen generada, y aparecía un "Duelo #8 - 20/11/2026".
+- **Causa Raíz:**
+  * Deduplicación ciega: Q1 (`Lali2` / `...` en $X \approx 100$) y Semi #1 (`Lali2` / `...` en $X \approx 420$) compartían el mismo conjunto de nombres. El algoritmo comparaba sin importar la columna y borraba a Semi #1 por considerarlo "duplicado".
+  * "20/11/2026" (fecha histórica de partida) pasaba el validador y se registraba como jugador fantasma.
+- **Solución:**
+  * En `bgaTournamentScraper.js`: La deduplicación por nombres ahora es estrictamente intra-columna (`Math.abs(prev.rectX - m.rectX) < 80`). Partidas en diferentes rondas/columnas jamás se descartan entre sí.
+  * Validador `isInvalidPlayer`: Agregadas expresiones regulares para descartar fechas (`DD/MM/YYYY`, `YYYY-MM-DD`), horas (`HH:MM`) y días de la semana.
+
+### 3. Coherencia de Fases, Conteo Real de Participantes y Estado Limpio (02:55)
+- **Problema:** La imagen mostraba encabezados de 16 jugadores ("OCTAVOS DE FINAL", "CUARTOS DE FINAL", "SEMIFINALES") cuando en BGA sólo compiten 7-8 jugadores. Además, la píldora informativa mostraba "0 JUGADORES" y estado "CARGANDO APLICACIÓN... ...".
+- **Causa Raíz:**
+  * Un elemento residual exterior al árbol generaba una 4ta columna geométrica, activando el esquema de 4 rondas de 16 jugadores.
+  * En la vista de llaves, la tabla clásica `#tournament_ranking tr` no existe en el DOM, dejando `players` en 0.
+  * El selector `[id*='status']` capturaba el mensaje de carga de BGA.
+- **Solución:**
+  * `getStageNameByMatchCount()`: Regla matemática estricta e inviolable: 1 duelo = Final, 2 duelos = Semifinales, 3-4 duelos = Cuartos de final, 5-8 = Octavos de final.
+  * Conteo de participantes: Se extraen todos los jugadores únicos de cualquier fase del cuadro (`bracketPlayers`) y se cruza con el texto de cabecera de BGA y la capacidad de la llave inicial. `totalPlayers` muestra el valor real (7 u 8 jugadores), nunca 0.
+  * Estado: Exclusión estricta de textos con "cargando/loading", derivando el estado directamente de las partidas ("En curso" / "Terminado" / "En progreso").
+
+### 4. Corrección de Lienzo en Blanco (03:10)
+- **Problema:** Tras la actualización anterior, el cuerpo del canvas salía completamente negro (sin tarjetas de duelos ni podio), solo con la cabecera y el pie de página.
+- **Causa Raíz:**
+  * `extractBGAPhaseTabs()` devolvía solo 1 pestaña (`Final`), y la condición `if (bgaTabs.length > 0 && columns.length > bgaTabs.length)` ejecutaba `columns.slice(0, 1)`, destruyendo 2 de las 3 columnas.
+  * Con 1 sola ronda, `hasBracket = rounds.length >= 2` daba `false`, cayendo al bloque `else` (podio) que no tenía filas para dibujar.
+- **Solución:**
+  * Se eliminó el slicing destructivo de columnas por conteo de tabs en `bgaTournamentScraper.js`.
+  * En `tournamentCanvas.js`, se blindó la reconstrucción: si `allMatchesFlat.length >= 4`, siempre se reconstruyen las 3 fases (Cuartos -> Semis -> Final) y `hasBracket` se activa con `rounds.length >= 2 || allMatchesFlat.length >= 3`.
+
+---
+
+## 📝 Notas Técnicas
+- **Geometría de Llaves en BGA:** En torneos eliminatorios de BGA, las rondas se organizan en columnas horizontales de izquierda a derecha. Cada ronda reduce los duelos a la mitad ($2^{n-1} \to 2^0$). La última columna siempre es la Final (1 duelo), la penúltima es Semifinales (2 duelos), y la antepenúltima es Cuartos (4 duelos).
+- **Consistencia DOM vs Estado Visual:** No se debe asumir que el orden de nodos en el DOM corresponde al orden visual Y en pantalla cuando BGA actualiza dinámicamente el estado de partidas en juego. El atributo parseado `m.num` es el identificador canónico más confiable para el bracket.
+- **Deduplicación Segura:** Dos partidas pueden tener jugadores idénticos a lo largo del tiempo si uno de ellos avanzó de ronda (ej. `Lali2` en Q1 y en Semi #1). La deduplicación solo es válida dentro del mismo rango de coordenadas X (misma columna).
+
+---
+
+## 🧪 Tests & Verificación
+- **Validación de Sintaxis:**
+  `node -c extensiones_chrome/gemini-workspace-assistant/content/bgaTournamentScraper.js` -> 0 errores.
+  `node -c extensiones_chrome/gemini-workspace-assistant/sidepanel/tournamentCanvas.js` -> 0 errores.
+- **Prueba Unitaria de Fases:**
+  * 4 duelos -> `Cuartos de final`
+  * 2 duelos -> `Semifinales`
+  * 1 duelo -> `Final`
+- **Control de Archivos Temporales:** Ningún archivo de prueba o temporal dejado en el repositorio.
+- **Git:** Cambios versionados y sincronizados con `origin/main`.
