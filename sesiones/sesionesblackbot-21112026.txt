@@ -256,3 +256,44 @@ TESTS:
 - Pruebas unitarias de expresiones regulares y filtrado de nombres -> OK (gatoverah: 1.°, _BLACK: 2.° eliminado, Final: Por jugar con slots vacíos).
 - Git status: 'amigosjugones_sin_bot' limpio.
 - Archivos temporales: Ninguno creado. Entorno limpio.
+
+--- ACTUALIZACIÓN 22/11/2026 (01:50) ---
+CORRECCIÓN ORDEN DE SEMIFINALES EN LLAVE BGA (SEMI #1 arriba, SEMI #2 abajo)
+
+PROBLEMA REPORTADO:
+- El usuario observó que en la imagen generada, el Duelo de Semis con gatoverah + Amigosjugones
+  aparecía en la posición SUPERIOR de la columna, cuando en BGA ese duelo es el Semi #2 (posición inferior).
+- Adicionalmente, la segunda posición de semis mostraba texto del sistema: "Eliminación sencilla - Yokai Pagoda"
+  y "+ ? XP" en lugar de un duelo real.
+
+CAUSA RAÍZ:
+1. ORDEN INCORRECTO DE SEMIS:
+   - BGA renderiza el Semi #2 (gatoverah/Amigosjugones, En curso 25%) en una posición vertical
+     más alta en el DOM (rectY más pequeño) que el Semi #1 (Lali2/Por definir, Por jugar).
+   - El scraper ordenaba las partidas dentro de cada columna por rectY (arriba -> abajo) y luego
+     sobreescribía sus números con mIdx+1 (0-indexed). Esto hacía que Semi #2 (rectY más pequeño)
+     se convirtiera en num=1 (posición superior) en la imagen.
+2. TEXTO DE SISTEMA COMO JUGADORES:
+   - Algunos divs de BGA contienen texto como "Eliminación sencilla - Yokai Pagoda" y "+ ? XP"
+     que eran capturados por el scraper como si fueran partidas o jugadores.
+
+CORRECCIONES APLICADAS:
+1. bgaTournamentScraper.js (extractBGABracket):
+   - Ya no sobreescribe el número de partida si fue correctamente parseado del texto BGA (rango 1-20).
+   - Lógica de deduplicación: si hay números duplicados en la misma columna, se usa el orden Y como fallback.
+   - Resultado: Semi que BGA etiqueta como "2 En curso (25%)" conserva num=2 -> posición inferior ✓.
+   
+2. bgaTournamentScraper.js (isInvalidPlayer):
+   - Nuevas reglas de exclusión: "Eliminación sencilla/puntuación/clasificación", "+ ? XP",
+     tokens con "?", instrucciones UI de BGA.
+
+3. tournamentCanvas.js (extractMatchCoords):
+   - qMatches, sMatches, fMatches ahora se ordenan explícitamente por num BGA ascendente
+     antes de asignar coordenadas de dibujo.
+   - Resultado: Semi #1 (num=1) -> posición superior (y=332) | Semi #2 (num=2) -> posición inferior (y=622).
+   - El cruce de llaves (Q1+Q2 -> Semi#1 arriba, Q3+Q4 -> Semi#2 abajo) queda correcto.
+
+TESTS:
+- node -c bgaTournamentScraper.js -> OK.
+- node -c tournamentCanvas.js -> OK.
+- Verificación manual con datos de torneo simulados -> ordenamiento correcto.
