@@ -380,3 +380,30 @@ TESTS:
 - node -c tournamentCanvas.js -> OK (0 errores).
 - Tests unitarios de resolución de nombres de fases (4 duelos -> Cuartos de final, 2 duelos -> Semifinales, 1 duelo -> Final) -> OK.
 - Verificación de conteo de jugadores -> OK (7/8 participantes).
+
+--- ACTUALIZACIÓN 22/11/2026 (03:10) ---
+CORRECCIÓN CANVAS EN BLANCO: SLICE ERRÓNEO DE COLUMNAS POR PESTAÑAS INCOMPLETAS
+
+PROBLEMA REPORTADO:
+- Tras la actualización previa, la imagen generada salía completamente vacía en el cuerpo (sin duelos, sin llaves, sin podio), mostrando únicamente la cabecera (7 jugadores, Yokai Pagoda, En progreso) y el pie de página.
+
+CAUSA RAÍZ:
+- La función 'extractBGAPhaseTabs()' retornaba únicamente 1 elemento (la pestaña activa 'Final') o un array incompleto.
+- La condición 'columns.length > bgaTabs.length' realizaba 'columns.slice(0, bgaTabs.length)', reduciendo las 3 columnas reales (Cuartos, Semis, Final) a 1 sola columna.
+- En 'tournamentCanvas.js', la variable 'hasBracket = rounds.length >= 2' se evaluaba como falsa (rounds.length era 1), desviando la ejecución al bloque 'else' (fallback podio).
+- Al estar la vista de BGA en la pestaña de llaves y no en la tabla de clasificación, el arreglo 'tournamentData.players' estaba vacío, por lo que el bloque 'else' no dibujaba nada, dejando el lienzo en blanco.
+
+CORRECCIONES APLICADAS:
+1. bgaTournamentScraper.js:
+   - Se eliminó la reducción arbitraria de columnas basada en 'bgaTabs.length'.
+   - 'extractBGAPhaseTabs()' solo retorna pestañas si se encontraron al menos 2 fases válidas (de lo contrario retorna vacío).
+   - El filtrado de columnas ahora se basa exclusivamente en la coherencia de la llave: si hay más de 3 columnas pero la primera ronda tiene <= 4 duelos, se preservan las 3 fases principales (Cuartos, Semis, Final).
+   - Nombres de rondas asignados de forma garantizada según cantidad de duelos (4 duelos = Cuartos, 2 = Semis, 1 = Final).
+
+2. tournamentCanvas.js:
+   - Respaldo reforzado: si 'allMatchesFlat.length >= 4', se reconstruyen automáticamente las 3 rondas (Cuartos -> Semifinales -> Final) independientemente de cómo hayan venido agrupadas.
+   - 'hasBracket' ahora se activa si 'rounds.length >= 2 || allMatchesFlat.length >= 3'.
+
+TESTS:
+- Sintaxis JavaScript validada con 'node -c' en ambos archivos -> OK (0 errores).
+- Test de agrupamiento de columnas sin slicing erróneo -> OK (conserva 3 columnas completas).
