@@ -297,3 +297,44 @@ TESTS:
 - node -c bgaTournamentScraper.js -> OK.
 - node -c tournamentCanvas.js -> OK.
 - Verificación manual con datos de torneo simulados -> ordenamiento correcto.
+
+--- ACTUALIZACIÓN 22/11/2026 (02:10) ---
+CORRECCIÓN BUG DEDUPLICACIÓN: Semi#1 (Lali2) desaparecía por falso duplicado con Q1
+
+PROBLEMA REPORTADO:
+- En la imagen generada, Semi #1 (Lali2/Por jugar) seguía sin aparecer.
+- Semi #2 (gatoverah/Amigosjugones) aparecía en posición superior (top) de la columna.
+- Aparecía un "DUELO #8 - 20/11/2026" como segundo slot de semis.
+
+CAUSA RAÍZ REAL:
+1. BUG EN DEDUPLICACIÓN (causa principal):
+   - Q1 (Cuartos): Lali2 / ... (pos X=100)
+   - Semi#1 (Semis): Lali2 / ... (pos X=420)
+   - Ambas partidas tienen el mismo conjunto de jugadores reales: Lali2 y ...
+   - La función de dedup comparaba nombres sin considerar la columna (distancia X).
+   - Como Q1 se procesaba primero, Semi#1 era marcado como DUPLICADO y eliminado.
+   - Resultado: rounds[1].matches sólo tenía Semi#2 → se dibujaba solo en top.
+2. FECHA COMO JUGADOR:
+   - "20/11/2026" (fecha de una partida jugada) pasaba la validación de nombres
+     y era tomado como jugador del "Duelo #8" fantasma.
+
+CORRECCIONES APLICADAS:
+1. bgaTournamentScraper.js (extractBGABracket - deduplicación):
+   - La deduplicación por jugadores SOLO aplica si ambas partidas están en la MISMA columna
+     (Math.abs(rectX1 - rectX2) < 80 px).
+   - Partidas en columnas distintas (Q1 en X~100, Semi#1 en X~420) ya NO se consideran
+     duplicadas aunque tengan los mismos jugadores.
+   - Resultado verificado con test unitario: 7 partidas correctas (antes: 6, faltaba Semi#1).
+
+2. bgaTournamentScraper.js (isInvalidPlayer):
+   - Nuevas reglas de exclusión de fechas:
+     * DD/MM/YYYY y DD-MM-YYYY: /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/
+     * YYYY-MM-DD (ISO): /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/
+     * Horas HH:MM y HH:MM:SS: /^\d{1,2}:\d{2}(:\d{2})?$/
+     * Días de la semana: lunes, martes, miércoles...
+
+TESTS:
+- node -c bgaTournamentScraper.js -> OK.
+- node -c tournamentCanvas.js -> OK.
+- Test deduplicación: OLD=6 matches (Semi#1 perdido) vs NEW=7 matches (todos presentes) ✓
+- Test filtro fechas: "20/11/2026" FILTRADO, "2026-11-22" FILTRADO, "Lali2" VÁLIDO ✓
