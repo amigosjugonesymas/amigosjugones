@@ -8,7 +8,9 @@
 - [x] Solucionar el conteo de jugadores que mostraba "0 JUGADORES" en la vista de llaves.
 - [x] Eliminar texto residual de carga ("CARGANDO APLICACIÓN... ...") y deducir el estado real del torneo.
 - [x] Resolver bug de lienzo en blanco provocado por excepción en tiempo de ejecución (`TypeError: Assignment to constant variable` en `columns`) y selector restrictivo `.tournament_phases`.
+- [x] Corregir anomalías en torneos de 16 jugadores (Océanos de Papel): líneas de conexión faltantes, badges espurios (`DUELO #18`) y ordenamiento visual de 4 fases.
 - [x] Reorganizar la bitácora de sesión creando el archivo correspondiente al día actual (`sesionesblackbot-22112026.txt`) según las directrices mandatorias de `documentacion/actualizarlogdesesion.txt` y `instrucciones/bitacora_sesiones/logsdesesion.md`.
+- [ ] Mostrar Podio Oficial (1.º, 2.º y 3.er lugar) al concluir la Gran Final del torneo (Próxima sesión).
 
 ---
 
@@ -134,3 +136,12 @@
 - **Verificación:**
   * Ambos archivos validados con `node -c` (0 errores de sintaxis).
   * Simulación completa de parseo en Node.js confirmando que las 4 columnas (Octavos, Cuartos, Semifinales, Final) se construyen de forma íntegra con sus 9 jugadores reales.
+
+---
+
+## 📌 Próximos Pasos & Tareas Pendientes (Para la Siguiente Sesión)
+- **Implementación del Podio Oficial al Concluir la Final:**
+  * **Requisito del usuario:** Cuando el torneo termine y se definan los ganadores de los tres primeros lugares, el canvas de Lunara deberá mostrar una vista de Podio (1.º Oro, 2.º Plata y 3.er Bronce).
+  * **Plan para la próxima sesión:**
+    1. Detección en `bgaTournamentScraper.js` de la conclusión del torneo / Gran Final para identificar con certeza campeón, subcampeón y tercer lugar.
+    2. Diseño e implementación en `tournamentCanvas.js` del renderizado visual de Podio AMOLED (pedestales escalonados Oro #1, Plata #2, Bronce #3 con medallas, cruce de identidades con la BD de AJ y avatares).
