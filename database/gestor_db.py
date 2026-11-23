@@ -3095,7 +3095,7 @@ def esta_puntos_asignados(tournament_id: str, bga_username: str) -> bool:
             cur.execute("""
                 SELECT puntos_asignados FROM torneo_participantes 
                 WHERE tournament_id = ? AND UPPER(bga_username) = UPPER(?)
-            """, (str(tournament_id), str(bga_username)))
+            """, (tournament_id, bga_username))
             row = cur.fetchone()
             if row and row["puntos_asignados"] and int(row["puntos_asignados"]) > 0:
                 return True
@@ -3113,7 +3113,7 @@ def marcar_puntos_asignados(tournament_id: str, bga_username: str, puntos: int) 
                 UPDATE torneo_participantes 
                 SET puntos_asignados = ?, actualizado_en = datetime('now')
                 WHERE tournament_id = ? AND UPPER(bga_username) = UPPER(?)
-            """, (int(puntos), str(tournament_id), str(bga_username)))
+            """, (puntos, tournament_id, bga_username))
             conn.commit()
         return True
     except Exception:
@@ -3281,7 +3281,7 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                 except Exception as e_retro:
                     print(f"⚠️ [Torneos] Error en reconciliación retroactiva: {e_retro}")
 
-            res_data = {"ok": True, "jugador": dict(act) if act else None}
+            res_data: dict[str, object] = {"ok": True, "jugador": dict(act) if act else None}
             if puntos_retroactivos:
                 res_data["puntos_retroactivos"] = puntos_retroactivos
             return res_data

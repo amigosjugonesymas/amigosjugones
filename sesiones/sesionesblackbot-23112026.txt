@@ -58,6 +58,15 @@
     - Cuando un socio se conecta, se registra o un administrador le vincula su cuenta mediante `/api/admin/vincular_bga`, el gestor busca de manera inmediata todas las entradas en `torneo_participantes` que coincidan con su `bga_username` y que tengan `puntos_asignados = 0`.
     - Automáticamente calcula la escala de puntos correspondiente a la posición alcanzada (1.º: 100, 2.º: 70, 3.º: 50, etc.), se los suma al saldo de su cuenta de miembro, genera el registro de auditoría en `historial_transacciones` bajo el evento `TORNEO_BGA_RETROACTIVO`, actualiza `puntos_asignados` y exporta el nuevo `ranking.json`.
 
+### 5. Tipado Estricto y Resolución de Diagnósticos Pyrefly (`database/gestor_db.py`)
+- **Problemas Detectados por el Analizador Estático:**
+  * `bad-assignment`: La inferencia de tipos de Python infería `res_data` como `dict[str, bool | dict | None]` a partir de su literal, arrojando advertencia al asignarle una lista en `res_data["puntos_retroactivos"]`.
+  * `unnecessary-type-conversion`: Llamadas redundantes a `str()` e `int()` en parámetros que ya estaban tipados como `str` e `int` en `esta_puntos_asignados()` y `marcar_puntos_asignados()`.
+- **Solución:**
+  * Se tipó explícitamente `res_data: dict[str, object]`.
+  * Se eliminaron las conversiones redundantes `str()` e `int()` en las consultas preparadas de SQLite.
+  * 0 advertencias y 0 errores en Pyrefly y Python compilador.
+
 ---
 
 ## 📝 Notas Técnicas
