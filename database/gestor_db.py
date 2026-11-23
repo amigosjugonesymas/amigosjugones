@@ -3086,6 +3086,40 @@ def guardar_participante_torneo(data: dict) -> dict:
         return {"ok": False, "error": str(e)}
 
 
+def esta_puntos_asignados(tournament_id: str, bga_username: str) -> bool:
+    """Verifica si un participante ya recibió puntos para un torneo específico."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT puntos_asignados FROM torneo_participantes 
+                WHERE tournament_id = ? AND UPPER(bga_username) = UPPER(?)
+            """, (str(tournament_id), str(bga_username)))
+            row = cur.fetchone()
+            if row and row["puntos_asignados"] and int(row["puntos_asignados"]) > 0:
+                return True
+        return False
+    except Exception:
+        return False
+
+
+def marcar_puntos_asignados(tournament_id: str, bga_username: str, puntos: int) -> bool:
+    """Registra la cantidad de puntos asignados a un participante para evitar duplicidad."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                UPDATE torneo_participantes 
+                SET puntos_asignados = ?, actualizado_en = datetime('now')
+                WHERE tournament_id = ? AND UPPER(bga_username) = UPPER(?)
+            """, (int(puntos), str(tournament_id), str(bga_username)))
+            conn.commit()
+        return True
+    except Exception:
+        return False
+
+
 def obtener_jugadores_todos() -> list:
     """Retorna todos los jugadores con nick, telefono, nombre_agenda_admin, nick_web y bga_username para matching de torneos."""
     try:
@@ -3185,7 +3219,72 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
                 WHERE nick = ? OR telefono = ?
             """, (nuevo_nick or target_nick, row_telefono))
             act = cur.fetchone()
-            return {"ok": True, "jugador": dict(act) if act else None}
+
+            # Reconciliación retroactiva automática de puntos de torneos BGA finalizados
+            effective_bga = (bga_username if bga_username is not None else (act["bga_username"] if act else "")).strip()
+            final_nick = nuevo_nick or target_nick
+            puntos_retroactivos = []
+            if effective_bga:
+                try:
+                    cur.execute("""
+                        SELECT p.tournament_id, p.rank_actual, t.tournament_name, t.total_players
+                        FROM torneo_participantes p
+                        JOIN torneos_bga t ON p.tournament_id = t.tournament_id
+                        WHERE UPPER(p.bga_username) = UPPER(?)
+                          AND (p.puntos_asignados IS NULL OR p.puntos_asignados = 0)
+                          AND p.rank_actual IS NOT NULL AND p.rank_actual < 999
+                    """, (effective_bga,))
+                    rows_pending = cur.fetchall()
+                    for rp in rows_pending:
+                        tid = rp["tournament_id"]
+                        rk = rp["rank_actual"]
+                        tname = rp["tournament_name"] or "Torneo BGA"
+                        tot = rp["total_players"] or 8
+                        # Escala oficial de puntos
+                        if rk == 1:
+                            pts, reas = 100, "1er lugar"
+                        elif rk == 2:
+                            pts, reas = 70, "2do lugar"
+                        elif rk == 3:
+                            pts, reas = 50, "3er lugar"
+                        elif rk <= 6:
+                            pts, reas = 30, f"{rk}to lugar (top 6)"
+                        elif rk <= (tot // 2 + 1):
+                            pts, reas = 15, f"{rk}to lugar (mitad superior)"
+                        else:
+                            pts, reas = 5, f"{rk}to lugar (participación)"
+
+                        cur.execute("UPDATE jugadores SET puntos = COALESCE(puntos, 0) + ? WHERE nick = ?", (pts, final_nick))
+                        now_iso = datetime.datetime.now().isoformat()
+                        cur.execute("SELECT puntos FROM jugadores WHERE nick = ?", (final_nick,))
+                        row_saldo = cur.fetchone()
+                        nsaldo = int(row_saldo["puntos"]) if row_saldo else pts
+                        try:
+                            cur.execute("""
+                                INSERT INTO historial_transacciones (timestamp, nick, tipo_evento, descripcion, variacion_pts, saldo_resultante)
+                                VALUES (?, ?, 'TORNEO_BGA_RETROACTIVO', ?, ?, ?)
+                            """, (now_iso, final_nick, f"Torneo BGA (Retroactivo): {tname} — {reas}", pts, nsaldo))
+                        except Exception:
+                            pass
+                        cur.execute("""
+                            UPDATE torneo_participantes 
+                            SET nick_aj = ?, puntos_asignados = ?, actualizado_en = datetime('now')
+                            WHERE tournament_id = ? AND UPPER(bga_username) = UPPER(?)
+                        """, (final_nick, pts, tid, effective_bga))
+                        conn.commit()
+                        puntos_retroactivos.append({"torneo": tname, "rank": rk, "puntos": pts})
+                    if puntos_retroactivos:
+                        try:
+                            exportar_ranking_json()
+                        except Exception:
+                            pass
+                except Exception as e_retro:
+                    print(f"⚠️ [Torneos] Error en reconciliación retroactiva: {e_retro}")
+
+            res_data = {"ok": True, "jugador": dict(act) if act else None}
+            if puntos_retroactivos:
+                res_data["puntos_retroactivos"] = puntos_retroactivos
+            return res_data
     except Exception as e:
         return {"ok": False, "error": str(e)}
 

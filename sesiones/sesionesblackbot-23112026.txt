@@ -1,0 +1,79 @@
+# Registro de Sesión - BLACK-BOT - 23/11/2026
+
+## 🎯 Objetivos de la Sesión
+- [x] Diseñar e implementar el Podio Oficial AMOLED de 3 niveles (`renderTournamentPodiumCanvas`) para torneos finalizados de BoardGameArena.
+- [x] Extraer avatares reales de BGA (`bgaUserId`, URLs de avatares) e integrar medallas, copas y reconocimientos de podio (1.º, 2.º y 3.er lugar) en `bgaTournamentScraper.js`.
+- [x] Diseñar el sistema de selector de vista dual en el chat de Lunara (`[ 🏆 Podio de Campeones ]` / `[ 🌳 Cuadro de Llaves ]`) con copiado dinámico para WhatsApp y descarga en PNG.
+- [x] Auditar el flujo de sincronización de la base de datos (`server.py` y `database/gestor_db.py`) y el reparto de puntos oficiales de Amigos Jugones.
+- [x] Implementar control de idempotencia para evitar duplicación de puntos en sincronizaciones repetidas de torneos finalizados.
+- [x] Implementar la reconciliación retroactiva de puntos para participantes no registrados que se conecten o sean vinculados con posterioridad.
+- [x] Crear el registro de sesión correspondiente al día de hoy (`sesionesblackbot-23112026.txt`) según las normativas de `documentacion/actualizarlogdesesion.txt` y `instrucciones/bitacora_sesiones/logsdesesion.md`.
+
+---
+
+## 🛠️ Cambios Realizados
+
+### 1. Implementación del Podio Oficial AMOLED (`tournamentCanvas.js`)
+- **Descripción:** Se desarrolló la función `renderTournamentPodiumCanvas(tournamentData, matchedMembers)` (Canvas HTML5 de 1200 x 950 px) con temática AMOLED Pure Black `#07060f` y estética Cyberpunk / Amigos Jugones.
+- **Detalles Arquitectónicos:**
+  * **Estructura de 3 Pedestales Metálicos:**
+    - 🥇 **1.º Lugar (Centro - Oro / Campeón):** Pedestal de 250 px de altura con gradientes dorados metálicos, corona flotante `👑`, copa dorada `🏆`, avatar con anillo de resplandor dorado (glow 25px), insignia de puntuación del club (+100 PTS) y XP oficial de BGA (+120 XP).
+    - 🥈 **2.º Lugar (Izquierda - Plata / Subcampeón):** Pedestal de 200 px de altura con gradiente plateado, medalla de plata `🥈`, avatar con aro plateado brillante, badge de puntuación (+70 PTS) y XP (+60 XP).
+    - 🥉 **3.er Lugar (Derecha - Bronce):** Pedestal de 160 px de altura con gradiente bronce/cobre, medalla de bronce `🥉`, avatar con aro cobrizo, badge de puntuación (+50 PTS) y XP (+30 XP).
+  * **Renderizado de Avatares:** Uso de `ctx.save()`, `ctx.beginPath()`, `ctx.arc()`, `ctx.clip()` y `ctx.drawImage()` para recorte circular perfecto y soporte asíncrono vía `Image()` con `crossOrigin = "anonymous"`. Si un avatar falla en cargar o no existe foto, genera automáticamente un avatar estilizado con las iniciales del jugador sobre fondo gradiente del color de su puesto.
+  * **Encabezado y Metadatos:** Título del juego/torneo con degradado neón, logotipos laterales oficiales del club, píldoras con fecha, estado "🏆 FINALIZADO" y total de participantes.
+  * **Footer de Certificación:** Cadena oficial de la Comunidad Amigos Jugones con URL del club y timestamp de emisión.
+
+### 2. Extracción de Avatares y Detección de Podio BGA (`bgaTournamentScraper.js`)
+- **Descripción:** Extensión del scraper DOM de BGA para recopilar avatares y deducir la terna de ganadores al concluir el torneo.
+- **Detalles:**
+  * **Extracción de Avatares:** Se analiza el árbol y la tabla de clasificación buscando atributos `src` con subcadenas `avatar`, `data-avatar`, `style` con `background-image` o identificadores de usuario BGA en enlaces `href="/player?id={userId}"` para armar la URL canónica de alta resolución de BGA: `https://x.boardgamearena.net/data/avatar/0/{bgaUserId}.jpg`.
+  * **Función `extractBGAPodium(bracket, uniquePlayers, status)`:**
+    - Detecta si el torneo está finalizado comprobando palabras clave de estado ("finaliz", "terminad", "ended", "over").
+    - Extrae el Campeón (1.º) y Subcampeón (2.º) del duelo final.
+    - Resuelve el 3.er puesto examinando el duelo de consolación o evaluando al mejor perdedor de semifinales según ranking/puntaje.
+    - Asocia la experiencia oficial BGA correspondiente (+120 XP, +60 XP, +30 XP).
+
+### 3. Pestañas Interactivas Duales en Lunara (`toolRunner.js` y `chatUI.js`)
+- **Descripción:** Integración en la interfaz de chat de Lunara para alternar sin recargar entre el Podio de Campeones y el Cuadro de Eliminatorias.
+- **Detalles:**
+  * En `toolRunner.js`: Genera concurrentemente `podiumCanvasRes` (si el torneo concluyó) y `bracketCanvasRes`. Empaqueta ambos blobs y URLs en el objeto `tournamentImageObj`.
+  * En `chatUI.js`: Si existen ambas representaciones, inserta una barra de pestañas compacta y estilizada con los botones `[ 🏆 Podio de Campeones ]` y `[ 🌳 Cuadro de Llaves ]`.
+  * Los botones "Copiar para WhatsApp" (vía `navigator.clipboard.write`) y "Descargar PNG" se vinculan en tiempo real a la vista que el usuario tenga seleccionada en la pestaña activa.
+
+### 4. Auditoría, Idempotencia y Reconciliación Retroactiva en Servidor (`server.py` y `gestor_db.py`)
+- **Problema Analizado:** 
+  1. ¿Cómo se asignan puntos a los ganadores y participantes en el sistema de Amigos Jugones?
+  2. ¿Qué ocurre si un jugador no está registrado o no tiene nick en la base de datos al momento de la finalización del torneo?
+  3. ¿Qué ocurre si después se registra o un administrador le vincula su usuario de BGA?
+  4. Riesgo de seguridad/consistencia: En la versión previa, si un administrador o el auto-sync de Lunara sincronizaba un torneo finalizado más de una vez, los puntos se sumaban repetidamente sin control de idempotencia.
+- **Solución Implementada:**
+  * **Control de Idempotencia en `database/gestor_db.py`:**
+    - Creadas las funciones `esta_puntos_asignados(tournament_id, bga_username)` y `marcar_puntos_asignados(tournament_id, bga_username, puntos)`.
+    - En `server.py` (`/api/torneos/sincronizar`), antes de otorgar puntos con `gestor_db.sumar_puntos_jugador()`, se verifica que el participante no haya recibido ya sus puntos (`puntos_asignados == 0`). Al otorgarlos, se persiste `puntos_asignados = pts`. Sincronizaciones posteriores detectan el estado y no duplican puntos.
+  * **Manejo de Jugadores No Registrados:**
+    - Todo participante de BGA se guarda siempre en la tabla `torneo_participantes` con su `bga_username`, su `rank_actual` obtenido y `puntos_asignados = 0` (con `nick_aj = None`).
+    - El historial de la partida y su posición en el torneo quedan permanentemente registrados aunque aún no forme parte de la base de socios del club.
+  * **Reconciliación Retroactiva Automática en `vincular_jugador_bga()`:**
+    - Cuando un socio se conecta, se registra o un administrador le vincula su cuenta mediante `/api/admin/vincular_bga`, el gestor busca de manera inmediata todas las entradas en `torneo_participantes` que coincidan con su `bga_username` y que tengan `puntos_asignados = 0`.
+    - Automáticamente calcula la escala de puntos correspondiente a la posición alcanzada (1.º: 100, 2.º: 70, 3.º: 50, etc.), se los suma al saldo de su cuenta de miembro, genera el registro de auditoría en `historial_transacciones` bajo el evento `TORNEO_BGA_RETROACTIVO`, actualiza `puntos_asignados` y exporta el nuevo `ranking.json`.
+
+---
+
+## 📝 Notas Técnicas
+- **Escala de Puntos Oficial de Amigos Jugones para Torneos BGA:**
+  * 🥇 1.º Lugar: 100 PTS
+  * 🥈 2.º Lugar: 70 PTS
+  * 🥉 3.er Lugar: 50 PTS
+  * 4.º al 6.º Lugar (Top 6): 30 PTS
+  * Mitad Superior del Cuadro: 15 PTS
+  * Participación: 5 PTS
+- **Cascada de Coincidencia (Fuzzy Matching):**
+  1. `bga_username` configurado en el perfil del jugador.
+  2. `nick_web` en la base de datos de miembros.
+  3. `nick` principal.
+  4. `nombre_agenda_admin` registrado por los administradores.
+  5. Coincidencia parcial o substring normalizado sin tildes ni mayúsculas.
+- **Validación de Compilación:**
+  * `py_compile server.py database/gestor_db.py`: 0 errores.
+  * `node -c` en los 4 archivos de la extensión Chrome: 0 errores.

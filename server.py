@@ -736,17 +736,19 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                             'telefono': matched.get('telefono'),
                             'puntos': matched.get('puntos', 0)
                         }
-                        # Asignar puntos solo si torneo terminado
+                        # Asignar puntos solo si torneo terminado y no se han asignado previamente
                         if is_finished and rank < 999:
-                            pts, reason = calcular_puntos(rank, total_players)
-                            gestor_db.sumar_puntos_jugador(matched['nick'], pts, f"Torneo BGA: {tournament_name} — {reason}")
-                            points_assigned.append({
-                                'nick': matched['nick'],
-                                'bga_username': bga_name,
-                                'rank': rank,
-                                'points': pts,
-                                'reason': reason
-                            })
+                            if not gestor_db.esta_puntos_asignados(tournament_id, bga_name):
+                                pts, reason = calcular_puntos(rank, total_players)
+                                gestor_db.sumar_puntos_jugador(matched['nick'], pts, f"Torneo BGA: {tournament_name} — {reason}")
+                                gestor_db.marcar_puntos_asignados(tournament_id, bga_name, pts)
+                                points_assigned.append({
+                                    'nick': matched['nick'],
+                                    'bga_username': bga_name,
+                                    'rank': rank,
+                                    'points': pts,
+                                    'reason': reason
+                                })
 
                 self._send_json({
                     "ok": True,
