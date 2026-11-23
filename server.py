@@ -672,21 +672,6 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                             return j
                     return None
 
-                # Escala de puntos por posición
-                def calcular_puntos(rank, total):
-                    if rank == 1:
-                        return 100, "1er lugar"
-                    elif rank == 2:
-                        return 70, "2do lugar"
-                    elif rank == 3:
-                        return 50, "3er lugar"
-                    elif rank <= 6:
-                        return 30, f"{rank}to lugar (top 6)"
-                    elif rank <= (total // 2 + 1):
-                        return 15, f"{rank}to lugar (mitad superior)"
-                    else:
-                        return 5, f"{rank}to lugar (participación)"
-
                 matched_players = 0
                 points_assigned = []
 
@@ -715,7 +700,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     # Buscar coincidencia en jugadores AJ
                     matched = fuzzy_match(bga_name, jugadores_aj)
 
-                    # Guardar participante
+                    # Guardar participante en DB (queda siempre registrado para presentes o futuros registros)
                     gestor_db.guardar_participante_torneo({
                         'tournament_id': tournament_id,
                         'bga_username': bga_name,
@@ -727,6 +712,11 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     })
 
                     if matched:
+                        esta_registrado_web = bool(
+                            (matched.get('nick_web') or '').strip() or
+                            int(matched.get('tiene_clave_privada', 0) or 0) == 1 or
+                            bool(matched.get('password_hash'))
+                        )
                         matched_players += 1
                         matched_members[bga_name.lower()] = {
                             'bga_username': bga_name,
@@ -734,12 +724,15 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                             'nick_web': matched.get('nick_web'),
                             'nombre_agenda': matched.get('nombre_agenda_admin'),
                             'telefono': matched.get('telefono'),
-                            'puntos': matched.get('puntos', 0)
+                            'puntos': matched.get('puntos', 0),
+                            'registrado_web': esta_registrado_web
                         }
-                        # Asignar puntos solo si torneo terminado y no se han asignado previamente
-                        if is_finished and rank < 999:
+
+                        # REGLA FUNDAMENTAL: Solo recibe puntos si el torneo terminó Y está registrado en la web.
+                        # Si no está registrado en la web, el resultado queda guardado para acreditarse cuando se registre.
+                        if is_finished and rank < 999 and esta_registrado_web:
                             if not gestor_db.esta_puntos_asignados(tournament_id, bga_name):
-                                pts, reason = calcular_puntos(rank, total_players)
+                                pts, reason = gestor_db.obtener_puntos_torneo_bga(rank)
                                 gestor_db.sumar_puntos_jugador(matched['nick'], pts, f"Torneo BGA: {tournament_name} — {reason}")
                                 gestor_db.marcar_puntos_asignados(tournament_id, bga_name, pts)
                                 points_assigned.append({

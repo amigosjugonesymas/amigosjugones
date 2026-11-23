@@ -41,22 +41,24 @@
   * En `chatUI.js`: Si existen ambas representaciones, inserta una barra de pestañas compacta y estilizada con los botones `[ 🏆 Podio de Campeones ]` y `[ 🌳 Cuadro de Llaves ]`.
   * Los botones "Copiar para WhatsApp" (vía `navigator.clipboard.write`) y "Descargar PNG" se vinculan en tiempo real a la vista que el usuario tenga seleccionada en la pestaña activa.
 
-### 4. Auditoría, Idempotencia y Reconciliación Retroactiva en Servidor (`server.py` y `gestor_db.py`)
-- **Problema Analizado:** 
-  1. ¿Cómo se asignan puntos a los ganadores y participantes en el sistema de Amigos Jugones?
-  2. ¿Qué ocurre si un jugador no está registrado o no tiene nick en la base de datos al momento de la finalización del torneo?
-  3. ¿Qué ocurre si después se registra o un administrador le vincula su usuario de BGA?
-  4. Riesgo de seguridad/consistencia: En la versión previa, si un administrador o el auto-sync de Lunara sincronizaba un torneo finalizado más de una vez, los puntos se sumaban repetidamente sin control de idempotencia.
-- **Solución Implementada:**
-  * **Control de Idempotencia en `database/gestor_db.py`:**
-    - Creadas las funciones `esta_puntos_asignados(tournament_id, bga_username)` y `marcar_puntos_asignados(tournament_id, bga_username, puntos)`.
-    - En `server.py` (`/api/torneos/sincronizar`), antes de otorgar puntos con `gestor_db.sumar_puntos_jugador()`, se verifica que el participante no haya recibido ya sus puntos (`puntos_asignados == 0`). Al otorgarlos, se persiste `puntos_asignados = pts`. Sincronizaciones posteriores detectan el estado y no duplican puntos.
-  * **Manejo de Jugadores No Registrados:**
-    - Todo participante de BGA se guarda siempre en la tabla `torneo_participantes` con su `bga_username`, su `rank_actual` obtenido y `puntos_asignados = 0` (con `nick_aj = None`).
-    - El historial de la partida y su posición en el torneo quedan permanentemente registrados aunque aún no forme parte de la base de socios del club.
-  * **Reconciliación Retroactiva Automática en `vincular_jugador_bga()`:**
-    - Cuando un socio se conecta, se registra o un administrador le vincula su cuenta mediante `/api/admin/vincular_bga`, el gestor busca de manera inmediata todas las entradas en `torneo_participantes` que coincidan con su `bga_username` y que tengan `puntos_asignados = 0`.
-    - Automáticamente calcula la escala de puntos correspondiente a la posición alcanzada (1.º: 100, 2.º: 70, 3.º: 50, etc.), se los suma al saldo de su cuenta de miembro, genera el registro de auditoría en `historial_transacciones` bajo el evento `TORNEO_BGA_RETROACTIVO`, actualiza `puntos_asignados` y exporta el nuevo `ranking.json`.
+### 4. Corrección de la Economía Oficial de Puntos y Embudo de Registro Web (`server.py`, `gestor_db.py`, `tournamentCanvas.js`)
+- **Alineación con la Documentación Oficial (`ESTRUCTURA_MACROJUEGO.md` y `config_economia.json`):**
+  * Se eliminó el hardcoding heredado de 100/70/50/30/15/5 PTS de `server.py` que no correspondía con el diseño del club.
+  * Se implementó `obtener_puntos_torneo_bga(rank)` en `database/gestor_db.py` leyendo dinámicamente de `config_economia.json`:
+    - 🥇 **1.º Lugar:** +3 PTS (Podio 1)
+    - 🥈 **2.º Lugar:** +2 PTS (Podio 2)
+    - 🥉 **3.er Lugar:** +1 PT  (Podio 3)
+    - 🎮 **Participación general:** +1 PT
+- **Regla Fundamental de Registro Web (Embudo de Activación):**
+  * Si un jugador no está registrado en la página web (no tiene `nick_web` ni clave privada), **no puede recibir puntos de inmediato**.
+  * Sin embargo, su participación y ranking se guardan siempre de forma segura en `torneo_participantes` con `puntos_asignados = 0` para futuros registros.
+  * En la tarjeta del podio (`tournamentCanvas.js`), si el jugador está vinculado con la agenda pero no registrado en la web se muestra `⏳ Sin registro web`, y si no está en la base de datos se muestra `⏳ No registrado`. Solo los miembros registrados en la web muestran sus puntos acreditados (`💎 +3 PTS AJ`, etc.).
+- **Reconciliación Retroactiva Automática (`reconciliar_puntos_torneos_pendientes`):**
+  * Se implementó un detector global que se activa automáticamente cuando un miembro:
+    1. Inicia sesión en la web y define/sincroniza su Nick web (`/api/auth/login`).
+    2. Crea su contraseña privada personal (`/api/auth/crear_password_privada`).
+    3. Es vinculado por el administrador con su usuario BGA (`/api/admin/vincular_bga`).
+  * En ese instante, el sistema busca todas las participaciones históricas de ese jugador en `torneo_participantes` donde `puntos_asignados == 0`, les asigna los puntos oficiales según su posición (+3, +2, +1), audita la transacción en `historial_transacciones` (`TORNEO_BGA_REGISTRO_WEB`), actualiza `puntos_asignados`, y recompila `ranking.json`.
 
 ### 5. Tipado Estricto y Resolución de Diagnósticos Pyrefly (`database/gestor_db.py`)
 - **Problemas Detectados por el Analizador Estático:**
@@ -70,13 +72,14 @@
 ---
 
 ## 📝 Notas Técnicas
-- **Escala de Puntos Oficial de Amigos Jugones para Torneos BGA:**
-  * 🥇 1.º Lugar: 100 PTS
-  * 🥈 2.º Lugar: 70 PTS
-  * 🥉 3.er Lugar: 50 PTS
-  * 4.º al 6.º Lugar (Top 6): 30 PTS
-  * Mitad Superior del Cuadro: 15 PTS
-  * Participación: 5 PTS
+- **Escala Oficial de Puntos para Torneos BGA (`config_economia.json` y `ESTRUCTURA_MACROJUEGO.md` Sec. 4.1):**
+  * 🥇 1.º Lugar: +3 PTS (Podio 1)
+  * 🥈 2.º Lugar: +2 PTS (Podio 2)
+  * 🥉 3.er Lugar: +1 PT  (Podio 3)
+  * 🎮 Participación Formal / Asistencia: +1 PT
+- **Condición Estricta de Otorgamiento:**
+  * Un jugador solo cobra puntos si está registrado en la web (`nick_web` configurado o clave privada activa).
+  * Los resultados de personas no registradas quedan resguardados en `torneo_participantes` (`puntos_asignados = 0`) y se liquidan automáticamente al registrarse en la plataforma web.
 - **Cascada de Coincidencia (Fuzzy Matching):**
   1. `bga_username` configurado en el perfil del jugador.
   2. `nick_web` en la base de datos de miembros.
