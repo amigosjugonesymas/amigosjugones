@@ -179,6 +179,30 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: ADMIN — OBTENER CONFIGURACIÓN ECONÓMICA DINÁMICA ───────────
+        if parsed.path == '/api/admin/config_economia':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                cfg = gestor_db.obtener_config_economia()
+                self._send_json({"ok": True, "config": cfg}, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — REGISTRO MAESTRO DE IDENTIDADES (MAPEO DE 4 NOMBRES)
+        if parsed.path == '/api/admin/miembros_identidades':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                miembros = gestor_db.obtener_miembros_identidades()
+                self._send_json({"ok": True, "total": len(miembros), "miembros": miembros}, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ESTADO DE LA BASE DE DATOS ───────────────────────────────────
         if parsed.path == '/api/status':
             with gestor_db.get_db() as conn:
@@ -774,9 +798,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
-        # ─── API: ADMIN — VINCULAR MIEMBRO CON USUARIO BGA / NICK ───────────
-        if parsed.path == '/api/admin/vincular_bga':
-            if not self._is_admin(params):
+        # ─── API: ADMIN — VINCULAR MIEMBRO CON USUARIO BGA / NICK (MAPEO DE 4 NOMBRES) ─
+        if parsed.path in ('/api/admin/vincular_bga', '/api/admin/vincular_identidad'):
+            if not self._check_admin_token(params):
                 self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
                 return
             try:
@@ -798,6 +822,43 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     nick_web=nick_web
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — GUARDAR CONFIGURACIÓN ECONÓMICA EN CALIENTE ────────
+        if parsed.path == '/api/admin/config_economia':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                nueva_cfg = params.get('config')
+                if not isinstance(nueva_cfg, dict):
+                    nueva_cfg = {k: v for k, v in params.items() if k not in ('admin_token',)}
+                res = gestor_db.guardar_config_economia(nueva_cfg)
+                self._send_json(res, 200 if res.get("ok") else 400)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — RECONCILIAR MANUALMENTE TORNEOS PENDIENTES ─────────
+        if parsed.path == '/api/admin/reconciliar_torneos':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                identificador = _safe_str(params.get('identificador', params.get('telefono', params.get('nick', ''))))
+                if not identificador:
+                    self._send_json({"ok": False, "error": "identificador_requerido"}, 400)
+                    return
+                pts = gestor_db.reconciliar_puntos_torneos_pendientes(identificador)
+                total = sum(int(p.get("points", 0)) for p in pts)
+                self._send_json({
+                    "ok": True,
+                    "puntos_acreditados": pts,
+                    "total_puntos_sumados": total,
+                    "mensaje": f"Se liquidaron {len(pts)} torneo(s) acreditando +{total} PTS." if pts else "No se encontraron torneos pendientes para este miembro."
+                }, 200)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return

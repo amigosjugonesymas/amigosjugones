@@ -3139,6 +3139,70 @@ def marcar_puntos_asignados(tournament_id: str, bga_username: str, puntos: int) 
         return False
 
 
+CONFIG_ECONOMIA_PATH = os.path.join(PROJECT_ROOT, "config_economia.json")
+
+
+def obtener_config_economia() -> dict:
+    """Retorna la configuración económica oficial de config_economia.json."""
+    if os.path.exists(CONFIG_ECONOMIA_PATH):
+        try:
+            with open(CONFIG_ECONOMIA_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠️ [Economía] Error leyendo config_economia.json: {e}")
+    return {
+        "meta_temporada_puntos": 1000,
+        "arcade": {
+            "costo_ficha_entrada": 10,
+            "renta_pasiva_diaria": {"1": 3, "2": 2, "3": 1},
+            "bono_semanal_podio": {"1": 5, "2": 4, "3": 3}
+        },
+        "ranking_principal": {
+            "bono_semanal_podio": {"1": 10, "2": 9, "3": 8}
+        },
+        "torneos_bga": {
+            "asistencia": 1,
+            "podio": {"1": 3, "2": 2, "3": 1}
+        },
+        "aportes_comunitarios": {
+            "puntos_por_juego_creado": 1,
+            "puntos_por_voto_encuesta": 1,
+            "puntos_por_trivia_correcta": 10,
+            "puntos_por_criptico_resuelto": 10
+        }
+    }
+
+
+def guardar_config_economia(nueva_cfg: dict) -> dict:
+    """Valida y guarda la configuración económica en config_economia.json."""
+    if not isinstance(nueva_cfg, dict):
+        return {"ok": False, "error": "configuracion_invalida_debe_ser_objeto"}
+    try:
+        current = obtener_config_economia()
+
+        def _sanitize_dict(source, target):
+            for k, v in source.items():
+                if isinstance(v, dict):
+                    if k not in target or not isinstance(target[k], dict):
+                        target[k] = {}
+                    _sanitize_dict(v, target[k])
+                elif isinstance(v, (int, float)):
+                    target[k] = max(0, int(v))
+                elif isinstance(v, str) and v.isdigit():
+                    target[k] = max(0, int(v))
+
+        _sanitize_dict(nueva_cfg, current)
+
+        temp_path = CONFIG_ECONOMIA_PATH + ".tmp"
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(current, f, indent=2, ensure_ascii=False)
+        os.replace(temp_path, CONFIG_ECONOMIA_PATH)
+        return {"ok": True, "config": current, "mensaje": "Configuración económica actualizada correctamente."}
+    except Exception as e:
+        print(f"⚠️ [Economía] Error guardando config_economia.json: {e}")
+        return {"ok": False, "error": str(e)}
+
+
 def obtener_puntos_torneo_bga(rank: int) -> tuple[int, str]:
     """
     Retorna los puntos oficiales del club para torneos BGA según config_economia.json y ESTRUCTURA_MACROJUEGO.md:
@@ -3150,14 +3214,11 @@ def obtener_puntos_torneo_bga(rank: int) -> tuple[int, str]:
     pts_podio = {1: 3, 2: 2, 3: 1}
     pts_asistencia = 1
     try:
-        cfg_path = os.path.join(PROJECT_ROOT, "config_economia.json")
-        if os.path.exists(cfg_path):
-            with open(cfg_path, "r", encoding="utf-8") as f:
-                cfg = json.load(f)
-                bga_cfg = cfg.get("torneos_bga", {})
-                podio_map = bga_cfg.get("podio", {})
-                pts_podio = {int(k): int(v) for k, v in podio_map.items()}
-                pts_asistencia = int(bga_cfg.get("asistencia", pts_asistencia))
+        cfg = obtener_config_economia()
+        bga_cfg = cfg.get("torneos_bga", {})
+        podio_map = bga_cfg.get("podio", {})
+        pts_podio = {int(k): int(v) for k, v in podio_map.items()}
+        pts_asistencia = int(bga_cfg.get("asistencia", pts_asistencia))
     except Exception:
         pass
 
@@ -3306,10 +3367,100 @@ def obtener_jugadores_todos() -> list:
         return []
 
 
+def obtener_miembros_identidades() -> list[dict[str, object]]:
+    """
+    Retorna la lista unificada de identidades para la Tabla Maestra del Panel Admin:
+    Mapeo de los 4 identificadores (Teléfono, Nick Web, Nombre Agenda Admin, Nick BGA),
+    saldo oficial de puntos, estado de registro web y conteo de torneos jugados / pendientes.
+    """
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT 
+                    COALESCE(j.telefono, '') as telefono,
+                    j.nick,
+                    COALESCE(j.nick_web, '') as nick_web,
+                    COALESCE(j.nombre_agenda_admin, '') as nombre_agenda_admin,
+                    COALESCE(j.nombre_perfil_ws, '') as nombre_perfil_ws,
+                    COALESCE(j.bga_username, '') as bga_username,
+                    COALESCE(j.puntos, 0) as puntos,
+                    COALESCE(j.tiene_clave_privada, 0) as tiene_clave_privada,
+                    j.password_hash
+                FROM jugadores j
+                WHERE j.estado = 'Activo' OR j.estado IS NULL
+                ORDER BY j.puntos DESC, j.nick ASC
+            """)
+            jugadores_raw = [dict(r) for r in cur.fetchall()]
+
+            cur.execute("""
+                SELECT 
+                    UPPER(bga_username) as bga_u,
+                    UPPER(COALESCE(nick_aj, '')) as nick_aj_u,
+                    COALESCE(puntos_asignados, 0) as puntos_asig
+                FROM torneo_participantes
+            """)
+            torneos_raw = [dict(r) for r in cur.fetchall()]
+
+            res: list[dict[str, object]] = []
+            for j in jugadores_raw:
+                tel = str(j.get("telefono") or "").strip()
+                nick = str(j.get("nick") or "").strip()
+                web_nick = str(j.get("nick_web") or "").strip()
+                bga_u = str(j.get("bga_username") or "").strip()
+                
+                tiene_priv = int(j.get("tiene_clave_privada") or 0) == 1
+                has_hash = bool(j.get("password_hash"))
+                reg_web = tiene_priv or has_hash or bool(web_nick)
+
+                bga_cmp = bga_u.upper() if bga_u else None
+                nick_cmp = nick.upper() if nick else None
+                web_cmp = web_nick.upper() if web_nick else None
+
+                t_jugados = 0
+                t_pendientes = 0
+                for t in torneos_raw:
+                    tbga = t["bga_u"]
+                    taj = t["nick_aj_u"]
+                    matched = False
+                    if bga_cmp and tbga == bga_cmp:
+                        matched = True
+                    elif taj and (taj == nick_cmp or taj == web_cmp):
+                        matched = True
+                    elif tbga and (tbga == nick_cmp or tbga == web_cmp):
+                        matched = True
+
+                    if matched:
+                        t_jugados += 1
+                        if t["puntos_asig"] == 0:
+                            t_pendientes += 1
+
+                res.append({
+                    "telefono": tel,
+                    "nick": nick,
+                    "nick_web": web_nick,
+                    "nombre_agenda_admin": str(j.get("nombre_agenda_admin") or ""),
+                    "nombre_perfil_ws": str(j.get("nombre_perfil_ws") or ""),
+                    "bga_username": bga_u,
+                    "puntos": int(j.get("puntos") or 0),
+                    "registrado_web": reg_web,
+                    "tiene_clave_privada": tiene_priv,
+                    "torneos_jugados": t_jugados,
+                    "torneos_pendientes": t_pendientes
+                })
+
+            return res
+    except Exception as e:
+        print(f"⚠️ [Identidades] Error en obtener_miembros_identidades: {e}")
+        return []
+
+
 def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nuevo_nick: str | None = None, nombre_agenda: str | None = None, nick_web: str | None = None) -> dict:
     """
     Asocia o actualiza el bga_username, nick, nick_web y/o nombre_agenda_admin de un miembro
     identificado por su teléfono o por su nick actual. Si no existe y se provee teléfono, lo auto-crea.
+    Ejecuta reconciliación retroactiva inmediata si el miembro tiene cuenta web activa.
     """
     clean_id = identificador.strip()
     if not clean_id:
@@ -3390,10 +3541,16 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
 
             # Reconciliación automática de torneos pendientes si el miembro está registrado en la web
             puntos_retroactivos = reconciliar_puntos_torneos_pendientes(nuevo_nick or target_nick)
+            total_pts = sum(int(p.get("points", 0)) for p in puntos_retroactivos)
+            msg = f"Identidad actualizada. Se liquidaron {len(puntos_retroactivos)} torneo(s) pendiente(s) otorgando +{total_pts} PTS." if puntos_retroactivos else "Identidad actualizada correctamente."
 
-            res_data: dict[str, object] = {"ok": True, "jugador": dict(act) if act else None}
-            if puntos_retroactivos:
-                res_data["puntos_retroactivos"] = puntos_retroactivos
+            res_data: dict[str, object] = {
+                "ok": True,
+                "jugador": dict(act) if act else None,
+                "puntos_retroactivos": puntos_retroactivos,
+                "total_puntos_sumados": total_pts,
+                "mensaje": msg
+            }
             return res_data
     except Exception as e:
         return {"ok": False, "error": str(e)}

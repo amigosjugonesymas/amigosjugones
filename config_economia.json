@@ -29,6 +29,9 @@
     }
   },
   "aportes_comunitarios": {
-    "puntos_por_juego_creado": 1
+    "puntos_por_juego_creado": 1,
+    "puntos_por_voto_encuesta": 1,
+    "puntos_por_trivia_correcta": 10,
+    "puntos_por_criptico_resuelto": 10
   }
 }
