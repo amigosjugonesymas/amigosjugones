@@ -7,6 +7,7 @@
 - [x] Asegurar la reconciliación retroactiva automática de puntos en todos los puntos de entrada web (`/api/auth/login`, `/api/auth/crear_password_privada`, `/api/admin/vincular_bga`).
 - [x] Ajustar la visualización en el lienzo AMOLED del podio (`tournamentCanvas.js`) para reflejar fielmente el estado del usuario (`💎 +X PTS AJ`, `⏳ Sin registro web`, o `⏳ No registrado`).
 - [x] Formatear y verificar la integridad de `ORQUESTADOR_APPS_SCRIPT.js` y módulos backend/frontend.
+- [x] Elaborar y registrar el Plan Maestro de Arquitectura y Especificación Técnica para Agentes: Gestor Dinámico de Puntos y Registro Central de Identidades BGA en `documentos/PLAN_ADMIN_GESTION_PUNTOS_E_IDENTIDADES_BGA.md`.
 - [x] Comprobar compilación limpia en Python (`py_compile`) y JavaScript (`node -c`) con 0 advertencias y 0 errores.
 
 ---
@@ -44,6 +45,11 @@
   - **Miembro con cuenta web activa:** Muestra `💎 +3 PTS AJ` (o `+2 PTS`, `+1 PT`).
   - **Miembro en agenda pero sin cuenta web:** Muestra `⏳ Sin registro web` (invitando a completar su registro en la plataforma).
   - **Jugador no registrado:** Muestra `⏳ No registrado`.
+
+### 5. Plan Maestro de Especificación Técnica para Agentes (`documentos/PLAN_ADMIN_GESTION_PUNTOS_E_IDENTIDADES_BGA.md`)
+- Se redactó el documento formal de arquitectura y guía paso a paso para que cualquier agente ejecutor desarrolle sin ambigüedades:
+  1. El Gestor de Puntos y Economía Dinámica (`tab-economia` y `/api/admin/config_economia`) con cero hardcoding.
+  2. La Tabla Maestra de Identidades (`tab-identidades`, mapeo de los 4 nombres: Teléfono, Nick Web, Nombre Agenda, Nick BGA) con reconciliación retroactiva automática inmediata de puntos al asociar un BGA username.
 
 ---
 
