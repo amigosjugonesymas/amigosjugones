@@ -52,6 +52,21 @@
   2. La Tabla Maestra de Identidades (`tab-identidades`, mapeo de los 4 nombres: Teléfono, Nick Web, Nombre Agenda, Nick BGA) con reconciliación retroactiva automática inmediata de puntos al asociar un BGA username.
 - **Privacidad de Documentación:** Se desrastreó inmediatamente el archivo del repositorio Git con `git rm --cached` asegurando que toda la carpeta `documentos/` permanezca estrictamente confidencial y local en el disco, sin exponerse en repositorios remotos conforme a la regla del `.gitignore`.
 
+### 6. Corrección Integral del Árbol de Eliminatorias y Eliminación del Podio Falso en Torneos en Curso (`bgaTournamentScraper.js`, `toolRunner.js`)
+- **Problema Detectado:**
+  * En torneos con pases directos / byes (ej. torneo "Faraway" de 15 jugadores), la primera ronda (Paso 1) tenía menos duelos jugados (2) que Cuartos de final (4). Una función de validación de progresión (`isValidBracketProgression`) fallaba y ejecutaba un corte destructivo (`columns.slice(0, columns.length - 1)`), eliminando del DOM la columna de la Gran Final (`Lali2` vs `leamss` al 63%).
+  * Al mutilar la Gran Final, la última columna quedaba como Semifinales (ambas terminadas), lo que engañaba al sistema haciéndole creer que el torneo había finalizado.
+  * A continuación, un fallback arbitrario en `extractBGAPodium` tomaba a los primeros jugadores del array (`players[0]`, `players[1]`, `players[2]`), asignando a jugadores eliminados como campeones en un podio falso y mostrándolo por encima del cuadro de llaves.
+- **Solución Implementada:**
+  1. **Eliminación del Truncamiento Destructivo:** Se removió por completo la función `isValidBracketProgression` y el `slice` de la última columna en `bgaTournamentScraper.js`. La Gran Final se preserva íntegramente sin importar la cantidad de byes.
+  2. **Detección Estricta del Estado:** Si en el árbol de eliminatorias existen partidas con estado `En curso` o `Por jugar`, el estado del torneo se fuerza a `En curso` / `En progreso`, e `isFinished` se fija rigurosamente en `false`.
+  3. **Blindaje de `extractBGAPodium`:**
+     - Si `!isFinished`, retorna `null` de inmediato (0 podios durante el desarrollo de la competición).
+     - En torneos por llaves, el 1.º y 2.º lugar se extraen EXCLUSIVAMENTE de una Gran Final con estado `Terminado` y con un ganador oficial certificado por BGA (`isWinner` o `rank 1.°`). Se eliminó el fallback arbitrario de `players[0..2]`.
+  4. **Prioridad del Árbol de Llaves en `toolRunner.js`:**
+     - `renderTournamentPodiumCanvas` solo se ejecuta si `tournamentData.isFinished && tournamentData.podium`.
+     - Mientras el torneo esté activo (`En curso` / `En progreso`), la tarjeta visual principal es SIEMPRE el cuadro de llaves en vivo (`renderTournamentSummaryCanvas`), tal como funcionaba originalmente.
+
 ---
 
 ## 📝 Notas Técnicas
