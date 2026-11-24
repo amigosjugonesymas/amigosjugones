@@ -41,7 +41,7 @@
 const CONFIG = {
   // 🆔 ID del libro de Economía y Rankings creado en tu carpeta:
   ECONOMIA_SHEET_ID: "1CwtfUkKm42XQBj0VZ0O3nTWJZCEXzy5M3-kSjoL-4mM",
-  
+
   // 🎯 ID del libro de Misiones y Feed de Actividad:
   MISIONES_SHEET_ID: "1E_4CYPOovrNygcPUimoTnu10JK0r5IyhTkQb6_S_-Ek",
 
@@ -922,11 +922,11 @@ function handleSyncWhatsappMembers(p) {
   const allData = mSheet.getDataRange().getValues();
   // Cabecera dinámica — detectar índices
   const headers = (allData[0] || []).map(h => String(h || "").trim().toUpperCase());
-  const nickCol  = headers.indexOf("NICK")      !== -1 ? headers.indexOf("NICK")      : 0;
-  const telCol   = headers.indexOf("TELEFONO")  !== -1 ? headers.indexOf("TELEFONO")  : 1;
-  const statCol  = headers.indexOf("ESTADO")    !== -1 ? headers.indexOf("ESTADO")    : 2;
-  const dateCol  = headers.indexOf("FECHA_ALTA")!== -1 ? headers.indexOf("FECHA_ALTA"): 3;
-  const rolCol   = headers.indexOf("ROL")       !== -1 ? headers.indexOf("ROL")       : 4;
+  const nickCol = headers.indexOf("NICK") !== -1 ? headers.indexOf("NICK") : 0;
+  const telCol = headers.indexOf("TELEFONO") !== -1 ? headers.indexOf("TELEFONO") : 1;
+  const statCol = headers.indexOf("ESTADO") !== -1 ? headers.indexOf("ESTADO") : 2;
+  const dateCol = headers.indexOf("FECHA_ALTA") !== -1 ? headers.indexOf("FECHA_ALTA") : 3;
+  const rolCol = headers.indexOf("ROL") !== -1 ? headers.indexOf("ROL") : 4;
   const totalCols = Math.max(nickCol, telCol, statCol, dateCol, rolCol) + 1;
 
   // Construir mapa de teléfonos existentes → {fila (1-based), nick}
@@ -944,8 +944,8 @@ function handleSyncWhatsappMembers(p) {
 
   membersRaw.forEach(m => {
     const rawTel = String(m.telefono || "").replace(/\D/g, "");
-    const last8  = rawTel.slice(-8);
-    const nick   = String(m.nick || "").trim();
+    const last8 = rawTel.slice(-8);
+    const nick = String(m.nick || "").trim();
 
     if (!last8) return;
 
@@ -959,11 +959,11 @@ function handleSyncWhatsappMembers(p) {
     } else {
       // Teléfono nuevo: construir fila con el ancho correcto
       const newRow = Array(totalCols).fill("");
-      newRow[nickCol]  = nick;
-      newRow[telCol]   = rawTel;
-      newRow[statCol]  = "Activo";
-      newRow[dateCol]  = today;
-      newRow[rolCol]   = "member";
+      newRow[nickCol] = nick;
+      newRow[telCol] = rawTel;
+      newRow[statCol] = "Activo";
+      newRow[dateCol] = today;
+      newRow[rolCol] = "member";
       mSheet.appendRow(newRow);
       nuevos.push(rawTel);
       existingMap.set(last8, { row: mSheet.getLastRow(), nick: nick });
@@ -1301,7 +1301,7 @@ function handleLunaraCaptura(p) {
     case "mensajes_sin_leer": {
       // ── Genera UNA imagen por categoría y devuelve los 4 links ──────────
       titulo = "HIGH SCORE: MENSAJES SIN LEER";
-      icono  = "📱";
+      icono = "📱";
 
       const mSheet = ss.getSheetByName("MENSAJES_SIN_LEER");
       let listaMsl = [];
@@ -1310,9 +1310,9 @@ function handleLunaraCaptura(p) {
         for (let i = 1; i < rows.length; i++) {
           if (rows[i][0]) {
             listaMsl.push({
-              nombre:   rows[i][0],
+              nombre: rows[i][0],
               mensajes: Number(rows[i][1]) || 0,
-              tier:     String(rows[i][3] || "🌱 Superviviente").trim()
+              tier: String(rows[i][3] || "🌱 Superviviente").trim()
             });
           }
         }
@@ -1320,16 +1320,16 @@ function handleLunaraCaptura(p) {
       listaMsl.sort((a, b) => b.mensajes - a.mensajes);
 
       const CATS = [
-        { clave: "Legendario",    label: "👑 LEGENDARIO",    rango: "+4.000 msj",       color: "#fbbf24", badgeColor: "#f59e0b" },
-        { clave: "Épico",         label: "⚡ ÉPICO",          rango: "1.000 – 4.000 msj", color: "#a78bfa", badgeColor: "#7c3aed" },
-        { clave: "Heroico",       label: "🛡️ HEROICO",        rango: "500 – 1.000 msj",  color: "#38bdf8", badgeColor: "#0284c7" },
-        { clave: "Superviviente", label: "🌱 SUPERVIVIENTE",  rango: "< 500 msj",        color: "#86efac", badgeColor: "#16a34a" }
+        { clave: "Legendario", label: "👑 LEGENDARIO", rango: "+4.000 msj", color: "#fbbf24", badgeColor: "#f59e0b" },
+        { clave: "Épico", label: "⚡ ÉPICO", rango: "1.000 – 4.000 msj", color: "#a78bfa", badgeColor: "#7c3aed" },
+        { clave: "Heroico", label: "🛡️ HEROICO", rango: "500 – 1.000 msj", color: "#38bdf8", badgeColor: "#0284c7" },
+        { clave: "Superviviente", label: "🌱 SUPERVIVIENTE", rango: "< 500 msj", color: "#86efac", badgeColor: "#16a34a" }
       ];
 
       // Obtener carpeta de destino una sola vez
       let mslFolder;
       if (CONFIG.CAPTURAS_FOLDER_ID) {
-        try { mslFolder = DriveApp.getFolderById(CONFIG.CAPTURAS_FOLDER_ID); } catch(e) {}
+        try { mslFolder = DriveApp.getFolderById(CONFIG.CAPTURAS_FOLDER_ID); } catch (e) { }
       }
       if (!mslFolder) {
         mslFolder = obtenerOCrearSubcarpeta(DriveApp.getFolderById(CONFIG.DRIVE_FOLDER_ID), CONFIG.SUBFOLDER_CAPTURAS);
@@ -1343,37 +1343,37 @@ function handleLunaraCaptura(p) {
           return;
         }
 
-        const titulocat  = `${cat.label}: MENSAJES SIN LEER`;
-        const subtcat    = `${cat.rango} · High Score personal del grupo`;
-        const badgecat   = `📱 ${cat.label}`;
+        const titulocat = `${cat.label}: MENSAJES SIN LEER`;
+        const subtcat = `${cat.rango} · High Score personal del grupo`;
+        const badgecat = `📱 ${cat.label}`;
 
         const filasCat = miembros.map(item => ({
-          pos:        listaMsl.indexOf(item) + 1,  // posición global
-          principal:  item.nombre,
+          pos: listaMsl.indexOf(item) + 1,  // posición global
+          principal: item.nombre,
           secundario: `${item.mensajes.toLocaleString()} mensajes acumulados`,
-          badge:      item.tier
+          badge: item.tier
         }));
 
-        const svgCat  = construirSvgAmoled(titulocat, subtcat, badgecat, icono, filasCat, fechaStr);
+        const svgCat = construirSvgAmoled(titulocat, subtcat, badgecat, icono, filasCat, fechaStr);
         const nameCat = `captura_msl_${cat.clave.toLowerCase()}_${Date.now()}.png`;
         const resultado = guardarSvgEnDrive(svgCat, nameCat, mslFolder);
 
         capturas.push({
-          categoria:    cat.label,
-          rango:        cat.rango,
-          miembros:     miembros.length,
+          categoria: cat.label,
+          rango: cat.rango,
+          miembros: miembros.length,
           drive_file_id: resultado.id,
-          url:          resultado.url,
-          preview_url:  resultado.previewUrl
+          url: resultado.url,
+          preview_url: resultado.previewUrl
         });
       });
 
       return {
-        status:    "ok",
-        tipo:      "mensajes_sin_leer",
-        titulo:    "HIGH SCORE: MENSAJES SIN LEER",
-        total:     listaMsl.length,
-        capturas:  capturas,
+        status: "ok",
+        tipo: "mensajes_sin_leer",
+        titulo: "HIGH SCORE: MENSAJES SIN LEER",
+        total: listaMsl.length,
+        capturas: capturas,
         timestamp: ahora.toISOString()
       };
     }
@@ -2126,7 +2126,7 @@ function handleMisionesGet(p) {
   }
 
   const ss = SpreadsheetApp.openById(CONFIG.MISIONES_SHEET_ID);
-  
+
   // 1. Leer Misiones Públicas (Retos Semanales para toda la comunidad)
   const publicasSheet = ss.getSheetByName("MISIONES_PUBLICAS");
   const publicas = [];
@@ -2312,8 +2312,3 @@ function activarKeepAliveAutomatico() {
     .create();
   Logger.log("🚀 Activador Keep-Alive programado con éxito: ping cada 10 minutos a Render.");
 }
-
-
-
-
-

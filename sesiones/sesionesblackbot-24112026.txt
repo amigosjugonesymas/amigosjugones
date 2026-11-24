@@ -1,0 +1,60 @@
+# Registro de Sesión - BLACK-BOT - 24/11/2026
+
+## 🎯 Objetivos de la Sesión
+- [x] Iniciar la bitácora correspondiente al nuevo ciclo del día actual (24/11/2026) según `documentacion/actualizarlogdesesion.txt` y `instrucciones/bitacora_sesiones/logsdesesion.md`.
+- [x] Consolidar la economía oficial de puntos de torneos BGA (1.º: +3 PTS, 2.º: +2 PTS, 3.º: +1 PT, Participación: +1 PT) acorde a `config_economia.json` y `ESTRUCTURA_MACROJUEGO.md` (Sec. 4.1).
+- [x] Blindar la regla mandataria de registro web: Retener los puntos acumulados de torneos BGA en `torneo_participantes` (`puntos_asignados = 0`) para participantes sin cuenta web activa hasta que se registren oficialmente en la plataforma.
+- [x] Asegurar la reconciliación retroactiva automática de puntos en todos los puntos de entrada web (`/api/auth/login`, `/api/auth/crear_password_privada`, `/api/admin/vincular_bga`).
+- [x] Ajustar la visualización en el lienzo AMOLED del podio (`tournamentCanvas.js`) para reflejar fielmente el estado del usuario (`💎 +X PTS AJ`, `⏳ Sin registro web`, o `⏳ No registrado`).
+- [x] Formatear y verificar la integridad de `ORQUESTADOR_APPS_SCRIPT.js` y módulos backend/frontend.
+- [x] Comprobar compilación limpia en Python (`py_compile`) y JavaScript (`node -c`) con 0 advertencias y 0 errores.
+
+---
+
+## 🛠️ Cambios Realizados
+
+### 1. Corrección de la Puntuación Oficial de Torneos BGA (`server.py`, `gestor_db.py`, `tournamentCanvas.js`)
+- **Problema:** En versiones anteriores se arrastraba una función hardcodeada en `server.py` que otorgaba 100/70/50/30/15/5 PTS por torneo, lo cual desbalanceaba la meta de temporada y contradecía la documentación oficial de la comunidad.
+- **Solución Implementada:**
+  * Se implementó `obtener_puntos_torneo_bga(rank)` en `database/gestor_db.py`, la cual lee dinámicamente de `config_economia.json`:
+    - 🥇 **1.º Lugar (Podio 1):** +3 PTS
+    - 🥈 **2.º Lugar (Podio 2):** +2 PTS
+    - 🥉 **3.er Lugar (Podio 3):** +1 PT
+    - 🎮 **Participación General / Asistencia:** +1 PT
+  * En `server.py` (`/api/torneos/sincronizar`), se eliminó la función local hardcodeada y se delegó el cálculo exclusivamente a `gestor_db.obtener_puntos_torneo_bga(rank)`.
+
+### 2. Embudo de Registro Web y Retención de Puntos Pendientes
+- **Lógica de Negocio (`ESTRUCTURA_MACROJUEGO.md` Sec. 2 & 4.1):**
+  * Para que un participante cobre puntos en su saldo oficial (`jugadores.puntos`), es condición indispensable que tenga una cuenta activa en la página web (`nick_web` configurado o contraseña privada personal activa).
+  * **Jugadores sin registro web:** Cuando Lunara sincroniza un torneo concluido, si el jugador no tiene registro en la web (o si solo fue sincronizado en la agenda telefónica por el admin sin haber iniciado sesión nunca en la web), su participación, ranking y posición se guardan de forma permanente en `torneo_participantes` con `puntos_asignados = 0`.
+  * **Acreditación diferida:** En ese momento NO se le otorgan puntos a su saldo, pero su hazaña deportiva queda resguardada en la base de datos a la espera de su registro web.
+
+### 3. Reconciliación Retroactiva Automática (`reconciliar_puntos_torneos_pendientes`)
+- **Implementación:**
+  * Se creó la función centralizada `reconciliar_puntos_torneos_pendientes(identificador)` en `database/gestor_db.py`.
+  * Se enlazó en los tres flujos de alta/autenticación:
+    1. **Inicio de Sesión Web (`verificar_credenciales_miembro`):** Al ingresar con su teléfono y definir o usar su `nick_web`, el sistema audita si tiene torneos pendientes en `torneo_participantes`.
+    2. **Creación de Contraseña Privada (`establecer_password_privada`):** Al blindar su cuenta personal en la web, se activa la reconciliación.
+    3. **Vinculación por Administración (`vincular_jugador_bga`):** Si el administrador asocia su usuario BGA o actualiza su nick web, se liquidan de inmediato sus torneos pendientes.
+  * **Efecto:** Suma los puntos acumulados a `jugadores.puntos`, registra la transacción en `historial_transacciones` con evento `TORNEO_BGA_REGISTRO_WEB`, actualiza `puntos_asignados` al valor oficial y recompila `ranking.json`.
+
+### 4. Ajustes Visuales en el Podio AMOLED (`tournamentCanvas.js`)
+- En `resolvePlayerIdentity()` se añadió la propiedad booleana `isRegisteredWeb: !!(match.registrado_web || match.nick_web)`.
+- En las píldoras de los 3 pedestales (Oro, Plata, Bronce):
+  - **Miembro con cuenta web activa:** Muestra `💎 +3 PTS AJ` (o `+2 PTS`, `+1 PT`).
+  - **Miembro en agenda pero sin cuenta web:** Muestra `⏳ Sin registro web` (invitando a completar su registro en la plataforma).
+  - **Jugador no registrado:** Muestra `⏳ No registrado`.
+
+---
+
+## 📝 Notas Técnicas
+- **Validación Estricta de Compilación:**
+  * `python -m py_compile amigosjugones_sin_bot/server.py amigosjugones_sin_bot/database/gestor_db.py`: 0 errores.
+  * `node -c extensiones_chrome/gemini-workspace-assistant/sidepanel/tournamentCanvas.js`: 0 errores.
+  * `node -c extensiones_chrome/gemini-workspace-assistant/content/bgaTournamentScraper.js`: 0 errores.
+  * `node -c extensiones_chrome/gemini-workspace-assistant/sidepanel/toolRunner.js`: 0 errores.
+  * `node -c extensiones_chrome/gemini-workspace-assistant/sidepanel/chatUI.js`: 0 errores.
+- **Sincronización Git:**
+  * Archivos rastreados y confirmados en `origin/main` en el repositorio `amigosjugones_sin_bot`.
+- **Limpieza del Entorno:**
+  * Cero archivos temporales o residuos de prueba generados.
