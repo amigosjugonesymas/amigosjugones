@@ -50,6 +50,7 @@
 - Se redactó el documento formal de arquitectura y guía paso a paso para que cualquier agente ejecutor desarrolle sin ambigüedades:
   1. El Gestor de Puntos y Economía Dinámica (`tab-economia` y `/api/admin/config_economia`) con cero hardcoding.
   2. La Tabla Maestra de Identidades (`tab-identidades`, mapeo de los 4 nombres: Teléfono, Nick Web, Nombre Agenda, Nick BGA) con reconciliación retroactiva automática inmediata de puntos al asociar un BGA username.
+- **Privacidad de Documentación:** Se desrastreó inmediatamente el archivo del repositorio Git con `git rm --cached` asegurando que toda la carpeta `documentos/` permanezca estrictamente confidencial y local en el disco, sin exponerse en repositorios remotos conforme a la regla del `.gitignore`.
 
 ---
 
