@@ -1,0 +1,421 @@
+/* === Amigos Jugones — components.css === */
+
+
+/* ── Card ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  /* Reducido de 20px para ahorrar espacio vertical */
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-light);
+  box-shadow: var(--shadow);
+}
+
+.card.glow:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.card-glass {
+  background: rgba(17, 17, 40, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-sizing: border-box;
+}
+
+.badge-purple {
+  background: rgba(124, 58, 237, 0.2);
+  color: var(--primary-light);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.badge-pink {
+  background: rgba(236, 72, 153, 0.2);
+  color: var(--accent-light);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.badge-cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-gold {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ── Button ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #6d28d9);
+  color: white;
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 24px var(--primary-glow);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent), #db2777);
+  color: white;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-dim);
+}
+
+.btn-ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary-light);
+  background: rgba(124, 58, 237, 0.1);
+}
+
+/* ── Tabs ── */
+.tabs-bar {
+  display: flex;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px;
+  gap: 2px;
+  overflow-x: auto;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.tabs-bar::-webkit-scrollbar {
+  height: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: var(--card2);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), #6d28d9);
+  color: white;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.tab-panel[data-panel="calendario"].active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+#radar-panels .tab-panel.active,
+#merc-panels .tab-panel.active,
+#calendario-panels .tab-panel.active,
+#juegos-panels .tab-panel.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 8px;
+  /* Espacio para el pulgar de scroll */
+}
+
+/* Scrollbar específico elegante para los paneles */
+#radar-panels .tab-panel.active::-webkit-scrollbar,
+#merc-panels .tab-panel.active::-webkit-scrollbar {
+  width: 6px;
+}
+
+#radar-panels .tab-panel.active::-webkit-scrollbar-thumb,
+#merc-panels .tab-panel.active::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.badge-outline {
+  background: transparent !important;
+  border: 1px solid var(--border-light) !important;
+  color: var(--text-dim) !important;
+}
+
+.spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary-light);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Forzar mayor altura en la fila inferior y distribución interna, adaptado a 1080p sin scroll */
+.home-grid-v2>.card {
+  min-height: 130px;
+  /* Reducido otra vez para modo comprimido extremo */
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-footer-pill {
+  background: var(--card2);
+  border: 1px solid var(--border-light);
+  color: var(--text-dim);
+  padding: 5px 11px;
+  border-radius: var(--radius-lg);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn-footer-pill:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.btn-pill-amber {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+.btn-pill-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2)) !important;
+  border-color: rgba(59, 130, 246, 0.45) !important;
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+.btn-pill-purple {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2)) !important;
+  border-color: rgba(168, 85, 247, 0.45) !important;
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+.badge-estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+  background: #39FF14;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  margin-top: auto;
+  /* Empuja el badge y la fecha نحو el fondo de la caja */
+}
+
+/* Botón de acción inferior */
+.btn-club-whatsapp {
+  display: block;
+  text-align: center;
+  background: #25D366;
+  /* Verde WhatsApp oficial */
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.btn-club-whatsapp:hover {
+  transform: scale(1.02);
+}
+
+.card-back-pattern {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.card-back-logo {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.8));
+  animation: pulseDice 2.5s ease-in-out infinite;
+}
+
+.card-back-text {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.card-back-sub {
+  font-size: 0.65rem;
+  color: var(--accent);
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.btn-game-fullscreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(0, 194, 168, 0.2) 0%, rgba(0, 194, 168, 0.35) 100%);
+  border: 1px solid rgba(0, 194, 168, 0.6);
+  color: var(--accent-cyan);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-game-fullscreen:hover {
+  background: var(--accent-cyan);
+  color: #000000;
+  box-shadow: 0 0 16px rgba(0, 194, 168, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-viewer-action {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-viewer-action:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.btn-torneo-bga {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f59e0b 0%, #db2777 50%, #7c3aed 100%);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.btn-torneo-bga:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55);
+  opacity: 0.95;
+}
+
+.btn-torneo-revocar {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-torneo-revocar:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fff;
+}
+
+#honor-panels .tab-panel.active,
+#honor-cards-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 8px;
+}

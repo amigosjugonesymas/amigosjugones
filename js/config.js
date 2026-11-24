@@ -17,8 +17,8 @@
   var ADMIN_SECRET_TOKEN = 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ';
 
   // URLs oficiales de Google Apps Script
-  var ORQUESTADOR_URL = 'https://script.google.com/macros/s/AKfycby9ZbAUxHH2V29_wYSB7g78te7_lwWAgdPwPOvSA0PH0Lfe8hA4rsTMgUbRKGxHJToicQ/exec';
-  var ADMIN_PANEL_URL = 'https://script.google.com/macros/s/AKfycbw8BmSMYsRsiI4Qq-cmvFiENgCa-2M7plG8mBarmhKeY9QvnfuQshG-CpOm8aEXlyu9tQ/exec';
+  var ORQUESTADOR_URL = 'https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec';
+  var ADMIN_PANEL_URL = 'https://script.google.com/macros/s/AKfycbzACds0etNbvQrwGo_5_aAaPGPyWbHnR7lTRZrtNfLec95QhmMU0Yi4vIMIEmDIjMA49g/exec';
 
   // URL del backend Python: en local usa localhost:8877; en producción apunta a Render Cloud oficial
   var PROD_API_URL = 'https://amigosjugones.onrender.com';

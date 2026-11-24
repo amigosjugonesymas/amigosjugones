@@ -3009,6 +3009,7 @@ def _init_torneos_tablas():
         bga_url TEXT,
         total_players INTEGER DEFAULT 0,
         activo INTEGER DEFAULT 1,
+        detalle_json TEXT,
         creado_en TEXT DEFAULT (datetime('now')),
         actualizado_en TEXT DEFAULT (datetime('now'))
     );
@@ -3032,6 +3033,9 @@ def _init_torneos_tablas():
         with get_db() as conn:
             conn.execute(sql_torneos)
             conn.execute(sql_participantes)
+            cols = [r[1] for r in conn.execute("PRAGMA table_info(torneos_bga)").fetchall()]
+            if "detalle_json" not in cols:
+                conn.execute("ALTER TABLE torneos_bga ADD COLUMN detalle_json TEXT")
     except Exception as e:
         print(f"⚠️ [Torneos] Error creando tablas: {e}")
 
@@ -3048,11 +3052,18 @@ def guardar_torneo(data: dict) -> dict:
     tid = str(data.get('tournament_id', '')).strip()
     if not tid:
         return {"ok": False, "error": "tournament_id requerido"}
+    detalle_raw = data.get('detalle_json')
+    if isinstance(detalle_raw, dict):
+        detalle_str = json.dumps(detalle_raw, ensure_ascii=False)
+    elif isinstance(detalle_raw, str) and detalle_raw.strip():
+        detalle_str = detalle_raw
+    else:
+        detalle_str = None
     try:
         with get_db() as conn:
             conn.execute("""
-                INSERT INTO torneos_bga (tournament_id, tournament_name, game, status, current_round, bga_url, total_players, activo, actualizado_en)
-                VALUES (?, ?, ?, ?, ?, ?, ?, 1, datetime('now'))
+                INSERT INTO torneos_bga (tournament_id, tournament_name, game, status, current_round, bga_url, total_players, activo, detalle_json, actualizado_en)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, datetime('now'))
                 ON CONFLICT(tournament_id) DO UPDATE SET
                     tournament_name = excluded.tournament_name,
                     game = excluded.game,
@@ -3060,6 +3071,7 @@ def guardar_torneo(data: dict) -> dict:
                     current_round = excluded.current_round,
                     bga_url = excluded.bga_url,
                     total_players = excluded.total_players,
+                    detalle_json = COALESCE(excluded.detalle_json, torneos_bga.detalle_json),
                     actualizado_en = datetime('now')
             """, (
                 tid,
@@ -3068,7 +3080,8 @@ def guardar_torneo(data: dict) -> dict:
                 str(data.get('status', 'En progreso')),
                 data.get('current_round'),
                 str(data.get('bga_url', '')),
-                int(data.get('total_players', 0))
+                int(data.get('total_players', 0)),
+                detalle_str
             ))
         return {"ok": True, "tournament_id": tid}
     except Exception as e:
@@ -3239,7 +3252,7 @@ def reconciliar_puntos_torneos_pendientes(identificador: str) -> list[dict[str, 
       el sistema detecta automáticamente sus partidas previas y le acredita los puntos oficiales.
     """
     _init_torneos_tablas()
-    clean_id = str(identificador or "").strip()
+    clean_id = (identificador or "").strip()
     if not clean_id:
         return []
 
@@ -3541,7 +3554,7 @@ def vincular_jugador_bga(identificador: str, bga_username: str | None = None, nu
 
             # Reconciliación automática de torneos pendientes si el miembro está registrado en la web
             puntos_retroactivos = reconciliar_puntos_torneos_pendientes(nuevo_nick or target_nick)
-            total_pts = sum(int(p.get("points", 0)) for p in puntos_retroactivos)
+            total_pts = sum(int(str(p.get("points", 0) or 0)) for p in puntos_retroactivos)
             msg = f"Identidad actualizada. Se liquidaron {len(puntos_retroactivos)} torneo(s) pendiente(s) otorgando +{total_pts} PTS." if puntos_retroactivos else "Identidad actualizada correctamente."
 
             res_data: dict[str, object] = {
@@ -3636,6 +3649,124 @@ def obtener_torneos_activos() -> list:
             return torneos
     except Exception as e:
         print(f"⚠️ [Torneos] Error obteniendo torneos activos: {e}")
+        return []
+
+
+def _es_torneo_finalizado_row(row: dict) -> bool:
+    """Determina si un torneo en DB está finalizado por flag activo=0 o por su estado."""
+    if int(row.get('activo', 1) or 0) == 0:
+        return True
+    st = str(row.get('status', '') or '').strip().lower()
+    return st in ('terminado', 'finalizado', 'finished', 'completed')
+
+
+def obtener_torneos_publicos() -> dict:
+    """Retorna torneos activos y finalizados sanitizados (sin PII) con detalle_json e inscritos."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT t.*
+                FROM torneos_bga t
+                ORDER BY t.actualizado_en DESC
+            """)
+            rows = [dict(r) for r in cur.fetchall()]
+            activos = []
+            finalizados = []
+            for t in rows:
+                cur.execute("""
+                    SELECT p.bga_username, p.nick_aj, p.rank_actual, p.score, p.eliminado, p.puntos_asignados,
+                           j.nick_web
+                    FROM torneo_participantes p
+                    LEFT JOIN jugadores j ON (
+                        (p.nick_aj IS NOT NULL AND (UPPER(p.nick_aj) = UPPER(j.nick) OR UPPER(p.nick_aj) = UPPER(COALESCE(j.nick_web, '')))) OR
+                        (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(COALESCE(j.bga_username, '')))
+                    )
+                    WHERE p.tournament_id = ?
+                    ORDER BY CASE WHEN p.rank_actual IS NULL OR p.rank_actual <= 0 THEN 9999 ELSE p.rank_actual END ASC,
+                             p.bga_username ASC
+                """, (t['tournament_id'],))
+                t['participantes'] = [dict(r) for r in cur.fetchall()]
+                detalle = {}
+                raw_det = t.pop('detalle_json', None)
+                if raw_det:
+                    try:
+                        detalle = json.loads(raw_det)
+                    except Exception:
+                        detalle = {}
+                t['detalle'] = detalle
+                if _es_torneo_finalizado_row(t):
+                    finalizados.append(t)
+                else:
+                    activos.append(t)
+            return {"activos": activos, "finalizados": finalizados}
+    except Exception as e:
+        print(f"⚠️ [Torneos] Error obteniendo torneos públicos: {e}")
+        return {"activos": [], "finalizados": []}
+
+
+def obtener_ranking_campeones_bga() -> list:
+    """Agrega el medallero histórico (1.°, 2.°, 3.°) y listado de torneos ganados por jugador."""
+    _init_torneos_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT p.tournament_id, p.bga_username, p.nick_aj, p.rank_actual, p.score, p.puntos_asignados,
+                       j.nick_web, t.tournament_name, t.game, t.status, t.activo, t.actualizado_en
+                FROM torneo_participantes p
+                JOIN torneos_bga t ON t.tournament_id = p.tournament_id
+                LEFT JOIN jugadores j ON (
+                    (p.nick_aj IS NOT NULL AND (UPPER(p.nick_aj) = UPPER(j.nick) OR UPPER(p.nick_aj) = UPPER(COALESCE(j.nick_web, '')))) OR
+                    (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(COALESCE(j.bga_username, '')))
+                )
+                WHERE p.rank_actual IN (1, 2, 3)
+                  AND (t.activo = 0 OR LOWER(COALESCE(t.status, '')) IN ('terminado', 'finalizado', 'finished', 'completed'))
+                ORDER BY t.actualizado_en DESC, p.rank_actual ASC
+            """)
+            rows = [dict(r) for r in cur.fetchall()]
+            ranking_map = {}
+            for r in rows:
+                display_name = (r.get('nick_web') or r.get('nick_aj') or r.get('bga_username') or '').strip()
+                if not display_name:
+                    continue
+                key = display_name.upper()
+                if key not in ranking_map:
+                    ranking_map[key] = {
+                        'jugador': display_name,
+                        'bga_username': r.get('bga_username') or '',
+                        'vinculado': bool(r.get('nick_aj') or r.get('nick_web')),
+                        'oro': 0,
+                        'plata': 0,
+                        'bronce': 0,
+                        'total_podios': 0,
+                        'puntos_torneos': 0,
+                        'torneos': []
+                    }
+                entry = ranking_map[key]
+                rk = int(r.get('rank_actual') or 0)
+                if rk == 1:
+                    entry['oro'] += 1
+                elif rk == 2:
+                    entry['plata'] += 1
+                elif rk == 3:
+                    entry['bronce'] += 1
+                entry['total_podios'] += 1
+                entry['puntos_torneos'] += int(r.get('puntos_asignados') or 0)
+                entry['torneos'].append({
+                    'tournament_id': r.get('tournament_id'),
+                    'tournament_name': r.get('tournament_name') or 'Torneo BGA',
+                    'game': r.get('game') or '',
+                    'rank': rk,
+                    'score': r.get('score') or '',
+                    'fecha': str(r.get('actualizado_en') or '')[:10]
+                })
+            res = list(ranking_map.values())
+            res.sort(key=lambda x: (-x['oro'], -x['plata'], -x['bronce'], -x['puntos_torneos'], x['jugador'].lower()))
+            return res
+    except Exception as e:
+        print(f"⚠️ [Torneos] Error obteniendo ranking campeones BGA: {e}")
         return []
 
 

@@ -36,13 +36,13 @@
           window.CONFIG_ECONOMIA = { ...window.CONFIG_ECONOMIA, ...cfg };
         }
       })
-      .catch(() => {});
-  } catch(e) {}
+      .catch(() => { });
+  } catch (e) { }
 
   // ─── CONFIGURACIÓN MAESTRA AUTH ──────────────────────────────────────────
   const AUTH_CONFIG = {
     // Desacoplado de Apps Script: ahora opera directamente con SQLite local / Turso
-    WEBHOOK_URL: '', 
+    WEBHOOK_URL: '',
     STORAGE_KEY: 'aj_session_v1',
     get ENTRY_COST() {
       return (window.CONFIG_ECONOMIA && window.CONFIG_ECONOMIA.arcade && window.CONFIG_ECONOMIA.arcade.costo_ficha_entrada) || 10;
@@ -213,8 +213,8 @@
       }
 
       const deviceId = this.getDeviceId();
-      const loginUrl = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function') 
-        ? window.AJ_CONFIG.apiUrl('/api/auth/login') 
+      const loginUrl = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function')
+        ? window.AJ_CONFIG.apiUrl('/api/auth/login')
         : AUTH_CONFIG.apiUrl('/api/auth/login');
 
       try {
@@ -230,7 +230,7 @@
         });
 
         let data;
-        try { data = await res.json(); } catch(e) { data = {}; }
+        try { data = await res.json(); } catch (e) { data = {}; }
 
         if (data.ok) {
           // Construir sesión desde la respuesta
@@ -262,8 +262,8 @@
           'clave_invalida': data.mensaje || 'Contraseña incorrecta. Verifica la clave comunitaria del grupo.',
           'clave_incorrecta': data.mensaje || 'Contraseña privada incorrecta.'
         };
-        const serverStatusMsg = (res && res.status >= 500) 
-          ? '⏳ El servidor en la nube se está reiniciando/actualizando. Espera unos segundos y vuelve a intentar.' 
+        const serverStatusMsg = (res && res.status >= 500)
+          ? '⏳ El servidor en la nube se está reiniciando/actualizando. Espera unos segundos y vuelve a intentar.'
           : 'Error al iniciar sesión.';
         const userMsg = errMap[data.error] || data.mensaje || (data.error ? ('Error: ' + data.error) : serverStatusMsg);
 
@@ -308,7 +308,7 @@
           .catch(() => {
             // Modo estático sin servidor Python API (tolera ejecución offline)
           });
-      } catch (e) {}
+      } catch (e) { }
 
       // 2. Si se llegase a configurar Webhook, sincronizar asíncronamente
       if (AUTH_CONFIG.WEBHOOK_URL) {
@@ -522,7 +522,7 @@
           if (errDiv) { errDiv.textContent = data.mensaje || 'Error al guardar la contraseña. Inténtalo de nuevo.'; errDiv.style.display = 'block'; }
           if (btn) { btn.disabled = false; btn.textContent = '💾 Guardar y Blindar Cuenta'; }
         }
-      } catch(e) {
+      } catch (e) {
         if (errDiv) { errDiv.textContent = 'Error de conexión con el servidor.'; errDiv.style.display = 'block'; }
         if (btn) { btn.disabled = false; btn.textContent = '💾 Guardar y Blindar Cuenta'; }
       }
@@ -572,13 +572,13 @@
               <div style="flex:1;">
                 <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:5px;">📅 Día</label>
                 <select id="aj-cumple-dia" style="width:100%; height:48px; padding:0 10px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:1rem; font-weight:700; outline:none; box-sizing:border-box; cursor:pointer;">
-                  ${Array.from({length: 31}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+                  ${Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
                 </select>
               </div>
               <div style="flex:1.5;">
                 <label style="font-size:0.74rem; color:#cbd5e1; font-weight:700; display:block; margin-bottom:5px;">🗓️ Mes</label>
                 <select id="aj-cumple-mes" style="width:100%; height:48px; padding:0 10px; background:#181530; border:1px solid #3b3563; border-radius:10px; color:#fff; font-size:1rem; font-weight:700; outline:none; box-sizing:border-box; cursor:pointer;">
-                  ${meses.map((m, i) => `<option value="${i+1}">${m}</option>`).join('')}
+                  ${meses.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('')}
                 </select>
               </div>
             </div>
@@ -623,7 +623,7 @@
         if (cache) {
           const d = JSON.parse(cache);
           if (d && d.dia && (d.mes_nombre || d.mes)) {
-            const mNom = d.mes_nombre || ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][d.mes - 1];
+            const mNom = d.mes_nombre || ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][d.mes - 1];
             el.innerHTML = `<span style="color:#f472b6;">🎂 ${d.dia} de ${mNom}</span> <span style="font-size:0.7rem; color:${d.saludo_publico ? '#4ade80' : '#fbbf24'};">(${d.saludo_publico ? 'Público 📢' : 'Privado 🔒'})</span>`;
           }
         }
@@ -679,7 +679,7 @@
           if (d.mes && mesSel) mesSel.value = d.mes;
           if (typeof d.saludo_publico === 'boolean' && pubChk) pubChk.checked = d.saludo_publico;
           if (btnBorrar) btnBorrar.style.display = 'block';
-        } catch (e) {}
+        } catch (e) { }
       }
 
       try {
@@ -771,7 +771,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nick })
         });
-      } catch (e) {}
+      } catch (e) { }
 
       localStorage.removeItem('aj_cumple_' + nick);
       if (okDiv) { okDiv.textContent = '🗑️ Fecha de cumpleaños eliminada.'; okDiv.style.display = 'block'; }
@@ -1230,7 +1230,7 @@
 
       const cache = localStorage.getItem('aj_radar_' + nick);
       if (cache) {
-        try { poblar(JSON.parse(cache)); } catch (e) {}
+        try { poblar(JSON.parse(cache)); } catch (e) { }
       }
 
       try {
@@ -1355,7 +1355,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nick })
         });
-      } catch (e) {}
+      } catch (e) { }
 
       const m = document.getElementById('aj-radar-modal');
       if (m) m.remove();
@@ -1539,30 +1539,30 @@
       }
 
       // ── Cargar pestaña Secreta en segundo plano ──
-      this._cargarMisionSecreta(nick).catch(() => {});
+      this._cargarMisionSecreta(nick).catch(() => { });
     }
 
     // ── Cambio de pestaña en el modal de misiones ──────────────────────────
     _switchMisionTab(tab) {
-      const panelGrupal   = document.getElementById('aj-panel-grupal');
-      const panelSecreta  = document.getElementById('aj-panel-secreta');
-      const btnGrupal     = document.getElementById('aj-tab-btn-grupal');
-      const btnSecreta    = document.getElementById('aj-tab-btn-secreta');
+      const panelGrupal = document.getElementById('aj-panel-grupal');
+      const panelSecreta = document.getElementById('aj-panel-secreta');
+      const btnGrupal = document.getElementById('aj-tab-btn-grupal');
+      const btnSecreta = document.getElementById('aj-tab-btn-secreta');
       if (!panelGrupal || !panelSecreta) return;
 
-      const activeStyle   = 'background:rgba(16,185,129,0.85); color:#fff;';
+      const activeStyle = 'background:rgba(16,185,129,0.85); color:#fff;';
       const inactiveStyle = 'background:transparent; color:#94a3b8;';
 
       if (tab === 'grupal') {
-        panelGrupal.style.display  = 'block';
+        panelGrupal.style.display = 'block';
         panelSecreta.style.display = 'none';
-        if (btnGrupal)  btnGrupal.style.cssText  += activeStyle;
-        if (btnSecreta) btnSecreta.style.cssText  += inactiveStyle;
+        if (btnGrupal) btnGrupal.style.cssText += activeStyle;
+        if (btnSecreta) btnSecreta.style.cssText += inactiveStyle;
       } else {
-        panelGrupal.style.display  = 'none';
+        panelGrupal.style.display = 'none';
         panelSecreta.style.display = 'block';
         if (btnSecreta) btnSecreta.style.cssText += activeStyle;
-        if (btnGrupal)  btnGrupal.style.cssText  += inactiveStyle;
+        if (btnGrupal) btnGrupal.style.cssText += inactiveStyle;
       }
     }
 
@@ -1609,7 +1609,7 @@
         secContent.style.display = 'block';
 
         const positivas = (data && Array.isArray(data.positivas)) ? data.positivas : [];
-        const ataque    = (data && Array.isArray(data.ataque))    ? data.ataque    : [];
+        const ataque = (data && Array.isArray(data.ataque)) ? data.ataque : [];
 
         // Fallbacks oficiales del Macrojuego si no hay respuesta de Sheets
         const fallbackPos = {
@@ -1627,7 +1627,7 @@
 
         const nickVal = nick.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
         const misionPos = (positivas.length > 0) ? positivas[nickVal % positivas.length] : fallbackPos;
-        const misionAtq = (ataque.length > 0)    ? ataque[(nickVal + 3) % ataque.length] : fallbackAtq;
+        const misionAtq = (ataque.length > 0) ? ataque[(nickVal + 3) % ataque.length] : fallbackAtq;
 
         const ptsPos = parseInt(String(misionPos.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
         const ptsAtq = parseInt(String(misionAtq.pts || '').replace(/[^0-9]/g, ''), 10) || 10;
@@ -1822,13 +1822,13 @@
     async _guardarEntregaMisionSecretaTipo(nick, fecha, misionId, pts, tipo) {
       const isPos = (tipo === 'positiva');
       const errDiv = document.getElementById(isPos ? 'aj-sec-pos-error' : 'aj-sec-atq-error');
-      const okDiv  = document.getElementById(isPos ? 'aj-sec-pos-ok' : 'aj-sec-atq-ok');
-      const btn    = document.getElementById(isPos ? 'aj-sec-pos-btn' : 'aj-sec-atq-btn');
+      const okDiv = document.getElementById(isPos ? 'aj-sec-pos-ok' : 'aj-sec-atq-ok');
+      const btn = document.getElementById(isPos ? 'aj-sec-pos-btn' : 'aj-sec-atq-btn');
       const imgObj = isPos ? this._secPosImagenBase64 : this._secAtqImagenBase64;
       const labelOriginal = isPos ? `✨ Enviar Prueba Positiva (+${pts} PTS)` : `🐢 Disparar Caparazón Azul (-${pts} PTS Cascada)`;
 
       if (errDiv) errDiv.style.display = 'none';
-      if (okDiv)  okDiv.style.display  = 'none';
+      if (okDiv) okDiv.style.display = 'none';
 
       if (!imgObj) {
         if (errDiv) {
@@ -1926,7 +1926,7 @@
           thumb.style.cssText = 'position:relative; width:52px; height:52px; border-radius:6px; overflow:hidden; border:1px solid #10b981; background:#000;';
           thumb.innerHTML = `
             <img src="${img.base64}" style="width:100%; height:100%; object-fit:cover;">
-            <span style="position:absolute; bottom:1px; right:2px; font-size:0.6rem; background:rgba(0,0,0,0.7); color:#fff; padding:1px 3px; border-radius:3px;">#${idx+1}</span>
+            <span style="position:absolute; bottom:1px; right:2px; font-size:0.6rem; background:rgba(0,0,0,0.7); color:#fff; padding:1px 3px; border-radius:3px;">#${idx + 1}</span>
           `;
           previewContainer.appendChild(thumb);
         });
@@ -2160,7 +2160,7 @@
         const adminToken = AUTH_CONFIG.getAdminToken();
         const res = await fetch(AUTH_CONFIG.apiUrl('/api/misiones/moderar'), {
           method: 'POST',
-          headers: { 
+          headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + adminToken
           },
@@ -2404,10 +2404,10 @@
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-size:0.78rem; color:var(--text-dim);">🛡️ Estado de Seguridad:</span>
-                ${tienePrivada ? 
-                  `<span style="font-size:0.72rem; color:#4ade80; font-weight:700; background:rgba(74,222,128,0.12); padding:3px 8px; border-radius:6px; border:1px solid rgba(74,222,128,0.3);">🔒 Cuenta Blindada (Privada)</span>` :
-                  `<span style="font-size:0.72rem; color:#fbbf24; font-weight:700; background:rgba(245,158,11,0.12); padding:3px 8px; border-radius:6px; border:1px solid rgba(245,158,11,0.3);">🔑 Clave Semanal (Comunitaria)</span>`
-                }
+                ${tienePrivada ?
+            `<span style="font-size:0.72rem; color:#4ade80; font-weight:700; background:rgba(74,222,128,0.12); padding:3px 8px; border-radius:6px; border:1px solid rgba(74,222,128,0.3);">🔒 Cuenta Blindada (Privada)</span>` :
+            `<span style="font-size:0.72rem; color:#fbbf24; font-weight:700; background:rgba(245,158,11,0.12); padding:3px 8px; border-radius:6px; border:1px solid rgba(245,158,11,0.3);">🔑 Clave Semanal (Comunitaria)</span>`
+          }
               </div>
             </div>
 
@@ -2487,7 +2487,7 @@
                     <button onclick="AuthManager.closeModal(); AuthManager.abrirModalAdminMisiones();" style="flex:1; background:#f59e0b; color:#000; font-weight:800; border:none; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer;">
                       📋 Misiones Pendientes
                     </button>
-                    <a href="https://script.google.com/macros/s/AKfycbw8BmSMYsRsiI4Qq-cmvFiENgCa-2M7plG8mBarmhKeY9QvnfuQshG-CpOm8aEXlyu9tQ/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <a href="https://script.google.com/macros/s/AKfycbzACds0etNbvQrwGo_5_aAaPGPyWbHnR7lTRZrtNfLec95QhmMU0Yi4vIMIEmDIjMA49g/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
                       🌐 Panel Apps Script ↗
                     </a>
                   </div>
@@ -2632,36 +2632,36 @@
       }
     }
 
-  // ─── MODAL PROYECTO MIEMBRO DESTACADO (GOOGLE FORMS FIDELIDAD TOTAL) ───────
-  async abrirModalProyecto(seccionInicial = 'creadores') {
-    const isAuth = this.isAuthenticated();
-    if (!isAuth) {
-      this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para registrar tu ficha en Miembros Destacados.' });
-      return;
-    }
-    this.closeModal();
+    // ─── MODAL PROYECTO MIEMBRO DESTACADO (GOOGLE FORMS FIDELIDAD TOTAL) ───────
+    async abrirModalProyecto(seccionInicial = 'creadores') {
+      const isAuth = this.isAuthenticated();
+      if (!isAuth) {
+        this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para registrar tu ficha en Miembros Destacados.' });
+        return;
+      }
+      this.closeModal();
 
-    const SECCIONES = [
-      { key: 'participantes',  label: 'Perfiles Personales', icon: '📷', desc: 'Tu perfil personal e Instagram' },
-      { key: 'divulgadores',   label: 'Divulgadores',        icon: '📡', desc: 'Canales de divulgación lúdica' },
-      { key: 'creadores',      label: 'Creadores',           icon: '🎬', desc: 'Creadores de contenido y juegos' },
-      { key: 'organizaciones', label: 'Organizaciones',      icon: '🏢', desc: 'Clubes y agrupaciones lúdicas' },
-      { key: 'tiendas',        label: 'Tiendas',             icon: '🛍️', desc: 'Tiendas físicas y online' },
-      { key: 'comunidades',    label: 'Comunidades',         icon: '👥', desc: 'Comunidades afines y grupos' }
-    ];
+      const SECCIONES = [
+        { key: 'participantes', label: 'Perfiles Personales', icon: '📷', desc: 'Tu perfil personal e Instagram' },
+        { key: 'divulgadores', label: 'Divulgadores', icon: '📡', desc: 'Canales de divulgación lúdica' },
+        { key: 'creadores', label: 'Creadores', icon: '🎬', desc: 'Creadores de contenido y juegos' },
+        { key: 'organizaciones', label: 'Organizaciones', icon: '🏢', desc: 'Clubes y agrupaciones lúdicas' },
+        { key: 'tiendas', label: 'Tiendas', icon: '🛍️', desc: 'Tiendas físicas y online' },
+        { key: 'comunidades', label: 'Comunidades', icon: '👥', desc: 'Comunidades afines y grupos' }
+      ];
 
-    const nick = this.getNick();
-    const modalId = 'aj-proyecto-modal';
+      const nick = this.getNick();
+      const modalId = 'aj-proyecto-modal';
 
-    let modal = document.getElementById(modalId);
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = modalId;
-      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
-      document.body.appendChild(modal);
-    }
+      let modal = document.getElementById(modalId);
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
+        document.body.appendChild(modal);
+      }
 
-    modal.innerHTML = `
+      modal.innerHTML = `
       <div class="card glow custom-scrollbar" style="width:100%; max-width:520px; background:linear-gradient(145deg,#0f0f1e,#080814); border:1px solid rgba(168,85,247,0.45); border-radius:18px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto; box-sizing:border-box; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(168,85,247,0.22);">
         <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
 
@@ -2743,96 +2743,96 @@
       </div>
     `;
 
-    modal.style.display = 'flex';
-  }
-
-  async _submitProyecto(nick) {
-    const btn = document.getElementById('aj-proy-btn');
-    const msgDiv = document.getElementById('aj-proyecto-msg');
-    const categoria = document.getElementById('aj-proy-cat')?.value || 'creadores';
-    const nombre = (document.getElementById('aj-proy-nombre')?.value || '').trim();
-    const enlace = (document.getElementById('aj-proy-enlace')?.value || '').trim();
-    const imagenUrl = (document.getElementById('aj-proy-img')?.value || '').trim();
-    const desc = (document.getElementById('aj-proy-desc')?.value || '').trim();
-
-    if (!nombre || !enlace || !imagenUrl) {
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        msgDiv.style.background = 'rgba(239,68,68,0.15)';
-        msgDiv.style.color = '#f87171';
-        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '⚠️ Nombre, redes/enlaces y link de imagen son obligatorios.';
-      }
-      return;
+      modal.style.display = 'flex';
     }
 
-    if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
+    async _submitProyecto(nick) {
+      const btn = document.getElementById('aj-proy-btn');
+      const msgDiv = document.getElementById('aj-proyecto-msg');
+      const categoria = document.getElementById('aj-proy-cat')?.value || 'creadores';
+      const nombre = (document.getElementById('aj-proy-nombre')?.value || '').trim();
+      const enlace = (document.getElementById('aj-proy-enlace')?.value || '').trim();
+      const imagenUrl = (document.getElementById('aj-proy-img')?.value || '').trim();
+      const desc = (document.getElementById('aj-proy-desc')?.value || '').trim();
 
-    try {
-      const apiBase = AUTH_CONFIG.apiUrl('');
-      const url = apiBase ? `${apiBase}/api/solicitudes/miembro_destacado` : '/api/solicitudes/miembro_destacado';
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nick, categoria, nombre_proyecto: nombre, enlace, descripcion: desc, imagen_url: imagenUrl })
-      });
-      const data = await res.json();
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        if (data.ok) {
-          msgDiv.style.background = 'rgba(16,185,129,0.15)';
-          msgDiv.style.color = '#34d399';
-          msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
-          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud enviada! Será revisada por los administradores.');
-          document.getElementById('aj-proyecto-form')?.reset();
-          if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
-          setTimeout(() => {
-            const m = document.getElementById('aj-proyecto-modal');
-            if (m) m.remove();
-          }, 1800);
-        } else {
+      if (!nombre || !enlace || !imagenUrl) {
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
           msgDiv.style.background = 'rgba(239,68,68,0.15)';
           msgDiv.style.color = '#f87171';
           msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-          msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
-          if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+          msgDiv.textContent = '⚠️ Nombre, redes/enlaces y link de imagen son obligatorios.';
         }
+        return;
       }
-    } catch (err) {
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        msgDiv.style.background = 'rgba(239,68,68,0.15)';
-        msgDiv.style.color = '#f87171';
-        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
+
+      try {
+        const apiBase = AUTH_CONFIG.apiUrl('');
+        const url = apiBase ? `${apiBase}/api/solicitudes/miembro_destacado` : '/api/solicitudes/miembro_destacado';
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nick, categoria, nombre_proyecto: nombre, enlace, descripcion: desc, imagen_url: imagenUrl })
+        });
+        const data = await res.json();
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
+          if (data.ok) {
+            msgDiv.style.background = 'rgba(16,185,129,0.15)';
+            msgDiv.style.color = '#34d399';
+            msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
+            msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud enviada! Será revisada por los administradores.');
+            document.getElementById('aj-proyecto-form')?.reset();
+            if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
+            setTimeout(() => {
+              const m = document.getElementById('aj-proyecto-modal');
+              if (m) m.remove();
+            }, 1800);
+          } else {
+            msgDiv.style.background = 'rgba(239,68,68,0.15)';
+            msgDiv.style.color = '#f87171';
+            msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+            msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
+            if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+          }
+        }
+      } catch (err) {
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
+          msgDiv.style.background = 'rgba(239,68,68,0.15)';
+          msgDiv.style.color = '#f87171';
+          msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+          msgDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+        }
+        if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
       }
-      if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
-    }
-  }
-
-  // ─── MODAL PUBLICACIÓN DE EVENTOS Y CONCURSOS ─────────────────────────────
-  async abrirModalEvento(categoriaInicial = 'Evento') {
-    const isAuth = this.isAuthenticated();
-    if (!isAuth) {
-      this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para publicar un evento o concurso.' });
-      return;
-    }
-    this.closeModal();
-
-    const nick = this.getNick();
-    const modalId = 'aj-evento-modal';
-
-    let modal = document.getElementById(modalId);
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = modalId;
-      modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
-      document.body.appendChild(modal);
     }
 
-    const catNorm = categoriaInicial.toLowerCase().includes('concurso') ? 'Concurso' : 'Evento';
+    // ─── MODAL PUBLICACIÓN DE EVENTOS Y CONCURSOS ─────────────────────────────
+    async abrirModalEvento(categoriaInicial = 'Evento') {
+      const isAuth = this.isAuthenticated();
+      if (!isAuth) {
+        this.showModal({ reason: 'Identifícate con tu WhatsApp de miembro para publicar un evento o concurso.' });
+        return;
+      }
+      this.closeModal();
 
-    modal.innerHTML = `
+      const nick = this.getNick();
+      const modalId = 'aj-evento-modal';
+
+      let modal = document.getElementById(modalId);
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; overflow-y:auto;';
+        document.body.appendChild(modal);
+      }
+
+      const catNorm = categoriaInicial.toLowerCase().includes('concurso') ? 'Concurso' : 'Evento';
+
+      modal.innerHTML = `
       <div class="card glow custom-scrollbar" style="width:100%; max-width:580px; background:linear-gradient(145deg,#0d1117,#080c14); border:1px solid rgba(245,158,11,0.45); border-radius:18px; padding:28px 24px; position:relative; max-height:92vh; overflow-y:auto; box-sizing:border-box; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(245,158,11,0.22);">
         <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.2s;" title="Cerrar">✕</button>
 
@@ -2957,137 +2957,138 @@
       </div>
     `;
 
-    modal.style.display = 'flex';
-  }
-
-  async _submitEvento(nick) {
-    const btn = document.getElementById('aj-evt-btn');
-    const msgDiv = document.getElementById('aj-evento-msg');
-    const categoria = document.getElementById('aj-evt-cat')?.value || 'Evento';
-    const nombre = (document.getElementById('aj-evt-nombre')?.value || '').trim();
-    const org = (document.getElementById('aj-evt-org')?.value || '').trim();
-    const inicio = (document.getElementById('aj-evt-inicio')?.value || '').trim();
-    const termino = (document.getElementById('aj-evt-termino')?.value || '').trim();
-    const lugar = (document.getElementById('aj-evt-lugar')?.value || '').trim();
-    const costo = (document.getElementById('aj-evt-costo')?.value || '').trim();
-    const inscr = document.getElementById('aj-evt-inscr')?.value || 'No';
-    const cupos = document.getElementById('aj-evt-cupos')?.value || 'No';
-    const desc = (document.getElementById('aj-evt-desc')?.value || '').trim();
-    const linkPost = (document.getElementById('aj-evt-link-post')?.value || '').trim();
-    const linkAfiche = (document.getElementById('aj-evt-link-afiche')?.value || '').trim();
-    const compromiso = document.getElementById('aj-evt-compromiso')?.checked;
-
-    if (!compromiso) {
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        msgDiv.style.background = 'rgba(239,68,68,0.15)';
-        msgDiv.style.color = '#f87171';
-        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '⚠️ Debes aceptar las normas de Amigos Jugones para continuar.';
-      }
-      return;
+      modal.style.display = 'flex';
     }
 
-    if (!nombre || !org || !inicio || !termino || !lugar || !desc || !linkPost || !linkAfiche) {
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        msgDiv.style.background = 'rgba(239,68,68,0.15)';
-        msgDiv.style.color = '#f87171';
-        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '⚠️ Todos los campos marcados con asterisco (*) son obligatorios.';
-      }
-      return;
-    }
+    async _submitEvento(nick) {
+      const btn = document.getElementById('aj-evt-btn');
+      const msgDiv = document.getElementById('aj-evento-msg');
+      const categoria = document.getElementById('aj-evt-cat')?.value || 'Evento';
+      const nombre = (document.getElementById('aj-evt-nombre')?.value || '').trim();
+      const org = (document.getElementById('aj-evt-org')?.value || '').trim();
+      const inicio = (document.getElementById('aj-evt-inicio')?.value || '').trim();
+      const termino = (document.getElementById('aj-evt-termino')?.value || '').trim();
+      const lugar = (document.getElementById('aj-evt-lugar')?.value || '').trim();
+      const costo = (document.getElementById('aj-evt-costo')?.value || '').trim();
+      const inscr = document.getElementById('aj-evt-inscr')?.value || 'No';
+      const cupos = document.getElementById('aj-evt-cupos')?.value || 'No';
+      const desc = (document.getElementById('aj-evt-desc')?.value || '').trim();
+      const linkPost = (document.getElementById('aj-evt-link-post')?.value || '').trim();
+      const linkAfiche = (document.getElementById('aj-evt-link-afiche')?.value || '').trim();
+      const compromiso = document.getElementById('aj-evt-compromiso')?.checked;
 
-    if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
-
-    try {
-      const apiBase = AUTH_CONFIG.apiUrl('');
-      const url = apiBase ? `${apiBase}/api/solicitudes/evento` : '/api/solicitudes/evento';
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nick,
-          categoria,
-          nombre,
-          organizador: org,
-          fecha_inicio: inicio,
-          fecha_termino: termino,
-          ubicacion: lugar,
-          descripcion: desc,
-          costo,
-          requiere_inscripcion: inscr,
-          cupos_limitados: cupos,
-          link_red_social: linkPost,
-          link_afiche: linkAfiche
-        })
-      });
-      const data = await res.json();
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        if (data.ok) {
-          msgDiv.style.background = 'rgba(16,185,129,0.15)';
-          msgDiv.style.color = '#34d399';
-          msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
-          msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud registrada con éxito! Será revisada pronto.');
-          document.getElementById('aj-evento-form')?.reset();
-          if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
-          setTimeout(() => {
-            const m = document.getElementById('aj-evento-modal');
-            if (m) m.remove();
-          }, 1800);
-        } else {
+      if (!compromiso) {
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
           msgDiv.style.background = 'rgba(239,68,68,0.15)';
           msgDiv.style.color = '#f87171';
           msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-          msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
-          if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+          msgDiv.textContent = '⚠️ Debes aceptar las normas de Amigos Jugones para continuar.';
         }
+        return;
       }
-    } catch (err) {
-      if (msgDiv) {
-        msgDiv.style.display = 'block';
-        msgDiv.style.background = 'rgba(239,68,68,0.15)';
-        msgDiv.style.color = '#f87171';
-        msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
-        msgDiv.textContent = '❌ Error de conexión con el servidor.';
+
+      if (!nombre || !org || !inicio || !termino || !lugar || !desc || !linkPost || !linkAfiche) {
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
+          msgDiv.style.background = 'rgba(239,68,68,0.15)';
+          msgDiv.style.color = '#f87171';
+          msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+          msgDiv.textContent = '⚠️ Todos los campos marcados con asterisco (*) son obligatorios.';
+        }
+        return;
       }
-      if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Enviando... ⏳'; }
+
+      try {
+        const apiBase = AUTH_CONFIG.apiUrl('');
+        const url = apiBase ? `${apiBase}/api/solicitudes/evento` : '/api/solicitudes/evento';
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nick,
+            categoria,
+            nombre,
+            organizador: org,
+            fecha_inicio: inicio,
+            fecha_termino: termino,
+            ubicacion: lugar,
+            descripcion: desc,
+            costo,
+            requiere_inscripcion: inscr,
+            cupos_limitados: cupos,
+            link_red_social: linkPost,
+            link_afiche: linkAfiche
+          })
+        });
+        const data = await res.json();
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
+          if (data.ok) {
+            msgDiv.style.background = 'rgba(16,185,129,0.15)';
+            msgDiv.style.color = '#34d399';
+            msgDiv.style.border = '1px solid rgba(16,185,129,0.3)';
+            msgDiv.textContent = '✅ ' + (data.mensaje || '¡Solicitud registrada con éxito! Será revisada pronto.');
+            document.getElementById('aj-evento-form')?.reset();
+            if (btn) { btn.disabled = true; btn.textContent = '✅ Enviado'; }
+            setTimeout(() => {
+              const m = document.getElementById('aj-evento-modal');
+              if (m) m.remove();
+            }, 1800);
+          } else {
+            msgDiv.style.background = 'rgba(239,68,68,0.15)';
+            msgDiv.style.color = '#f87171';
+            msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+            msgDiv.textContent = '❌ ' + (data.error || 'Error al enviar. Intenta de nuevo.');
+            if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+          }
+        }
+      } catch (err) {
+        if (msgDiv) {
+          msgDiv.style.display = 'block';
+          msgDiv.style.background = 'rgba(239,68,68,0.15)';
+          msgDiv.style.color = '#f87171';
+          msgDiv.style.border = '1px solid rgba(239,68,68,0.3)';
+          msgDiv.textContent = '❌ Error de conexión con el servidor.';
+        }
+        if (btn) { btn.disabled = false; btn.textContent = '🔄 Reintentar'; }
+      }
     }
-  }
 
-  // ─── 👻 GHOSTRED: CANAL COMUNITARIO EFÍMERO (7 DÍAS) ───────────────────────
+    // ─── 👻 GHOSTRED: CANAL COMUNITARIO EFÍMERO (7 DÍAS) ───────────────────────
 
-  _ghostRedInterval = null;
-  _ghostRedLastId = 0;
-  _ghostRedSending = false;
+    _ghostRedInterval = null;
+    _ghostRedLastId = 0;
+    _ghostRedSending = false;
 
-  abrirGhostRed() {
-    if (!this.isAuthenticated()) {
-      const lockModal = document.getElementById('aj-ghostred-lock-modal');
-      if (lockModal) { lockModal.remove(); return; }
-      this.mostrarBloqueoGhostRed();
-      return;
-    }
-    const modal = document.getElementById('aj-ghostred-modal');
-    if (modal) {
-      this.cerrarGhostRed();
-      return;
-    }
-    this.abrirModalGhostRed();
-  }
-
-  mostrarBloqueoGhostRed() {
-    const modalId = 'aj-ghostred-lock-modal';
-    let modal = document.getElementById(modalId);
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = modalId;
-      document.body.appendChild(modal);
+    abrirGhostRed() {
+      if (!this.isAuthenticated()) {
+        const lockModal = document.getElementById('aj-ghostred-lock-modal');
+        if (lockModal) { lockModal.remove(); return; }
+        this.mostrarBloqueoGhostRed();
+        return;
+      }
+      const modal = document.getElementById('aj-ghostred-modal');
+      if (modal) {
+        this.cerrarGhostRed();
+        return;
+      }
+      this.abrirModalGhostRed();
     }
 
-    modal.style.cssText = `
+    mostrarBloqueoGhostRed() {
+      const modalId = 'aj-ghostred-lock-modal';
+      let modal = document.getElementById(modalId);
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;';
+        document.body.appendChild(modal);
+      }
+
+      modal.style.cssText = `
       position: fixed;
       bottom: 85px;
       right: 16px;
@@ -3104,7 +3105,25 @@
       animation: ghostredSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     `;
 
-    modal.innerHTML = `
+      modal.innerHTML = `
+      <div style="width:100%; max-width:440px; background:linear-gradient(145deg, #101426 0%, #070914 100%); border:1px solid rgba(239,68,68,0.5); border-radius:18px; padding:24px 20px; box-shadow:0 12px 45px rgba(0,0,0,0.8), 0 0 30px rgba(239,68,68,0.2); position:relative; text-align:center; box-sizing:border-box;">
+        <button onclick="document.getElementById('${modalId}').remove()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px;">✕</button>
+        <div style="font-size:2.5rem; margin-bottom:8px; filter:drop-shadow(0 0 12px rgba(239,68,68,0.5));">🔒</div>
+        <div style="font-size:0.75rem; color:#f87171; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">Acceso Denegado a GhostRed</div>
+        <h2 style="font-size:1.2rem; color:#fff; font-weight:800; margin:0 0 8px;">Se Requiere Handshake de Sesión</h2>
+        <p style="color:#cbd5e1; font-size:0.82rem; line-height:1.5; margin:0 0 16px;">
+          <strong>GhostRed</strong> es la frecuencia efímera confidencial de <strong>Amigos Jugones</strong>. Para leer y transmitir transmisiones con tu Nick gamer debes iniciar sesión con tu cuenta.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button onclick="document.getElementById('${modalId}').remove(); AuthManager.showModal({ reason: 'Identifícate con tu cuenta para acceder a GhostRed.' });"
+            style="width:100%; padding:12px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; font-weight:800; font-size:0.88rem; cursor:pointer; box-shadow:0 4px 15px rgba(16,185,129,0.35);">
+            🔑 Iniciar Sesión con mi Cuenta
+          </button>
+          <button onclick="document.getElementById('${modalId}').remove()"
+            style="width:100%; padding:10px; background:#1e293b; color:#94a3b8; border:none; border-radius:10px; font-weight:700; font-size:0.82rem; cursor:pointer;">
+            Cancelar
+          </button>
+        </div>
       <style>
         @keyframes ghostredSlideUp {
           0% { opacity: 0; transform: translateY(16px) scale(0.96); }
@@ -3129,20 +3148,22 @@
         </button>
       </div>
     `;
-    modal.style.display = 'block';
-  }
-
-  abrirModalGhostRed() {
-    const nick = this.getNick();
-    const modalId = 'aj-ghostred-modal';
-    let modal = document.getElementById(modalId);
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = modalId;
-      document.body.appendChild(modal);
+      modal.style.display = 'flex';
+      modal.style.display = 'block';
     }
 
-    modal.style.cssText = `
+    abrirModalGhostRed() {
+      const nick = this.getNick();
+      const modalId = 'aj-ghostred-modal';
+      let modal = document.getElementById(modalId);
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(4,4,16,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; padding:12px; box-sizing:border-box;';
+        document.body.appendChild(modal);
+      }
+
+      modal.style.cssText = `
       position: fixed;
       bottom: 85px;
       right: 16px;
@@ -3162,7 +3183,8 @@
       animation: ghostredSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     `;
 
-    modal.innerHTML = `
+      modal.innerHTML = `
+      <div style="width:100%; max-width:540px; height:85vh; max-height:680px; background:linear-gradient(145deg, #0d1526 0%, #070914 100%); border:1px solid rgba(16,185,129,0.45); border-radius:18px; display:flex; flex-direction:column; box-shadow:0 12px 50px rgba(0,0,0,0.9), 0 0 30px rgba(16,185,129,0.2); position:relative; overflow:hidden; box-sizing:border-box;">
       <style>
         @keyframes ghostredSlideUp {
           0% { opacity: 0; transform: translateY(16px) scale(0.96); }
@@ -3170,6 +3192,18 @@
         }
       </style>
 
+        <!-- Cabecera Cyberpunk -->
+        <div style="padding:14px 16px; background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.25); display:flex; align-items:center; gap:10px;">
+          <div style="font-size:1.6rem; filter:drop-shadow(0 0 8px rgba(16,185,129,0.6));">👻</div>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1rem; font-weight:900; color:#fff; letter-spacing:0.5px;">GhostRed</span>
+              <span style="font-size:0.65rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.5); border-radius:20px; padding:1px 6px; font-weight:800;">LIVE 🟢</span>
+              <span style="font-size:0.65rem; background:rgba(139,92,246,0.2); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4); border-radius:20px; padding:1px 6px; font-weight:700;">TTL: 7 Días</span>
+            </div>
+            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">
+              Conectado como <strong style="color:#34d399;">${nick}</strong> · Transmisiones efímeras
+            </div>
       <!-- Cabecera Cyberpunk Estilo Widget -->
       <div style="padding:12px 14px; background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.25); display:flex; align-items:center; gap:8px;">
         <div style="font-size:1.4rem; filter:drop-shadow(0 0 6px rgba(16,185,129,0.6));">👻</div>
@@ -3179,6 +3213,7 @@
             <span style="font-size:0.62rem; background:rgba(16,185,129,0.25); color:#6ee7b7; border:1px solid rgba(16,185,129,0.5); border-radius:20px; padding:1px 5px; font-weight:800;">LIVE 🟢</span>
             <span style="font-size:0.62rem; background:rgba(139,92,246,0.2); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4); border-radius:20px; padding:1px 5px; font-weight:700;">TTL: 7D</span>
           </div>
+          <button onclick="AuthManager.cerrarGhostRed()" style="background:none; border:none; color:#94a3b8; font-size:1.4rem; cursor:pointer; padding:6px; line-height:1; transition:color 0.2s;" title="Cerrar">✕</button>
           <div style="font-size:0.65rem; color:#94a3b8; margin-top:1px;">
             Conectado como <strong style="color:#34d399;">${nick}</strong>
           </div>
@@ -3186,11 +3221,20 @@
         <button onclick="AuthManager.cerrarGhostRed()" style="background:none; border:none; color:#94a3b8; font-size:1.3rem; cursor:pointer; padding:4px 8px; line-height:1; transition:color 0.2s;" title="Minimizar">✕</button>
       </div>
 
+        <!-- Banner Explicativo sutil -->
+        <div style="padding:6px 14px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.68rem; color:#64748b; text-align:center;">
+          ⏳ Los mensajes se eliminan automáticamente tras 7 días. Charla casual sin enlaces ni spam.
+        </div>
       <!-- Banner Explicativo sutil -->
       <div style="padding:5px 10px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.65rem; color:#64748b; text-align:center;">
         ⏳ Se purgan a los 7 días. Charla casual sin enlaces ni spam.
       </div>
 
+        <!-- Contenedor de Mensajes con Scroll Infinito -->
+        <div id="ghostred-feed" style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth;">
+          <div id="ghostred-loading" style="text-align:center; padding:30px; color:#94a3b8; font-size:0.82rem;">
+            Sincronizando con GhostRed... ⏳
+          </div>
       <!-- Contenedor de Mensajes con Scroll Infinito -->
       <div id="ghostred-feed" style="flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:8px; scroll-behavior:smooth;">
         <div id="ghostred-loading" style="text-align:center; padding:30px; color:#94a3b8; font-size:0.8rem;">
@@ -3198,6 +3242,22 @@
         </div>
       </div>
 
+        <!-- Área de Entrada / Transmisión -->
+        <div style="padding:10px 14px; background:rgba(10,14,28,0.95); border-top:1px solid rgba(16,185,129,0.2); box-sizing:border-box;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="text" id="ghostred-input" maxlength="400" placeholder="Escribe un mensaje en GhostRed..."
+              style="flex:1; background:#070a14; border:1px solid rgba(16,185,129,0.4); color:#fff; border-radius:10px; padding:10px 12px; font-size:0.85rem; outline:none; transition:border-color 0.2s;"
+              onkeydown="if(event.key==='Enter'&&!event.shiftKey){ event.preventDefault(); AuthManager._enviarMensajeGhostRed(); }"
+              oninput="document.getElementById('ghostred-counter').textContent = 400 - this.value.length;">
+            <button id="ghostred-btn-send" onclick="AuthManager._enviarMensajeGhostRed()"
+              style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; border:none; border-radius:10px; padding:10px 14px; font-weight:800; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:4px; box-shadow:0 2px 10px rgba(16,185,129,0.3); transition:transform 0.1s;">
+              <span>🚀</span>
+            </button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; font-size:0.65rem; color:#64748b; padding:0 2px;">
+            <span>Presiona Enter para enviar</span>
+            <span id="ghostred-counter">400</span>
+          </div>
       <!-- Área de Entrada / Transmisión -->
       <div style="padding:8px 12px; background:rgba(10,14,28,0.95); border-top:1px solid rgba(16,185,129,0.2); box-sizing:border-box;">
         <div style="display:flex; align-items:center; gap:6px;">
@@ -3210,6 +3270,7 @@
             <span>🚀</span>
           </button>
         </div>
+
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3px; font-size:0.62rem; color:#64748b; padding:0 2px;">
           <span>Enter para enviar</span>
           <span id="ghostred-counter">400</span>
@@ -3217,73 +3278,73 @@
       </div>
     `;
 
-    modal.style.display = 'flex';
+      modal.style.display = 'flex';
 
-    // Cargar mensajes iniciales
-    this._cargarMensajesGhostRed(true);
+      // Cargar mensajes iniciales
+      this._cargarMensajesGhostRed(true);
 
-    // Iniciar polling silencioso cada 8s
-    if (this._ghostRedInterval) clearInterval(this._ghostRedInterval);
-    this._ghostRedInterval = setInterval(() => {
-      this._cargarMensajesGhostRed(false);
-    }, 8000);
+      // Iniciar polling silencioso cada 8s
+      if (this._ghostRedInterval) clearInterval(this._ghostRedInterval);
+      this._ghostRedInterval = setInterval(() => {
+        this._cargarMensajesGhostRed(false);
+      }, 8000);
 
-    // Foco en el input
-    setTimeout(() => {
-      const inp = document.getElementById('ghostred-input');
-      if (inp) inp.focus();
-    }, 150);
-  }
-
-  cerrarGhostRed() {
-    if (this._ghostRedInterval) {
-      clearInterval(this._ghostRedInterval);
-      this._ghostRedInterval = null;
+      // Foco en el input
+      setTimeout(() => {
+        const inp = document.getElementById('ghostred-input');
+        if (inp) inp.focus();
+      }, 150);
     }
-    const modal = document.getElementById('aj-ghostred-modal');
-    if (modal) modal.remove();
-  }
 
-  async _cargarMensajesGhostRed(isFirstLoad = false) {
-    const feed = document.getElementById('ghostred-feed');
-    if (!feed) return;
-    const nick = this.getNick();
-
-    try {
-      const url = AUTH_CONFIG.apiUrl(`/api/chat/mensajes?nick=${encodeURIComponent(nick)}`);
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!data || !data.ok) {
-        if (isFirstLoad) {
-          feed.innerHTML = `<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error sincronizando con la red: ${data.error || 'Desconocido'}</div>`;
-        }
-        return;
+    cerrarGhostRed() {
+      if (this._ghostRedInterval) {
+        clearInterval(this._ghostRedInterval);
+        this._ghostRedInterval = null;
       }
+      const modal = document.getElementById('aj-ghostred-modal');
+      if (modal) modal.remove();
+    }
 
-      const mensajes = Array.isArray(data.mensajes) ? data.mensajes : [];
+    async _cargarMensajesGhostRed(isFirstLoad = false) {
+      const feed = document.getElementById('ghostred-feed');
+      if (!feed) return;
+      const nick = this.getNick();
 
-      if (mensajes.length === 0) {
-        feed.innerHTML = `
+      try {
+        const url = AUTH_CONFIG.apiUrl(`/api/chat/mensajes?nick=${encodeURIComponent(nick)}`);
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data || !data.ok) {
+          if (isFirstLoad) {
+            feed.innerHTML = `<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error sincronizando con la red: ${data.error || 'Desconocido'}</div>`;
+          }
+          return;
+        }
+
+        const mensajes = Array.isArray(data.mensajes) ? data.mensajes : [];
+
+        if (mensajes.length === 0) {
+          feed.innerHTML = `
           <div style="text-align:center; padding:40px 20px; color:#64748b;">
             <div style="font-size:2rem; margin-bottom:6px;">📡</div>
             <div style="font-weight:700; color:#94a3b8; font-size:0.85rem;">Frecuencia limpia</div>
             <div style="font-size:0.75rem; margin-top:3px;">No hay transmisiones activas en los últimos 7 días. ¡Sé el primero en escribir!</div>
           </div>
         `;
-        return;
-      }
+          return;
+        }
 
-      const miNickLower = nick.toLowerCase();
-      let html = '';
+        const miNickLower = nick.toLowerCase();
+        let html = '';
 
-      mensajes.forEach(m => {
-        const esMio = (m.nick || '').toLowerCase() === miNickLower;
-        const hora = (m.timestamp || '').slice(11, 16) || '';
-        const fecha = (m.fecha || '').slice(5) || '';
+        mensajes.forEach(m => {
+          const esMio = (m.nick || '').toLowerCase() === miNickLower;
+          const hora = (m.timestamp || '').slice(11, 16) || '';
+          const fecha = (m.fecha || '').slice(5) || '';
 
-        if (esMio) {
-          html += `
+          if (esMio) {
+            html += `
             <div style="align-self:flex-end; max-width:82%; display:flex; flex-direction:column; align-items:flex-end;">
               <div style="background:rgba(16,185,129,0.2); border:1px solid rgba(16,185,129,0.45); border-radius:14px 14px 2px 14px; padding:8px 12px; color:#e2e8f0; font-size:0.84rem; line-height:1.4; word-break:break-word; box-shadow:0 2px 10px rgba(0,0,0,0.3);">
                 ${this._escaparHtml(m.mensaje)}
@@ -3293,8 +3354,8 @@
               </div>
             </div>
           `;
-        } else {
-          html += `
+          } else {
+            html += `
             <div style="align-self:flex-start; max-width:82%; display:flex; flex-direction:column; align-items:flex-start;">
               <div style="font-size:0.65rem; color:#fbbf24; font-weight:800; margin-bottom:2px; padding-left:4px;">
                 ${this._escaparHtml(m.nick)}
@@ -3307,83 +3368,83 @@
               </div>
             </div>
           `;
+          }
+        });
+
+        // Chequear si el usuario estaba cerca del final antes de re-renderizar para mantener scroll
+        const estabaAbajo = (feed.scrollHeight - feed.scrollTop - feed.clientHeight) < 60;
+        feed.innerHTML = html;
+
+        if (isFirstLoad || estabaAbajo) {
+          feed.scrollTop = feed.scrollHeight;
         }
-      });
 
-      // Chequear si el usuario estaba cerca del final antes de re-renderizar para mantener scroll
-      const estabaAbajo = (feed.scrollHeight - feed.scrollTop - feed.clientHeight) < 60;
-      feed.innerHTML = html;
-
-      if (isFirstLoad || estabaAbajo) {
-        feed.scrollTop = feed.scrollHeight;
-      }
-
-    } catch (e) {
-      if (isFirstLoad) {
-        feed.innerHTML = '<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error de conexión con GhostRed.</div>';
+      } catch (e) {
+        if (isFirstLoad) {
+          feed.innerHTML = '<div style="text-align:center; padding:20px; color:#f87171; font-size:0.8rem;">❌ Error de conexión con GhostRed.</div>';
+        }
       }
     }
-  }
 
-  async _enviarMensajeGhostRed() {
-    if (this._ghostRedSending) return;
-    const inp = document.getElementById('ghostred-input');
-    const btn = document.getElementById('ghostred-btn-send');
-    if (!inp) return;
-    const texto = inp.value.trim();
-    if (!texto) return;
+    async _enviarMensajeGhostRed() {
+      if (this._ghostRedSending) return;
+      const inp = document.getElementById('ghostred-input');
+      const btn = document.getElementById('ghostred-btn-send');
+      if (!inp) return;
+      const texto = inp.value.trim();
+      if (!texto) return;
 
-    // 🚫 Prohibición de enlaces y URLs (política anti-spam / anti-phishing)
-    const regexLink = /(https?:\/\/|www\.|\.(com|org|net|cl|es|io|me|app|gg|xyz|link|site|online)(\/|\s|$|[?#]))/i;
-    if (regexLink.test(texto)) {
-      alert('🚫 Por seguridad y política anti-spam, no está permitido compartir enlaces o páginas web en GhostRed.');
-      return;
-    }
-
-    this._ghostRedSending = true;
-    if (btn) btn.disabled = true;
-
-    const nick = this.getNick();
-
-    try {
-      const url = AUTH_CONFIG.apiUrl('/api/chat/enviar');
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nick, mensaje: texto })
-      });
-      const data = await res.json();
-
-      if (data && data.ok) {
-        inp.value = '';
-        document.getElementById('ghostred-counter').textContent = '400';
-        await this._cargarMensajesGhostRed(false);
-        const feed = document.getElementById('ghostred-feed');
-        if (feed) feed.scrollTop = feed.scrollHeight;
-      } else {
-        alert(data.error || 'Error al transmitir mensaje.');
+      // 🚫 Prohibición de enlaces y URLs (política anti-spam / anti-phishing)
+      const regexLink = /(https?:\/\/|www\.|\.(com|org|net|cl|es|io|me|app|gg|xyz|link|site|online)(\/|\s|$|[?#]))/i;
+      if (regexLink.test(texto)) {
+        alert('🚫 Por seguridad y política anti-spam, no está permitido compartir enlaces o páginas web en GhostRed.');
+        return;
       }
-    } catch (err) {
-      alert('Error de red al transmitir en GhostRed.');
-    } finally {
-      this._ghostRedSending = false;
-      if (btn) btn.disabled = false;
-      if (inp) inp.focus();
+
+      this._ghostRedSending = true;
+      if (btn) btn.disabled = true;
+
+      const nick = this.getNick();
+
+      try {
+        const url = AUTH_CONFIG.apiUrl('/api/chat/enviar');
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nick, mensaje: texto })
+        });
+        const data = await res.json();
+
+        if (data && data.ok) {
+          inp.value = '';
+          document.getElementById('ghostred-counter').textContent = '400';
+          await this._cargarMensajesGhostRed(false);
+          const feed = document.getElementById('ghostred-feed');
+          if (feed) feed.scrollTop = feed.scrollHeight;
+        } else {
+          alert(data.error || 'Error al transmitir mensaje.');
+        }
+      } catch (err) {
+        alert('Error de red al transmitir en GhostRed.');
+      } finally {
+        this._ghostRedSending = false;
+        if (btn) btn.disabled = false;
+        if (inp) inp.focus();
+      }
     }
-  }
 
-  _escaparHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
+    _escaparHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
 
-} // fin class AuthManagerClass
+  } // fin class AuthManagerClass
 
   // Instancia Global
   window.AuthManager = new AuthManagerClass();

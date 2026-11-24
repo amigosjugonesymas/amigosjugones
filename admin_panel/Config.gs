@@ -31,5 +31,5 @@ const ADMIN_CONFIG = {
   BACKEND_API_URL: "https://amigosjugones.onrender.com/api",
 
   // URL del Orquestador Oficial (API Serverless de Capturas y Juegos Diarios)
-  ORQUESTADOR_URL: "https://script.google.com/macros/s/AKfycby8iTKzCc9iW3pCPKMk8BGUIgflm6L32Q4dc4DEVK751OLbfy65L1iCmnUaReNrnOO-kg/exec"
+  ORQUESTADOR_URL: "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec"
 };

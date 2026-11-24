@@ -167,6 +167,21 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: TORNEOS BGA — VISTA PÚBLICA EN VIVO + SALÓN DE CAMPEONES ───
+        if parsed.path == '/api/torneos/publico':
+            try:
+                data_pub = gestor_db.obtener_torneos_publicos()
+                campeones = gestor_db.obtener_ranking_campeones_bga()
+                self._send_json({
+                    "ok": True,
+                    "activos": data_pub.get("activos", []),
+                    "finalizados": data_pub.get("finalizados", []),
+                    "campeones": campeones
+                })
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ADMIN — OBTENER LISTA DE MIEMBROS CON BGA (Panel Admin) ────
         if parsed.path == '/api/admin/miembros_bga':
             if not self._is_admin(params):
@@ -644,7 +659,14 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 if not isinstance(players, list):
                     players = []
 
-                # Guardar/actualizar torneo en DB
+                # Guardar/actualizar torneo en DB (incluyendo snapshot de bracket/podio si viene desde Lunara)
+                detalle_payload = None
+                if params.get('bracket') or params.get('podium'):
+                    detalle_payload = {
+                        'bracket': params.get('bracket'),
+                        'podium': params.get('podium'),
+                        'fromResultsView': bool(params.get('fromResultsView'))
+                    }
                 gestor_db.guardar_torneo({
                     'tournament_id': tournament_id,
                     'tournament_name': tournament_name,
@@ -652,7 +674,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     'status': status,
                     'current_round': current_round,
                     'bga_url': url,
-                    'total_players': total_players
+                    'total_players': total_players,
+                    'detalle_json': detalle_payload
                 })
 
                 # Obtener todos los jugadores AJ para fuzzy matching
@@ -852,7 +875,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     self._send_json({"ok": False, "error": "identificador_requerido"}, 400)
                     return
                 pts = gestor_db.reconciliar_puntos_torneos_pendientes(identificador)
-                total = sum(int(p.get("points", 0)) for p in pts)
+                total = sum(int(str(p.get("points", 0) or 0)) for p in pts)
                 self._send_json({
                     "ok": True,
                     "puntos_acreditados": pts,
