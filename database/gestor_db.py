@@ -3525,6 +3525,7 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
 
             cur.execute("""
                 SELECT 
+                    bga_username,
                     UPPER(bga_username) as bga_u,
                     UPPER(COALESCE(nick_aj, '')) as nick_aj_u,
                     COALESCE(puntos_asignados, 0) as puntos_asig
@@ -3533,10 +3534,14 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
             torneos_raw = [dict(r) for r in cur.fetchall()]
 
             res: list[dict[str, object]] = []
+            bga_matched_upper: set[str] = set()
+
             for j in jugadores_raw:
                 tel = str(j.get("telefono") or "").strip()
                 nick = str(j.get("nick") or "").strip()
                 web_nick = str(j.get("nick_web") or "").strip()
+                agenda = str(j.get("nombre_agenda_admin") or "").strip()
+                ws_name = str(j.get("nombre_perfil_ws") or "").strip()
                 bga_u = str(j.get("bga_username") or "").strip()
                 
                 tiene_priv = int(j.get("tiene_clave_privada") or 0) == 1
@@ -3546,21 +3551,29 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                 bga_cmp = bga_u.upper() if bga_u else None
                 nick_cmp = nick.upper() if nick else None
                 web_cmp = web_nick.upper() if web_nick else None
+                agenda_cmp = agenda.upper() if agenda else None
+                ws_cmp = ws_name.upper() if ws_name else None
+                cand_names = {c for c in (bga_cmp, nick_cmp, web_cmp, agenda_cmp, ws_cmp) if c}
 
                 t_jugados = 0
                 t_pendientes = 0
+                inferred_bga = bga_u
                 for t in torneos_raw:
-                    tbga = t["bga_u"]
-                    taj = t["nick_aj_u"]
+                    tbga = str(t["bga_u"] or "").strip()
+                    taj = str(t["nick_aj_u"] or "").strip()
                     matched = False
                     if bga_cmp and tbga == bga_cmp:
                         matched = True
-                    elif taj and (taj == nick_cmp or taj == web_cmp):
+                    elif taj and taj in cand_names:
                         matched = True
-                    elif tbga and (tbga == nick_cmp or tbga == web_cmp):
+                    elif tbga and tbga in cand_names:
                         matched = True
+                        if not inferred_bga:
+                            inferred_bga = str(t.get("bga_username") or "").strip()
 
                     if matched:
+                        if tbga:
+                            bga_matched_upper.add(tbga)
                         t_jugados += 1
                         if t["puntos_asig"] == 0:
                             t_pendientes += 1
@@ -3569,14 +3582,47 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                     "telefono": tel,
                     "nick": nick,
                     "nick_web": web_nick,
-                    "nombre_agenda_admin": str(j.get("nombre_agenda_admin") or ""),
-                    "nombre_perfil_ws": str(j.get("nombre_perfil_ws") or ""),
-                    "bga_username": bga_u,
+                    "nombre_agenda_admin": agenda,
+                    "nombre_perfil_ws": ws_name,
+                    "bga_username": inferred_bga,
                     "puntos": int(j.get("puntos") or 0),
                     "registrado_web": reg_web,
                     "tiene_clave_privada": tiene_priv,
                     "torneos_jugados": t_jugados,
                     "torneos_pendientes": t_pendientes
+                })
+
+            # Agregar jugadores BGA de torneos que aún no están vinculados a ningún miembro/teléfono
+            unlinked_bga: dict[str, dict[str, object]] = {}
+            for t in torneos_raw:
+                tbga = str(t.get("bga_u") or "").strip()
+                if not tbga or tbga in bga_matched_upper:
+                    continue
+                if tbga not in unlinked_bga:
+                    unlinked_bga[tbga] = {
+                        "bga_username": str(t.get("bga_username") or "").strip(),
+                        "jugados": 0,
+                        "pendientes": 0
+                    }
+                unlinked_bga[tbga]["jugados"] = int(unlinked_bga[tbga]["jugados"]) + 1
+                if t["puntos_asig"] == 0:
+                    unlinked_bga[tbga]["pendientes"] = int(unlinked_bga[tbga]["pendientes"]) + 1
+
+            for tbga in sorted(unlinked_bga.keys()):
+                info = unlinked_bga[tbga]
+                res.append({
+                    "telefono": "",
+                    "nick": "",
+                    "nick_web": "",
+                    "nombre_agenda_admin": "",
+                    "nombre_perfil_ws": "",
+                    "bga_username": info["bga_username"],
+                    "puntos": 0,
+                    "registrado_web": False,
+                    "tiene_clave_privada": False,
+                    "torneos_jugados": info["jugados"],
+                    "torneos_pendientes": info["pendientes"],
+                    "sin_vincular_bga": True
                 })
 
             return res
