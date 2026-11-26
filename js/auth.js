@@ -257,7 +257,7 @@
         // Errores específicos de seguridad
         const errMap = {
           'clave_comunitaria_bloqueada': data.mensaje || '🔐 Tu cuenta está protegida con clave privada. Ingresa tu contraseña personal.',
-          'limite_dispositivos_alcanzado': data.mensaje || '⚠️ Límite de 2 dispositivos con clave comunitaria. Contacta al administrador o crea una contraseña privada.',
+          'limite_dispositivos_alcanzado': data.mensaje || '⚠️ Límite de dispositivos con clave comunitaria alcanzado. Contacta al administrador o crea una contraseña privada.',
           'usuario_no_encontrado': data.mensaje || 'Este número no está registrado en el grupo de WhatsApp.',
           'clave_invalida': data.mensaje || 'Contraseña incorrecta. Verifica la clave comunitaria del grupo.',
           'clave_incorrecta': data.mensaje || 'Contraseña privada incorrecta.'
@@ -2487,7 +2487,7 @@
                     <button onclick="AuthManager.closeModal(); AuthManager.abrirModalAdminMisiones();" style="flex:1; background:#f59e0b; color:#000; font-weight:800; border:none; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer;">
                       📋 Misiones Pendientes
                     </button>
-                    <a href="https://script.google.com/macros/s/AKfycbzACds0etNbvQrwGo_5_aAaPGPyWbHnR7lTRZrtNfLec95QhmMU0Yi4vIMIEmDIjMA49g/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <a href="https://script.google.com/macros/s/AKfycbwB-EnTnpoLSmZA-NCbwuJo8kIlE3yhyj788_PGpyaofB4u-WTmHp3AAI5lYtw6c5M/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
                       🌐 Panel Apps Script ↗
                     </a>
                   </div>

@@ -2653,8 +2653,71 @@ def init_seguridad_tabla():
             );
             CREATE INDEX IF NOT EXISTS idx_dispositivos_telefono ON dispositivos_miembro(telefono);
             CREATE INDEX IF NOT EXISTS idx_dispositivos_device ON dispositivos_miembro(device_id);
+            CREATE TABLE IF NOT EXISTS config_seguridad (
+                clave TEXT PRIMARY KEY,
+                valor TEXT NOT NULL,
+                actualizado_en TEXT DEFAULT (datetime('now'))
+            );
+            INSERT OR IGNORE INTO config_seguridad (clave, valor) VALUES ('limite_dispositivos', '2');
         """)
     print("✅ [Seguridad] Tablas y columnas de seguridad inicializadas.")
+
+
+def obtener_limite_dispositivos() -> int:
+    """Retorna el límite global de navegadores/dispositivos permitidos con clave comunitaria."""
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS config_seguridad (
+                    clave TEXT PRIMARY KEY,
+                    valor TEXT NOT NULL,
+                    actualizado_en TEXT DEFAULT (datetime('now'))
+                )
+            """)
+            row = conn.execute(
+                "SELECT valor FROM config_seguridad WHERE clave = 'limite_dispositivos'"
+            ).fetchone()
+            if row and row['valor'] is not None:
+                val = int(row['valor'])
+                return max(1, min(20, val))
+    except Exception:
+        pass
+    return 2
+
+
+def actualizar_limite_dispositivos(nuevo_limite: object) -> dict:
+    """Actualiza el límite global de navegadores/dispositivos (1 a 20)."""
+    if isinstance(nuevo_limite, bool) or nuevo_limite is None:
+        return {"ok": False, "error": "limite_invalido", "mensaje": "El límite debe ser un número entero."}
+    try:
+        val = int(str(nuevo_limite).strip())
+    except Exception:
+        return {"ok": False, "error": "limite_invalido", "mensaje": "El límite debe ser un número entero."}
+    if val < 1 or val > 20:
+        return {"ok": False, "error": "limite_fuera_de_rango", "mensaje": "El límite debe estar entre 1 y 20 navegadores."}
+    try:
+        with get_db() as conn:
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS config_seguridad (
+                    clave TEXT PRIMARY KEY,
+                    valor TEXT NOT NULL,
+                    actualizado_en TEXT DEFAULT (datetime('now'))
+                )
+            """)
+            conn.execute("""
+                INSERT INTO config_seguridad (clave, valor, actualizado_en)
+                VALUES ('limite_dispositivos', ?, datetime('now'))
+                ON CONFLICT(clave) DO UPDATE SET
+                    valor = excluded.valor,
+                    actualizado_en = datetime('now')
+            """, (str(val),))
+        return {
+            "ok": True,
+            "limite_dispositivos": val,
+            "mensaje": f"✅ Límite actualizado a {val} navegador(es)/dispositivo(s) por usuario."
+        }
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
 
 
 def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '', nick: str = '') -> dict:
@@ -2771,12 +2834,14 @@ def verificar_credenciales_miembro(phone: str, password: str, device_id: str = '
                     (phone,)
                 ).fetchone()
                 count = row_cnt['cnt'] if row_cnt else 0
+                limite_actual = obtener_limite_dispositivos()
 
-                if count >= 2:
+                if count >= limite_actual:
                     return {
                         "ok": False,
                         "error": "limite_dispositivos_alcanzado",
-                        "mensaje": "⚠️ Ya tienes 2 navegadores/dispositivos vinculados con la clave comunitaria. Para agregar este dispositivo, contacta al administrador o crea una contraseña privada personal.",
+                        "limite_dispositivos": limite_actual,
+                        "mensaje": f"⚠️ Ya tienes {limite_actual} navegadores/dispositivos vinculados con la clave comunitaria. Para agregar este dispositivo, contacta al administrador o crea una contraseña privada personal.",
                         "whatsapp_admin": "https://wa.me/573001234567"
                     }
 
@@ -2896,11 +2961,13 @@ def admin_reset_dispositivos(phone: str) -> dict:
         )
         eliminados = cursor.rowcount
 
+    limite_actual = obtener_limite_dispositivos()
     print(f"🔄 [Admin] Reset dispositivos de {phone}: {eliminados} registros eliminados.")
     return {
         "ok": True,
         "dispositivos_eliminados": eliminados,
-        "mensaje": f"✅ Dispositivos reseteados ({eliminados} eliminados). El miembro puede vincular hasta 2 nuevos navegadores con la clave comunitaria."
+        "limite_dispositivos": limite_actual,
+        "mensaje": f"✅ Dispositivos reseteados ({eliminados} eliminados). El miembro puede vincular hasta {limite_actual} nuevos navegadores con la clave comunitaria."
     }
 
 
@@ -2985,7 +3052,7 @@ def obtener_estado_seguridad(phone: str) -> dict | None:
             "fecha_registro_privada": row['fecha_registro_privada'],
             "dispositivos_count": count,
             "dispositivos": [dict(d) for d in dispositivos],
-            "limite_dispositivos": 2
+            "limite_dispositivos": obtener_limite_dispositivos()
         }
 
 

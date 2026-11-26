@@ -194,6 +194,18 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: ADMIN — OBTENER LÍMITE GLOBAL DE DISPOSITIVOS ──────────────
+        if parsed.path == '/api/admin/limite_dispositivos':
+            if not self._is_admin(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                lim = gestor_db.obtener_limite_dispositivos()
+                self._send_json({"ok": True, "limite_dispositivos": lim}, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ADMIN — OBTENER CONFIGURACIÓN ECONÓMICA DINÁMICA ───────────
         if parsed.path == '/api/admin/config_economia':
             if not self._check_admin_token(params):
@@ -599,6 +611,21 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             try:
                 res = gestor_db.admin_reset_dispositivos(phone)
                 self._send_json(res, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — ACTUALIZAR LÍMITE GLOBAL DE DISPOSITIVOS ─────────
+        if parsed.path == '/api/admin/limite_dispositivos':
+            if not self._is_admin(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                raw_lim = params.get('limite', params.get('limite_dispositivos'))
+                if isinstance(raw_lim, list):
+                    raw_lim = raw_lim[0] if raw_lim else None
+                res = gestor_db.actualizar_limite_dispositivos(raw_lim)
+                self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
