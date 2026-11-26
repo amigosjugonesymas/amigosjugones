@@ -3593,35 +3593,33 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                 })
 
             # Agregar jugadores BGA de torneos que aún no están vinculados a ningún miembro/teléfono
-            unlinked_bga: dict[str, dict[str, object]] = {}
+            unlinked_names: dict[str, str] = {}
+            unlinked_counts: dict[str, list[int]] = {}
             for t in torneos_raw:
                 tbga = str(t.get("bga_u") or "").strip()
                 if not tbga or tbga in bga_matched_upper:
                     continue
-                if tbga not in unlinked_bga:
-                    unlinked_bga[tbga] = {
-                        "bga_username": str(t.get("bga_username") or "").strip(),
-                        "jugados": 0,
-                        "pendientes": 0
-                    }
-                unlinked_bga[tbga]["jugados"] = int(unlinked_bga[tbga]["jugados"]) + 1
+                if tbga not in unlinked_counts:
+                    unlinked_names[tbga] = str(t.get("bga_username") or "").strip()
+                    unlinked_counts[tbga] = [0, 0]
+                unlinked_counts[tbga][0] += 1
                 if t["puntos_asig"] == 0:
-                    unlinked_bga[tbga]["pendientes"] = int(unlinked_bga[tbga]["pendientes"]) + 1
+                    unlinked_counts[tbga][1] += 1
 
-            for tbga in sorted(unlinked_bga.keys()):
-                info = unlinked_bga[tbga]
+            for tbga in sorted(unlinked_counts.keys()):
+                counts = unlinked_counts[tbga]
                 res.append({
                     "telefono": "",
                     "nick": "",
                     "nick_web": "",
                     "nombre_agenda_admin": "",
                     "nombre_perfil_ws": "",
-                    "bga_username": info["bga_username"],
+                    "bga_username": unlinked_names[tbga],
                     "puntos": 0,
                     "registrado_web": False,
                     "tiene_clave_privada": False,
-                    "torneos_jugados": info["jugados"],
-                    "torneos_pendientes": info["pendientes"],
+                    "torneos_jugados": counts[0],
+                    "torneos_pendientes": counts[1],
                     "sin_vincular_bga": True
                 })
 
