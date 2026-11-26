@@ -3056,6 +3056,55 @@ def obtener_estado_seguridad(phone: str) -> dict | None:
         }
 
 
+def obtener_miembros_seguridad() -> list[dict[str, object]]:
+    """Retorna todos los miembros con su estado real de seguridad y conteo real de dispositivos desde SQLite."""
+    try:
+        init_seguridad_tabla()
+    except Exception:
+        pass
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT j.telefono, j.nick, j.nick_web, j.nombre_agenda_admin, j.nombre_perfil_ws,
+                       j.estado, j.puntos, COALESCE(j.tiene_clave_privada, 0) as tiene_clave_privada,
+                       j.password_hash
+                FROM jugadores j
+                WHERE j.estado = 'Activo' OR j.estado IS NULL
+                ORDER BY COALESCE(j.tiene_clave_privada, 0) DESC, j.puntos DESC, j.nick ASC
+            """)
+            jugadores_rows = [dict(r) for r in cur.fetchall()]
+
+            disp_rows = cur.execute("""
+                SELECT REPLACE(telefono, '+', '') as tel_norm, COUNT(*) as cnt
+                FROM dispositivos_miembro
+                GROUP BY REPLACE(telefono, '+', '')
+            """).fetchall()
+            disp_map = {str(r['tel_norm']): int(r['cnt']) for r in disp_rows if r['tel_norm']}
+
+            miembros: list[dict[str, object]] = []
+            for j in jugadores_rows:
+                raw_phone = _normalize_phone(str(j.get('telefono') or ''))
+                if not raw_phone:
+                    continue
+                tiene_priv = bool(int(j.get('tiene_clave_privada') or 0) == 1 or j.get('password_hash'))
+                nick_display = str(j.get('nick_web') or j.get('nick') or '').strip()
+                agenda_display = str(j.get('nombre_agenda_admin') or j.get('nombre_perfil_ws') or 'Sin Nombre').strip()
+                miembros.append({
+                    "telefono": raw_phone,
+                    "nick": nick_display,
+                    "agenda": agenda_display,
+                    "estado": str(j.get('estado') or 'Activo'),
+                    "seguridad": "blindada" if tiene_priv else "comunitaria",
+                    "dispositivos": disp_map.get(raw_phone, 0),
+                    "puntos": int(j.get('puntos') or 0)
+                })
+            return miembros
+    except Exception as e:
+        print(f"⚠️ [Seguridad] Error obteniendo miembros seguridad: {e}")
+        return []
+
+
 
 
 # =============================================================================

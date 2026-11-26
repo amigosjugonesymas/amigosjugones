@@ -206,6 +206,18 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: ADMIN — MIEMBROS Y SEGURIDAD REAL (SQLite) ─────────────────
+        if parsed.path == '/api/admin/miembros':
+            if not self._is_admin(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                miembros = gestor_db.obtener_miembros_seguridad()
+                self._send_json({"ok": True, "status": "ok", "miembros": miembros, "total": len(miembros)}, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ADMIN — OBTENER CONFIGURACIÓN ECONÓMICA DINÁMICA ───────────
         if parsed.path == '/api/admin/config_economia':
             if not self._check_admin_token(params):
