@@ -2487,7 +2487,7 @@
                     <button onclick="AuthManager.closeModal(); AuthManager.abrirModalAdminMisiones();" style="flex:1; background:#f59e0b; color:#000; font-weight:800; border:none; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer;">
                       📋 Misiones Pendientes
                     </button>
-                    <a href="https://script.google.com/macros/s/AKfycbxjiXyv9r61yhrqT2wZ747Tii3YEZstbqjVDDnKq19GYIGcu6W0xX54dqZSibWMmrQm/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <a href="https://script.google.com/macros/s/AKfycbw6cdQjXohUhInO-Ad_xpazrp67rlopPvRUzkELTdsM7ps1w966OBXQoLnX0PwIS4Nvkw/exec" target="_blank" rel="noopener" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:6px; padding:7px 10px; font-size:0.72rem; cursor:pointer; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px;">
                       🌐 Panel Apps Script ↗
                     </a>
                   </div>
