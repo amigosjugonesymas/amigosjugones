@@ -3526,7 +3526,8 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
 
             def _es_torneo_terminado(t_row: dict[str, object]) -> bool:
                 st = str(t_row.get("t_status") or "").strip().lower()
-                act = int(t_row.get("t_activo") or 0)
+                raw_act = t_row.get("t_activo")
+                act = int(str(raw_act)) if raw_act is not None else 1
                 return act == 0 or st in ("terminado", "finalizado", "finished", "completed")
 
             res: list[dict[str, object]] = []
