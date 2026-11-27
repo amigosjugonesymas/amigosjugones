@@ -3358,14 +3358,9 @@ def obtener_puntos_torneo_bga(rank: int) -> tuple[int, str]:
 
 def reconciliar_puntos_torneos_pendientes(identificador: str) -> list[dict[str, object]]:
     """
-    Revisa si un miembro que se ha registrado en la web tiene participaciones históricas
-    en torneos BGA con puntos pendientes de asignar (puntos_asignados == 0 o NULL).
-    
-    REGLA FUNDAMENTAL DE AMIGOS JUGONES (ESTRUCTURA_MACROJUEGO.md):
-    - Si la persona NO está registrada en la página web, no puede obtener puntos aún.
-      Sus partidas y resultados quedan guardados en torneo_participantes para futuros registros.
-    - Cuando la persona se registra en la página web (o se le vincula su cuenta web),
-      el sistema detecta automáticamente sus partidas previas y le acredita los puntos oficiales.
+    Revisa si un miembro vinculado tiene participaciones en torneos BGA terminados
+    con puntos pendientes de asignar (puntos_asignados == 0 o NULL) y los acredita
+    directamente en su saldo oficial sin exigir registro web previo.
     """
     _init_torneos_tablas()
     clean_id = (identificador or "").strip()
@@ -3394,15 +3389,6 @@ def reconciliar_puntos_torneos_pendientes(identificador: str) -> list[dict[str, 
 
             jugador = dict(row)
 
-            # Verificar condición mandataria: ¿Está registrado en la web?
-            tiene_privada = int(jugador.get("tiene_clave_privada", 0) or 0) == 1
-            tiene_hash = bool(jugador.get("password_hash"))
-            tiene_nick_web = bool((jugador.get("nick_web") or "").strip())
-
-            esta_registrado_web = tiene_privada or tiene_hash or tiene_nick_web
-            if not esta_registrado_web:
-                return []
-
             target_nick = str(jugador.get("nick") or "").strip()
             web_nick = str(jugador.get("nick_web") or "").strip()
             bga_user = str(jugador.get("bga_username") or "").strip()
@@ -3414,6 +3400,7 @@ def reconciliar_puntos_torneos_pendientes(identificador: str) -> list[dict[str, 
                 LEFT JOIN torneos_bga t ON p.tournament_id = t.tournament_id
                 WHERE (p.puntos_asignados IS NULL OR p.puntos_asignados = 0)
                   AND p.rank_actual IS NOT NULL AND p.rank_actual < 999
+                  AND (t.activo = 0 OR LOWER(COALESCE(t.status, '')) IN ('terminado', 'finalizado', 'finished', 'completed'))
                   AND (
                     (? != '' AND UPPER(p.bga_username) = UPPER(?)) OR
                     (? != '' AND p.nick_aj IS NOT NULL AND UPPER(p.nick_aj) = UPPER(?)) OR
@@ -3525,13 +3512,22 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
 
             cur.execute("""
                 SELECT 
-                    bga_username,
-                    UPPER(bga_username) as bga_u,
-                    UPPER(COALESCE(nick_aj, '')) as nick_aj_u,
-                    COALESCE(puntos_asignados, 0) as puntos_asig
-                FROM torneo_participantes
+                    p.bga_username,
+                    UPPER(p.bga_username) as bga_u,
+                    UPPER(COALESCE(p.nick_aj, '')) as nick_aj_u,
+                    COALESCE(p.puntos_asignados, 0) as puntos_asig,
+                    COALESCE(p.rank_actual, 999) as rank_actual,
+                    COALESCE(t.status, '') as t_status,
+                    COALESCE(t.activo, 1) as t_activo
+                FROM torneo_participantes p
+                LEFT JOIN torneos_bga t ON p.tournament_id = t.tournament_id
             """)
             torneos_raw = [dict(r) for r in cur.fetchall()]
+
+            def _es_torneo_terminado(t_row: dict[str, object]) -> bool:
+                st = str(t_row.get("t_status") or "").strip().lower()
+                act = int(t_row.get("t_activo") or 0)
+                return act == 0 or st in ("terminado", "finalizado", "finished", "completed")
 
             res: list[dict[str, object]] = []
             bga_matched_upper: set[str] = set()
@@ -3557,6 +3553,7 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
 
                 t_jugados = 0
                 t_pendientes = 0
+                pts_pendientes = 0
                 inferred_bga = bga_u
                 for t in torneos_raw:
                     tbga = str(t["bga_u"] or "").strip()
@@ -3575,8 +3572,12 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                         if tbga:
                             bga_matched_upper.add(tbga)
                         t_jugados += 1
-                        if t["puntos_asig"] == 0:
+                        if int(t["puntos_asig"] or 0) == 0:
                             t_pendientes += 1
+                            rk = int(t["rank_actual"] or 999)
+                            if _es_torneo_terminado(t) and rk < 999:
+                                pts_t, _ = obtener_puntos_torneo_bga(rk)
+                                pts_pendientes += pts_t
 
                 res.append({
                     "telefono": tel,
@@ -3586,6 +3587,7 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                     "nombre_perfil_ws": ws_name,
                     "bga_username": inferred_bga,
                     "puntos": int(j.get("puntos") or 0),
+                    "puntos_pendientes": pts_pendientes,
                     "registrado_web": reg_web,
                     "tiene_clave_privada": tiene_priv,
                     "torneos_jugados": t_jugados,
@@ -3601,10 +3603,14 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                     continue
                 if tbga not in unlinked_counts:
                     unlinked_names[tbga] = str(t.get("bga_username") or "").strip()
-                    unlinked_counts[tbga] = [0, 0]
+                    unlinked_counts[tbga] = [0, 0, 0]
                 unlinked_counts[tbga][0] += 1
-                if t["puntos_asig"] == 0:
+                if int(t["puntos_asig"] or 0) == 0:
                     unlinked_counts[tbga][1] += 1
+                    rk = int(t["rank_actual"] or 999)
+                    if _es_torneo_terminado(t) and rk < 999:
+                        pts_t, _ = obtener_puntos_torneo_bga(rk)
+                        unlinked_counts[tbga][2] += pts_t
 
             for tbga in sorted(unlinked_counts.keys()):
                 counts = unlinked_counts[tbga]
@@ -3616,6 +3622,7 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                     "nombre_perfil_ws": "",
                     "bga_username": unlinked_names[tbga],
                     "puntos": 0,
+                    "puntos_pendientes": counts[2],
                     "registrado_web": False,
                     "tiene_clave_privada": False,
                     "torneos_jugados": counts[0],

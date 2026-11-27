@@ -814,9 +814,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                             'registrado_web': esta_registrado_web
                         }
 
-                        # REGLA FUNDAMENTAL: Solo recibe puntos si el torneo terminó Y está registrado en la web.
-                        # Si no está registrado en la web, el resultado queda guardado para acreditarse cuando se registre.
-                        if is_finished and rank < 999 and esta_registrado_web:
+                        # Acreditar puntos directo cuando el torneo terminó y el jugador está vinculado
+                        # (sin exigir registro previo en la web; si aún no está vinculado queda pendiente).
+                        if is_finished and rank < 999:
                             if not gestor_db.esta_puntos_asignados(tournament_id, bga_name):
                                 pts, reason = gestor_db.obtener_puntos_torneo_bga(rank)
                                 gestor_db.sumar_puntos_jugador(matched['nick'], pts, f"Torneo BGA: {tournament_name} — {reason}")
