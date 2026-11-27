@@ -3580,6 +3580,12 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
                                 pts_t, _ = obtener_puntos_torneo_bga(rk)
                                 pts_pendientes += pts_t
 
+                # Filtrar filas fantasma (ej. seeds demo o nicks importados sin teléfono, sin web,
+                # sin agenda, sin BGA y sin torneos jugados) que no aportan nada en Identidades & BGA.
+                tiene_vinculo_real = bool(tel or web_nick or agenda or inferred_bga or t_jugados > 0)
+                if not tiene_vinculo_real:
+                    continue
+
                 res.append({
                     "telefono": tel,
                     "nick": nick,
