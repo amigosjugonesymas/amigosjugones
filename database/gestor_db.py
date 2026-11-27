@@ -4561,6 +4561,188 @@ def moderar_eliminar_mensaje_chat(mensaje_id: int, admin_nick: str = "Admin") ->
     return {"ok": False, "error": "mensaje_no_encontrado"}
 
 
+def _init_medallas_tablas() -> None:
+    """Crea tablas de catálogo de medallas y medallas otorgadas a jugadores, y siembra las 9 oficiales."""
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS medallas_catalogo (
+                    codigo TEXT PRIMARY KEY,
+                    nombre TEXT NOT NULL,
+                    emoji TEXT NOT NULL DEFAULT '🏅',
+                    color TEXT NOT NULL DEFAULT '#ffd700',
+                    descripcion TEXT DEFAULT '',
+                    creada_en TEXT DEFAULT (datetime('now'))
+                )
+            """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS medallas_jugadores (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nick TEXT NOT NULL,
+                    codigo_medalla TEXT NOT NULL,
+                    motivo TEXT DEFAULT '',
+                    otorgada_en TEXT DEFAULT (datetime('now'))
+                )
+            """)
+            base_medallas = [
+                ("oro_gral", "Rey del Mes", "👑", "#ffd700", "1.º lugar del ranking global"),
+                ("plata_gral", "Subcampeón", "🥈", "#c0c0c0", "2.º lugar del ranking global"),
+                ("bronce_gral", "Bronce", "🥉", "#cd7f32", "3.º lugar del ranking global"),
+                ("arcade_piloto", "As del Circuito", "🏎️", "#ef4444", "Mejor tiempo en Circuito Black"),
+                ("arcade_ninja", "Sensei del Dohyō", "⚔️", "#22d3ee", "Mejor puntaje en Cyber Ninja"),
+                ("mas_activo", "Incansable", "⚡", "#facc15", "Mayor participación en la comunidad"),
+                ("mision_perfecta", "Perfección", "🌟", "#f8fafc", "Racha perfecta en misiones diarias"),
+                ("saboteador", "Caparazón Azul", "🗡️", "#a855f7", "Hito especial de competencia"),
+                ("bga_champion", "Mesa de Honor", "🃏", "#22c55e", "Campeón de torneo BGA"),
+            ]
+            for cod, nom, emo, col, desc in base_medallas:
+                cur.execute(
+                    "INSERT OR IGNORE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion) VALUES (?, ?, ?, ?, ?)",
+                    (cod, nom, emo, col, desc),
+                )
+            conn.commit()
+    except Exception as e:
+        print(f"⚠️ [Medallas] Error inicializando tablas: {e}")
+
+
+def obtener_temporada_ranking() -> dict[str, object]:
+    """Retorna el ranking global hacia la meta de temporada, catálogo de medallas y medallas por jugador."""
+    _init_medallas_tablas()
+    meta_pts = 1000
+    try:
+        cfg = obtener_config_economia()
+        meta_pts = int(cfg.get("meta_temporada_puntos") or 1000)
+        if meta_pts <= 0:
+            meta_pts = 1000
+    except Exception:
+        meta_pts = 1000
+
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT nick, COALESCE(telefono, '') as telefono,
+                       COALESCE(nick_web, '') as nick_web,
+                       COALESCE(nombre_agenda_admin, '') as nombre_agenda_admin,
+                       COALESCE(bga_username, '') as bga_username,
+                       COALESCE(puntos, 0) as puntos,
+                       COALESCE(tiene_clave_privada, 0) as tiene_clave_privada,
+                       password_hash
+                FROM jugadores
+                WHERE estado = 'Activo' OR estado IS NULL
+                ORDER BY COALESCE(puntos, 0) DESC, nick ASC
+            """)
+            jugadores_raw = [dict(r) for r in cur.fetchall()]
+
+            cur.execute("SELECT codigo, nombre, emoji, color, descripcion FROM medallas_catalogo ORDER BY rowid ASC")
+            catalogo = [dict(r) for r in cur.fetchall()]
+            cat_map = {str(m["codigo"]): m for m in catalogo}
+
+            cur.execute("SELECT nick, codigo_medalla, motivo, otorgada_en FROM medallas_jugadores ORDER BY id DESC")
+            med_rows = [dict(r) for r in cur.fetchall()]
+            med_by_nick: dict[str, list[dict[str, object]]] = {}
+            for mr in med_rows:
+                nk = str(mr.get("nick") or "").strip().upper()
+                cod = str(mr.get("codigo_medalla") or "").strip()
+                info = cat_map.get(cod, {"codigo": cod, "nombre": cod, "emoji": "🏅", "color": "#ffd700"})
+                med_by_nick.setdefault(nk, []).append({
+                    "codigo": cod,
+                    "nombre": info.get("nombre", cod),
+                    "emoji": info.get("emoji", "🏅"),
+                    "color": info.get("color", "#ffd700"),
+                    "motivo": mr.get("motivo") or "",
+                })
+
+            ranking: list[dict[str, object]] = []
+            pos = 0
+            for j in jugadores_raw:
+                tel = str(j.get("telefono") or "").strip()
+                nick = str(j.get("nick") or "").strip()
+                web_nick = str(j.get("nick_web") or "").strip()
+                agenda = str(j.get("nombre_agenda_admin") or "").strip()
+                bga = str(j.get("bga_username") or "").strip()
+                # Excluir filas demo/huérfanas sin vínculo real
+                if not (tel or web_nick or agenda or bga):
+                    continue
+                pos += 1
+                pts = int(j.get("puntos") or 0)
+                pct = min(100, round((pts / meta_pts) * 100, 1)) if meta_pts > 0 else 0
+                reg_web = bool(web_nick or int(j.get("tiene_clave_privada") or 0) == 1 or j.get("password_hash"))
+                display_name = web_nick or agenda or nick
+                ranking.append({
+                    "posicion": pos,
+                    "nick": nick,
+                    "display_name": display_name,
+                    "telefono": tel,
+                    "registrado_web": reg_web,
+                    "puntos": pts,
+                    "progreso_pct": pct,
+                    "meta_alcanzada": pts >= meta_pts,
+                    "medallas": med_by_nick.get(nick.upper(), []),
+                })
+
+            return {
+                "ok": True,
+                "meta_puntos": meta_pts,
+                "ranking": ranking,
+                "catalogo_medallas": catalogo,
+            }
+    except Exception as e:
+        print(f"⚠️ [Temporada] Error en obtener_temporada_ranking: {e}")
+        return {"ok": False, "error": str(e), "meta_puntos": meta_pts, "ranking": [], "catalogo_medallas": []}
+
+
+def crear_medalla_catalogo(nombre: str, emoji: str = "🏅", color: str = "#ffd700", descripcion: str = "", codigo: str = "") -> dict[str, object]:
+    """Crea una nueva medalla en medallas_catalogo."""
+    _init_medallas_tablas()
+    nom = (nombre or "").strip()
+    if not nom:
+        return {"ok": False, "error": "nombre_requerido"}
+    cod = (codigo or "").strip().lower()
+    if not cod:
+        import re
+        cod = re.sub(r"[^a-z0-9]+", "_", nom.lower()).strip("_")[:32] or f"medalla_{int(datetime.datetime.now().timestamp())}"
+    emo = (emoji or "🏅").strip() or "🏅"
+    col = (color or "#ffd700").strip() or "#ffd700"
+    desc = (descripcion or "").strip()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                "INSERT OR REPLACE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion) VALUES (?, ?, ?, ?, ?)",
+                (cod, nom, emo, col, desc),
+            )
+            conn.commit()
+        return {"ok": True, "codigo": cod, "nombre": nom, "emoji": emo, "mensaje": f"Medalla '{emo} {nom}' guardada."}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def otorgar_medalla_jugador(nick: str, codigo_medalla: str, motivo: str = "") -> dict[str, object]:
+    """Otorga una medalla del catálogo a un jugador."""
+    _init_medallas_tablas()
+    nk = (nick or "").strip()
+    cod = (codigo_medalla or "").strip()
+    if not nk or not cod:
+        return {"ok": False, "error": "nick_y_codigo_requeridos"}
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT nombre, emoji FROM medallas_catalogo WHERE codigo = ?", (cod,))
+            med = cur.fetchone()
+            if not med:
+                return {"ok": False, "error": "medalla_no_encontrada"}
+            cur.execute(
+                "INSERT INTO medallas_jugadores (nick, codigo_medalla, motivo) VALUES (?, ?, ?)",
+                (nk, cod, (motivo or "").strip()),
+            )
+            conn.commit()
+        return {"ok": True, "mensaje": f"Medalla {med['emoji']} {med['nombre']} otorgada a {nk}."}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
 
 # =============================================================================
 # =============================================================================

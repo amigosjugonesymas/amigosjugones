@@ -242,6 +242,18 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: ADMIN — TEMPORADA (CARRERA 1000 PTS) Y MEDALLAS ────────────
+        if parsed.path == '/api/admin/temporada_ranking':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                data = gestor_db.obtener_temporada_ranking()
+                self._send_json(data, 200 if data.get("ok") else 500)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ESTADO DE LA BASE DE DATOS ───────────────────────────────────
         if parsed.path == '/api/status':
             with gestor_db.get_db() as conn:
@@ -921,6 +933,39 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "total_puntos_sumados": total,
                     "mensaje": f"Se liquidaron {len(pts)} torneo(s) acreditando +{total} PTS." if pts else "No se encontraron torneos pendientes para este miembro."
                 }, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        # ─── API: ADMIN — CREAR / OTORGAR MEDALLAS ───────────────────────────
+        if parsed.path == '/api/admin/medallas/crear':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                res = gestor_db.crear_medalla_catalogo(
+                    _safe_str(params.get('nombre', '')),
+                    _safe_str(params.get('emoji', '🏅')),
+                    _safe_str(params.get('color', '#ffd700')),
+                    _safe_str(params.get('descripcion', '')),
+                    _safe_str(params.get('codigo', '')),
+                )
+                self._send_json(res, 200 if res.get("ok") else 400)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        if parsed.path == '/api/admin/medallas/otorgar':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                res = gestor_db.otorgar_medalla_jugador(
+                    _safe_str(params.get('nick', '')),
+                    _safe_str(params.get('codigo_medalla', '')),
+                    _safe_str(params.get('motivo', '')),
+                )
+                self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
