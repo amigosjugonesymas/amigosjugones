@@ -3788,6 +3788,12 @@ def sumar_puntos_jugador(nick_o_telefono: str, puntos: int, razon: str = "") -> 
             except Exception:
                 pass
 
+        # Verificar medallas automáticas (fuera del with para evitar locks)
+        try:
+            verificar_y_otorgar_medallas_automaticas(nick)
+        except Exception as e_med:
+            print(f"⚠️ [Medallas] Error en verificación automática post-puntos: {e_med}")
+
         return {"ok": True, "nick": nick, "puntos_sumados": puntos, "nuevo_saldo": nuevo_saldo}
     except Exception as e:
         return {"ok": False, "error": str(e)}
@@ -4561,49 +4567,308 @@ def moderar_eliminar_mensaje_chat(mensaje_id: int, admin_nick: str = "Admin") ->
     return {"ok": False, "error": "mensaje_no_encontrado"}
 
 
+# ── Tipos de gatillante automático ────────────────────────────────────────────
+GATILLANTE_TIPOS = [
+    "PUNTOS_TOTALES",       # Puntos acumulados totales (puntos en tabla jugadores)
+    "TORNEOS_JUGADOS",      # Torneos BGA jugados
+    "TORNEOS_GANADOS",      # Torneos BGA ganados (1.er lugar)
+    "PODIOS_BGA",           # Torneos BGA con top-3
+    "TRIVIAS_CORRECTAS",    # Respuestas correctas en trivia
+    "CRIPTICOS_RESUELTOS",  # Crípticos resueltos
+    "VOTOS_ENCUESTA",       # Votos dados en encuestas
+    "JUEGOS_CREADOS",       # Juegos publicados en Juntas
+    "PARTIDAS_ARCADE",      # Partidas jugadas en arcade (cualquier juego)
+    "MANUAL",               # Solo el admin puede otorgarla manualmente
+]
+
+
 def _init_medallas_tablas() -> None:
-    """Crea tablas de catálogo de medallas y medallas otorgadas a jugadores, y siembra las 9 oficiales."""
+    """Crea tablas de catálogo de medallas y medallas otorgadas a jugadores, y siembra las medallas base.
+
+    La tabla medallas_catalogo incluye columnas para gatillante automático:
+      - gatillante  : tipo de evento (ver GATILLANTE_TIPOS). NULL o 'MANUAL' = solo manual.
+      - meta_valor  : umbral numérico para activar (ej. 3 crípticos, 1000 puntos).
+      - bonus_puntos: puntos extra que gana el jugador al desbloquear la medalla.
+    """
     try:
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS medallas_catalogo (
-                    codigo TEXT PRIMARY KEY,
-                    nombre TEXT NOT NULL,
-                    emoji TEXT NOT NULL DEFAULT '🏅',
-                    color TEXT NOT NULL DEFAULT '#ffd700',
+                    codigo      TEXT PRIMARY KEY,
+                    nombre      TEXT NOT NULL,
+                    emoji       TEXT NOT NULL DEFAULT '🏅',
+                    color       TEXT NOT NULL DEFAULT '#ffd700',
                     descripcion TEXT DEFAULT '',
-                    creada_en TEXT DEFAULT (datetime('now'))
+                    gatillante  TEXT DEFAULT 'MANUAL',
+                    meta_valor  INTEGER DEFAULT 0,
+                    bonus_puntos INTEGER DEFAULT 0,
+                    creada_en   TEXT DEFAULT (datetime('now'))
                 )
             """)
+            # Migración: agregar columnas si la tabla ya existía sin ellas
+            for col_def in [
+                ("gatillante",   "TEXT DEFAULT 'MANUAL'"),
+                ("meta_valor",   "INTEGER DEFAULT 0"),
+                ("bonus_puntos", "INTEGER DEFAULT 0"),
+            ]:
+                try:
+                    cur.execute(f"ALTER TABLE medallas_catalogo ADD COLUMN {col_def[0]} {col_def[1]}")
+                except Exception:
+                    pass  # Columna ya existe
+
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS medallas_jugadores (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nick TEXT NOT NULL,
-                    codigo_medalla TEXT NOT NULL,
-                    motivo TEXT DEFAULT '',
-                    otorgada_en TEXT DEFAULT (datetime('now'))
+                    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nick            TEXT NOT NULL,
+                    codigo_medalla  TEXT NOT NULL,
+                    motivo          TEXT DEFAULT '',
+                    otorgada_en     TEXT DEFAULT (datetime('now')),
+                    UNIQUE(nick, codigo_medalla)
                 )
             """)
+            # Migración: agregar UNIQUE constraint no es posible en SQLite sin recrear;
+            # usaremos INSERT OR IGNORE en la lógica para evitar duplicados.
+
+            # ── Medallas base (manuales, sin gatillante automático) ──────────
             base_medallas = [
-                ("oro_gral", "Rey del Mes", "👑", "#ffd700", "1.º lugar del ranking global"),
-                ("plata_gral", "Subcampeón", "🥈", "#c0c0c0", "2.º lugar del ranking global"),
-                ("bronce_gral", "Bronce", "🥉", "#cd7f32", "3.º lugar del ranking global"),
-                ("arcade_piloto", "As del Circuito", "🏎️", "#ef4444", "Mejor tiempo en Circuito Black"),
-                ("arcade_ninja", "Sensei del Dohyō", "⚔️", "#22d3ee", "Mejor puntaje en Cyber Ninja"),
-                ("mas_activo", "Incansable", "⚡", "#facc15", "Mayor participación en la comunidad"),
-                ("mision_perfecta", "Perfección", "🌟", "#f8fafc", "Racha perfecta en misiones diarias"),
-                ("saboteador", "Caparazón Azul", "🗡️", "#a855f7", "Hito especial de competencia"),
-                ("bga_champion", "Mesa de Honor", "🃏", "#22c55e", "Campeón de torneo BGA"),
+                ("oro_gral",        "Rey del Mes",       "👑",  "#ffd700", "1.º lugar del ranking global",          "MANUAL", 0,  50),
+                ("plata_gral",      "Subcampeón",        "🥈",  "#c0c0c0", "2.º lugar del ranking global",          "MANUAL", 0,  30),
+                ("bronce_gral",     "Bronce",            "🥉",  "#cd7f32", "3.º lugar del ranking global",          "MANUAL", 0,  20),
+                ("arcade_piloto",   "As del Circuito",   "🏎️", "#ef4444", "Mejor tiempo en Circuito Black",        "MANUAL", 0,   0),
+                ("arcade_ninja",    "Sensei del Dohyō",  "⚔️", "#22d3ee", "Mejor puntaje en Cyber Ninja",          "MANUAL", 0,   0),
+                ("mas_activo",      "Incansable",        "⚡",  "#facc15", "Mayor participación en la comunidad",   "MANUAL", 0,   0),
+                ("mision_perfecta", "Perfección",        "🌟",  "#f8fafc", "Racha perfecta en misiones diarias",    "MANUAL", 0,   0),
+                ("saboteador",      "Caparazón Azul",    "🗡️", "#a855f7", "Hito especial de competencia",          "MANUAL", 0,   0),
+                ("bga_champion",    "Mesa de Honor",     "🃏",  "#22c55e", "Campeón de torneo BGA",                 "MANUAL", 0,  25),
             ]
-            for cod, nom, emo, col, desc in base_medallas:
+            # ── Medallas automáticas escalonadas ────────────────────────────
+            auto_medallas = [
+                # Crípticos (3 → 10 → 30)
+                ("criptico_bronce",   "Desci­fra­dor",        "🔐", "#f59e0b", "Resolviste 3 crípticos",    "CRIPTICOS_RESUELTOS",  3,  15),
+                ("criptico_plata",    "Hacker de Enigmas",   "🔓", "#a3e635", "Resolviste 10 crípticos",   "CRIPTICOS_RESUELTOS", 10,  30),
+                ("criptico_oro",      "Maestro del Código",  "🧩", "#ffd700", "Resolviste 30 crípticos",   "CRIPTICOS_RESUELTOS", 30,  60),
+                # Torneos jugados (1 → 5 → 15)
+                ("torneo_novato",     "Primer Tablero",      "🎲", "#6ee7b7", "Jugaste tu 1.er torneo BGA","TORNEOS_JUGADOS",      1,  10),
+                ("torneo_veterano",   "Veterano de Mesa",    "🏟️","#38bdf8", "Jugaste 5 torneos BGA",      "TORNEOS_JUGADOS",      5,  25),
+                ("torneo_leyenda",    "Leyenda BGA",         "🌐", "#c084fc", "Jugaste 15 torneos BGA",     "TORNEOS_JUGADOS",     15,  50),
+                # Podios BGA (1 → 3 → 10)
+                ("podio_bronce",      "En el Podio",         "🥉", "#cd7f32", "Lograste tu 1.er podio BGA","PODIOS_BGA",           1,  20),
+                ("podio_plata",       "Coleccionista",       "🥈", "#c0c0c0", "3 podios en torneos BGA",    "PODIOS_BGA",           3,  40),
+                ("podio_oro",         "Dominador de Mesas",  "🏆", "#ffd700", "10 podios en torneos BGA",   "PODIOS_BGA",          10,  80),
+                # Puntos totales (100 → 500 → 1000)
+                ("pts_centena",       "Centurión",           "💯", "#fb923c", "Acumulaste 100 PTS",         "PUNTOS_TOTALES",      100,   0),
+                ("pts_quinto",        "Medio Camino",        "⚡", "#facc15", "Acumulaste 500 PTS",         "PUNTOS_TOTALES",      500,  10),
+                ("pts_meta",          "Élite del Club",      "👑", "#a855f7", "Alcanzaste los 1000 PTS",    "PUNTOS_TOTALES",     1000,  50),
+                # Trivias (5 → 20 → 50)
+                ("trivia_aprendiz",   "Curioso Geek",        "🧠", "#67e8f9", "5 trivias correctas",        "TRIVIAS_CORRECTAS",    5,  10),
+                ("trivia_experto",    "Mente Privilegiada",  "🎓", "#818cf8", "20 trivias correctas",       "TRIVIAS_CORRECTAS",   20,  25),
+                ("trivia_maestro",    "Enciclopedia Viva",   "📚", "#f472b6", "50 trivias correctas",       "TRIVIAS_CORRECTAS",   50,  50),
+                # Votos encuesta (5 → 20)
+                ("votante_activo",    "Voz del Club",        "🗳️","#4ade80", "Votaste en 5 encuestas",     "VOTOS_ENCUESTA",       5,   5),
+                ("votante_leal",      "Demócrata Geek",      "🗣️","#86efac", "Votaste en 20 encuestas",    "VOTOS_ENCUESTA",      20,  15),
+                # Arcade (10 → 50)
+                ("arcade_jugador",    "Arcade Casual",       "🕹️","#f97316", "10 partidas arcade",         "PARTIDAS_ARCADE",     10,  10),
+                ("arcade_adicto",     "Arcade Adicto",       "👾", "#ef4444", "50 partidas arcade",         "PARTIDAS_ARCADE",     50,  30),
+                # Juegos creados en Juntas (1 → 5)
+                ("anfitrion_novato",  "Anfitrión",           "🎯", "#fbbf24", "Creaste tu 1.er juego",      "JUEGOS_CREADOS",       1,   5),
+                ("anfitrion_pro",     "Game Master",         "🎮", "#f59e0b", "Creaste 5 juegos en Juntas", "JUEGOS_CREADOS",       5,  20),
+            ]
+            for row in base_medallas:
+                cod, nom, emo, col, desc, gat, mv, bp = row
                 cur.execute(
-                    "INSERT OR IGNORE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion) VALUES (?, ?, ?, ?, ?)",
-                    (cod, nom, emo, col, desc),
+                    "INSERT OR IGNORE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion, gatillante, meta_valor, bonus_puntos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (cod, nom, emo, col, desc, gat, mv, bp),
+                )
+            for row in auto_medallas:
+                cod, nom, emo, col, desc, gat, mv, bp = row
+                cur.execute(
+                    "INSERT OR IGNORE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion, gatillante, meta_valor, bonus_puntos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (cod, nom, emo, col, desc, gat, mv, bp),
                 )
             conn.commit()
     except Exception as e:
         print(f"⚠️ [Medallas] Error inicializando tablas: {e}")
+
+
+def _obtener_stats_jugador_para_medallas(nick: str, cur) -> dict:
+    """Recolecta las estadísticas de un jugador necesarias para evaluar gatillantes automáticos."""
+    nk_up = nick.upper()
+    stats = {
+        "PUNTOS_TOTALES":    0,
+        "TORNEOS_JUGADOS":   0,
+        "TORNEOS_GANADOS":   0,
+        "PODIOS_BGA":        0,
+        "TRIVIAS_CORRECTAS": 0,
+        "CRIPTICOS_RESUELTOS": 0,
+        "VOTOS_ENCUESTA":    0,
+        "JUEGOS_CREADOS":    0,
+        "PARTIDAS_ARCADE":   0,
+    }
+    try:
+        # Puntos totales
+        cur.execute("SELECT COALESCE(puntos, 0) FROM jugadores WHERE UPPER(nick) = ?", (nk_up,))
+        r = cur.fetchone()
+        if r:
+            stats["PUNTOS_TOTALES"] = int(r[0] or 0)
+
+        # Torneos BGA jugados / ganados / podios
+        try:
+            cur.execute("""
+                SELECT COUNT(*) as jugados,
+                       SUM(CASE WHEN posicion = 1 THEN 1 ELSE 0 END) as ganados,
+                       SUM(CASE WHEN posicion <= 3 THEN 1 ELSE 0 END) as podios
+                FROM torneos_participantes
+                WHERE UPPER(nick_bga) = ? OR UPPER(nick_local) = ?
+            """, (nk_up, nk_up))
+            tr = cur.fetchone()
+            if tr:
+                stats["TORNEOS_JUGADOS"] = int(tr[0] or 0)
+                stats["TORNEOS_GANADOS"] = int(tr[1] or 0)
+                stats["PODIOS_BGA"]      = int(tr[2] or 0)
+        except Exception:
+            pass
+
+        # Eventos de historial (trivias, crípticos, votos, juegos creados, arcade)
+        tipo_map = {
+            "TRIVIA_CORRECTA":    "TRIVIAS_CORRECTAS",
+            "CRIPTICO_RESUELTO":  "CRIPTICOS_RESUELTOS",
+            "ENCUESTA_VOTO":      "VOTOS_ENCUESTA",
+            "JUNTA_JUEGO_CREADO": "JUEGOS_CREADOS",
+            "ARCADE_PARTIDA":     "PARTIDAS_ARCADE",
+        }
+        try:
+            cur.execute("""
+                SELECT tipo_evento, COUNT(*) as cnt
+                FROM historial_transacciones
+                WHERE UPPER(nick) = ?
+                GROUP BY tipo_evento
+            """, (nk_up,))
+            for row in cur.fetchall():
+                tipo = str(row[0] or "").upper()
+                cnt  = int(row[1] or 0)
+                if tipo in tipo_map:
+                    stats[tipo_map[tipo]] += cnt
+        except Exception:
+            pass
+    except Exception as e:
+        print(f"⚠️ [Medallas] Error leyendo stats de {nick}: {e}")
+    return stats
+
+
+def verificar_y_otorgar_medallas_automaticas(nick: str) -> list[dict]:
+    """Evalúa todas las medallas automáticas para un jugador y otorga las que cumpla por primera vez.
+
+    Retorna una lista de medallas recién otorgadas (puede estar vacía).
+    """
+    _init_medallas_tablas()
+    nk = (nick or "").strip()
+    if not nk:
+        return []
+    nk_up = nk.upper()
+    nuevas: list[dict] = []
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            # Medallas que el jugador ya tiene (para no duplicar)
+            cur.execute(
+                "SELECT codigo_medalla FROM medallas_jugadores WHERE UPPER(nick) = ?",
+                (nk_up,)
+            )
+            ya_tiene = {str(r[0]) for r in cur.fetchall()}
+
+            # Catálogo de medallas automáticas
+            cur.execute("""
+                SELECT codigo, nombre, emoji, color, descripcion, gatillante, meta_valor, bonus_puntos
+                FROM medallas_catalogo
+                WHERE gatillante IS NOT NULL AND gatillante != 'MANUAL' AND gatillante != ''
+                  AND meta_valor > 0
+            """)
+            automaticas = [dict(zip(
+                ["codigo","nombre","emoji","color","descripcion","gatillante","meta_valor","bonus_puntos"],
+                r
+            )) for r in cur.fetchall()]
+
+            if not automaticas:
+                return []
+
+            stats = _obtener_stats_jugador_para_medallas(nk, cur)
+
+            for med in automaticas:
+                cod     = str(med["codigo"])
+                gat     = str(med["gatillante"] or "")
+                meta    = int(med["meta_valor"] or 0)
+                bonus   = int(med["bonus_puntos"] or 0)
+
+                if cod in ya_tiene:
+                    continue  # Ya la tiene
+                if gat not in stats:
+                    continue  # Tipo de gatillante desconocido
+
+                valor_actual = stats[gat]
+                if valor_actual >= meta:
+                    # Otorgar medalla
+                    motivo = f"Auto: {gat} ≥ {meta} (actual: {valor_actual})"
+                    try:
+                        cur.execute(
+                            "INSERT OR IGNORE INTO medallas_jugadores (nick, codigo_medalla, motivo) VALUES (?, ?, ?)",
+                            (nk, cod, motivo),
+                        )
+                        # Bonus de puntos
+                        if bonus > 0:
+                            cur.execute(
+                                "UPDATE jugadores SET puntos = COALESCE(puntos,0) + ?, total_ganados = COALESCE(total_ganados,0) + ? WHERE UPPER(nick) = ?",
+                                (bonus, bonus, nk_up)
+                            )
+                            try:
+                                import datetime as _dt
+                                cur.execute("""
+                                    INSERT INTO historial_transacciones (timestamp, nick, tipo_evento, descripcion, variacion_pts, saldo_resultante)
+                                    SELECT datetime('now'), ?, 'MEDALLA_BONUS', ?, ?, COALESCE(puntos,0)
+                                    FROM jugadores WHERE UPPER(nick) = ?
+                                """, (nk, f"Bonus medalla {med['emoji']} {med['nombre']}", bonus, nk_up))
+                            except Exception:
+                                pass
+                        nuevas.append({
+                            "codigo": cod,
+                            "nombre": med["nombre"],
+                            "emoji":  med["emoji"],
+                            "bonus_puntos": bonus,
+                        })
+                        ya_tiene.add(cod)
+                    except Exception as e_ins:
+                        print(f"⚠️ [Medallas] Error otorgando {cod} a {nk}: {e_ins}")
+
+            conn.commit()
+            if nuevas:
+                try:
+                    exportar_ranking_json()
+                except Exception:
+                    pass
+    except Exception as e:
+        print(f"⚠️ [Medallas] Error en verificar_automaticas({nick}): {e}")
+    return nuevas
+
+
+def verificar_medallas_todos_los_jugadores() -> dict:
+    """Recorre todos los jugadores activos y verifica medallas automáticas para cada uno.
+    Útil para una pasada batch desde el admin panel."""
+    _init_medallas_tablas()
+    total_otorgadas = 0
+    detalle: list[dict] = []
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT nick FROM jugadores WHERE estado = 'Activo' OR estado IS NULL")
+            nicks = [str(r[0]) for r in cur.fetchall() if r[0]]
+        for nick in nicks:
+            nuevas = verificar_y_otorgar_medallas_automaticas(nick)
+            if nuevas:
+                total_otorgadas += len(nuevas)
+                detalle.append({"nick": nick, "medallas": nuevas})
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+    return {"ok": True, "total_otorgadas": total_otorgadas, "detalle": detalle}
 
 
 def obtener_temporada_ranking() -> dict[str, object]:
@@ -4635,8 +4900,8 @@ def obtener_temporada_ranking() -> dict[str, object]:
             """)
             jugadores_raw = [dict(r) for r in cur.fetchall()]
 
-            cur.execute("SELECT codigo, nombre, emoji, color, descripcion FROM medallas_catalogo ORDER BY rowid ASC")
-            catalogo = [dict(r) for r in cur.fetchall()]
+            cur.execute("SELECT codigo, nombre, emoji, color, descripcion, COALESCE(gatillante,'MANUAL') as gatillante, COALESCE(meta_valor,0) as meta_valor, COALESCE(bonus_puntos,0) as bonus_puntos FROM medallas_catalogo ORDER BY rowid ASC")
+            catalogo = [dict(zip(["codigo","nombre","emoji","color","descripcion","gatillante","meta_valor","bonus_puntos"], r)) for r in cur.fetchall()]
             cat_map = {str(m["codigo"]): m for m in catalogo}
 
             cur.execute("SELECT nick, codigo_medalla, motivo, otorgada_en FROM medallas_jugadores ORDER BY id DESC")
@@ -4693,8 +4958,9 @@ def obtener_temporada_ranking() -> dict[str, object]:
         return {"ok": False, "error": str(e), "meta_puntos": meta_pts, "ranking": [], "catalogo_medallas": []}
 
 
-def crear_medalla_catalogo(nombre: str, emoji: str = "🏅", color: str = "#ffd700", descripcion: str = "", codigo: str = "") -> dict[str, object]:
-    """Crea una nueva medalla en medallas_catalogo."""
+def crear_medalla_catalogo(nombre: str, emoji: str = "🏅", color: str = "#ffd700", descripcion: str = "", codigo: str = "",
+                           gatillante: str = "MANUAL", meta_valor: int = 0, bonus_puntos: int = 0) -> dict[str, object]:
+    """Crea una nueva medalla en medallas_catalogo con soporte para gatillante automático."""
     _init_medallas_tablas()
     nom = (nombre or "").strip()
     if not nom:
@@ -4706,15 +4972,20 @@ def crear_medalla_catalogo(nombre: str, emoji: str = "🏅", color: str = "#ffd7
     emo = (emoji or "🏅").strip() or "🏅"
     col = (color or "#ffd700").strip() or "#ffd700"
     desc = (descripcion or "").strip()
+    gat = (gatillante or "MANUAL").strip().upper()
+    if gat not in GATILLANTE_TIPOS:
+        gat = "MANUAL"
+    mv = max(0, int(meta_valor or 0))
+    bp = max(0, int(bonus_puntos or 0))
     try:
         with get_db() as conn:
             cur = conn.cursor()
             cur.execute(
-                "INSERT OR REPLACE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion) VALUES (?, ?, ?, ?, ?)",
-                (cod, nom, emo, col, desc),
+                "INSERT OR REPLACE INTO medallas_catalogo (codigo, nombre, emoji, color, descripcion, gatillante, meta_valor, bonus_puntos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (cod, nom, emo, col, desc, gat, mv, bp),
             )
             conn.commit()
-        return {"ok": True, "codigo": cod, "nombre": nom, "emoji": emo, "mensaje": f"Medalla '{emo} {nom}' guardada."}
+        return {"ok": True, "codigo": cod, "nombre": nom, "emoji": emo, "mensaje": f"Medalla '{emo} {nom}' guardada (gatillante: {gat}, meta: {mv}, bonus: {bp} pts)."}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 

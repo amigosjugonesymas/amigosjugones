@@ -949,6 +949,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     _safe_str(params.get('color', '#ffd700')),
                     _safe_str(params.get('descripcion', '')),
                     _safe_str(params.get('codigo', '')),
+                    _safe_str(params.get('gatillante', 'MANUAL')),
+                    int(params.get('meta_valor', [0])[0] if isinstance(params.get('meta_valor'), list) else params.get('meta_valor', 0) or 0),
+                    int(params.get('bonus_puntos', [0])[0] if isinstance(params.get('bonus_puntos'), list) else params.get('bonus_puntos', 0) or 0),
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
@@ -966,6 +969,22 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     _safe_str(params.get('motivo', '')),
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
+        if parsed.path == '/api/admin/medallas/verificar_automaticas':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
+            try:
+                nick_param = _safe_str(params.get('nick', ''))
+                if nick_param:
+                    nuevas = gestor_db.verificar_y_otorgar_medallas_automaticas(nick_param)
+                    self._send_json({"ok": True, "nick": nick_param, "nuevas": nuevas, "total": len(nuevas)})
+                else:
+                    res = gestor_db.verificar_medallas_todos_los_jugadores()
+                    self._send_json(res, 200 if res.get("ok") else 500)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
