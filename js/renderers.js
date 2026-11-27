@@ -1216,8 +1216,8 @@ function renderTorneos(el, d) {
 }
 
 async function _cargarTorneosEnVivo(activosFallback, famaFallback) {
-  const apiUrl = window.AJ_CONFIG && typeof window.AJ_CONFIG.buildApiUrl === 'function'
-    ? window.AJ_CONFIG.buildApiUrl('/api/torneos/publico')
+  const apiUrl = window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function'
+    ? window.AJ_CONFIG.apiUrl('/api/torneos/publico')
     : '/api/torneos/publico';
   try {
     const resp = await fetch(apiUrl);
@@ -2274,7 +2274,9 @@ window.encuestaEnviarVoto = async function (cat, encuestaId) {
   }
 
   try {
-    const url = window.location.port === '8877' ? '/api/encuestas/votar' : 'http://localhost:8877/api/encuestas/votar';
+    const url = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function')
+      ? window.AJ_CONFIG.apiUrl('/api/encuestas/votar')
+      : '/api/encuestas/votar';
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2288,8 +2290,8 @@ window.encuestaEnviarVoto = async function (cat, encuestaId) {
 
     const data = await res.json();
     if (data.ok) {
-      if (window.AuthManager && window.AuthManager.awardPoints) {
-        window.AuthManager.awardPoints(1, `Voto en encuesta #${encuestaId}`);
+      if (window.AuthManager && typeof window.AuthManager.addPoints === 'function') {
+        window.AuthManager.addPoints(1, `Voto en encuesta #${encuestaId}`);
       }
 
       // Actualizar datos locales

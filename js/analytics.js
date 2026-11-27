@@ -213,12 +213,15 @@
         });
 
         // sendBeacon es la forma más confiable de enviar datos al cerrar/salir
+        const durUrl = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function')
+            ? window.AJ_CONFIG.apiUrl(DURACION_ENDPOINT)
+            : DURACION_ENDPOINT;
         const blob = new Blob([payload], { type: 'application/json' });
         if (navigator.sendBeacon) {
-            navigator.sendBeacon(DURACION_ENDPOINT, blob);
+            navigator.sendBeacon(durUrl, blob);
         } else {
             // Fallback para navegadores sin sendBeacon (muy raro en 2026)
-            fetch(DURACION_ENDPOINT, {
+            fetch(durUrl, {
                 method: 'POST',
                 body: blob,
                 keepalive: true
