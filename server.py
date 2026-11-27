@@ -944,8 +944,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                     _safe_str(params.get('descripcion', '')),
                     _safe_str(params.get('codigo', '')),
                     _safe_str(params.get('gatillante', 'MANUAL')),
-                    int(params.get('meta_valor', [0])[0] if isinstance(params.get('meta_valor'), list) else params.get('meta_valor', 0) or 0),
-                    int(params.get('bonus_puntos', [0])[0] if isinstance(params.get('bonus_puntos'), list) else params.get('bonus_puntos', 0) or 0),
+                    _safe_int(params.get('meta_valor', 0), 0),
+                    _safe_int(params.get('bonus_puntos', 0), 0),
                 )
                 self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
@@ -1976,7 +1976,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         import hmac, os, urllib.parse
         ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', os.environ.get('ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ'))
         def _match(t):
-            return bool(t and ADMIN_TOKEN and hmac.compare_digest(str(t).strip(), str(ADMIN_TOKEN)))
+            return bool(t and ADMIN_TOKEN and hmac.compare_digest(str(t).strip(), ADMIN_TOKEN))
         # 1. Authorization header (Bearer)
         auth_header = self.headers.get('Authorization', '')
         if auth_header.startswith('Bearer ') and _match(auth_header[7:]):
