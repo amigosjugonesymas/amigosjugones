@@ -4988,8 +4988,8 @@ def crear_medalla_catalogo(nombre: str, emoji: str = "🏅", color: str = "#ffd7
     gat = (gatillante or "MANUAL").strip().upper()
     if gat not in GATILLANTE_TIPOS:
         gat = "MANUAL"
-    mv = max(0, int(meta_valor or 0))
-    bp = max(0, int(bonus_puntos or 0))
+    mv = max(0, meta_valor or 0)
+    bp = max(0, bonus_puntos or 0)
     try:
         with get_db() as conn:
             cur = conn.cursor()
