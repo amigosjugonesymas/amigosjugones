@@ -4901,7 +4901,20 @@ def obtener_temporada_ranking() -> dict[str, object]:
             jugadores_raw = [dict(r) for r in cur.fetchall()]
 
             cur.execute("SELECT codigo, nombre, emoji, color, descripcion, COALESCE(gatillante,'MANUAL') as gatillante, COALESCE(meta_valor,0) as meta_valor, COALESCE(bonus_puntos,0) as bonus_puntos FROM medallas_catalogo ORDER BY rowid ASC")
-            catalogo = [dict(zip(["codigo","nombre","emoji","color","descripcion","gatillante","meta_valor","bonus_puntos"], r)) for r in cur.fetchall()]
+            catalogo_rows = cur.fetchall()
+            catalogo = []
+            for r in catalogo_rows:
+                row_dict = dict(r)
+                catalogo.append({
+                    "codigo":       str(row_dict.get("codigo", "") or ""),
+                    "nombre":       str(row_dict.get("nombre", "") or ""),
+                    "emoji":        str(row_dict.get("emoji", "🏅") or "🏅"),
+                    "color":        str(row_dict.get("color", "#ffd700") or "#ffd700"),
+                    "descripcion":  str(row_dict.get("descripcion", "") or ""),
+                    "gatillante":   str(row_dict.get("gatillante", "MANUAL") or "MANUAL"),
+                    "meta_valor":   int(row_dict.get("meta_valor") or 0),
+                    "bonus_puntos": int(row_dict.get("bonus_puntos") or 0),
+                })
             cat_map = {str(m["codigo"]): m for m in catalogo}
 
             cur.execute("SELECT nick, codigo_medalla, motivo, otorgada_en FROM medallas_jugadores ORDER BY id DESC")
