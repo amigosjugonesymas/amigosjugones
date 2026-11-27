@@ -59,23 +59,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=BASE_DIR, **kwargs)
 
     def _is_admin(self, params=None):
-        """Valida que la petición provenga del Administrador autorizado."""
-        auth_header = self.headers.get('Authorization', '')
-        if auth_header.startswith('Bearer '):
-            token = auth_header[7:].strip()
-            if token == ADMIN_SECRET_TOKEN:
-                return True
-        if params and isinstance(params, dict):
-            p_tok = params.get('admin_token')
-            if isinstance(p_tok, list) and p_tok:
-                p_tok = p_tok[0]
-            if p_tok == ADMIN_SECRET_TOKEN:
-                return True
-        parsed = urllib.parse.urlparse(self.path)
-        qs = urllib.parse.parse_qs(parsed.query)
-        if qs.get('admin_token', [''])[0] == ADMIN_SECRET_TOKEN:
-            return True
-        return False
+        """Valida que la petición provenga del Administrador autorizado (delega a _check_admin_token)."""
+        return self._check_admin_token(params)
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
@@ -119,8 +104,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             except ValueError:
                 costo = 10
 
-            if not nick:
-                self._send_json({"ok": False, "error": "nick_requerido"}, 400)
+            if not nick or costo <= 0:
+                self._send_json({"ok": False, "error": "nick_y_monto_positivo_requeridos"}, 400)
                 return
 
             exito = gestor_db.registrar_partida(nick, game, costo)
@@ -348,6 +333,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: ANALYTICS — RESUMEN PARA PANEL ADMIN ────────────────────────
         if parsed.path == '/api/analytics/resumen':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             try:
                 dias = int(params.get('dias', [30])[0]) if params.get('dias') else 30
                 dias = max(1, min(365, dias))  # Limitar entre 1 y 365 días
@@ -526,6 +514,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ── GET /api/admin/config_dia ───────────────────────────────────────
         if parsed.path == '/api/admin/config_dia':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             fecha = _safe_str(params.get('fecha')) or None
             res = gestor_db.obtener_o_crear_config_dia(fecha)
             self._send_json({'ok': True, **res}, 200)
@@ -533,6 +524,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ── GET /api/admin/reporte_dia ──────────────────────────────────────
         if parsed.path == '/api/admin/reporte_dia':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             fecha = _safe_str(params.get('fecha')) or None
             res = gestor_db.obtener_reporte_movimientos_dia(fecha)
             self._send_json(res, 200)
@@ -1024,8 +1018,8 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             nick = params.get('nick', '')
             game = params.get('game', 'arcade')
             costo = _safe_int(params.get('amount', 10), 10)
-            if not nick:
-                self._send_json({"ok": False, "error": "nick_requerido"}, 400)
+            if not nick or costo <= 0:
+                self._send_json({"ok": False, "error": "nick_y_monto_positivo_requeridos"}, 400)
                 return
             exito = gestor_db.registrar_partida(nick, game, costo)
             if exito:
@@ -1065,6 +1059,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: CREAR NUEVA ENCUESTA SEMANAL (admin/Lunara) ────────────────
         if parsed.path == '/api/encuestas/nueva':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             categoria = params.get('categoria', '')
             if isinstance(categoria, list): categoria = categoria[0]
             categoria = str(categoria).strip().lower()
@@ -1085,6 +1082,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: AGREGAR ÍTEM AL CATÁLOGO (Lunara / admin) ──────────────────
         if parsed.path == '/api/encuestas/catalogo':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             categoria = params.get('categoria', '')
             if isinstance(categoria, list): categoria = categoria[0]
             nombre = params.get('nombre', '')
@@ -1278,6 +1278,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: CREAR/EDITAR EN SALÓN DE HONOR (ADMIN) ─────────────────────
         if parsed.path == '/api/admin/logros':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             try:
                 logro_id = _safe_int(params.get('id', 0), 0)
                 nick = str(params.get('nick', '')).strip()
@@ -1333,6 +1336,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: CREAR/EDITAR PREMIO DE TEMPORADA (ADMIN) ───────────────────
         if parsed.path == '/api/admin/premios':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             try:
                 premio_id = _safe_int(params.get('id', 0), 0)
                 temporada = str(params.get('temporada', '2026-T1')).strip()
@@ -1795,6 +1801,9 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ── POST /api/admin/reporte_dia ─────────────────────────────────────
         if parsed.path == '/api/admin/reporte_dia':
+            if not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "unauthorized_admin_token_required"}, 401)
+                return
             fecha = _safe_str(params.get('fecha')) or None
             res = gestor_db.obtener_reporte_movimientos_dia(fecha)
             self._send_json(res, 200)
@@ -1963,17 +1972,17 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def _check_admin_token(self, params):
-        """Verifica el token de administrador en encabezados, parámetros o query string."""
-        import os, urllib.parse
+        """Verifica el token de administrador en encabezados, parámetros o query string usando comparación constante."""
+        import hmac, os, urllib.parse
         ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', os.environ.get('ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ'))
+        def _match(t):
+            return bool(t and ADMIN_TOKEN and hmac.compare_digest(str(t).strip(), str(ADMIN_TOKEN)))
         # 1. Authorization header (Bearer)
         auth_header = self.headers.get('Authorization', '')
-        if auth_header.startswith('Bearer '):
-            if auth_header[7:].strip() == ADMIN_TOKEN:
-                return True
+        if auth_header.startswith('Bearer ') and _match(auth_header[7:]):
+            return True
         # 2. x-admin-token header
-        x_tok = self.headers.get('x-admin-token', '')
-        if x_tok and x_tok.strip() == ADMIN_TOKEN:
+        if _match(self.headers.get('x-admin-token', '')):
             return True
         # 3. Diccionario params (POST body o GET params)
         if params and isinstance(params, dict):
@@ -1981,14 +1990,13 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 val = params.get(k)
                 if isinstance(val, list) and val:
                     val = val[0]
-                if val and str(val).strip() == ADMIN_TOKEN:
+                if _match(val):
                     return True
         # 4. Query string
         parsed = urllib.parse.urlparse(self.path)
         qs = urllib.parse.parse_qs(parsed.query)
         for k in ('token', 'admin_token'):
-            val = qs.get(k, [''])[0]
-            if val and val.strip() == ADMIN_TOKEN:
+            if _match(qs.get(k, [''])[0]):
                 return True
         return False
 

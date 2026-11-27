@@ -409,6 +409,10 @@ def registrar_partida(nick, juego, costo=10, metricas=None):
     Registra una jugada: resta puntos al jugador, guarda log y actualiza podio si corresponde.
     """
     now = datetime.datetime.now().isoformat()
+    if costo is None or int(costo) <= 0:
+        print(f"❌ Monto inválido en registrar_partida: {costo}")
+        return False
+    costo = int(costo)
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT puntos, total_gastados FROM jugadores WHERE nick = ?", (nick,))
@@ -440,6 +444,10 @@ def registrar_partida(nick, juego, costo=10, metricas=None):
 
     print(f"🎮 Partida registrada para {nick}: -{costo} PTS | Saldo restante: {nuevo_saldo} PTS")
     exportar_ranking_json()
+    try:
+        verificar_y_otorgar_medallas_automaticas(nick)
+    except Exception:
+        pass
     return True
 
 def asignar_puntos(nick, puntos, tipo_evento="RETO_MACROJUEGO", descripcion="", autor="Admin"):
@@ -925,6 +933,10 @@ def registrar_voto(encuesta_id, nick, score, comentario=None):
 
     # Dar +1 PTS al miembro por votar (incentivo de participación)
     asignar_puntos(nick, 1, "VOTO_ENCUESTA", f"Voto en encuesta '{enc['nombre_item']}' ({score}/10)", "Sistema")
+    try:
+        verificar_y_otorgar_medallas_automaticas(nick)
+    except Exception:
+        pass
 
     exportar_encuestas_json()
     print(f"✅ Voto registrado: {nick} → {score}/10 en '{enc['nombre_item']}' | Promedio: {promedio}/10")
@@ -1994,6 +2006,8 @@ def moderar_mision(mision_id: int, accion: str, admin_nick: str = "Admin",
         row = conn.execute("SELECT * FROM misiones_entregas WHERE id = ?", (mision_id,)).fetchone()
         if not row:
             return {"ok": False, "error": "Entrega de misión no encontrada."}
+        if str(row["estado"] or "").lower() != "pendiente":
+            return {"ok": False, "error": f"La misión #{mision_id} ya fue moderada ({row['estado']})."}
 
         nick = row["nick"]
         puntos_a_sumar = puntos_custom if accion == "aprobar" else 0
@@ -2039,15 +2053,17 @@ def moderar_mision(mision_id: int, accion: str, admin_nick: str = "Admin",
         """, (nuevo_estado, puntos_a_sumar, comentario, admin_nick, mision_id))
         conn.commit()
 
-    # 3. Purga física inmediata de las imágenes del disco
+    # 3. Purga física inmediata de las imágenes del disco (solo dentro de uploads/temp_misiones)
     purgadas = 0
     try:
         pruebas = json.loads(row["pruebas_urls"]) if row["pruebas_urls"] else []
+        safe_base = os.path.realpath(os.path.join(PROJECT_ROOT, "uploads", "temp_misiones"))
         for p in pruebas:
-            # Extraer ruta segura
+            if not isinstance(p, str):
+                continue
             p_rel = p.lstrip("/\\")
-            full_path = os.path.join(PROJECT_ROOT, p_rel)
-            if os.path.exists(full_path) and os.path.isfile(full_path):
+            full_path = os.path.realpath(os.path.join(PROJECT_ROOT, p_rel))
+            if full_path.startswith(safe_base + os.sep) and os.path.exists(full_path) and os.path.isfile(full_path):
                 os.remove(full_path)
                 purgadas += 1
     except Exception as e:
@@ -2277,7 +2293,7 @@ def obtener_resumen_analytics(dias=30):
     hora_mapa = {r["hora"]: r["visitas"] for r in por_hora}
     dia_mapa = {r["dia"]: r["visitas"] for r in por_dia_semana}
 
-    res_totales = totales or {}
+    res_totales = dict(totales) if totales else {}
     return {
         "ok": True,
         "periodo_dias": dias,
@@ -2903,12 +2919,15 @@ def establecer_password_privada(phone: str, nueva_password: str) -> dict:
 
     with get_db() as conn:
         row = conn.execute(
-            "SELECT nick FROM jugadores WHERE telefono = ? OR telefono = ?",
+            "SELECT nick, COALESCE(tiene_clave_privada, 0) as tiene_clave_privada FROM jugadores WHERE telefono = ? OR telefono = ?",
             (phone, '+' + phone)
         ).fetchone()
         if not row:
             return {"ok": False, "error": "usuario_no_encontrado",
                     "mensaje": "Número de teléfono no registrado."}
+        if int(row["tiene_clave_privada"] or 0) == 1:
+            return {"ok": False, "error": "cuenta_ya_blindada",
+                    "mensaje": "Esta cuenta ya tiene contraseña privada. Solicita al administrador un reseteo si necesitas cambiarla."}
 
         hash_val, salt_val = _hash_password(nueva_password)
         now = datetime.datetime.now().isoformat()
@@ -4706,34 +4725,39 @@ def _obtener_stats_jugador_para_medallas(nick: str, cur) -> dict:
         "PARTIDAS_ARCADE":   0,
     }
     try:
-        # Puntos totales
-        cur.execute("SELECT COALESCE(puntos, 0) FROM jugadores WHERE UPPER(nick) = ?", (nk_up,))
+        # Puntos totales y bga_username del jugador
+        cur.execute("SELECT COALESCE(puntos, 0) as puntos, COALESCE(bga_username, '') as bga_username FROM jugadores WHERE UPPER(nick) = ?", (nk_up,))
         r = cur.fetchone()
+        bga_up = ""
         if r:
-            stats["PUNTOS_TOTALES"] = int(r[0] or 0)
+            rd = dict(r)
+            stats["PUNTOS_TOTALES"] = int(rd.get("puntos") or 0)
+            bga_up = str(rd.get("bga_username") or "").strip().upper()
 
-        # Torneos BGA jugados / ganados / podios
+        # Torneos BGA jugados / ganados / podios (tabla real: torneo_participantes)
         try:
             cur.execute("""
                 SELECT COUNT(*) as jugados,
-                       SUM(CASE WHEN posicion = 1 THEN 1 ELSE 0 END) as ganados,
-                       SUM(CASE WHEN posicion <= 3 THEN 1 ELSE 0 END) as podios
-                FROM torneos_participantes
-                WHERE UPPER(nick_bga) = ? OR UPPER(nick_local) = ?
-            """, (nk_up, nk_up))
+                       SUM(CASE WHEN rank_actual = 1 THEN 1 ELSE 0 END) as ganados,
+                       SUM(CASE WHEN rank_actual > 0 AND rank_actual <= 3 THEN 1 ELSE 0 END) as podios
+                FROM torneo_participantes
+                WHERE UPPER(nick_aj) = ? OR UPPER(bga_username) = ? OR (? != '' AND UPPER(bga_username) = ?)
+            """, (nk_up, nk_up, bga_up, bga_up))
             tr = cur.fetchone()
             if tr:
-                stats["TORNEOS_JUGADOS"] = int(tr[0] or 0)
-                stats["TORNEOS_GANADOS"] = int(tr[1] or 0)
-                stats["PODIOS_BGA"]      = int(tr[2] or 0)
-        except Exception:
-            pass
+                trd = dict(tr)
+                stats["TORNEOS_JUGADOS"] = int(trd.get("jugados") or 0)
+                stats["TORNEOS_GANADOS"] = int(trd.get("ganados") or 0)
+                stats["PODIOS_BGA"]      = int(trd.get("podios") or 0)
+        except Exception as e_t:
+            print(f"⚠️ [Medallas] Error leyendo torneos de {nick}: {e_t}")
 
         # Eventos de historial (trivias, crípticos, votos, juegos creados, arcade)
         tipo_map = {
             "TRIVIA_CORRECTA":    "TRIVIAS_CORRECTAS",
             "CRIPTICO_RESUELTO":  "CRIPTICOS_RESUELTOS",
             "ENCUESTA_VOTO":      "VOTOS_ENCUESTA",
+            "VOTO_ENCUESTA":      "VOTOS_ENCUESTA",
             "JUNTA_JUEGO_CREADO": "JUEGOS_CREADOS",
             "ARCADE_PARTIDA":     "PARTIDAS_ARCADE",
         }
@@ -4745,12 +4769,15 @@ def _obtener_stats_jugador_para_medallas(nick: str, cur) -> dict:
                 GROUP BY tipo_evento
             """, (nk_up,))
             for row in cur.fetchall():
-                tipo = str(row[0] or "").upper()
-                cnt  = int(row[1] or 0)
+                rowd = dict(row)
+                tipo = str(rowd.get("tipo_evento") or "").upper()
+                cnt  = int(rowd.get("cnt") or 0)
                 if tipo in tipo_map:
                     stats[tipo_map[tipo]] += cnt
-        except Exception:
-            pass
+                elif tipo.startswith("JUEGO_"):
+                    stats["PARTIDAS_ARCADE"] += cnt
+        except Exception as e_h:
+            print(f"⚠️ [Medallas] Error leyendo historial de {nick}: {e_h}")
     except Exception as e:
         print(f"⚠️ [Medallas] Error leyendo stats de {nick}: {e}")
     return stats
@@ -4775,7 +4802,7 @@ def verificar_y_otorgar_medallas_automaticas(nick: str) -> list[dict]:
                 "SELECT codigo_medalla FROM medallas_jugadores WHERE UPPER(nick) = ?",
                 (nk_up,)
             )
-            ya_tiene = {str(r[0]) for r in cur.fetchall()}
+            ya_tiene = {str(dict(r).get("codigo_medalla") or "") for r in cur.fetchall()}
 
             # Catálogo de medallas automáticas
             cur.execute("""
@@ -4784,10 +4811,19 @@ def verificar_y_otorgar_medallas_automaticas(nick: str) -> list[dict]:
                 WHERE gatillante IS NOT NULL AND gatillante != 'MANUAL' AND gatillante != ''
                   AND meta_valor > 0
             """)
-            automaticas = [dict(zip(
-                ["codigo","nombre","emoji","color","descripcion","gatillante","meta_valor","bonus_puntos"],
-                r
-            )) for r in cur.fetchall()]
+            automaticas = []
+            for r in cur.fetchall():
+                rd = dict(r)
+                automaticas.append({
+                    "codigo":       str(rd.get("codigo") or ""),
+                    "nombre":       str(rd.get("nombre") or ""),
+                    "emoji":        str(rd.get("emoji") or "🏅"),
+                    "color":        str(rd.get("color") or "#ffd700"),
+                    "descripcion":  str(rd.get("descripcion") or ""),
+                    "gatillante":   str(rd.get("gatillante") or ""),
+                    "meta_valor":   int(rd.get("meta_valor") or 0),
+                    "bonus_puntos": int(rd.get("bonus_puntos") or 0),
+                })
 
             if not automaticas:
                 return []
