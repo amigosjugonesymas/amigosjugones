@@ -252,10 +252,10 @@ function renderGlobalFooter() {
             <a href="https://www.instagram.com/amigosjugonesymas/" target="_blank" title="Instagram">
               <img src="imagenes/INSTAGRAM.png" alt="Instagram">
             </a>
-            <a href="https://wa.me/..." target="_blank" title="WhatsApp">
+            <a href="#" onclick="event.preventDefault(); if (typeof openPopup === 'function') openPopup('como_iniciar');" title="WhatsApp Comunidad">
               <img src="imagenes/WHATSAPP.png" alt="WhatsApp">
             </a>
-            <a href="https://boardgamearena.com/..." target="_blank" title="Board Game Arena">
+            <a href="https://boardgamearena.com" target="_blank" rel="noopener" title="Board Game Arena">
               <img src="imagenes/BGA.png" alt="BGA">
             </a>
           </div>

@@ -456,6 +456,35 @@ const SalaFama = {
 
       const medallas = [];
 
+      // 1. Medallas en vivo desde Render (automáticas + otorgadas en DB)
+      try {
+        const apiUrl = window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function'
+          ? window.AJ_CONFIG.apiUrl(`/api/medallas/mias?nick=${encodeURIComponent(nick)}`)
+          : `/api/medallas/mias?nick=${encodeURIComponent(nick)}`;
+        const liveRes = await fetch(apiUrl);
+        if (liveRes.ok) {
+          const liveData = await liveRes.json();
+          if (liveData && liveData.ok && Array.isArray(liveData.medallas)) {
+            liveData.medallas.forEach(m => {
+              const cod = String(m.codigo || '').trim();
+              if (!cod) return;
+              const fechaStr = m.otorgada_en ? String(m.otorgada_en).slice(0, 10) : 'Temporada Actual';
+              medallas.push({
+                cod,
+                temporada: m.motivo || fechaStr,
+                nombre: m.nombre,
+                emoji: m.emoji,
+                color: m.color,
+                descripcion: m.descripcion
+              });
+            });
+          }
+        }
+      } catch (liveErr) {
+        console.warn('[SalaFama] No se pudieron cargar medallas en vivo:', liveErr);
+      }
+
+      // 2. Medallas históricas desde JSON estáticos de temporadas cerradas
       for (const t of this.index.temporadas) {
         const res = await fetch(`${t.archivo}?v=${Date.now()}`);
         if (!res.ok) continue;
@@ -464,7 +493,11 @@ const SalaFama = {
         // Buscar medallas del nick en ranking_general
         const fila = data.ranking_general?.find(f => f.nick === nick);
         if (fila?.medallas?.length) {
-          fila.medallas.forEach(cod => medallas.push({ cod, temporada: t.nombre }));
+          fila.medallas.forEach(cod => {
+            if (!medallas.find(m => m.cod === cod && m.temporada === t.nombre)) {
+              medallas.push({ cod, temporada: t.nombre });
+            }
+          });
         }
 
         // Buscar medallas especiales
@@ -481,18 +514,23 @@ const SalaFama = {
         contenedor.innerHTML = `
           <div class="card" style="padding:18px 20px; border:1px solid var(--border); background:var(--card); margin-bottom:24px;">
             <p class="mochila-title" style="margin:0 0 8px; font-weight:800; font-size:0.95rem; color:var(--text);">🎒 Mis Logros — 👤 ${this.esc(nick)}</p>
-            <p class="mochila-empty" style="color:var(--text-dim); margin:0;">Aún no tienes medallas registradas en las temporadas cerradas. ¡Compite este mes y asegura tu lugar en el podio! 🎮</p>
+            <p class="mochila-empty" style="color:var(--text-dim); margin:0;">Aún no tienes medallas registradas. ¡Compite en torneos, trivias y crípticos para desbloquear logros! 🎮</p>
           </div>`;
         return;
       }
 
       const badgesHTML = medallas.map((m, i) => {
-        const def = this.MEDALLAS[m.cod] || { nombre: m.cod, emoji: '🏅', color: '#ffd700' };
+        const def = this.MEDALLAS[m.cod] || {
+          nombre: m.nombre || m.cod,
+          emoji: m.emoji || '🏅',
+          color: m.color || '#ffd700'
+        };
+        const tooltip = `${def.nombre}${m.descripcion ? ' — ' + m.descripcion : ''} (${m.temporada})`;
         return `
-          <div class="mochila-item" title="${def.nombre} — ${m.temporada}" style="animation-delay:${i * 0.05}s; border-color:${def.color}50;">
-            <span class="medal-emoji">${def.emoji}</span>
+          <div class="mochila-item" title="${this.esc(tooltip)}" style="animation-delay:${i * 0.05}s; border-color:${this.esc(def.color)}50;">
+            <span class="medal-emoji">${this.esc(def.emoji)}</span>
             <span class="medal-name" style="font-size:0.72rem; font-weight:700; color:var(--text, #fff); text-align:center; max-width:85px; line-height:1.2;">${this.esc(def.nombre)}</span>
-            <span class="medal-season" style="font-size:0.62rem; color:var(--text-dim, rgba(255,255,255,0.5)); margin-top:2px;">${m.temporada}</span>
+            <span class="medal-season" style="font-size:0.62rem; color:var(--text-dim, rgba(255,255,255,0.5)); margin-top:2px;">${this.esc(m.temporada)}</span>
           </div>`;
       }).join('');
 

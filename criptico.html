@@ -589,7 +589,9 @@
                     const token = (window.AuthManager && typeof window.AuthManager.getToken === 'function')
                         ? window.AuthManager.getToken()
                         : (window.AuthManager && window.AuthManager.session ? (window.AuthManager.session.session_token || "") : "");
-                    const url = `https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec?action=criptico_get_today&session_token=${encodeURIComponent(token)}`;
+                    const orqUrl = (window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL)
+                        || "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec";
+                    const url = `${orqUrl}?action=criptico_get_today&session_token=${encodeURIComponent(token)}`;
                     const res = await fetch(url);
                     const data = await res.json();
 
@@ -683,7 +685,9 @@
                         ? window.AuthManager.getToken()
                         : (window.AuthManager && window.AuthManager.session ? (window.AuthManager.session.session_token || "") : "");
                     const nick  = window.AuthManager ? (window.AuthManager.getNick() || "") : "";
-                    const url = `https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec?action=criptico_submit&session_token=${encodeURIComponent(token)}&nick=${encodeURIComponent(nick)}&respuesta=${encodeURIComponent(resp)}&intentos=${intentoActual}&tiempo=${segundos}`;
+                    const orqUrl = (window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL)
+                        || "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec";
+                    const url = `${orqUrl}?action=criptico_submit&session_token=${encodeURIComponent(token)}&nick=${encodeURIComponent(nick)}&respuesta=${encodeURIComponent(resp)}&intentos=${intentoActual}&tiempo=${segundos}`;
                     
                     const res = await fetch(url);
                     const data = await res.json();

@@ -1269,14 +1269,14 @@ def bajarse_de_junta(junta_id, nick):
         exportar_juntas_json()
         return {"ok": True, "junta_id": junta_id, "cupos_disponibles": nuevos_cupos, "estado": "Abierta"}
 
-def cancelar_junta(junta_id, solicitante_nick):
+def cancelar_junta(junta_id, solicitante_nick, es_admin=False):
     """Cancela una junta (solo organizador o admin)"""
     with get_db() as conn:
         cursor = conn.cursor()
         junta = cursor.execute("SELECT * FROM juntas WHERE id = ?", (junta_id,)).fetchone()
         if not junta:
             return {"ok": False, "error": "Mesa no encontrada"}
-        if junta["organizador_nick"].lower() != solicitante_nick.lower() and solicitante_nick.lower() not in ["black", "admin"]:
+        if not es_admin and junta["organizador_nick"].lower() != solicitante_nick.lower() and solicitante_nick.lower() not in ["black", "admin"]:
             return {"ok": False, "error": "Solo el organizador o el administrador pueden cancelar esta mesa"}
         
         cursor.execute("UPDATE juntas SET estado = 'Cancelada' WHERE id = ?", (junta_id,))
@@ -3413,13 +3413,13 @@ def reconciliar_puntos_torneos_pendientes(identificador: str) -> list[dict[str, 
             bga_user = str(jugador.get("bga_username") or "").strip()
             effective_nick = web_nick or target_nick
 
-            cur.execute("""
+            cur.execute(f"""
                 SELECT p.id as part_id, p.tournament_id, p.bga_username, p.rank_actual, t.tournament_name
                 FROM torneo_participantes p
                 LEFT JOIN torneos_bga t ON p.tournament_id = t.tournament_id
                 WHERE (p.puntos_asignados IS NULL OR p.puntos_asignados = 0)
                   AND p.rank_actual IS NOT NULL AND p.rank_actual < 999
-                  AND (t.activo = 0 OR LOWER(COALESCE(t.status, '')) IN ('terminado', 'finalizado', 'finished', 'completed'))
+                  AND {_SQL_TORNEO_BGA_FINALIZADO}
                   AND (
                     (? != '' AND UPPER(p.bga_username) = UPPER(?)) OR
                     (? != '' AND p.nick_aj IS NOT NULL AND UPPER(p.nick_aj) = UPPER(?)) OR
@@ -3544,10 +3544,9 @@ def obtener_miembros_identidades() -> list[dict[str, object]]:
             torneos_raw = [dict(r) for r in cur.fetchall()]
 
             def _es_torneo_terminado(t_row: dict[str, object]) -> bool:
-                st = str(t_row.get("t_status") or "").strip().lower()
                 raw_act = t_row.get("t_activo")
                 act = int(str(raw_act)) if raw_act is not None else 1
-                return act == 0 or st in ("terminado", "finalizado", "finished", "completed")
+                return act == 0 or _status_bga_es_finalizado(t_row.get("t_status"))
 
             res: list[dict[str, object]] = []
             bga_matched_upper: set[str] = set()
@@ -3851,12 +3850,21 @@ def obtener_torneos_activos() -> list:
         return []
 
 
-def _es_torneo_finalizado_row(row: dict) -> bool:
-    """Determina si un torneo en DB está finalizado por flag activo=0 o por su estado."""
-    if int(row.get('activo', 1) or 0) == 0:
-        return True
-    st = str(row.get('status', '') or '').strip().lower()
-    return st in ('terminado', 'finalizado', 'finished', 'completed')
+def _status_bga_es_finalizado(status: object) -> bool:
+    """Detecta si un texto de estado BGA corresponde a torneo finalizado."""
+    st = str(status or "").strip().lower()
+    return any(kw in st for kw in ("finaliz", "terminad", "complet", "finish", "ended", "over"))
+
+
+_SQL_TORNEO_BGA_FINALIZADO = (
+    "(t.activo = 0 OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%finaliz%' OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%terminad%' OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%complet%' OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%finish%' OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%ended%' OR "
+    "LOWER(COALESCE(t.status, '')) LIKE '%over%')"
+)
 
 
 def obtener_torneos_publicos() -> dict:
@@ -3921,7 +3929,7 @@ def obtener_ranking_campeones_bga() -> list:
                     (p.bga_username IS NOT NULL AND UPPER(p.bga_username) = UPPER(COALESCE(j.bga_username, '')))
                 )
                 WHERE p.rank_actual IN (1, 2, 3)
-                  AND (t.activo = 0 OR LOWER(COALESCE(t.status, '')) IN ('terminado', 'finalizado', 'finished', 'completed'))
+                  AND {_SQL_TORNEO_BGA_FINALIZADO}
                 ORDER BY t.actualizado_en DESC, p.rank_actual ASC
             """)
             rows = [dict(r) for r in cur.fetchall()]
@@ -4905,6 +4913,39 @@ def verificar_medallas_todos_los_jugadores() -> dict:
     except Exception as e:
         return {"ok": False, "error": str(e)}
     return {"ok": True, "total_otorgadas": total_otorgadas, "detalle": detalle}
+
+
+def obtener_medallas_jugador(nick: str) -> dict:
+    """Retorna todas las medallas otorgadas a un jugador desde medallas_jugadores + catálogo."""
+    _init_medallas_tablas()
+    try:
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT mj.codigo_medalla, mj.motivo, mj.otorgada_en,
+                       COALESCE(mc.nombre, mj.codigo_medalla) as nombre,
+                       COALESCE(mc.emoji, '🏅') as emoji,
+                       COALESCE(mc.color, '#ffd700') as color,
+                       COALESCE(mc.descripcion, '') as descripcion
+                FROM medallas_jugadores mj
+                LEFT JOIN medallas_catalogo mc ON mc.codigo = mj.codigo_medalla
+                WHERE UPPER(mj.nick) = UPPER(?)
+                ORDER BY mj.otorgada_en DESC
+            """, (nick,))
+            rows = [dict(r) for r in cur.fetchall()]
+            medallas = [{
+                "codigo":      str(r.get("codigo_medalla") or ""),
+                "nombre":      str(r.get("nombre") or r.get("codigo_medalla") or ""),
+                "emoji":       str(r.get("emoji") or "🏅"),
+                "color":       str(r.get("color") or "#ffd700"),
+                "descripcion": str(r.get("descripcion") or ""),
+                "motivo":      str(r.get("motivo") or ""),
+                "otorgada_en": str(r.get("otorgada_en") or ""),
+            } for r in rows]
+            return {"ok": True, "nick": nick, "medallas": medallas, "total": len(medallas)}
+    except Exception as e:
+        print(f"⚠️ [Medallas] Error obteniendo medallas de {nick}: {e}")
+        return {"ok": False, "error": str(e), "medallas": []}
 
 
 def obtener_temporada_ranking() -> dict[str, object]:

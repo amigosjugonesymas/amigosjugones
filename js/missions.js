@@ -29,7 +29,9 @@ let dynamicAttackMissions = null;
 
 async function fetchDynamicMisiones() {
   try {
-    const url = "https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec?action=misiones_get";
+    const orqUrl = (window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL)
+      || "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec";
+    const url = `${orqUrl}?action=misiones_get`;
     const res = await fetch(url);
     const data = await res.json();
     if (data.status === 'ok') {

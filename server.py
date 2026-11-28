@@ -239,6 +239,19 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": str(e)}, 500)
             return
 
+        # ─── API: MEDALLAS DEL JUGADOR (PÚBLICO / PERFIL) ─────────────────────
+        if parsed.path == '/api/medallas/mias':
+            nick = params.get('nick', [''])[0].strip() if isinstance(params.get('nick', ''), list) else str(params.get('nick', '')).strip()
+            if not nick:
+                self._send_json({"ok": False, "error": "nick requerido"}, 400)
+                return
+            try:
+                data = gestor_db.obtener_medallas_jugador(nick)
+                self._send_json(data, 200 if data.get("ok") else 500)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
+
         # ─── API: ESTADO DE LA BASE DE DATOS ───────────────────────────────────
         if parsed.path == '/api/status':
             with gestor_db.get_db() as conn:
@@ -1173,15 +1186,18 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: CANCELAR MESA / JUNTA ─────────────────────────────────────
         if parsed.path == '/api/juntas/cancelar':
+            is_admin = self._check_admin_token(params, body_data)
             junta_id = _safe_int(params.get('junta_id', 0), 0)
             nick = str(params.get('nick', '')).strip()
+            if is_admin and not nick:
+                nick = 'admin'
 
             if not junta_id or not nick:
                 self._send_json({"ok": False, "error": "junta_id y nick son obligatorios"}, 400)
                 return
 
             try:
-                res = gestor_db.cancelar_junta(junta_id, nick)
+                res = gestor_db.cancelar_junta(junta_id, nick, es_admin=is_admin)
                 self._send_json(res, 200 if res.get("ok") else 400)
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, 500)

@@ -10,7 +10,8 @@
 (function () {
   'use strict';
 
-  const ORQUESTADOR_URL = "https://script.google.com/macros/s/AKfycbzECukax6KwC1o_Q7LnQmsZpwnas7InL04yDR52fJ-oxunqf_WZ7KITCuDU5DXUWI2z_g/exec";
+  const ORQUESTADOR_URL = (window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL)
+    || "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec";
   const STORAGE_KEY = 'aj_popup_mostrado_sesion';
 
   async function initPopupDiario() {
