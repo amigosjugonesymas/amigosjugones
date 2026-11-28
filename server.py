@@ -608,7 +608,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"ok": False, "error": "nick_no_registrado"}, 403)
                 return
             try:
-                puntos = max(0, min(int(params.get('puntos', 10)), 50))  # cap 50 PTS
+                puntos = max(0, min(_safe_int(params.get('puntos', 10), 10), 50))  # cap 50 PTS
                 motivo = str(params.get('motivo', tipo)).strip()[:200]
                 res = gestor_db.asignar_puntos(nick, puntos, tipo, motivo, 'GAS')
                 self._send_json(res, 200)
@@ -1207,7 +1207,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         # ─── API: CANCELAR MESA / JUNTA ─────────────────────────────────────
         if parsed.path == '/api/juntas/cancelar':
-            is_admin = self._check_admin_token(params, body_data)
+            is_admin = self._check_admin_token(params)
             junta_id = _safe_int(params.get('junta_id', 0), 0)
             nick = str(params.get('nick', '')).strip()
             if is_admin and not nick:
