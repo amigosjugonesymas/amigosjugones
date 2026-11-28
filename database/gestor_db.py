@@ -3928,7 +3928,7 @@ def obtener_torneos_publicos() -> dict:
                     except Exception:
                         detalle = {}
                 t['detalle'] = detalle
-                if _es_torneo_finalizado_row(t):
+                if int(t.get('activo', 1) or 1) == 0 or _status_bga_es_finalizado(t.get('status')):
                     finalizados.append(t)
                 else:
                     activos.append(t)
