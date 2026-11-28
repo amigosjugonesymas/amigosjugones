@@ -2625,6 +2625,17 @@ def buscar_jugador_por_identificador(identificador):
                 return dict(row)
     return None
 
+
+def nick_existe(nick: str) -> bool:
+    """Verifica rápidamente si un nick existe en la tabla jugadores (case-insensitive)."""
+    if not nick:
+        return False
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT 1 FROM jugadores WHERE UPPER(nick) = UPPER(?) LIMIT 1", (nick.strip(),)
+        ).fetchone()
+        return row is not None
+
 # =============================================================================
 # 🔒 SEGURIDAD DE ACCESO — CONTROL DE DISPOSITIVOS Y CLAVE PRIVADA PERSONAL
 # Implementación del Plan Maestro de Seguridad v1.0

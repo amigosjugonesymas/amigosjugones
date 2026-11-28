@@ -746,6 +746,19 @@
             }
 
             function mostrarVictoria(data) {
+                // Fix #9: notificar al backend para registrar en historial_transacciones
+                try {
+                    const nickH = window.AuthManager ? (window.AuthManager.getNick() || '') : '';
+                    const ptsH = Number(data.pts_ganados || 10);
+                    const apiBase = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function')
+                        ? window.AJ_CONFIG.apiUrl('/api/puntos/asignar')
+                        : '/api/puntos/asignar';
+                    const payload = JSON.stringify({ nick: nickH, puntos: ptsH, tipo: 'CRIPTICO_RESUELTO', motivo: `Críptico resuelto en ${data.intentos || intentoActual} intentos`, autor: 'GAS' });
+                    if (nickH && navigator.sendBeacon) {
+                        navigator.sendBeacon(apiBase, new Blob([payload], { type: 'application/json' }));
+                    }
+                } catch (_e) { /* no-op */ }
+
                 const modal = document.getElementById('modal-victoria');
                 const resumen = document.getElementById('victoria-resumen');
                 const ptsEl = document.getElementById('victoria-pts');

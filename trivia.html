@@ -636,6 +636,18 @@
 
                 if (data.acierto) {
                     if (btnSel) btnSel.classList.add('correct');
+                    // Fix #9: notificar al backend para registrar en historial_transacciones
+                    try {
+                        const nickH = window.AuthManager ? (window.AuthManager.getNick() || '') : '';
+                        const ptsH = Number(data.pts_ganados || 10);
+                        const apiBase = (window.AJ_CONFIG && typeof window.AJ_CONFIG.apiUrl === 'function')
+                            ? window.AJ_CONFIG.apiUrl('/api/puntos/asignar')
+                            : '/api/puntos/asignar';
+                        const payload = JSON.stringify({ nick: nickH, puntos: ptsH, tipo: 'TRIVIA_CORRECTA', motivo: `Trivia Geek correcta en ${segundos}s`, autor: 'GAS' });
+                        if (nickH && navigator.sendBeacon) {
+                            navigator.sendBeacon(apiBase, new Blob([payload], { type: 'application/json' }));
+                        }
+                    } catch (_e) { /* no-op: no bloquear la UI */ }
                 } else {
                     if (btnSel) btnSel.classList.add('wrong');
                     if (btnCorrecta) btnCorrecta.classList.add('correct');

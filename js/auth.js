@@ -56,7 +56,9 @@
       return path;
     },
     getAdminToken: function () {
-      return (window.AJ_CONFIG && window.AJ_CONFIG.ADMIN_TOKEN) || 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ';
+      // Seguridad: el token admin NO vive en el cliente público.
+      // La moderación de misiones se hace exclusivamente desde el Panel Admin (GAS).
+      return null;
     }
   };
 
@@ -2080,124 +2082,29 @@
 
       modal.style.display = 'flex';
 
-      try {
-        const adminToken = AUTH_CONFIG.getAdminToken();
-        const res = await fetch(AUTH_CONFIG.apiUrl(`/api/misiones/pendientes?admin_token=${encodeURIComponent(adminToken)}`), {
-          headers: {
-            'Authorization': 'Bearer ' + adminToken
-          }
-        });
-        const data = await res.json();
-        const listDiv = document.getElementById('aj-admin-mis-list');
-        if (!listDiv) return;
-
-        const pendientes = (data && data.pendientes) ? data.pendientes : [];
-        if (pendientes.length === 0) {
-          listDiv.innerHTML = `
-            <div style="text-align:center; padding:30px 20px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px dashed #334155;">
-              <div style="font-size:2rem; margin-bottom:6px;">✨</div>
-              <div style="color:#fff; font-weight:800; font-size:1rem;">¡Bandeja al día!</div>
-              <div style="color:#94a3b8; font-size:0.8rem; margin-top:2px;">No hay misiones pendientes de revisión en este momento.</div>
-            </div>
-          `;
-          return;
-        }
-
-        listDiv.innerHTML = pendientes.map(p => {
-          const numDesafios = (p.desafios_completados || []).length;
-          const fotos = (p.pruebas_urls || []);
-          const fotosHtml = fotos.map((f, i) => `
-            <a href="${f}" target="_blank" style="display:inline-block; width:64px; height:64px; border-radius:8px; overflow:hidden; border:1px solid #475569; position:relative; background:#000;">
-              <img src="${f}" style="width:100%; height:100%; object-fit:cover;" title="Toca para ver foto completa">
-            </a>
-          `).join('');
-
-          return `
-            <div id="aj-mision-row-${p.id}" style="background:#111827; border:1px solid #1f2937; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:10px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                  <div style="font-size:0.95rem; font-weight:800; color:#fff;">👤 ${escapeHtml(p.nick)}</div>
-                  <div style="font-size:0.75rem; color:#94a3b8;">📅 Fecha: ${p.fecha_mision} · Enviado: ${p.fecha_envio ? p.fecha_envio.slice(11, 16) : ''}</div>
-                </div>
-                <span style="font-size:0.74rem; font-weight:800; background:rgba(16,185,129,0.15); color:#34d399; padding:4px 8px; border-radius:6px; border:1px solid rgba(16,185,129,0.3);">
-                  ${numDesafios}/7 Retos
-                </span>
-              </div>
-
-              <!-- Miniaturas de pruebas -->
-              <div>
-                <div style="font-size:0.72rem; color:#94a3b8; font-weight:700; margin-bottom:6px; text-transform:uppercase;">Pruebas adjuntas (${fotos.length}):</div>
-                <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                  ${fotosHtml || '<span style="font-size:0.75rem; color:#64748b;">Sin imágenes adjuntas</span>'}
-                </div>
-              </div>
-
-              <!-- Botones de 1-Check -->
-              <div style="display:flex; gap:8px; margin-top:4px;">
-                <button onclick="AuthManager._moderarMisionAdmin(${p.id}, 'aprobar', 7)" style="flex:1; min-height:42px; background:linear-gradient(135deg, #10b981, #059669); color:#fff; font-weight:800; font-size:0.82rem; border:none; border-radius:8px; cursor:pointer; box-shadow:0 2px 10px rgba(16,185,129,0.3);">
-                  ✔ Aprobar (+7 PTS y Purgar)
-                </button>
-                <button onclick="AuthManager._moderarMisionAdmin(${p.id}, 'rechazar', 0)" style="min-height:42px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); color:#f87171; font-weight:700; font-size:0.8rem; padding:0 14px; border-radius:8px; cursor:pointer;">
-                  ✕ Rechazar
-                </button>
-              </div>
-            </div>
-          `;
-        }).join('');
-      } catch (e) {
-        console.error('Error cargando misiones admin:', e);
+      // Seguridad #1: La moderación de misiones NO se hace desde el cliente público.
+      // Redirige al Panel Admin (GAS) donde el token vive server-side.
+      const listDiv = document.getElementById('aj-admin-mis-list');
+      if (listDiv) {
+        const adminUrl = (window.AJ_CONFIG && window.AJ_CONFIG.ADMIN_PANEL_URL) || '#';
+        listDiv.innerHTML = `
+          <div style="text-align:center; padding:30px 20px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px dashed #334155;">
+            <div style="font-size:2.5rem; margin-bottom:8px;">🛡️</div>
+            <div style="color:#fbbf24; font-weight:800; font-size:1rem; margin-bottom:6px;">Acceso solo desde el Panel Admin</div>
+            <div style="color:#94a3b8; font-size:0.82rem; margin-bottom:16px; line-height:1.5;">La moderación de misiones se realiza exclusivamente desde el Panel de Administración seguro.</div>
+            <a href="${adminUrl}" target="_blank" style="display:inline-block; padding:10px 20px; border-radius:10px; background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; font-weight:800; font-size:0.88rem; text-decoration:none;">Ir al Panel Admin →</a>
+          </div>
+        `;
       }
     }
 
     async _moderarMisionAdmin(misionId, accion, puntos = 7) {
+      // Seguridad #1: La moderación de misiones NO se hace desde el cliente público.
+      // El token admin NO existe aquí. Redirige al Panel Admin (GAS).
+      const adminUrl = (window.AJ_CONFIG && window.AJ_CONFIG.ADMIN_PANEL_URL) || '#';
+      alert('La moderación de misiones se realiza desde el Panel Admin.\nAccedé en: ' + adminUrl);
       const row = document.getElementById(`aj-mision-row-${misionId}`);
-      if (row) {
-        row.style.opacity = '0.5';
-        row.style.pointerEvents = 'none';
-      }
-
-      try {
-        const adminToken = AUTH_CONFIG.getAdminToken();
-        const res = await fetch(AUTH_CONFIG.apiUrl('/api/misiones/moderar'), {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + adminToken
-          },
-          body: JSON.stringify({
-            mision_id: misionId,
-            accion,
-            puntos,
-            admin_nick: this.getNick() || 'Admin',
-            admin_token: adminToken
-          })
-        });
-        const data = await res.json();
-        if (data && data.ok) {
-          if (row) {
-            row.style.background = accion === 'aprobar' ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)';
-            const nickAprobado = data.nick || 'Miembro';
-            const fechaHoy = new Date().toISOString().slice(0, 10);
-            row.innerHTML = `
-              <div style="text-align:center; padding:12px; color:${accion === 'aprobar' ? '#34d399' : '#f87171'}; font-weight:800; font-size:0.85rem; display:flex; flex-direction:column; gap:8px; align-items:center;">
-                <div>${accion === 'aprobar' ? `✅ Misión de ${nickAprobado} Aprobada (+${puntos} PTS) y fotos purgadas` : '❌ Misión Rechazada y fotos purgadas'}</div>
-                ${accion === 'aprobar' ? `
-                  <button onclick="AuthManager.descargarTarjetaMision('${nickAprobado}', '${fechaHoy}', ${puntos})" style="background:#10b981; color:#fff; font-weight:800; border:none; border-radius:8px; padding:7px 12px; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:5px;">
-                    📸 Descargar Tarjeta de ${nickAprobado} para WhatsApp
-                  </button>
-                ` : ''}
-              </div>
-            `;
-            setTimeout(() => row.remove(), accion === 'aprobar' ? 4000 : 1500);
-          }
-        } else {
-          alert('Error: ' + (data?.error || 'No se pudo moderar la misión'));
-          if (row) { row.style.opacity = '1'; row.style.pointerEvents = 'auto'; }
-        }
-      } catch (e) {
-        alert('Error de red al moderar');
-        if (row) { row.style.opacity = '1'; row.style.pointerEvents = 'auto'; }
-      }
+      if (row) { row.style.opacity = '1'; row.style.pointerEvents = 'auto'; }
     }
 
     descargarTarjetaMision(nick, fecha, puntos = 7) {

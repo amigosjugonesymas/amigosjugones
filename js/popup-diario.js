@@ -10,6 +10,16 @@
 (function () {
   'use strict';
 
+  // Escape helper local para XSS (no depende de escapeHtml global)
+  function _esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  // Sanitiza href: solo http/https/#
+  function _safeHref(url) {
+    var u = String(url || '#').trim();
+    return (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('#')) ? u : '#';
+  }
+
   const ORQUESTADOR_URL = (window.AJ_CONFIG && window.AJ_CONFIG.ORQUESTADOR_URL)
     || "https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec";
   const STORAGE_KEY = 'aj_popup_mostrado_sesion';
@@ -104,13 +114,13 @@
     closeBtn.onmouseover = () => { closeBtn.style.background = 'rgba(239, 68, 68, 0.2)'; closeBtn.style.color = '#ef4444'; };
     closeBtn.onmouseout = () => { closeBtn.style.background = 'rgba(255, 255, 255, 0.08)'; closeBtn.style.color = '#94a3b8'; };
 
-    // Contenido del Modal
-    const icono = info.icono || '🎉';
-    const tipo = info.tipo || 'DESTACADO';
-    const titulo = info.titulo || 'Novedades de la Comunidad';
-    const descripcion = info.descripcion || '';
-    const ctaTexto = info.cta_texto || 'Ver Más';
-    const ctaLink = info.cta_link || '#';
+    // Contenido del Modal — escapar todos los campos de API para prevenir XSS
+    const icono   = _esc(info.icono   || '🎉');
+    const tipo    = _esc(info.tipo    || 'DESTACADO');
+    const titulo  = _esc(info.titulo  || 'Novedades de la Comunidad');
+    const descripcion = _esc(info.descripcion || '');
+    const ctaTexto = _esc(info.cta_texto || 'Ver Más');
+    const ctaLink  = _safeHref(info.cta_link);
 
     card.innerHTML = `
       <div style="font-size: 3.2rem; margin-bottom: 8px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));">${icono}</div>

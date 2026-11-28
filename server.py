@@ -33,7 +33,7 @@ try:
 except ImportError:
     from database import gestor_db
 
-ADMIN_SECRET_TOKEN = os.environ.get("ADMIN_TOKEN", "AJ_SECRET_ADMIN_TOKEN_2026_XYZ")
+ADMIN_SECRET_TOKEN = os.environ.get("ADMIN_TOKEN", os.environ.get("AJ_ADMIN_TOKEN", ""))
 
 def _safe_int(val, default=0):
     if isinstance(val, (list, tuple)):
@@ -594,6 +594,27 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
         for k, v in query_params.items():
             if k not in params:
                 params[k] = v[0] if len(v) == 1 else v
+
+        # ─── API: PUNTOS TRIVIA / CRÍPTICO — registro en historial_transacciones ─
+        # Solo acepta TRIVIA_CORRECTA y CRIPTICO_RESUELTO para evitar abuso.
+        if parsed.path == '/api/puntos/asignar':
+            nick = str(params.get('nick', '')).strip()
+            tipo = str(params.get('tipo', '')).strip().upper()
+            TIPOS_PERMITIDOS = {'TRIVIA_CORRECTA', 'CRIPTICO_RESUELTO'}
+            if not nick or tipo not in TIPOS_PERMITIDOS:
+                self._send_json({"ok": False, "error": "nick_y_tipo_requeridos"}, 400)
+                return
+            if not gestor_db.nick_existe(nick):
+                self._send_json({"ok": False, "error": "nick_no_registrado"}, 403)
+                return
+            try:
+                puntos = max(0, min(int(params.get('puntos', 10)), 50))  # cap 50 PTS
+                motivo = str(params.get('motivo', tipo)).strip()[:200]
+                res = gestor_db.asignar_puntos(nick, puntos, tipo, motivo, 'GAS')
+                self._send_json(res, 200)
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, 500)
+            return
 
         # ─── API: LOGIN CON CONTROL DE DISPOSITIVOS Y CLAVE PRIVADA ─────────
         if parsed.path == '/api/auth/login':
@@ -1497,6 +1518,10 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             if not pub_id or not nick:
                 self._send_json({"ok": False, "error": "id_y_nick_requeridos"}, 400)
                 return
+            # Seguridad #4: verificar que el nick existe en la DB antes de permitir la operación
+            if not gestor_db.nick_existe(nick) and not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "nick_no_registrado"}, 403)
+                return
             try:
                 res = gestor_db.marcar_producto_vendido(pub_id, nick)
                 self._send_json(res, 200 if res.get("ok") else 400)
@@ -1510,6 +1535,10 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
             nick = str(params.get('nick', '')).strip()
             if not pub_id or not nick:
                 self._send_json({"ok": False, "error": "id_y_nick_requeridos"}, 400)
+                return
+            # Seguridad #4: verificar que el nick existe en la DB antes de permitir la operación
+            if not gestor_db.nick_existe(nick) and not self._check_admin_token(params):
+                self._send_json({"ok": False, "error": "nick_no_registrado"}, 403)
                 return
             try:
                 res = gestor_db.eliminar_publicacion_mercado(pub_id, nick)
@@ -1990,7 +2019,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
     def _check_admin_token(self, params):
         """Verifica el token de administrador en encabezados, parámetros o query string usando comparación constante."""
         import hmac, os, urllib.parse
-        ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', os.environ.get('ADMIN_TOKEN', 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ'))
+        ADMIN_TOKEN = os.environ.get('AJ_ADMIN_TOKEN', os.environ.get('ADMIN_TOKEN', ''))
         def _match(t):
             return bool(t and ADMIN_TOKEN and hmac.compare_digest(str(t).strip(), ADMIN_TOKEN))
         # 1. Authorization header (Bearer)

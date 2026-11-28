@@ -13,9 +13,6 @@
   var hostname = window.location.hostname || '';
   var isLocal = ['localhost', '127.0.0.1', ''].includes(hostname) || window.location.protocol === 'file:';
 
-  // Token administrativo para peticiones de moderación y control
-  var ADMIN_SECRET_TOKEN = 'AJ_SECRET_ADMIN_TOKEN_2026_XYZ';
-
   // URLs oficiales de Google Apps Script
   var ORQUESTADOR_URL = 'https://script.google.com/macros/s/AKfycbzYRXiS0j2gBLGDVKexjz_ke7GCSLrD_H9DCVPvPn4FewukHYzHInLOM7Yknsa8f5oyLQ/exec';
   var ADMIN_PANEL_URL = 'https://script.google.com/macros/s/AKfycbwT0fWt04_tV6MjfVVBZnFCadm-oslhtP4wtN7NqyicuDGrYMXy5wBu8Fl4KFmst33MoQ/exec';
@@ -29,7 +26,6 @@
     API_URL: API_BASE_URL,
     ORQUESTADOR_URL: ORQUESTADOR_URL,
     ADMIN_PANEL_URL: ADMIN_PANEL_URL,
-    ADMIN_TOKEN: ADMIN_SECRET_TOKEN,
 
     /**
      * Construye una URL completa hacia el backend API de forma resiliente.
@@ -40,19 +36,6 @@
       if (path.startsWith('http://') || path.startsWith('https://')) return path;
       var cleanPath = path.startsWith('/') ? path : '/' + path;
       return API_BASE_URL + cleanPath;
-    },
-
-    /**
-     * Retorna cabeceras HTTP estándar incluyendo Authorization si se requiere.
-     */
-    getHeaders: function (isAdmin) {
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-      if (isAdmin) {
-        headers['Authorization'] = 'Bearer ' + ADMIN_SECRET_TOKEN;
-      }
-      return headers;
     }
   };
 
