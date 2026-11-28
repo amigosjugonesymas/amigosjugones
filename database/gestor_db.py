@@ -404,12 +404,17 @@ def exportar_ranking_json():
 
     print(f"📄 Archivo ranking.json actualizado con éxito en: {RANKING_JSON_PATH}")
 
-def registrar_partida(nick, juego, costo=10, metricas=None):
+def registrar_partida(nick, juego, costo=None, metricas=None):
     """
     Registra una jugada: resta puntos al jugador, guarda log y actualiza podio si corresponde.
     """
     now = datetime.datetime.now().isoformat()
-    if costo is None or int(costo) <= 0:
+    if costo is None:
+        try:
+            costo = int(obtener_config_economia().get("arcade", {}).get("costo_ficha_entrada", 10))
+        except Exception:
+            costo = 10
+    if int(costo) <= 0:
         print(f"❌ Monto inválido en registrar_partida: {costo}")
         return False
     costo = int(costo)
@@ -701,10 +706,19 @@ def liquidar_renta_diaria():
     with get_db() as conn:
         cursor = conn.cursor()
 
-        # 1. Renta Podio Carrera (+3, +2, +1)
+        # 1. Renta Podio Carrera (según config_economia.json)
+        renta_cfg = {}
+        try:
+            renta_cfg = obtener_config_economia().get("arcade", {}).get("renta_pasiva_diaria", {})
+        except Exception:
+            renta_cfg = {}
+        valores_renta = {
+            1: int(renta_cfg.get("1", 3)),
+            2: int(renta_cfg.get("2", 2)),
+            3: int(renta_cfg.get("3", 1)),
+        }
         cursor.execute("SELECT pos, nick FROM podio_carrera ORDER BY pos ASC")
         carreras = cursor.fetchall()
-        valores_renta = {1: 3, 2: 2, 3: 1}
         for r in carreras:
             p = r["pos"]
             n = r["nick"]
@@ -931,8 +945,13 @@ def registrar_voto(encuesta_id, nick, score, comentario=None):
             (total, promedio, encuesta_id)
         )
 
-    # Dar +1 PTS al miembro por votar (incentivo de participación)
-    asignar_puntos(nick, 1, "VOTO_ENCUESTA", f"Voto en encuesta '{enc['nombre_item']}' ({score}/10)", "Sistema")
+    # Dar puntos al miembro por votar según config_economia.json
+    try:
+        pts_voto = int(obtener_config_economia().get("aportes_comunitarios", {}).get("puntos_por_voto_encuesta", 1))
+    except Exception:
+        pts_voto = 1
+    if pts_voto > 0:
+        asignar_puntos(nick, pts_voto, "VOTO_ENCUESTA", f"Voto en encuesta '{enc['nombre_item']}' ({score}/10)", "Sistema")
     try:
         verificar_y_otorgar_medallas_automaticas(nick)
     except Exception:
@@ -940,7 +959,7 @@ def registrar_voto(encuesta_id, nick, score, comentario=None):
 
     exportar_encuestas_json()
     print(f"✅ Voto registrado: {nick} → {score}/10 en '{enc['nombre_item']}' | Promedio: {promedio}/10")
-    return {"ok": True, "nuevo_promedio": promedio, "total_votos": total, "pts_otorgados": 1}
+    return {"ok": True, "nuevo_promedio": promedio, "total_votos": total, "pts_otorgados": pts_voto}
 
 def obtener_votos_encuesta(encuesta_id):
     """Retorna la lista de votos de una encuesta (nick, score, comentario, timestamp)"""
@@ -1203,7 +1222,13 @@ def crear_junta(juego, fecha, hora, lugar, comuna_sector, cupos_totales, organiz
         """, (junta_id, organizador_nick, organizador_whatsapp))
         conn.commit()
         exportar_juntas_json()
-        return {"ok": True, "id": junta_id, "juego": juego, "cupos_disponibles": cupos_disp}
+    try:
+        pts_junta = int(obtener_config_economia().get("aportes_comunitarios", {}).get("puntos_por_juego_creado", 1))
+    except Exception:
+        pts_junta = 1
+    if pts_junta > 0 and organizador_nick:
+        asignar_puntos(organizador_nick, pts_junta, tipo_evento="JUNTA_JUEGO_CREADO", descripcion=f"Mesa creada: {juego}", autor="Sistema")
+    return {"ok": True, "id": junta_id, "juego": juego, "cupos_disponibles": cupos_disp, "pts_otorgados": pts_junta}
 
 def unirse_a_junta(junta_id, nick, whatsapp=""):
     """Anota atómicamente a un usuario a una junta con bloqueo inmediato de transacción"""
