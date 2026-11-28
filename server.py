@@ -33,7 +33,7 @@ try:
 except ImportError:
     from database import gestor_db
 
-ADMIN_SECRET_TOKEN = os.environ.get("ADMIN_TOKEN", os.environ.get("AJ_ADMIN_TOKEN", ""))
+ADMIN_SECRET_TOKEN = (os.environ.get("ADMIN_TOKEN") or os.environ.get("AJ_ADMIN_TOKEN") or os.environ.get("ADMIN_SECRET_TOKEN") or "").strip()
 
 def _safe_int(val, default=0):
     if isinstance(val, (list, tuple)):
@@ -2019,7 +2019,7 @@ class AJRequestHandler(http.server.SimpleHTTPRequestHandler):
     def _check_admin_token(self, params):
         """Verifica el token de administrador en encabezados, parámetros o query string usando comparación constante."""
         import hmac, os, urllib.parse
-        ADMIN_TOKEN = (os.environ.get('AJ_ADMIN_TOKEN') or os.environ.get('ADMIN_TOKEN') or '').strip()
+        ADMIN_TOKEN = (os.environ.get('AJ_ADMIN_TOKEN') or os.environ.get('ADMIN_TOKEN') or os.environ.get('ADMIN_SECRET_TOKEN') or '').strip()
         def _match(t):
             return bool(t and ADMIN_TOKEN and hmac.compare_digest(str(t).strip(), ADMIN_TOKEN))
         # 1. Authorization header (Bearer)
